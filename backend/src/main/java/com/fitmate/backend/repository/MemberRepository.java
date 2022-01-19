@@ -3,6 +3,10 @@ package com.fitmate.backend.repository;
 import com.fitmate.backend.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Long, Member> {
+import java.util.Optional;
+
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByEmail(String email);
+    Optional<Member> findByName(String email);
 
 }
