@@ -5,6 +5,7 @@ springdoc:
   api-docs:
     path: /api-docs
 
+# http://localhost:9000/swagger-ui.html
   swagger-ui:
     path: /swagger-ui.html
 
