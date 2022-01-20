@@ -78,7 +78,7 @@ export default {
 <style lang="scss">
 #nav {
   padding: 30px;
-  background-color: rgb(95, 78, 126);
+  background-color: rgb(102,103, 171);
   a {
     font-weight: bold;
     color: #d7dee6;
