@@ -1,5 +1,6 @@
 package com.fitmate.backend.controller;
 
+import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +22,19 @@ public class MemberController {
     public ResponseEntity<List<Member>> findMembers(){
         return ResponseEntity.ok(memberService.findMembers());
     }
+
+    @GetMapping("/member/{id}")
+    public ResponseEntity<Member> findMember(@PathVariable Long id){
+        return ResponseEntity.ok(memberService.findOne(id));
+    }
+
+    @PutMapping(value = "/member/{id}")
+    public ResponseEntity<Member> updateMember(@PathVariable Long id, @RequestBody MemberDto memberDto){
+        return ResponseEntity.ok(memberService.updateMember(id,memberDto));
+    }
+    @DeleteMapping(value = "/member/{id}")
+    public ResponseEntity<Long> deleteMember(@PathVariable Long id){
+        return ResponseEntity.ok(memberService.deleteMember(id));
+    }
+
 }

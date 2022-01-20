@@ -34,7 +34,6 @@ public class Member {
     private Long imageNo;
 
     public Member updateMember(MemberDto dto){
-        this.email = dto.getEmail();
         this.password = dto.getPassword();
         this.nickname = dto.getNickname();
         this.name =dto.getName();
