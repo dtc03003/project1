@@ -6,25 +6,46 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="member")
+@Table(name = "member")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-public class Member{
+public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "memberNo")
     private Long id;
-    @Column(name ="name")
+    private String email;
+    private String password;
+    private String nickname;
     private String name;
+    private int gender;
+    private String phone;
+    private int height;
+    private int weight;
+    private int top;
+    private int bottom;
+    private int shoeSize;
+    @Column(name="image_imageNo")
+    private Long imageNo;
+
     public Member updateMember(MemberDto dto){
-        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.nickname = dto.getNickname();
+        this.name =dto.getName();
+        this.gender= dto.getGender();
+        this.phone =dto.getPhone();
+        this.height = dto.getHeight();
+        this.weight = dto.getWeight();
+        this.top = dto.getTop();
+        this.bottom = dto.getBottom();
+        this.shoeSize = dto.getShoeSize();
+        this.imageNo = dto.getImageNo();
         return this;
     }
 }

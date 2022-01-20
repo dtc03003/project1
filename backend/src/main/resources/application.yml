@@ -17,9 +17,16 @@ spring:
     password: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    hibernate:
+    hibernate.:
       ddl-auto: none
-
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 logging:
   level:
     org.springframework.web.client: DEBUG
