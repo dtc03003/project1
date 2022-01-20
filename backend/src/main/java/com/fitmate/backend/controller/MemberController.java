@@ -11,6 +11,7 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/api/v1")
 public class MemberController {
     private final MemberService memberService;
     @PostMapping("/member")
