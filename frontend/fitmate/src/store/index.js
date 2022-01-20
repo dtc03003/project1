@@ -5,6 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isLogin: false,
+    Article:[],
+    API_KEY,
   },
   mutations: {
   },
