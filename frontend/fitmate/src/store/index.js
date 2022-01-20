@@ -5,7 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+<<<<<<< HEAD
     houses: [],
+=======
+    data:'success',
+>>>>>>> 30f82936f4db987d274d742250281261e85a8f5e
   },
   mutations: {
     SET_WORD: (state, word) => {
