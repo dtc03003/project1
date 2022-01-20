@@ -7,7 +7,7 @@
           <!-- 로고 중앙 정렬, 누르면 홈 페이지로 가도록 -->
           <div id="mainbar" class="col-12 justify-content-center">
             <div id="logo">
-              <a class="navbar-brand" style="font-size:150%;"><router-link to="/">Fitmate</router-link></a>
+              <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
 
