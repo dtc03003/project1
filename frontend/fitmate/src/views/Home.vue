@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>메인페이지-사이트소개</h1>
+    <!-- <h1>메인페이지-사이트소개</h1> -->
     <b-carousel
       id="carousel-1"
       v-model="slide"
