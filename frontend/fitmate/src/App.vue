@@ -32,6 +32,7 @@
         </b-navbar>
       </div>
       <router-link to="/">Home</router-link>
+      <router-link to="/accounts/Signup">Signup</router-link>
       <!-- <router-link to="/about">About</router-link> -->
     </div>
     <router-view/>
