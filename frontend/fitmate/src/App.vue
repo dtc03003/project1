@@ -1,62 +1,52 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
-          <b-navbar-brand href="#">NavBar</b-navbar-brand>
+  <div>
+    <div>
+      <b-navbar toggleable="md" type="dark" variant="info" style="height:70px;">
+        <div class="container-fluid">
+          <!-- 브랜드 버튼 클릭해도 홈으로 가도록 설정 -->
+          <!-- <b-navbar-brand><router-link to="/"><img src="@/assets/youth_logo.png" style="width:60px;" alt=""></router-link></b-navbar-brand> -->
 
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
-              <b-nav-item href="#">Link</b-nav-item>
-              <b-nav-item href="#">Disabled</b-nav-item>
-            </b-navbar-nav>
-
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-              <b-nav-form>
-                <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-                <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-              </b-nav-form>
-              <b-nav-item-dropdown right>
-                <!-- Using 'button-content' slot -->
-                <template #button-content>
-                  <em>User</em>
-                </template>
-                <b-dropdown-item href="#">Profile</b-dropdown-item>
-                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-              </b-nav-item-dropdown>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </div>
-      <router-link to="/">Home</router-link>
-      <!-- <router-link to="/about">About</router-link> -->
+          <!-- 네브바 카테고리들 -->
+          <div id="nav">
+            <!-- <span v-if="isLogin"> -->
+              <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+              <b-collapse class="justify-content-end" id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                  <b-nav-item><router-link to="/">Home</router-link></b-nav-item>
+                  <!-- <b-nav-item><router-link to="/outcome">요금청구</router-link></b-nav-item>
+                  <b-nav-item><router-link v-if="currentUser.authority==2 | this.currentUser.authority==4 | currentUser.is_superuser" to="/income">수입입력</router-link></b-nav-item>
+                  <b-nav-item><router-link to="/book">장부 확인</router-link></b-nav-item>
+                  <b-nav-item><router-link to="/board">자유게시판</router-link></b-nav-item>
+                  <b-nav-item><router-link v-if="currentUser.authority==3 | this.currentUser.authority==5 | currentUser.is_superuser" to="/manager">관리자용</router-link></b-nav-item>
+                  <b-nav-item><router-link @click.native="logout" to="#">Logout</router-link></b-nav-item>-->
+                </b-navbar-nav>
+              </b-collapse>
+            <!-- </span> -->
+            <!-- <span v-else> -->
+              <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+              <b-collapse class="justify-content-end" id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                  <b-nav-item><router-link to="/login">로그인</router-link></b-nav-item>
+                  <b-nav-item><router-link to="/signup">회원가입</router-link></b-nav-item>
+                </b-navbar-nav>
+              </b-collapse>             -->
+            <!-- </span> -->
+          </div>
+        </div>
+      </b-navbar>
     </div>
-    <router-view/>
+    <!-- <router-view @login="isLogin=true"/>  -->
+    <router-view></router-view>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    //
+  }),
+};
+</script>
