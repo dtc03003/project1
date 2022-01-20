@@ -15,6 +15,7 @@ public class MemberController {
     @PostMapping("/member")
     public ResponseEntity<Long> signup(@RequestBody Member member){
         return ResponseEntity.ok(memberService.signup(member));
+
     }
     @GetMapping("/members")
     public ResponseEntity<List<Member>> findMembers(){
