@@ -3,28 +3,20 @@
     <div>
       <b-navbar toggleable="md" type="dark" variant="info" style="height:70px;">
         <div class="container-fluid">
-          <!-- 브랜드 버튼 클릭해도 홈으로 가도록 설정 -->
           <b-navbar-brand><router-link to="/"><img src="@/assets/logo.png" style="width:60px;" alt=""></router-link></b-navbar-brand>
-
-          <!-- 네브바 카테고리들 -->
-          <div id="nav">
-            <!-- <span v-if="isLogin"> -->
+            <div id="nav">
               <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
               <b-collapse class="justify-content-end" id="nav-collapse" is-nav>
                 <b-navbar-nav>
                   <b-nav-item><router-link to="/">Home</router-link></b-nav-item>
+                  <!-- 여기부분 드롭다운으로 잠시 추가했습니다 -->
+                  <b-dropdown text="Signup">
+                    <b-dropdown-item><router-link to="/Signup/normal" style="text-decoration:none">일반회원</router-link></b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item><router-link to="/Signup/stylist" style="text-decoration:none">스타일리스트</router-link></b-dropdown-item>
+                  </b-dropdown>
                 </b-navbar-nav>
               </b-collapse>
-            <!-- </span> -->
-            <!-- <span v-else> -->
-              <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-              <b-collapse class="justify-content-end" id="nav-collapse" is-nav>
-                <b-navbar-nav>
-                  <b-nav-item><router-link to="/signin">로그인</router-link></b-nav-item>
-                  <b-nav-item><router-link to="/signup">회원가입</router-link></b-nav-item>
-                </b-navbar-nav>
-              </b-collapse>             -->
-            <!-- </span> -->
           </div>
         </div>
       </b-navbar>
