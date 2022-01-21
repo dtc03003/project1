@@ -1,24 +1,18 @@
 package com.fitmate.backend.service;
 
 import com.fitmate.backend.dto.LoginDto;
-import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.dto.TokenDto;
-import com.fitmate.backend.entity.Authority;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.RefreshToken;
 import com.fitmate.backend.jwt.TokenProvider;
 import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 
