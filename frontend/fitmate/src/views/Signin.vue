@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <b-container class="bv-example-row mt-5">
+        <b-container class="bv-example-row mt-3">
             <!-- <b-row>
                     <h1 id="signinTitle">Fitmate</h1>
             </b-row> -->
@@ -36,6 +36,10 @@
                                 </b-input-group>
 
                             </b-form-group>
+
+                            <div class="mt-4" id="warning" role="alert" align="left" v-if="isAlert">
+                                이메일과 비밀번호를 확인해주세요.
+                            </div>
 
                             <!-- 로그인 버튼 -->
                             <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkForm()">
@@ -77,6 +81,7 @@ export default {
                 password: false
             },
             isLogin: false,
+            isAlert: false,
         }
     },
     created() {
@@ -106,10 +111,7 @@ export default {
             this.isLogin = isLogin;
 
             if(this.isLogin) this.login();
-            else {
-                console.log("이메일과 비밀번호를 확인해주세요");
-                alert("이메일과 비밀번호를 확인해주세요");
-            }
+            else this.isAlert = true;
 
         },
         login() { //로그인 기능
@@ -145,4 +147,5 @@ export default {
 #goJoin { color: black; }
 .xcircle { color: gray; }
 #submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+#warning { color: red; font-size: 10pt; }
 </style>
