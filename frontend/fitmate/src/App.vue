@@ -17,13 +17,8 @@
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
-                <a class="nav-link"><router-link to="/signup">Sign up</router-link></a>
+                <a class="nav-link"><router-link to="/Signup">Sign up</router-link></a>
               </li>
-              <b-dropdown text="Signup">
-                <b-dropdown-item><router-link to="/Signup/normal" style="text-decoration:none">일반회원</router-link></b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item><router-link to="/Signup/stylist" style="text-decoration:none">스타일리스트</router-link></b-dropdown-item>
-              </b-dropdown>
               <li class="nav-item">
                 <a class="nav-link"><router-link to="/signin">Sign in</router-link></a>
               </li>

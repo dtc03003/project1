@@ -3,9 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Normal from '@/views/signup/Normal'
 import Stylist from '@/views/signup/Stylist'
-
 import Signin from '@/views/Signin'
-// import Signup from '@/views/signup'
+import Signup from '@/views/Signup'
 
 Vue.use(VueRouter)
 
@@ -16,14 +15,19 @@ const routes = [
     component: Home 
   },
   {
-    path: '/signup/stylist',
-    name: 'Stylist',
-    component: Stylist
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
   },
   {
     path: '/signup/normal',
     name: 'Normal',
     component: Normal
+  },
+  {
+    path: '/signup/stylist',
+    name: 'Stylist',
+    component: Stylist
   },
   {
     path: '/signin',
