@@ -19,15 +19,24 @@ public class MemberController {
         return ResponseEntity.ok(memberService.signup(member));
 
     }
+//    @GetMapping("/me")
+//    public ResponseEntity<Member> getMyMemberInfo(){
+//        return ResponseEntity.ok(memberService.getMyInfo());
+//    }
+
+    @GetMapping("/member/{email}")
+    public ResponseEntity<Member> getMemberInfo(@PathVariable String email){
+        return ResponseEntity.ok(memberService.findByEmail(email));
+    }
     @GetMapping("/members")
     public ResponseEntity<List<Member>> findMembers(){
         return ResponseEntity.ok(memberService.findMembers());
     }
 
-    @GetMapping("/member/{id}")
-    public ResponseEntity<Member> findMember(@PathVariable Long id){
-        return ResponseEntity.ok(memberService.findOne(id));
-    }
+//    @GetMapping("/member/{id}")
+//    public ResponseEntity<Member> findMember(@PathVariable Long id){
+//        return ResponseEntity.ok(memberService.findOne(id));
+//    }
 
     @PutMapping(value = "/member/{id}")
     public ResponseEntity<Member> updateMember(@PathVariable Long id, @RequestBody MemberDto memberDto){

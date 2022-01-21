@@ -1,10 +1,9 @@
 package com.fitmate.backend.dto;
 
+import com.fitmate.backend.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
 
 @NoArgsConstructor
 @Getter
@@ -20,5 +19,4 @@ public class MemberDto {
     private int top;
     private int bottom;
     private int shoeSize;
-    private Long imageNo;
 }
