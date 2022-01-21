@@ -43,15 +43,7 @@
         ></v-text-field>
       </label>
       <br>
-      
-        <v-container fluid>
-          <v-row align="center">
-            <v-select
-              :items="items"
-              label="Standard"
-            ></v-select>
-          </v-row>
-        </v-container>
+
       <label>은행 : 
         <v-text-field 
           type="dropdown"
@@ -79,7 +71,6 @@ export default {
         accountnumber: null,
         bank: null,
       },
-      items: ['국민','신한'],  
     }
   },
   methods: {

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/views/Home.vue'
 import Normal from '@/views/signup/Normal'
 import Stylist from '@/views/signup/Stylist'
 
+import Signin from '@/views/Signin'
+// import Signup from '@/views/signup'
 
 Vue.use(VueRouter)
 
@@ -23,10 +25,20 @@ const routes = [
     name: 'Normal',
     component: Normal
   },
+  {
+    path: '/signin',
+    name: 'Signin',
+    component: Signin
+  },
   // {
-  //   path: '/signin',
-  //   name: 'Signin',
-  //   component: Signin
+  //   path: '/signuot',
+  //   name: 'Signout',
+  //   component: Signout 
+  // },
+  // {
+  //   path: '/mypage',
+  //   name: 'Mypage',
+  //   component: Mypage
   // },
   // {
   //   path: '/stylist',
