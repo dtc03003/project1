@@ -3,14 +3,13 @@ package com.fitmate.backend.service;
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.repository.MemberRepository;
+import com.fitmate.backend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,16 +37,6 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElseThrow(()-> new RuntimeException("This member is not found!!"));
     }
-    public Member findOne(Long memberNo){
-        return memberRepository.findById(memberNo)
-                .orElseThrow(
-                ()-> new NotFoundException("This member is not found!!")
-        );
-    }
-//    public Member getMyInfo(){
-//        return memberRepository.findById(SecurityUtil)
-//                .orElseThrow(()->new RuntimeException("There is no login user information.!!"));
-//    }
 
     @Transactional
     public Member updateMember(Long id, MemberDto dto){
@@ -63,6 +52,9 @@ public class MemberService {
         return id;
     }
 
-
-
+    @Transactional
+    public Member getMyInfo() {
+        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+    }
 }
