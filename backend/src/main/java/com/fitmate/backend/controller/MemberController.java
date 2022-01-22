@@ -2,15 +2,13 @@ package com.fitmate.backend.controller;
 
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
-import com.fitmate.backend.service.MemberService;
+import com.fitmate.backend.util.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController

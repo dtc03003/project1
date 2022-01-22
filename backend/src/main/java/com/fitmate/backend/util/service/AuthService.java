@@ -1,4 +1,4 @@
-package com.fitmate.backend.service;
+package com.fitmate.backend.util.service;
 
 import com.fitmate.backend.dto.LoginDto;
 import com.fitmate.backend.dto.TokenDto;
