@@ -1,4 +1,4 @@
-package com.fitmate.backend.util.service;
+package com.fitmate.backend.service;
 
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;

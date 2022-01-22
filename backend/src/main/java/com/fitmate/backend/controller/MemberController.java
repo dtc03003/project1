@@ -2,7 +2,8 @@ package com.fitmate.backend.controller;
 
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
-import com.fitmate.backend.util.service.MemberService;
+import com.fitmate.backend.service.MemberService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
+@Tag(name="MemberController" , description = "로그인된 사용자 정보 처리")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")

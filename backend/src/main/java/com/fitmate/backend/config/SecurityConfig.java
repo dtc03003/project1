@@ -1,6 +1,9 @@
 package com.fitmate.backend.config;
 
-import com.fitmate.backend.jwt.*;
+import com.fitmate.backend.jwt.JwtAccessDeniedHandler;
+import com.fitmate.backend.jwt.JwtAuthenticationEntryPoint;
+import com.fitmate.backend.jwt.JwtSecurityConfig;
+import com.fitmate.backend.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -50,7 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**" ).hasAnyRole("MEMBER","STYLIST","ADMIN")
+                .antMatchers("/api/v1/member" ).hasAnyRole("MEMBER","STYLIST","ADMIN")
+                .antMatchers("/api/v1/members" ).hasAnyRole("ADMIN")
+                .antMatchers("/api/v1/account/**" ).hasAnyRole("STYLIST")
+                .antMatchers("/api/v1/accountList" ).hasAnyRole("STYLIST")
                 .antMatchers("/auth/**" ).permitAll()
                 .anyRequest().authenticated()
 
