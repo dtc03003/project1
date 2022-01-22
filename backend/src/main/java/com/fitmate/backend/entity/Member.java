@@ -41,7 +41,6 @@ public class Member implements Serializable {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-
     public Member updateMember(MemberDto dto){
         this.password = dto.getPassword();
         this.nickname = dto.getNickname();
