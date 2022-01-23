@@ -1,11 +1,11 @@
 <template>
     <div id="app">
-        <b-container class="bv-example-row mt-5">
+        <b-container class="bv-example-row">
             <b-row>
                 <b-col></b-col>
                 <b-col class="col-6">
                     <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
-                        <h1 id="signinTitle">Fitmate</h1>
+                        <h1 id="signinTitle">Fitmate (스타일리스트)</h1>
                         <b-form class="text-center">       
                             
                             <b-form-group>
@@ -40,7 +40,7 @@
                                 
                                 <h4 id="signinTitle" align="left" class="mt-3">비밀번호 확인</h4>
                                 <b-input-group >
-                                    <b-form-input type="password" id="pwdcheck" v-model="signup.pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
+                                    <b-form-input type="password" id="pwdcheck" v-model="pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
                                     </b-form-input>
                                 </b-input-group>
                                 <div v-if="!pwdcheckFlag">
@@ -101,8 +101,7 @@ export default {
                 email: '',
                 nickname: '',
                 password: '',
-                pwdcheck: '',
-                gender: '',
+                gender: null,
                 phoneNum: '',
                 bank: '국민',
                 bankaccount: '',
@@ -115,7 +114,8 @@ export default {
                 {value: '농협', text: '이렇게'},
                 {value: '신한', text: '나오는거지'},
             ],
-            isLogin: false,
+            pwdcheck: '',
+            isSignup: true,
             passwordValidFlag: true,
             pwdcheckFlag: true,
             emailValidFlag: true,
@@ -133,10 +133,26 @@ export default {
         }
     },
     methods: {
+         async Signup() { 
+            const memberInfo = { 
+                email: this.signup.email,
+                nickname: this.signup.nickname,
+                password: this.signup.password,
+                gender: this.signup.gender,
+                phoneNum: this.signup.phoneNum,
+                bank: this.signup.bank,
+                bankaccount: this.signup.bankaccount,
+            }
+            //await this.memberConfirm(memberInfo);
+            console.log(memberInfo); //임시
+            if(this.isSignup) {
+                this.$router.push({name: "Home"}); 
+            }
+         },
         checkForm() { 
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
-                this.signup.pwdcheck == '' ||
+                this.pwdcheck == '' ||
                 this.signup.nickname == '' ||
                 this.signup.phoneNum == '' ||
                 this.signup.gender == null ||
@@ -153,7 +169,8 @@ export default {
                 alert('유효성 검사가 필요합니다.')
                 return
                 }
-            this.$router.push({ name: 'Home', params: {signup: this.signup}})
+            this.Signup()
+            // this.$router.push({ name: 'Home', params: {signup: this.signup}})
         },
         emailValid () {
             if (/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/.test(this.signup.email)) {
@@ -170,7 +187,7 @@ export default {
             } 
         },
         pwdcheckValid () {
-            if (this.signup.password == this.signup.pwdcheck){
+            if (this.signup.password == this.pwdcheck){
                 this.pwdcheckFlag = true
             } else {
                 this.pwdcheckFlag = false

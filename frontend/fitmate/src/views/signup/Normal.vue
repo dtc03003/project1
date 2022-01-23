@@ -1,53 +1,120 @@
 <template>
     <div id="app">
-        <b-container class="bv-example-row mt-5">
-            <!-- <b-row>
-                    <h1 id="signinTitle">Fitmate</h1>
-            </b-row> -->
+        <b-container class="bv-example-row">
             <b-row>
                 <b-col></b-col>
                 <b-col class="col-6">
                     <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
-                        <h1 id="signinTitle">Fitmate</h1>
-                        <b-form class="text-center">
-
+                        <h1 id="signinTitle">Fitmate (일반회원)</h1>
+                        <b-form class="text-center">       
+                            
                             <b-form-group>
-
-                                <!-- 이메일 입력 -->
-                                <b-input-group class="mt-3 input">
-                                    <b-form-input type="email" id="email" ref="email" v-model="email" required placeholder="이메일(ID)" @keyup.enter="checkForm()">
+                                <h4 id="signinTitle" align="left" class="mt-3">이메일(ID)</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid">
                                     </b-form-input>
-                                    <b-input-group-append v-if="email">
-                                        <b-button variant="white" @click="remove(0)">
-                                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
-                                        </b-button>
-                                    </b-input-group-append>
+                                    <b-button>중복체크, 인증 추가필요</b-button>
+                                </b-input-group>
+                                <div v-if="!emailValidFlag">
+                                    유효하지 않은 이메일형식입니다.
+                                </div>
+
+                                <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
+                                    </b-form-input>
+                                    <b-button>중복체크 필요</b-button>
                                 </b-input-group>
 
-                                <!-- 비밀번호 입력 -->
-                                <b-input-group class="mt-3">
-                                    <b-form-input type="password" id="password" ref="password" v-model="password" required placeholder="비밀번호" @keyup.enter="checkForm()">
+                                <h4 id="signinTitle" align="left" class="mt-3">비밀번호</h4>
+                                <b-input-group >
+                                    <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
                                     </b-form-input>
-                                    <b-input-group-append v-if="password">
-                                        <b-button variant="white" @click="remove(1)">
-                                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
-                                        </b-button>
-                                    </b-input-group-append>
                                 </b-input-group>
+                                <div v-if="!signup.password">
+                                    대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요.
+                                </div>
+                                <div v-if="!passwordValidFlag">
+                                    유효하지 않은 비밀번호 입니다.
+                                </div>
+                                
+                                <h4 id="signinTitle" align="left" class="mt-3">비밀번호 확인</h4>
+                                <b-input-group >
+                                    <b-form-input type="password" id="pwdcheck" v-model="pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
+                                    </b-form-input>
+                                </b-input-group>
+                                <div v-if="!pwdcheckFlag">
+                                    비밀번호가 동일하지 않습니다.
+                                </div>
+                            
+                                <h4 id="signinTitle" align="left" class="mt-3">성별</h4>
+                                <b-form-group align="left" >
+                                    <b-form-radio-group v-model="signup.gender" name="gender-radios" :options="genderoptions" plain >
+                                    </b-form-radio-group>
+                                </b-form-group>
+
+
+                                <div class="hr-sect">선택사항입니다.</div>    
+
+
+                                <h4 id="signinTitle" align="left" class="mt-3">휴대전화</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" class="int" v-model="signup.phoneNum" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
+                                    </b-form-input>
+                                </b-input-group>
+                                <div v-if="!phonecheckFlag">
+                                    휴대폰 번호를 올바르게 입력해주세요.
+                                </div>
+
+                                <div class="col-6" style="float:left">
+                                <h4 id="signinTitle" align="left" class="mt-3">키</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="number" class="int" v-model="signup.userheight" min="80" max="250" required placeholder="본인의 키 입력">
+                                    </b-form-input>
+                                </b-input-group>
+                                
+                                </div>
+                                <div class="col-6" style="float:right">
+                                <h4 id="signinTitle" align="left" class="mt-3">몸무게</h4>
+                                    <b-input-group class="input">
+                                        <b-form-input type="number" class="int" v-model="signup.userweight" min="30" max="200" required placeholder="본인의 몸무게 입력">
+                                        </b-form-input>
+                                    </b-input-group>
+                                </div>
+
+                                <div class="col-6" style="float:left">
+                                    <h4 id="signinTitle" align="left" class="mt-3">상의 사이즈</h4>
+                                    <b-input-group class="input">
+                                        <b-form-input type="number" class="int" v-model="signup.usertop" min="80" max="120" step="5" required placeholder="자주 입는 옷의 상의 사이즈를 입력.">
+                                        </b-form-input>
+                                    </b-input-group>
+                                </div>
+
+                                <div class="col-6" style="float:right">
+                                    <h4 id="signinTitle" align="left" class="mt-3">하의 사이즈</h4>
+                                    <b-input-group class="input">
+                                        <b-form-input type="number" class="int" v-model="signup.userbottom" min="70" max="110" step="5" required placeholder="자주 입는 옷의 하의 사이즈를 입력.">
+                                        </b-form-input>
+                                    </b-input-group>
+                                </div>
+
+                                <div class="col-12" style="float:left">
+
+                                <h4 id="signinTitle" align="left" class="mt-3">신발 사이즈</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="number" class="int" v-model="signup.usershoes" min="50" max="300" step="5" required placeholder="자주 신는 신발 사이즈를 입력">
+                                    </b-form-input>
+                                </b-input-group>
+                                </div>
 
                             </b-form-group>
 
-                            <!-- 로그인 버튼 -->
+                            <!-- 회원가입 버튼 -->
                             <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkForm()">
-                                로그인
+                                회원가입
                             </b-button>
 
                         </b-form>
-
-                        처음이신가요?
-                    <b-button type="button" variant="link" class="text-decoration-none" id="goJoin" @click="moveSignup">
-                        회원가입
-                    </b-button>
                     </b-card>
                 </b-col>
                 <b-col></b-col>
@@ -56,68 +123,113 @@
     </div>
 </template>
 <script>
-import EmailValidator from "email-validator"; //이메일 유효성 검사
+// import EmailValidator from "email-validator"; //이메일 유효성 검사
 export default {
-    name: "Signin",
+    name: "Stylist",
     data() {
         return {
-            email: '',
-            password: '',
-            error: {
-                email: false,
-                password: false
+            signup: {
+                email: '',
+                nickname: '',
+                password: '',
+                gender: null,
+                phoneNum: '',
+                userheight: '',
+                userweight: '',
+                usertop: '',
+                userbottom: '',
+                usershoes: '',
             },
-            isLogin: false,
+            genderoptions: [
+                {text: '남성', value: 'male'}, {text: '여성', value: 'female'},
+            ],
+            pwdcheck: '',
+            isSignup: true,
+            passwordValidFlag: true,
+            pwdcheckFlag: true,
+            emailValidFlag: true,
+            phonecheckFlag: true,
+            
         }
     },
     created() {
 
     },
+    
     watch: {
         email: function() {
-            this.email = this.email.trim().toLowerCase(); //대문자 방지
+            this.signup.email = this.signup.email.trim().toLowerCase(); //대문자 방지
         }
     },
     methods: {
-        checkForm() { //이메일, 비밀번호 제대로 작성하였는지 확인
-            //이메일
-            if (this.email.trim().length >= 0 && !EmailValidator.validate(this.email))
-                this.error.email = true;
-            else this.error.email = false;
-
-            //비밀번호 -- 비밀번호 규칙 알아야 함
-            if(this.password.trim().length == 0)
-                this.error.password = true;
-            else this.error.password = false;
-
-            let isLogin = true;
-            Object.values(this.error).map(v => {
-                if(v) isLogin = false;
-            });
-            this.isLogin = isLogin;
-
-            if(this.isLogin) this.login();
-            else {
-                console.log("이메일과 비밀번호를 확인해주세요");
-                alert("이메일과 비밀번호를 확인해주세요");
-            }
-
-        },
-        login() { //로그인 기능
+        async Signup() { //로그인 기능
             const memberInfo = { //로그인 정보
-                email: this.email,
-                password: this.password,
+                email: this.signup.email,
+                nickname: this.signup.nickname,
+                password: this.signup.password,
+                gender: this.signup.gender,
+                phoneNum: this.signup.phoneNum,
+                userheight: this.signup.userheight,
+                userweight: this.signup.userweight,
+                usertop: this.signup.usertop,
+                userbottom: this.signup.userbottom,
+                usershoes: this.signup.usershoes,
+
                 //nickname(varchar), name(varchar), gender(int) 필수컬럼이므로 같이 넘겨야 하는가?
             }
-            console.log(memberInfo);
-            this.$router.push({name: "Home"}); //임시로 지정
+            //await this.memberConfirm(memberInfo);
+            console.log(memberInfo); //임시
+            if(this.isSignup) {
+                this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
+            }
+
         },
-        remove(num) { //작성한 내용 초기화(이메일, 비밀번호)
-            if(num == 0 && this.email != null) this.email = '';
-            else if(num == 1 && this.password != null) this.password = '';
+        checkForm() { 
+            if (this.signup.email == '' ||
+                this.signup.password == '' ||
+                this.pwdcheck == '' ||
+                this.signup.nickname == '' ||
+                this.signup.gender == null){
+                alert('필수 항목을 입력해주세요.')
+                return
+            }
+            if (!this.passwordValidFlag ||
+                !this.pwdcheckFlag ||
+                !this.emailValidFlag) {
+                alert('유효성 검사가 필요합니다.')
+                return
+                }
+            
+            this.Signup();
+            // this.$router.push({ name: 'Home', params: {signup: this.signup}})
         },
-        moveSignup() { //회원가입 창으로 이동
-            this.$router.push({name: "Signup"});
+        emailValid () {
+            if (/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/.test(this.signup.email)) {
+                this.emailValidFlag = true
+            } else {
+                this.emailValidFlag = false
+            }
+        },
+        passwordValid () {
+            if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)) {
+                this.passwordValidFlag = true 
+            } else {
+                this.passwordValidFlag = false 
+            } 
+        },
+        pwdcheckValid () {
+            if (this.signup.password == this.pwdcheck){
+                this.pwdcheckFlag = true
+            } else {
+                this.pwdcheckFlag = false
+            }
+        },
+        phoneValid () {
+            if (/^[0-9]{11}$/.test(this.signup.phoneNum)) {
+                this.phonecheckFlag = true
+            } else {
+                this.phonecheckFlag = false
+            }
         },
     }
 }
@@ -136,53 +248,22 @@ export default {
 #goJoin { color: black; }
 .xcircle { color: gray; }
 #submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.hr-sect {
+display: flex;
+flex-basis: 100%;
+align-items: center;
+color: rgba(0, 0, 0, 0.35);
+font-size: 16px;
+margin: 30px 0px 0px 0px;
+}
+.hr-sect::before,
+.hr-sect::after {
+content: "";
+flex-grow: 1;
+background: rgba(0, 0, 0, 0.35);
+height: 1px;
+font-size: 0px;
+line-height: 0px;
+margin: 0px 16px;
+}
 </style>
-      <!-- <label>이메일(ID) : 
-        <input type="text" v-model="credentials.userid" maxlength="20">
-        <div v-if="!idValid">
-          유효하지 않은 이메일입니다.
-        </div>
-      </label>
-      <br>
-      <label>닉네임 : 
-        <v-text-field 
-          type="text"
-          id="nickname"
-        ></v-text-field>
-      </label>
-      <br>
-      <label>비밀번호 : 
-        <v-text-field 
-          type="password"
-          id="password"
-        ></v-text-field>
-      </label>
-      <br>
-      <label>비밀번호 확인 : 
-        <v-text-field 
-          type="password"
-          id="pwdconfirm"
-        ></v-text-field>
-      </label>
-      <br>
-      <label>전화번호 : 
-        <v-text-field 
-          type="text"
-          id="phonenumber"
-        ></v-text-field>
-      </label>
-      <br>
-      <label>계좌번호 : 
-        <v-text-field 
-          type="text"
-          id="accountnumber"
-        ></v-text-field>
-      </label>
-      <br>
-
-      <label>은행 : 
-        <v-text-field 
-          type="dropdown"
-          id="bank"
-        ></v-text-field>
-      </label> -->
