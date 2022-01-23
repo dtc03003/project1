@@ -64,7 +64,7 @@
     </div>
 </template>
 <script>
-//import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import EmailValidator from "email-validator"; //이메일 유효성 검사
 
 export default {
@@ -79,14 +79,13 @@ export default {
             },
             isCheck: false,
             isAlert: false,
-            isSignin: true, //임시(vuex 값 대신)
         }
     },
     created() {
 
     },
     computed: {
-        //...mapState(["isSignin"]),
+        ...mapState(["isSignin"]),
     },
     watch: {
         email: function() {
@@ -97,16 +96,16 @@ export default {
         }
     },
     methods: {
-        //...mapActions(["memberConfirm"]),
+        ...mapActions(["memberConfirm", "memberInfo"]),
         async login() { //로그인 기능
             const memberInfo = { //로그인 정보
                 email: this.email,
                 password: this.password,
-                //nickname(varchar), name(varchar), gender(int) 필수컬럼이므로 같이 넘겨야 하는가?
             }
-            //await this.memberConfirm(memberInfo);
-            console.log(memberInfo); //임시
+            await this.memberConfirm(memberInfo); //로그인 시도
+            let accessToken = localStorage.getItem("accessToken");
             if(this.isSignin) {
+                await this.memberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
             }
 
