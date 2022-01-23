@@ -42,21 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-
-                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)     // 세션사용 x
 
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/member" ).hasAnyRole("MEMBER","STYLIST","ADMIN")
-                .antMatchers("/api/v1/members" ).hasAnyRole("ADMIN")
-                .antMatchers("/api/v1/account/**" ).hasAnyRole("STYLIST")
-                .antMatchers("/api/v1/accountList" ).hasAnyRole("STYLIST")
+                .antMatchers("/api/v1/**" ).permitAll()
+//                .antMatchers("/api/v1/member" ).hasAnyRole("MEMBER","STYLIST","ADMIN")
+//                .antMatchers("/api/v1/members" ).hasAnyRole("ADMIN")
+//                .antMatchers("/api/v1/account/**" ).hasAnyRole("STYLIST")
+//                .antMatchers("/api/v1/accountList" ).hasAnyRole("STYLIST")
                 .antMatchers("/auth/**" ).permitAll()
                 .anyRequest().authenticated()
 
