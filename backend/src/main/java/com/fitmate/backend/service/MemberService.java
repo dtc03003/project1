@@ -1,5 +1,7 @@
 package com.fitmate.backend.service;
 
+import com.fitmate.backend.advice.exception.DuplicatedNicknameException;
+import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.repository.MemberRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,11 @@ public class MemberService {
 
     private Member getMemberByToken(){
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+                .orElseThrow(NotFoundUserInformation::new);
+    }
+
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(NotFoundUserInformation::new);
     }
 }

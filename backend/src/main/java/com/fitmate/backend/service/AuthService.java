@@ -1,6 +1,9 @@
 package com.fitmate.backend.service;
 
+import com.fitmate.backend.advice.exception.DuplicatedEmailException;
+import com.fitmate.backend.advice.exception.DuplicatedNicknameException;
 import com.fitmate.backend.dto.LoginDto;
+import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.dto.TokenDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.RefreshToken;
@@ -13,8 +16,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.transaction.Transactional;
+
+import java.util.Optional;
+
+import static com.fitmate.backend.dto.MemberDto.toEntity;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +34,8 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public Member signup(Member member){
-        validateDuplicateMember(member);
-        member.encodingPassword(passwordEncoder.encode(member.getPassword()));
-        return memberRepository.save(member);
+    public Member signup(MemberDto memberDto){
+        return memberRepository.save(MemberDto.toEntity(memberDto,passwordEncoder));
     }
     @Transactional
     public TokenDto login(LoginDto loginDto){
@@ -71,12 +77,10 @@ public class AuthService {
         // 토큰 발급
         return newTokenDto;
     }
-
-    private void validateDuplicateMember(Member member){
-        memberRepository.findByEmail(member.getEmail())
-                .ifPresent(m -> {throw new IllegalStateException("The email already exists by email");});
-
-        memberRepository.findByNickname(member.getNickname())
-                .ifPresent(m -> {throw new IllegalStateException("The email already exists by nickname");});
+    public void existByEmail(String email){
+        if(memberRepository.existsByEmail(email)) throw new DuplicatedEmailException();
+    }
+    public void existByNickname(String nickname){
+        if(memberRepository.existsByNickname(nickname)) throw new DuplicatedNicknameException();
     }
 }
