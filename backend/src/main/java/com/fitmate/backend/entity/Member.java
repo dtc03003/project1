@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,11 +22,11 @@ public class Member implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickname;
     @Column(nullable = false)
     private String name;
@@ -52,10 +53,6 @@ public class Member implements Serializable {
         this.top = dto.getTop();
         this.bottom = dto.getBottom();
         this.shoeSize = dto.getShoeSize();
-        return this;
-    }
-    public Member encodingPassword(String password){
-        this.password = password;
         return this;
     }
 }

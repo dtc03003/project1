@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import VueCookies from 'vue-cookies'
 
 //axios 설정
 import axios from "axios";
@@ -13,9 +14,9 @@ Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false
 
-Vue.use(BootstrapVue)
-
+Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+// Vue.use(VueCookies);
 
 new Vue({
   router,

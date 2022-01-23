@@ -1,5 +1,7 @@
 package com.fitmate.backend.controller;
 
+import com.fitmate.backend.advice.ApiError;
+import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.service.MemberService;
@@ -22,7 +24,6 @@ public class MemberController {
     public ResponseEntity<Member> getMemberInfo(){
         return ResponseEntity.ok(memberService.getMyInfo());
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/members")
     public ResponseEntity<List<Member>> findMembers(){
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -35,5 +36,10 @@ public class MemberController {
     @DeleteMapping(value = "/member")
     public ResponseEntity<Long> deleteMember(){
         return ResponseEntity.ok(memberService.deleteMember());
+    }
+
+    @GetMapping(value = "/member/{id}")
+    public ResponseEntity<Member> findMemberById(@PathVariable Long id){
+        return ResponseEntity.ok(memberService.findMemberById(id));
     }
 }
