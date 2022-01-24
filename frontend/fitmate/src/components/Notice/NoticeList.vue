@@ -8,7 +8,7 @@
 
         <b-row class="mb-1">
             <b-col class="text-right">
-                <b-button variant="outline-primary" @click="movePage">등록</b-button>
+                <b-button variant="outline-primary" @click="moveCreate">등록</b-button>
             </b-col>
         </b-row>
 
@@ -25,13 +25,28 @@
                     </b-thead>
                     <b-tbody> 
 
+                        <!-- <b-tr>
+                            <b-td>번호</b-td>
+                            <b-td>ID</b-td>
+                            <b-td>제목</b-td>
+                            <b-td>작성일</b-td>
+                        </b-tr> -->
 
-
+                        <b-tr>
+                            <b-td>1</b-td>
+                            <b-td>SSAFY</b-td>
+                            <b-td>첫 공지!!! Fitmate 오픈!!</b-td>
+                            <b-td>2022-2-22</b-td>
+                        </b-tr>
 
                     </b-tbody>
                 </b-table-simple>
             </b-col>
         </b-row>
+
+        <div class="center">
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router></b-pagination-nav>
+        </div>
 
     </b-container>
 </template>
@@ -39,8 +54,7 @@
 <script>
 export default {
     methods:{
-
-        movePage() {
+        moveCreate() {
             this.$router.push({ name: "NoticeCreate"});
         },
     }
