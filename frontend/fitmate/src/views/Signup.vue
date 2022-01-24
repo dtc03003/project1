@@ -7,14 +7,14 @@
             <b-card class="text-center mt-3" style="max-width: 90rem" align="left">
                 <h1 id="signinTitle">Fitmate 회원가입</h1>
                 <b-card style="max-width: 40rem; float:left;">
-                    <router-link class="navbar-brand" :to="{ name: 'Normal' }">
+                    <router-link class="navbar-brand" :to="{ name: 'SignupNormal' }">
                         <img id="normal" src="@/assets/normal.png" width="500" height="700">
                     </router-link>
                     <br>
                     <h3 id="signinTitle">일반회원</h3> 
                 </b-card>
                 <b-card style="max-width: 40rem; float:right;">
-                    <router-link class="navbar-brand" :to="{ name: 'Stylist' }">
+                    <router-link class="navbar-brand" :to="{ name: 'SignupStylist' }">
                         <img id="stylist" src="@/assets/stylist.png" width="500" height="700">
                     </router-link>
                     <br>
