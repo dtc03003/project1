@@ -17,7 +17,7 @@
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
-                <a class="nav-link"><router-link to="/signup">Sign up</router-link></a>
+                <a class="nav-link"><router-link to="/Signup">Sign up</router-link></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link"><router-link to="/signin">Sign in</router-link></a>
