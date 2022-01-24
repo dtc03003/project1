@@ -86,7 +86,7 @@ export default {
 
     },
     computed: {
-        ...mapState(memberStore, ["isSignin"]),
+        ...mapState(memberStore, ["isSignin", "memberInfo"]),
     },
     watch: {
         email: function() {
@@ -97,7 +97,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberStore, ["memberConfirm", "memberInfo"]),
+        ...mapActions(memberStore, ["memberConfirm", "signInMemberInfo"]),
         async login() { //로그인 기능
             const memberInfo = { //로그인 정보
                 email: this.email,
@@ -106,7 +106,8 @@ export default {
             await this.memberConfirm(memberInfo); //로그인 시도
             let accessToken = localStorage.getItem("accessToken");
             if(this.isSignin) {
-                await this.memberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                await this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                console.log(this.memberInfo);
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
             }
 
