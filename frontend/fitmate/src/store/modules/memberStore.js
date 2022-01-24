@@ -9,6 +9,7 @@ const memberStore = {
         memberInfo: null,
       },
       getters: {
+        checkMemberInfo: function(state) { return state.memberInfo },
       },
       mutations: {
         SIGNIN: (state, isSignin) => {
@@ -42,11 +43,11 @@ const memberStore = {
           );
         },
     
-        async memberInfo({ commit }, accessToken) { //로그인한 사용자 정보 받기
-          getMemberInfo(accessToken, (response) => {
-            console.log(response);
+        async signInMemberInfo({ commit }, accessToken) { //로그인한 사용자 정보 받기
+          await getMemberInfo(accessToken, (response) => {
             if(response.status == 200) {
-              commit("SET_MEMBER_INFO", response.data.memberInfo);
+              console.log("로그인한 사용자 정보 받기 성공");
+              commit("SET_MEMBER_INFO", response.data);
             }
           },
           (error) => {
