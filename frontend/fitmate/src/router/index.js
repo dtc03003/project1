@@ -47,11 +47,24 @@ const routes = [
   //   name: 'Qna',
   //   component: Qna
   // },
-  // {
-  //   path: '/notice',
-  //   name: 'Notice',
-  //   component: Notice
-  // },
+  {
+    path: "/notice",
+    name: "Notice",
+    component: ()=> import("@/views/Notice.vue"),
+
+    children: [
+      {
+        path: "",
+        name: 'NoticeList',
+        component: () => import("@/components/Notice/NoticeList.vue"),
+      },
+      {
+        path: "create",
+        name: 'NoticeCreate',
+        component: () => import("@/components/Notice/NoticeCreate.vue"),
+      },
+    ]
+  },
 ]
 
 const router = new VueRouter({
