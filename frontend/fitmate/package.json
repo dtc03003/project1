@@ -13,12 +13,8 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
-<<<<<<< HEAD
-    "vue": "^2.6.14",
-=======
     "jwt-decode": "^3.1.2",
     "vue": "^2.6.11",
->>>>>>> ceaa10cd4e42dc3873912650222aa32b943471f4
     "vue-router": "^3.2.0",
     "vuetify": "^2.6.2",
     "vuex": "^3.6.2"
