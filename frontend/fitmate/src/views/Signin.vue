@@ -102,6 +102,7 @@ export default {
                 email: this.email,
                 password: this.password,
             }
+            console.log("로그인 시도");
             await this.memberConfirm(memberInfo); //로그인 시도
             let accessToken = localStorage.getItem("accessToken");
             if(this.isSignin) {
