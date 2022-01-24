@@ -66,6 +66,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import EmailValidator from "email-validator"; //이메일 유효성 검사
+const memberStore = "memberStore";
 
 export default {
     name: "Signin",
@@ -85,7 +86,7 @@ export default {
 
     },
     computed: {
-        ...mapState(["isSignin"]),
+        ...mapState(memberStore, ["isSignin"]),
     },
     watch: {
         email: function() {
@@ -96,13 +97,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["memberConfirm", "memberInfo"]),
+        ...mapActions(memberStore, ["memberConfirm", "memberInfo"]),
         async login() { //로그인 기능
             const memberInfo = { //로그인 정보
                 email: this.email,
                 password: this.password,
             }
-            console.log("로그인 시도");
             await this.memberConfirm(memberInfo); //로그인 시도
             let accessToken = localStorage.getItem("accessToken");
             if(this.isSignin) {
