@@ -12,9 +12,9 @@ springdoc:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fitmate?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/fitmate?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ssafy
+    password: ssafy
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate.:
