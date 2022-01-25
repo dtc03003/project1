@@ -19,9 +19,15 @@
                                     유효하지 않은 이메일형식입니다.
                                 </div>
 
+                                <h4 id="signinTitle" align="left" class="mt-3">이름</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" id="name" v-model="signup.name" required placeholder="이름" maxlength="6" >
+                                    </b-form-input>
+                                </b-input-group>
+
                                 <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="이메일" maxlength="10" >
+                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
                                     </b-form-input>
                                     <b-button>중복체크 필요</b-button>
                                 </b-input-group>
@@ -100,15 +106,16 @@ export default {
         return {
             signup: {
                 email: '',
-                nickname: '',
                 password: '',
+                nickname: '',
+                name: '',
                 gender: null,
                 phoneNum: '',
                 // bank: '국민',
                 // bankaccount: '',
             },
             genderoptions: [
-                {text: '남성', value: 'male'}, {text: '여성', value: 'female'},
+                {text: '남성', value: '0'}, {text: '여성', value: '1'},
             ],
             // bankoptions: [
             //     {value: '국민', text: '왜'},
@@ -137,17 +144,19 @@ export default {
          async Signup() { 
             const memberInfo = { 
                 email: this.signup.email,
-                nickname: this.signup.nickname,
                 password: this.signup.password,
+                nickname: this.signup.nickname,
+                name: this.signup.name,
                 gender: this.signup.gender,
-                phoneNum: this.signup.phoneNum,
+                phone: this.signup.phoneNum,
+                authority: "ROLE_STYLIST"
                 // bank: this.signup.bank,
                 // bankaccount: this.signup.bankaccount,
             }
             //await this.memberConfirm(memberInfo);
             console.log(memberInfo); //임시
             if(this.isSignup) {
-                this.$router.push({name: "Home"}); 
+                this.$router.push({name: "Signin"}); 
             }
          },
         checkForm() { 

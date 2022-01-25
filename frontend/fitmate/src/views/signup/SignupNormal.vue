@@ -19,6 +19,12 @@
                                     유효하지 않은 이메일형식입니다.
                                 </div>
 
+                                <h4 id="signinTitle" align="left" class="mt-3">이름</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" id="name" v-model="signup.name" required placeholder="이름" maxlength="6" >
+                                    </b-form-input>
+                                </b-input-group>
+
                                 <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
                                 <b-input-group class="input">
                                     <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
@@ -102,9 +108,11 @@
                                 <div class="col-12" style="float:left">
 
                                 <h4 id="signinTitle" style="display:inline; float:left" class="mt-3">신발 사이즈</h4>
-                                <b-button v-b-modal.modal-1 style="display:inline; float:right" class="mt-3">사이즈 상세보기</b-button>
-                                <b-modal id="modal-1" title="사이즈 상세보기">
-                                    <p class="my-4">Hello from modal!</p>
+                                <b-button v-b-modal.modal-1 class="modalsize mt-3 mb-1">사이즈 표</b-button>
+                                <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only>
+                                    <center>
+                                        <img src="@/assets/size.png" align="center" width="900" height="450">
+                                    </center>
                                 </b-modal>
                                 <b-input-group class="input">
                                     <b-form-input type="number" class="int" v-model="signup.usershoes" min="50" max="300" step="5" required placeholder="자주 신는 신발 사이즈를 입력">
@@ -146,7 +154,7 @@ export default {
                 usershoes: '',
             },
             genderoptions: [
-                {text: '남성', value: 'male'}, {text: '여성', value: 'female'},
+                {text: '남성', value: '0'}, {text: '여성', value: '1'},
             ],
             pwdcheck: '',
             isSignup: true,
@@ -170,22 +178,24 @@ export default {
         async Signup() { //로그인 기능
             const memberInfo = { //로그인 정보
                 email: this.signup.email,
-                nickname: this.signup.nickname,
                 password: this.signup.password,
+                name: this.signup.name,
+                nickname: this.signup.nickname,
                 gender: this.signup.gender,
-                phoneNum: this.signup.phoneNum,
-                userheight: this.signup.userheight,
-                userweight: this.signup.userweight,
-                usertop: this.signup.usertop,
-                userbottom: this.signup.userbottom,
-                usershoes: this.signup.usershoes,
+                phone: this.signup.phoneNum,
+                height: this.signup.userheight,
+                weight: this.signup.userweight,
+                top: this.signup.usertop,
+                bottom: this.signup.userbottom,
+                shoesSize: this.signup.usershoes,
+                authority: "ROLE_MEMBER"
 
                 //nickname(varchar), name(varchar), gender(int) 필수컬럼이므로 같이 넘겨야 하는가?
             }
             //await this.memberConfirm(memberInfo);
             console.log(memberInfo); //임시
             if(this.isSignup) {
-                this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
+                this.$router.push({name: "Signin"}); //로그인 성공시 메인 페이지로 이동
             }
 
         },
@@ -253,6 +263,12 @@ export default {
 #goJoin { color: black; }
 .xcircle { color: gray; }
 #submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.modalsize { 
+    display:inline; float:right;
+    color: #fff !important;
+    background-color: #7e7fb9 !important;
+    border-color: #7e7fb9 !important;
+}
 .hr-sect {
 display: flex;
 flex-basis: 100%;
@@ -271,4 +287,5 @@ font-size: 0px;
 line-height: 0px;
 margin: 0px 16px;
 }
+
 </style>
