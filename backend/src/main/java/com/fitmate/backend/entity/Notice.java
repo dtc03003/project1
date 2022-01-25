@@ -1,5 +1,6 @@
 package com.fitmate.backend.entity;
 
+import com.fitmate.backend.dto.NoticeDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -30,5 +31,12 @@ public class Notice {
     @PrePersist
     public void createdAt(){
         this.createdAt = LocalDateTime.now();
+    }
+
+    public Notice updateNotice(NoticeDto noticeDto){
+        this.title = noticeDto.getTitle();
+        this.content = noticeDto.getContent();
+        this.createdAt = LocalDateTime.now();
+        return this;
     }
 }

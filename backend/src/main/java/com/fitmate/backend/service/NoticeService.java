@@ -7,6 +7,7 @@ import com.fitmate.backend.entity.Notice;
 import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +27,8 @@ public class NoticeService {
         return noticeRepository.save(notice);
     }
 
-    public List<Notice> findNotice(){
-        return noticeRepository.findAll();
+    public List<Notice> findNotice(PageRequest pageRequest){
+        return noticeRepository.findAll(pageRequest).getContent();
     }
 
     public Notice findNoticeById(Long id){

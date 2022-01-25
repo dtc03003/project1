@@ -5,6 +5,8 @@ import com.fitmate.backend.entity.Notice;
 import com.fitmate.backend.service.NoticeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,9 @@ public class NoticeController {
     }
 
     @GetMapping(value = "/noticeList")
-    public ResponseEntity<List<Notice>> findNotice(){
-        return ResponseEntity.ok(noticeService.findNotice());
+    public ResponseEntity<List<Notice>> findNotice(@RequestParam("page") Integer page){
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("createdAt").descending());
+        return ResponseEntity.ok(noticeService.findNotice(pageRequest));
     }
 
     @GetMapping(value = "/notice/{id}")
