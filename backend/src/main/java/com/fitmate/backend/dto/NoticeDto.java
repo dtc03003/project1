@@ -14,6 +14,7 @@ import java.util.Date;
 @Setter
 @Builder
 public class NoticeDto {
+    private Long id;
     private String title;
     private String content;
     private String writer;
@@ -29,6 +30,7 @@ public class NoticeDto {
 
     public static NoticeDto of(Notice notice){
         return NoticeDto.builder()
+                .id(notice.getId())
                 .title(notice.getTitle())
                 .content(notice.getContent())
                 .createdAt(notice.getCreatedAt())
