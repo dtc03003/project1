@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Normal from '@/views/signup/Normal'
 import Stylist from '@/views/signup/Stylist'
-import Signin from '@/views/Signin'
+import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 
 Vue.use(VueRouter)
