@@ -67,7 +67,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import EmailValidator from "email-validator"; //이메일 유효성 검사
-import KakaoLogin from "./signin/KakaoLogin.vue";
+import KakaoLogin from "@/components/signin/KakaoLogin.vue";
 const memberStore = "memberStore";
 
 export default {
