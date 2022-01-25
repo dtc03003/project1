@@ -48,6 +48,7 @@
                         <div class="hr-sect">또는</div>
                         
                         <!--간편 로그인 시작-->
+                        <kakao-login />
                         <!--간편 로그인 끝-->
 
                         <div class="signup">
@@ -66,6 +67,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import EmailValidator from "email-validator"; //이메일 유효성 검사
+import KakaoLogin from "./signin/KakaoLogin.vue";
 const memberStore = "memberStore";
 
 export default {
@@ -81,6 +83,9 @@ export default {
             isCheck: false,
             isAlert: false,
         }
+    },
+    components: {
+        KakaoLogin,
     },
     created() {
 
