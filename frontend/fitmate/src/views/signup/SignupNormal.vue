@@ -11,9 +11,9 @@
                             <b-form-group>
                                 <h4 id="signinTitle" align="left" class="mt-3">이메일(ID)</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid">
+                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid" >
                                     </b-form-input>
-                                    <b-button>중복체크, 인증 추가필요</b-button>
+                                    <b-button @click="checkEmail">중복체크, 인증 추가필요</b-button>
                                 </b-input-group>
                                 <div v-if="!emailValidFlag">
                                     유효하지 않은 이메일형식입니다.
@@ -29,7 +29,7 @@
                                 <b-input-group class="input">
                                     <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
                                     </b-form-input>
-                                    <b-button>중복체크 필요</b-button>
+                                    <b-button >중복체크 필요</b-button>
                                 </b-input-group>
 
                                 <h4 id="signinTitle" align="left" class="mt-3">비밀번호</h4>
@@ -136,7 +136,7 @@
     </div>
 </template>
 <script>
-// import EmailValidator from "email-validator"; //이메일 유효성 검사
+import axios from 'axios';
 export default {
     name: "Stylist",
     data() {
@@ -162,7 +162,7 @@ export default {
             pwdcheckFlag: true,
             emailValidFlag: true,
             phonecheckFlag: true,
-            
+            emailduplication: '',
         }
     },
     created() {
@@ -176,6 +176,7 @@ export default {
     },
     methods: {
         async Signup() { //로그인 기능
+            // const config = { baseUrl: 'http://localhost:9000' };
             const memberInfo = { //로그인 정보
                 email: this.signup.email,
                 password: this.signup.password,
@@ -194,11 +195,24 @@ export default {
             }
             //await this.memberConfirm(memberInfo);
             console.log(memberInfo); //임시
-            if(this.isSignup) {
-                this.$router.push({name: "Signin"}); //로그인 성공시 메인 페이지로 이동
-            }
-
+            this.$router.push({name: "Signin"}); 
+            axios.post('/auth/signup', memberInfo);
         },
+
+        checkEmail() {
+            const config = { baseUrl: 'http://localhost:9000' };
+            axios.get(`${config.baseUrl}/auth/signup/email/${this.signup.email}`)
+            .then(() => {
+                alert('사용가능한 이메일입니다.')
+                this.emailduplication = true
+            })
+            .catch(err => {
+                console.log(err)
+                alert('중복된 이메일입니다.')
+                this.emailduplication = false
+            })
+        },
+
         checkForm() { 
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
