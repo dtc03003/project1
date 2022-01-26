@@ -14,6 +14,7 @@ import java.util.List;
 
 @Tag(name = "NoticeController", description = "Notion board 게시글 정보 처리")
 @RestController
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")
 public class NoticeController {
