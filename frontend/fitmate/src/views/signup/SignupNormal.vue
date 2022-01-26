@@ -11,19 +11,25 @@
                             <b-form-group>
                                 <h4 id="signinTitle" align="left" class="mt-3">이메일(ID)</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid">
+                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid" >
                                     </b-form-input>
-                                    <b-button>중복체크, 인증 추가필요</b-button>
+                                    <b-button @click="checkEmail">중복체크, 인증 추가필요</b-button>
                                 </b-input-group>
                                 <div v-if="!emailValidFlag">
                                     유효하지 않은 이메일형식입니다.
                                 </div>
 
+                                <h4 id="signinTitle" align="left" class="mt-3">이름</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" id="name" v-model="signup.name" required placeholder="이름" maxlength="6" >
+                                    </b-form-input>
+                                </b-input-group>
+
                                 <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
                                 <b-input-group class="input">
                                     <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
                                     </b-form-input>
-                                    <b-button>중복체크 필요</b-button>
+                                    <b-button >중복체크 필요</b-button>
                                 </b-input-group>
 
                                 <h4 id="signinTitle" align="left" class="mt-3">비밀번호</h4>
@@ -57,7 +63,8 @@
                                 <div class="hr-sect">선택사항입니다.</div>    
 
 
-                                <h4 id="signinTitle" align="left" class="mt-3">휴대전화</h4>
+                                <h4 id="signinTitle" class="mt-3" style="display:inline; float:left">휴대전화</h4>
+                                <h6 align="left" class="mt-4" style="display:inline; float:right">-를 제외하고 입력해주세요</h6>
                                 <b-input-group class="input">
                                     <b-form-input type="text" class="int" v-model="signup.phoneNum" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
                                     </b-form-input>
@@ -100,7 +107,13 @@
 
                                 <div class="col-12" style="float:left">
 
-                                <h4 id="signinTitle" align="left" class="mt-3">신발 사이즈</h4>
+                                <h4 id="signinTitle" style="display:inline; float:left" class="mt-3">신발 사이즈</h4>
+                                <b-button v-b-modal.modal-1 class="modalsize mt-3 mb-1">사이즈 표</b-button>
+                                <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only>
+                                    <center>
+                                        <img src="@/assets/size.png" align="center" width="900" height="450">
+                                    </center>
+                                </b-modal>
                                 <b-input-group class="input">
                                     <b-form-input type="number" class="int" v-model="signup.usershoes" min="50" max="300" step="5" required placeholder="자주 신는 신발 사이즈를 입력">
                                     </b-form-input>
@@ -123,7 +136,7 @@
     </div>
 </template>
 <script>
-// import EmailValidator from "email-validator"; //이메일 유효성 검사
+import axios from 'axios';
 export default {
     name: "Stylist",
     data() {
@@ -141,7 +154,7 @@ export default {
                 usershoes: '',
             },
             genderoptions: [
-                {text: '남성', value: 'male'}, {text: '여성', value: 'female'},
+                {text: '남성', value: '0'}, {text: '여성', value: '1'},
             ],
             pwdcheck: '',
             isSignup: true,
@@ -149,7 +162,7 @@ export default {
             pwdcheckFlag: true,
             emailValidFlag: true,
             phonecheckFlag: true,
-            
+            emailduplication: '',
         }
     },
     created() {
@@ -163,27 +176,43 @@ export default {
     },
     methods: {
         async Signup() { //로그인 기능
+            // const config = { baseUrl: 'http://localhost:9000' };
             const memberInfo = { //로그인 정보
                 email: this.signup.email,
-                nickname: this.signup.nickname,
                 password: this.signup.password,
+                name: this.signup.name,
+                nickname: this.signup.nickname,
                 gender: this.signup.gender,
-                phoneNum: this.signup.phoneNum,
-                userheight: this.signup.userheight,
-                userweight: this.signup.userweight,
-                usertop: this.signup.usertop,
-                userbottom: this.signup.userbottom,
-                usershoes: this.signup.usershoes,
+                phone: this.signup.phoneNum,
+                height: this.signup.userheight,
+                weight: this.signup.userweight,
+                top: this.signup.usertop,
+                bottom: this.signup.userbottom,
+                shoesSize: this.signup.usershoes,
+                authority: "ROLE_MEMBER"
 
                 //nickname(varchar), name(varchar), gender(int) 필수컬럼이므로 같이 넘겨야 하는가?
             }
             //await this.memberConfirm(memberInfo);
             console.log(memberInfo); //임시
-            if(this.isSignup) {
-                this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
-            }
-
+            this.$router.push({name: "Signin"}); 
+            axios.post('/auth/signup', memberInfo);
         },
+
+        checkEmail() {
+            const config = { baseUrl: 'http://localhost:9000' };
+            axios.get(`${config.baseUrl}/auth/signup/email/${this.signup.email}`)
+            .then(() => {
+                alert('사용가능한 이메일입니다.')
+                this.emailduplication = true
+            })
+            .catch(err => {
+                console.log(err)
+                alert('중복된 이메일입니다.')
+                this.emailduplication = false
+            })
+        },
+
         checkForm() { 
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
@@ -248,6 +277,12 @@ export default {
 #goJoin { color: black; }
 .xcircle { color: gray; }
 #submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.modalsize { 
+    display:inline; float:right;
+    color: #fff !important;
+    background-color: #7e7fb9 !important;
+    border-color: #7e7fb9 !important;
+}
 .hr-sect {
 display: flex;
 flex-basis: 100%;
@@ -266,4 +301,5 @@ font-size: 0px;
 line-height: 0px;
 margin: 0px 16px;
 }
+
 </style>
