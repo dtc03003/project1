@@ -13,4 +13,9 @@ async function getMemberInfo(accessToken, suceess, fail) {
     await api.get("/api/v1/member").then(suceess).catch(fail);
 }
 
-export { signin, getMemberInfo };
+//토큰 재발급(access Token 만료시)
+async function reissue(info, success, fail) {
+    await api.post("/auth/reissue", JSON.stringify(info)).then(success).catch(fail);
+}
+
+export { signin, getMemberInfo, reissue };
