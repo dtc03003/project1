@@ -5,7 +5,6 @@ import com.fitmate.backend.entity.Qna;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
