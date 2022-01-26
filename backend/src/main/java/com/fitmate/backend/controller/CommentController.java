@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "CommentController", description = "Qna Board Comment 정보 처리")
 @RestController
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class CommentController {

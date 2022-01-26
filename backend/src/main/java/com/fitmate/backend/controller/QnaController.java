@@ -15,6 +15,7 @@ import java.util.List;
 
 @Tag(name = "QnaController", description = "Qna Board 게시글 정보 처리")
 @RestController
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")
 public class QnaController {
