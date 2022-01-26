@@ -4,8 +4,8 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 클라이언트 ID
-            redirect-uri: "{http://localhost:8080}/action/oauth2/code/{registrationId}" # http://localhost:8080/login/oauth2/code/kakao
+            client-id: 	30fb9b59db516bf7c56055b26f8daf47
+            redirect-uri: "http://localhost:8080/login" # http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email

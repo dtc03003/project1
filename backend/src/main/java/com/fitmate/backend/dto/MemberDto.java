@@ -31,6 +31,7 @@ public class MemberDto {
                 .nickname(memberDto.getNickname())
                 .name(memberDto.getName())
                 .phone(memberDto.getPhone())
+                .gender(memberDto.getGender())
                 .height(memberDto.getHeight())
                 .weight(memberDto.getWeight())
                 .top(memberDto.getTop())
