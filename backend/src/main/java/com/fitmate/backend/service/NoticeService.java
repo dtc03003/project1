@@ -31,6 +31,10 @@ public class NoticeService {
         return noticeRepository.findAll(pageRequest).getContent();
     }
 
+    public List<Notice> findNotice(){
+        return noticeRepository.findAll();
+    }
+
     public Notice findNoticeById(Long id){
         return noticeRepository.findById(id).orElseThrow();
     }
