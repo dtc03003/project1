@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @Tag(name="AuthController" , description = "로그인 & 회원가입 & 토큰 재발급")
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -41,4 +43,8 @@ public class AuthController {
     public void confirmDuplicateNickName(@PathVariable String nickname ){
         authService.existByNickname(nickname);
     }
+//    @PostMapping("/kakaoLogin")
+//    public HashMap<String,String> kakaoLogin(@RequestParam String authorize_code){
+//        String access_token = kakaoLogin()
+//    }
 }
