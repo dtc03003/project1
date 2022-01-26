@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Normal from '@/views/signup/Normal'
 import Stylist from '@/views/signup/Stylist'
-import Signin from '@/views/Signin'
+import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 
 Vue.use(VueRouter)
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home 
+    component: Home
   },
   {
     path: '/signup',
@@ -62,7 +62,7 @@ const routes = [
   {
     path: "/notice",
     name: "Notice",
-    component: ()=> import("@/views/Notice.vue"),
+    component: () => import("@/views/Notice.vue"),
 
     children: [
       {
@@ -76,7 +76,7 @@ const routes = [
         component: () => import("@/components/Notice/NoticeCreate.vue"),
       },
       {
-        path: "view",
+        path: "view/:id",
         name: 'NoticeView',
         component: () => import("@/components/Notice/NoticeView.vue"),
       },
