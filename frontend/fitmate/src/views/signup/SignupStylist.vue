@@ -19,9 +19,15 @@
                                     유효하지 않은 이메일형식입니다.
                                 </div>
 
+                                <h4 id="signinTitle" align="left" class="mt-3">이름</h4>
+                                <b-input-group class="input">
+                                    <b-form-input type="text" id="name" v-model="signup.name" required placeholder="이름" maxlength="6" >
+                                    </b-form-input>
+                                </b-input-group>
+
                                 <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="이메일" maxlength="10" >
+                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
                                     </b-form-input>
                                     <b-button>중복체크 필요</b-button>
                                 </b-input-group>
@@ -53,16 +59,17 @@
                                     </b-form-radio-group>
                                 </b-form-group>
 
-                                <h4 id="signinTitle" align="left" class="mt-3">휴대전화</h4>
+                                <h4 id="signinTitle" align="left" class="mt-3" style="display:inline; float:left">휴대전화</h4>
+                                <h6 align="left" class="mt-4" style="display:inline; float:right">-를 제외하고 입력해주세요</h6>
                                 <b-input-group class="input">
                                     <b-form-input type="text" class="int" v-model="signup.phoneNum" required placeholder="휴대전화" maxlength="11" @blur="phoneValid">
                                     </b-form-input>
                                 </b-input-group>
                                 <div v-if="!phonecheckFlag">
-                                    휴대폰 번호를 입력해주세요.
+                                    휴대폰 번호를 올바르게 입력해주세요.
                                 </div>
 
-                                <h4 id="signinTitle" align="left" class="mt-3">은행</h4>
+                                <!-- <h4 id="signinTitle" align="left" class="mt-3">은행</h4>
                                 <b-input-group>
                                     <b-form-select v-model="signup.bank" :options="bankoptions" class="border" required placeholder="은행">
                                     </b-form-select>
@@ -76,7 +83,7 @@
                                 </b-input-group>
                                 <div v-if="!bankaccountFlag">
                                     계좌 번호를 정확하게 입력해주세요.
-                                </div>
+                                </div> -->
                             </b-form-group>
 
                             <!-- 회원가입 버튼 -->
@@ -92,35 +99,38 @@
     </div>
 </template>
 <script>
+// import { mapActions } from 'vuex';
 // import EmailValidator from "email-validator"; //이메일 유효성 검사
+import axios from 'axios';
 export default {
     name: "Stylist",
     data() {
         return {
             signup: {
                 email: '',
-                nickname: '',
                 password: '',
+                nickname: '',
+                name: '',
                 gender: null,
                 phoneNum: '',
-                bank: '국민',
-                bankaccount: '',
+                // bank: '국민',
+                // bankaccount: '',
             },
             genderoptions: [
-                {text: '남성', value: 'male'}, {text: '여성', value: 'female'},
+                {text: '남성', value: '0'}, {text: '여성', value: '1'},
             ],
-            bankoptions: [
-                {value: '국민', text: '왜'},
-                {value: '농협', text: '이렇게'},
-                {value: '신한', text: '나오는거지'},
-            ],
+            // bankoptions: [
+            //     {value: '국민', text: '왜'},
+            //     {value: '농협', text: '이렇게'},
+            //     {value: '신한', text: '나오는거지'},
+            // ],
             pwdcheck: '',
             isSignup: true,
             passwordValidFlag: true,
             pwdcheckFlag: true,
             emailValidFlag: true,
             phonecheckFlag: true,
-            bankaccountFlag: true,
+            // bankaccountFlag: true,
         }
     },
     created() {
@@ -133,39 +143,42 @@ export default {
         }
     },
     methods: {
-         async Signup() { 
+        // ...mapActions(signupStore, ["signupConfirm", ""]),
+        async Signup() { 
+            const config = { baseUrl: 'http://localhost:9000' };
             const memberInfo = { 
                 email: this.signup.email,
-                nickname: this.signup.nickname,
                 password: this.signup.password,
+                nickname: this.signup.nickname,
+                name: this.signup.name,
                 gender: this.signup.gender,
-                phoneNum: this.signup.phoneNum,
-                bank: this.signup.bank,
-                bankaccount: this.signup.bankaccount,
-            }
-            //await this.memberConfirm(memberInfo);
-            console.log(memberInfo); //임시
-            if(this.isSignup) {
-                this.$router.push({name: "Home"}); 
-            }
-         },
+                phone: this.signup.phoneNum,
+                authority: "ROLE_STYLIST"
+                // bank: this.signup.bank,
+                // bankaccount: this.signup.bankaccount,
+           }
+           //await this.memberConfirm(memberInfo);
+           console.log(memberInfo); //임시
+           this.$router.push({name: "Signin"}); 
+           axios.post(`${config.baseUrl}/auth/signup`, memberInfo);
+        },
         checkForm() { 
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
                 this.pwdcheck == '' ||
                 this.signup.nickname == '' ||
                 this.signup.phoneNum == '' ||
-                this.signup.gender == null ||
-                this.signup.bank == null ||
-                this.signup.bankaccount == '' ){
+                this.signup.gender == null) {
+                // this.signup.bank == null ||
+                // this.signup.bankaccount == '' ){
                 alert('필수 항목을 입력해주세요.')
                 return
             }
             if (!this.passwordValidFlag ||
                 !this.pwdcheckFlag ||
                 !this.emailValidFlag ||
-                !this.phonecheckFlag ||
-                !this.bankaccountFlag) {
+                !this.phonecheckFlag) {
+                // !this.bankaccountFlag) {
                 alert('유효성 검사가 필요합니다.')
                 return
                 }
@@ -200,13 +213,13 @@ export default {
                 this.phonecheckFlag = false
             }
         },
-        bankaccountValid () {
-            if (/^[0-9]{5,30}$/.test(this.signup.bankaccount)) {
-                this.bankaccountFlag = true
-            } else {
-                this.bankaccountFlag = false
-            }
-        }
+        // bankaccountValid () {
+        //     if (/^[0-9]{5,30}$/.test(this.signup.bankaccount)) {
+        //         this.bankaccountFlag = true
+        //     } else {
+        //         this.bankaccountFlag = false
+        //     }
+        // }
 
     }
 }

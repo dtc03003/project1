@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Tag(name="AccountController" , description = "계좌 관리")
 @RestController
-@CrossOrigin(origins="*")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/")
 public class AccountController {
