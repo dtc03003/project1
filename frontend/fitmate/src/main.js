@@ -18,6 +18,9 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 // Vue.use(VueCookies);
 
+//kakao javascript 키 설정(cliend_id)
+window.Kakao.init('4e5ee108b9c95fb7ce9ddaa9c7644e57')
+
 new Vue({
   router,
   store,

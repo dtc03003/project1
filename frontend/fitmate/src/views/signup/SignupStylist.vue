@@ -99,7 +99,9 @@
     </div>
 </template>
 <script>
+// import { mapActions } from 'vuex';
 // import EmailValidator from "email-validator"; //이메일 유효성 검사
+import axios from 'axios';
 export default {
     name: "Stylist",
     data() {
@@ -141,7 +143,9 @@ export default {
         }
     },
     methods: {
-         async Signup() { 
+        // ...mapActions(signupStore, ["signupConfirm", ""]),
+        async Signup() { 
+            const config = { baseUrl: 'http://localhost:9000' };
             const memberInfo = { 
                 email: this.signup.email,
                 password: this.signup.password,
@@ -152,13 +156,12 @@ export default {
                 authority: "ROLE_STYLIST"
                 // bank: this.signup.bank,
                 // bankaccount: this.signup.bankaccount,
-            }
-            //await this.memberConfirm(memberInfo);
-            console.log(memberInfo); //임시
-            if(this.isSignup) {
-                this.$router.push({name: "Signin"}); 
-            }
-         },
+           }
+           //await this.memberConfirm(memberInfo);
+           console.log(memberInfo); //임시
+           this.$router.push({name: "Signin"}); 
+           axios.post(`${config.baseUrl}/auth/signup`, memberInfo);
+        },
         checkForm() { 
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
