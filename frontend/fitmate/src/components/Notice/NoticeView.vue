@@ -10,7 +10,26 @@
         <b-row class="mb-1">
             <b-col>
 
-                {{id}} 번 게시판입니다.
+                <b-card
+                    v-if="Object.keys(notice).length != 0"
+                    :header-html="`
+                    <h3>${notice.title}</h3>
+                    <!-- <h5>(${notice.id})</h5> -->
+                    <h5>${notice.member.nickname}</h5>
+                    <div>
+                        <h6>${notice.createdAt}</h6>
+                    </div>
+                `"
+                    class="mb-2"
+                    border-variant="dark"
+                    no-body
+                >
+                    <b-card-body class="text-left">
+                        <span style="white-space: pre-line">
+                            {{ notice.content }}
+                        </span>
+                    </b-card-body>
+                </b-card>
 
             </b-col>
         </b-row>
@@ -24,35 +43,17 @@ export default {
     data() {
         return{
             id: this.$route.params.id,
+        }
+    },
 
-            // noticeList: [
-            //     {
-            //         id : 1,
-            //         title : "테스트 1",
-            //         content: "내용1",
-            //         writer : "작성자1",
-            //         create_at : "2022-01-25T04:48:38.410Z"
-            //     },
-            //     {
-            //         id : 2,
-            //         title : "테스트 2",
-            //         content: "내용2",
-            //         writer : "작성자2",
-            //         create_at : "2022-01-25T04:48:38.410Z"
-            //     },
-            //     {
-            //         id : 3,
-            //         title : "테스트 3",
-            //         content: "내용3",
-            //         writer : "작성자3",
-            //         create_at : "2022-01-25T04:48:38.410Z"
-            //     },
-            // ]
+    computed: {
+        notice() {
+            return this.$store.state.noticeStore.notice;
         }
     },
 
     created() {
-
+        this.$store.dispatch("getNotice", { id: this.id })
     },
 
     methods: {
