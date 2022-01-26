@@ -1,10 +1,11 @@
 import axios from "axios";
-import {} from "@/config";
+import { FITMATE_BASE_URL } from "@/config";
 
 function apiInstance() {
     const instance = axios.create({
+        baseURL: FITMATE_BASE_URL,
         headers: {
-            "Content-type" : "application/json; charset=utf-8;",
+            "Content-type" : "application/json; charset=UTF-8",
         }
     });
     return instance;
