@@ -97,9 +97,6 @@ export default {
         email: function() {
             this.email = this.email.trim().toLowerCase(); //대문자 방지
         },
-        password: function() {
-            this.password = this.password.trim().toLowerCase(); //대문자 방지
-        }
     },
     methods: {
         ...mapActions(memberStore, ["memberConfirm", "signInMemberInfo"]),
