@@ -47,6 +47,7 @@ public class MemberDto {
                 .nickname(member.getNickname())
                 .name(member.getName())
                 .phone(member.getPhone())
+                .gender(member.getGender())
                 .height(member.getHeight())
                 .weight(member.getWeight())
                 .top(member.getTop())
