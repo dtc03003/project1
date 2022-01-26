@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 @Tag(name="MemberController" , description = "로그인된 사용자 정보 처리")
 @RestController
+@CrossOrigin(origins="*")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")
 public class MemberController {

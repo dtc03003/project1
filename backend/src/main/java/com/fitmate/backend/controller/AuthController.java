@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name="AuthController" , description = "로그인 & 회원가입 & 토큰 재발급")
 @RequestMapping("/auth")
+@CrossOrigin(origins="*")
 @RequiredArgsConstructor
 @RestController
 public class AuthController {
