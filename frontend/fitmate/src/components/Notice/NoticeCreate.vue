@@ -7,20 +7,20 @@
             label-for="title"
             description=""
         >
-
             <b-form-input
                 id="title"
                 ref="title"
+                v-model="title"
                 type="text"
-                required
                 placeholder="제목 입력..."
             />
         </b-form-group>
     
-        <b-form-group id="question-group" label="내용:" label-for="question">
+        <b-form-group id="content-group" label="내용:" label-for="content">
             <b-form-textarea
-                id="question"
-                ref="question"
+                id="content"
+                ref="content"
+                v-model="content"
                 placeholder="내용 입력..."
                 rows="10"
                 max-rows="15"
@@ -39,7 +39,13 @@
 </template>
 
 <script>
+import axios from "@/module/axios.js"
+
 export default {
+    name: "NoticeCreate",
+    // props: {
+    //     type: { type: String },
+    // },
     data() {
         return {
             id : "",
@@ -49,31 +55,40 @@ export default {
             createdAt : ""
         }
     },
-
-
-    // 데이터
-    created(){
-    
-    },
     
     methods: {
         // 제목 내용 작성에 이상없는지 확인
         checkValue() {
-            
-            // 이상 없으면 페이지 이동
+            // 체크 할 부분
+
+
+            // 데이터 전송
+            this.registNotice();
+
+            // 페이지 이동
             this.moveList();
         },
     
         // 등록 요청 시 보낼 데이터
         registNotice() {
-    
+            const noticeInfo = {
+                "id": 0,
+                "title": this.title,
+                "content": this.content,
+                "writer": "ssafy1",
+                "createdAt": "",
+            };
+
+            axios.post("/api/v1/notice", noticeInfo)
+            alert("등록완료!");
+            this.moveList();
         },
     
         // List 페이지로 이동
         moveList() {
-            this.$router.push({ name: "NoticeList" });
+            console.log("리스트로 이동");
+            this.$router.push({ name: "NoticeList" }).catch(()=>{});
         },
     },
-
 }
 </script>
