@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
-    <div class="container-fluid wrap col-10 offset-1">
+    <div class="container-fluid">
       <div class="row">
         <!-- 프로필 사진 -->
         <div class="col-2">

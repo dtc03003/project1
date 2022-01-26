@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
-import Normal from '@/views/signup/Normal'
-import SignupStylist from '@/views/signup/Stylist'
-import Signin from '@/views/Signin'
+import SignupNormal from '@/views/signup/SignupNormal'
+import SignupStylist from '@/views/signup/SignupStylist'
+import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 
@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home 
+    component: Home
   },
   {
     path: '/signup',
@@ -21,12 +21,12 @@ const routes = [
     component: Signup
   },
   {
-    path: '/signup/normal',
-    name: 'Normal',
-    component: Normal
+    path: '/signup/signupnormal',
+    name: 'SignupNormal',
+    component: SignupNormal
   },
   {
-    path: '/signup/stylist',
+    path: '/signup/signupstylist',
     name: 'SignupStylist',
     component: SignupStylist
   },
@@ -63,7 +63,7 @@ const routes = [
   {
     path: "/notice",
     name: "Notice",
-    component: ()=> import("@/views/Notice.vue"),
+    component: () => import("@/views/Notice.vue"),
 
     children: [
       {
@@ -75,6 +75,11 @@ const routes = [
         path: "create",
         name: 'NoticeCreate',
         component: () => import("@/components/Notice/NoticeCreate.vue"),
+      },
+      {
+        path: "view/:id",
+        name: 'NoticeView',
+        component: () => import("@/components/Notice/NoticeView.vue"),
       },
     ]
   },

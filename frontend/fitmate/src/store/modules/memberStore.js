@@ -9,6 +9,7 @@ const memberStore = {
         memberInfo: null,
       },
       getters: {
+        checkMemberInfo: function(state) { return state.memberInfo },
       },
       mutations: {
         SIGNIN: (state, isSignin) => {
@@ -25,8 +26,8 @@ const memberStore = {
     
         async memberConfirm({ commit }, member) { //로그인 시도(jwt토큰 받기)
           await signin(member, (response) => {
-            console.log(response);
             if(response.status == 200) { //로그인 성공일 경우
+              console.log("로그인 성공");
               commit("SIGNIN", true);
               commit("SET_IS_ACCESSTOKEN", response.data["accessToken"]);
               //토큰을 로컬 스토리지에 저장? 쿠키에 저장?
@@ -35,17 +36,18 @@ const memberStore = {
               localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
             } else { //로그인 실패일 경우
               commit("SIGNIN", false);
+              console.log("로그인 실패");
             }
           },
           () => {}
           );
         },
     
-        async memberInfo({ commit }, accessToken) { //로그인한 사용자 정보 받기
-          getMemberInfo(accessToken, (response) => {
-            console.log(response);
+        async signInMemberInfo({ commit }, accessToken) { //로그인한 사용자 정보 받기
+          await getMemberInfo(accessToken, (response) => {
             if(response.status == 200) {
-              commit("SET_MEMBER_INFO", response.data.memberInfo);
+              console.log("로그인한 사용자 정보 받기 성공");
+              commit("SET_MEMBER_INFO", response.data);
             }
           },
           (error) => {

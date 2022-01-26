@@ -1,24 +1,46 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid col-8 offset-2">
     <div class="row">
-      <div class="col-2">
+      <div id="mainbar" class="col-2">
         <h1>Stylist</h1>
       </div>
       <!-- 드롭다운 -->
       <div class="btn-group col-2">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-md btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
           Dropdown
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Menu item</a></li>
-          <li><a class="dropdown-item" href="#">Menu item</a></li>
-          <li><a class="dropdown-item" href="#">Menu item</a></li>
+          <li><a class="dropdown-item" href="#">문제다</a></li>
+          <li><a class="dropdown-item" href="#">문제</a></li>
+          <li><a class="dropdown-item" href="#">좀 떠주라</a></li>
         </ul>
       </div>
       <!-- 검색창 -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-      </svg>
+      <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
+      <v-container fluid>
+        <v-combobox
+          v-model="model"
+          :items="items"
+          :search-input.sync="search"
+          hide-selected
+          hint="Maximum of 5 tags"
+          label="ex)출근룩, 하객룩 등"
+          multiple
+          persistent-hint
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
+      </v-container>
+
       <!-- 스타일리스트 목록 -->
       <the-stylist-list></the-stylist-list>
     </div>

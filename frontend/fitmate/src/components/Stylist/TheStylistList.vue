@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>스타일리스트 목록</h1>
+    <!-- <h1>스타일리스트 목록</h1> -->
     <the-stylist-list-item></the-stylist-list-item>
       
   </div>
