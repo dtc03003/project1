@@ -25,10 +25,15 @@ public class NoticeController {
         return ResponseEntity.ok(noticeService.createNotice(noticeDto));
     }
 
-    @GetMapping(value = "/noticeList")
+    @GetMapping(value = "/noticeListPage")
     public ResponseEntity<List<Notice>> findNotice(@RequestParam("page") Integer page){
         PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("createdAt").descending());
         return ResponseEntity.ok(noticeService.findNotice(pageRequest));
+    }
+
+    @GetMapping(value = "/noticeList")
+    public ResponseEntity<List<Notice>> findAllNotice(){
+        return ResponseEntity.ok(noticeService.findNotice());
     }
 
     @GetMapping(value = "/notice/{id}")
