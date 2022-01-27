@@ -1,9 +1,6 @@
 package com.fitmate.backend.advice;
 
-import com.fitmate.backend.advice.exception.DuplicatedEmailException;
-import com.fitmate.backend.advice.exception.DuplicatedNicknameException;
-import com.fitmate.backend.advice.exception.NotFoundAuthentication;
-import com.fitmate.backend.advice.exception.NotFoundUserInformation;
+import com.fitmate.backend.advice.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -56,6 +53,17 @@ public class ExceptionAdvice {
                         .code("C003")
                         .message("This email already exists...")
                         .build());
+    }
+    @ExceptionHandler({SocialCommunicationException.class})
+    protected ResponseEntity<ApiError> notFoundSocialMember(){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("D001")
+                        .message("This token is not valid...")
+                        .build());
+
     }
 
 }
