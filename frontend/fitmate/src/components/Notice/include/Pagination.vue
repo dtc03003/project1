@@ -37,7 +37,7 @@
                     </div>
 
                     <b-row class="mb-1">
-                        <b-col v-if="isSignin" class="text-right">
+                        <b-col v-if="checkisSignin" class="text-right">
                             <b-button variant="outline-primary" @click="moveCreate">등록</b-button>
                         </b-col>
                     </b-row>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {  mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 const memberStore = "memberStore";
 
@@ -93,6 +93,7 @@ export default {
 
     computed: {
         ...mapState(memberStore, ["isSignin"]),
+        ...mapGetters(memberStore, ["checkisSignin"]),
 
         pageCount () {
             let listLeng = this.listArray.length,
@@ -106,13 +107,6 @@ export default {
             const start = this.pageNum * this.pageSize,
                 end = start + this.pageSize;
             return this.listArray.slice(start, end);
-
-            // let relistArray = this.listArray.reverse();
-            // const start = this.listArray.length-1,
-            //         end = start-(this.pageSize);
-            //         console.log(start)
-            //         console.log(end)
-            // return this.relistArray.slice(start, end);
         }
 
     }
