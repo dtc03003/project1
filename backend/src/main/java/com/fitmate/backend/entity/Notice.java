@@ -21,7 +21,7 @@ public class Notice {
     private Long id;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
     private LocalDateTime createdAt;
     @ManyToOne
