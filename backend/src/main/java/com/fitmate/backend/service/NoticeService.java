@@ -8,6 +8,7 @@ import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,7 +39,7 @@ public class NoticeService {
     }
 
     public List<NoticeDto> findNotice(){
-        List<Notice> noticeList = noticeRepository.findAll();
+        List<Notice> noticeList = noticeRepository.findAll(Sort.by("createdAt").descending());
         List<NoticeDto> result = new ArrayList<NoticeDto>();
         for(int i=0; i<noticeList.size(); i++){
             result.add(NoticeDto.of(noticeList.get(i)));
