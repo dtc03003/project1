@@ -23,6 +23,7 @@ public class MemberDto {
     private int top;
     private int bottom;
     private int shoeSize;
+    private String profile;
     private Authority authority;
     public static Member toEntity(MemberDto memberDto, PasswordEncoder passwordEncoder){
         return Member.builder()
@@ -38,6 +39,7 @@ public class MemberDto {
                 .bottom(memberDto.getBottom())
                 .shoeSize(memberDto.getShoeSize())
                 .authority(memberDto.getAuthority())
+                .profile(memberDto.getProfile())
                 .build();
     }
     public static MemberDto of(Member member){
@@ -54,6 +56,7 @@ public class MemberDto {
                 .bottom(member.getBottom())
                 .shoeSize(member.getShoeSize())
                 .authority(member.getAuthority())
+                .profile(member.getProfile())
                 .build();
     }
 }

@@ -37,6 +37,7 @@ public class AuthService {
     private final Environment env;
     @Transactional
     public Member signup(MemberDto memberDto){
+        memberDto.setProfile("https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");
         return memberRepository.save(MemberDto.toEntity(memberDto,passwordEncoder));
     }
     @Transactional

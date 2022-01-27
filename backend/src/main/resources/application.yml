@@ -9,6 +9,10 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+#    클라이언트
+url:
+  base: http://localhost:8080 
+
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -51,5 +55,15 @@ social:
       profile: https://kapi.kakao.com/v2/user/me
       unlink: https://kapi.kakao.com/v1/user/unlink
   password: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-url:
-  base: http://localhost:8080
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAWVRECJEE5G74RTEV
+      secretKey: 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
+    s3:
+      bucket: hongjunland
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
