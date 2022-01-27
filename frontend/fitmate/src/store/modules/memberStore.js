@@ -1,15 +1,19 @@
-import { signin, getMemberInfo, reissue } from '@/api/member.js'
+import { signin, getMemberInfo, reissue, sendKakao } from '@/api/member.js'
 
 /* 회원 관련 상태 관리(vuex) */
 const memberStore = {
     namespaced: true,
     state: {
-        isSignin: false, //로그인 여부
-        accessToken: '',
+      isSignin: false, //로그인 여부
+      accessToken: '',
         memberInfo: null,
       },
       getters: {
         checkMemberInfo: function(state) { return state.memberInfo },
+        checkisSignin: function(state) {
+          state.isSignin = (localStorage.getItem("accessToken")) ? true : false;
+          return state.isSignin;
+        },
       },
       mutations: {
         SIGNIN: (state, isSignin) => {
@@ -76,6 +80,17 @@ const memberStore = {
             console.log("토큰 재발급 실패");
           });
         },
+
+        async sendKakaoToken(accessToken) { //카카오 토큰 서버로 보내기
+          await sendKakao(accessToken, (response) => {
+            if(response.status == 200) {
+              console.log("서버로 토큰 전송 성공");
+            }
+          },
+          (error) => {
+            console.log(error);
+          });
+        }
     },
     modules: {
     
