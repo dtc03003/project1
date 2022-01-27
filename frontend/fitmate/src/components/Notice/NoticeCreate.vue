@@ -39,13 +39,14 @@
 </template>
 
 <script>
-import axios from "@/module/axios.js"
+import axios from "@/module/axios.js";
+import { mapState } from 'vuex';
+
+const memberStore = "memberStore";
 
 export default {
     name: "NoticeCreate",
-    // props: {
-    //     type: { type: String },
-    // },
+
     data() {
         return {
             id : "",
@@ -54,6 +55,10 @@ export default {
             writer : "",
             createdAt : ""
         }
+    },
+
+    computed: {
+        ...mapState(memberStore, ["memberInfo"]),
     },
     
     methods: {
@@ -75,7 +80,7 @@ export default {
                 "id": 0,
                 "title": this.title,
                 "content": this.content,
-                "writer": "ssafy1",
+                "writer": this.memberInfo.nickname,
                 "createdAt": "",
             };
 
