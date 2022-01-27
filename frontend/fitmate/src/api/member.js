@@ -19,7 +19,8 @@ async function reissue(info, success, fail) {
 }
 
 async function sendKakao(token, success, fail) {
-    await api.post("/login/kakao", JSON.stringify(token)).then(success).catch(fail);
+    await api.post("/auth/login/kakao", JSON.stringify(token)).then(success).catch(fail);
 }
+
 
 export { signin, getMemberInfo, reissue, sendKakao };

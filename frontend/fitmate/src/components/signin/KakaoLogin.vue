@@ -22,7 +22,7 @@ export default {
             console.log("kakao 인증코드 \n" + codes['code']);
             window.Kakao.Auth.login({
                 // success: this.getProfile
-                success: this.getToken
+                success: this.getKakaoToken
             });
             // window.Kakao.Auth.setAccessToken(codes['code']); //로그인 이후 할일!
         }
@@ -38,8 +38,8 @@ export default {
             };
             window.Kakao.Auth.authorize(params);
         },
-        // async getToken(authObj) {
-        getToken(authObj) {
+        async getKakaoToken(authObj) {
+        // getKakaoToken(authObj) {
             const kakao = {
                 access_token: authObj['access_token'],
                 expires_in: authObj['expires_in'],
@@ -49,20 +49,21 @@ export default {
                 token_type: authObj['token_type'],
             };
             console.log(kakao);
-            // await this.sendKakaoToken(kakao); //kako 로그인 토큰 값 넘기기
-            // if(this.checkisSignin) {
+            await this.sendKakaoToken(kakao); //kako 로그인 토큰 값 넘기기
+            if(this.checkisSignin) {
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
-            // }
+            }
         },
-        getProfile(authObj) {
-            console.log(authObj);
-            window.Kakao.API.request({
-                url: '/v2/user/me',
-                success: res => {
-                    console.log(res);
-                }
-            });
-        }
+        
+        // getProfile(authObj) {
+        //     console.log(authObj);
+        //     window.Kakao.API.request({
+        //         url: '/v2/user/me',
+        //         success: res => {
+        //             console.log(res);
+        //         }
+        //     });
+        // }
     }
 }
 </script>

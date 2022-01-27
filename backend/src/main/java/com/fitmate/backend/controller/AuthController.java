@@ -1,7 +1,6 @@
 package com.fitmate.backend.controller;
 
 import com.fitmate.backend.dto.*;
-import com.fitmate.backend.kakao.OAuthToken;
 import com.fitmate.backend.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +48,8 @@ public class AuthController {
 
     @PostMapping("/login/kakao")
     public ResponseEntity<TokenDto> kakaoLogin(@RequestBody KakaoTokenDto kakaoTokenDto){
+        System.out.println(kakaoTokenDto.getAccess_token());
+        System.out.println("controller");
         return ResponseEntity.ok(authService.kakaoLogin(kakaoTokenDto));
     }
 }

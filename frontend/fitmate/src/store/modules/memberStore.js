@@ -82,9 +82,16 @@ const memberStore = {
         },
 
         async sendKakaoToken(accessToken) { //카카오 토큰 서버로 보내기
+          console.log(accessToken);
           await sendKakao(accessToken, (response) => {
             if(response.status == 200) {
               console.log("서버로 토큰 전송 성공");
+              console.log("로그인 성공");
+              //토큰을 로컬 스토리지에 저장(쿠키에 저장도 가능)
+              localStorage.setItem("grantType", response.data["grantType"]);
+              localStorage.setItem("accessToken", response.data["accessToken"]); //로컬 스토리지에 accessToken 저장
+              localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
+              localStorage.setItem("refreshToken", response.data["refreshToken"]); //로컬 스토리지에 refreshToken 저장
             }
           },
           (error) => {
