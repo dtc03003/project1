@@ -5,18 +5,24 @@
 </template>
 
 <script>
-const params = {}; //간편로그인 시 인증 코드 받을 부분
+const codes = {}; //간편로그인 시 인증 코드 받을 부분
 
 export default {
     name: "KakaoLogin",
     data() {
         return {
-            redirect_uri: "http://localhost:8080/signin", //url은 추후 바뀔 수 있음
+            redirect_uri:"http://localhost:8080/signin", //url은 추후 바뀔 수 있음
         }
     },
     created() {
-        window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-        console.log(params);
+        window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { codes[key] = value; });
+        if(codes['code']) {
+            console.log("kakao 인증코드 \n" + codes['code']);
+            window.Kakao.Auth.login({
+                success: this.getProfile
+            });
+            // window.Kakao.Auth.setAccessToken(codes['code']); //로그인 이후 할일!
+        }
     },
     methods: {
         kakaoLogin() {
@@ -25,6 +31,15 @@ export default {
             };
             window.Kakao.Auth.authorize(params);
         },
+        getProfile(authObj) {
+            console.log(authObj);
+            window.Kakao.API.request({
+                url: '/v2/user/me',
+                success: res => {
+                    console.log(res);
+                }
+            });
+        }
     }
 }
 </script>
