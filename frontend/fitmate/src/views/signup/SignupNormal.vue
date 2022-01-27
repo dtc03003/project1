@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <input type="text" v-model="signup.usertop" minlength="80" maxlength="120">
         <b-container class="bv-example-row">
             <b-row>
                 <b-col></b-col>
@@ -11,9 +12,10 @@
                             <b-form-group>
                                 <h4 id="signinTitle" align="left" class="mt-3">이메일(ID)</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid" >
+                                    <b-form-input type="email" v-model="signup.email" required placeholder="이메일(ID) 입력" @blur="emailValid" :disabled="emailduplication == true">
                                     </b-form-input>
-                                    <b-button @click="checkEmail">중복체크, 인증 추가필요</b-button>
+                                    <b-button class="smallBtn" v-show="!emailduplication" @click="checkEmail">중복체크</b-button>
+                                    <b-button class="smallBtn" v-show="emailduplication" @click="emailduplication = !emailduplication">재입력</b-button>
                                 </b-input-group>
                                 <div v-if="!emailValidFlag">
                                     유효하지 않은 이메일형식입니다.
@@ -27,9 +29,11 @@
 
                                 <h4 id="signinTitle" align="left" class="mt-3">닉네임</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" >
+                                    <b-form-input type="text" id="nickname" v-model="signup.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" :disabled="nickduplication == true">
                                     </b-form-input>
-                                    <b-button >중복체크 필요</b-button>
+                                    
+                                    <b-button class="smallBtn" v-show="!nickduplication" @click="checkNick">중복체크</b-button>
+                                    <b-button class="smallBtn" v-show="nickduplication" @click="nickduplication = !nickduplication">재입력</b-button>
                                 </b-input-group>
 
                                 <h4 id="signinTitle" align="left" class="mt-3">비밀번호</h4>
@@ -55,7 +59,7 @@
                             
                                 <h4 id="signinTitle" align="left" class="mt-3">성별</h4>
                                 <b-form-group align="left" >
-                                    <b-form-radio-group v-model="signup.gender" name="gender-radios" :options="genderoptions" plain >
+                                    <b-form-radio-group v-model="signup.gender" name="gender-radios" :options="genderoptions" plain>
                                     </b-form-radio-group>
                                 </b-form-group>
 
@@ -66,7 +70,7 @@
                                 <h4 id="signinTitle" class="mt-3" style="display:inline; float:left">휴대전화</h4>
                                 <h6 align="left" class="mt-4" style="display:inline; float:right">-를 제외하고 입력해주세요</h6>
                                 <b-input-group class="input">
-                                    <b-form-input type="text" class="int" v-model="signup.phoneNum" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
+                                    <b-form-input type="text" v-model="signup.phoneNum" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
                                     </b-form-input>
                                 </b-input-group>
                                 <div v-if="!phonecheckFlag">
@@ -76,7 +80,7 @@
                                 <div class="col-6" style="float:left">
                                 <h4 id="signinTitle" align="left" class="mt-3">키</h4>
                                 <b-input-group class="input">
-                                    <b-form-input type="number" class="int" v-model="signup.userheight" min="80" max="250" required placeholder="본인의 키 입력">
+                                    <b-form-input type="text" v-model="signup.userheight" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 키 입력">
                                     </b-form-input>
                                 </b-input-group>
                                 
@@ -84,7 +88,7 @@
                                 <div class="col-6" style="float:right">
                                 <h4 id="signinTitle" align="left" class="mt-3">몸무게</h4>
                                     <b-input-group class="input">
-                                        <b-form-input type="number" class="int" v-model="signup.userweight" min="30" max="200" required placeholder="본인의 몸무게 입력">
+                                        <b-form-input type="text" v-model="signup.userweight" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 몸무게 입력">
                                         </b-form-input>
                                     </b-input-group>
                                 </div>
@@ -92,7 +96,7 @@
                                 <div class="col-6" style="float:left">
                                     <h4 id="signinTitle" align="left" class="mt-3">상의 사이즈</h4>
                                     <b-input-group class="input">
-                                        <b-form-input type="number" class="int" v-model="signup.usertop" min="80" max="120" step="5" required placeholder="자주 입는 옷의 상의 사이즈를 입력.">
+                                        <b-form-input type="text" v-model="signup.usertop" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 상의 사이즈를 입력">
                                         </b-form-input>
                                     </b-input-group>
                                 </div>
@@ -100,22 +104,21 @@
                                 <div class="col-6" style="float:right">
                                     <h4 id="signinTitle" align="left" class="mt-3">하의 사이즈</h4>
                                     <b-input-group class="input">
-                                        <b-form-input type="number" class="int" v-model="signup.userbottom" min="70" max="110" step="5" required placeholder="자주 입는 옷의 하의 사이즈를 입력.">
+                                        <b-form-input type="text" v-model="signup.userbottom" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 하의 사이즈를 입력">
                                         </b-form-input>
                                     </b-input-group>
                                 </div>
 
                                 <div class="col-12" style="float:left">
-
                                 <h4 id="signinTitle" style="display:inline; float:left" class="mt-3">신발 사이즈</h4>
-                                <b-button v-b-modal.modal-1 class="modalsize mt-3 mb-1">사이즈 표</b-button>
+                                <b-button v-b-modal.modal-1 class="smallBtn mt-3 mb-1">사이즈 표</b-button>
                                 <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only>
                                     <center>
                                         <img src="@/assets/size.png" align="center" width="900" height="450">
                                     </center>
                                 </b-modal>
                                 <b-input-group class="input">
-                                    <b-form-input type="number" class="int" v-model="signup.usershoes" min="50" max="300" step="5" required placeholder="자주 신는 신발 사이즈를 입력">
+                                    <b-form-input type="text" v-model="signup.usershoes" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 신는 신발 사이즈를 입력">
                                     </b-form-input>
                                 </b-input-group>
                                 </div>
@@ -126,7 +129,6 @@
                             <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkForm()">
                                 회원가입
                             </b-button>
-
                         </b-form>
                     </b-card>
                 </b-col>
@@ -145,7 +147,7 @@ export default {
                 email: '',
                 nickname: '',
                 password: '',
-                gender: null,
+                gender: '',
                 phoneNum: '',
                 userheight: '',
                 userweight: '',
@@ -154,7 +156,7 @@ export default {
                 usershoes: '',
             },
             genderoptions: [
-                {text: '남성', value: '0'}, {text: '여성', value: '1'},
+                { text: '남성', value: 0 }, { text: '여성', value: 1 },
             ],
             pwdcheck: '',
             isSignup: true,
@@ -163,6 +165,7 @@ export default {
             emailValidFlag: true,
             phonecheckFlag: true,
             emailduplication: '',
+            nickduplication: '',
         }
     },
     created() {
@@ -171,13 +174,13 @@ export default {
     
     watch: {
         email: function() {
-            this.signup.email = this.signup.email.trim().toLowerCase(); //대문자 방지
-        }
+            this.signup.email = this.signup.email.trim().toLowerCase(); 
+        },
     },
     methods: {
-        async Signup() { //로그인 기능
-            // const config = { baseUrl: 'http://localhost:9000' };
-            const memberInfo = { //로그인 정보
+        async Signup() { 
+            const config = { baseUrl: 'http://localhost:9000' };
+            const memberInfo = { 
                 email: this.signup.email,
                 password: this.signup.password,
                 name: this.signup.name,
@@ -188,28 +191,47 @@ export default {
                 weight: this.signup.userweight,
                 top: this.signup.usertop,
                 bottom: this.signup.userbottom,
-                shoesSize: this.signup.usershoes,
+                shoeSize: this.signup.usershoes,
                 authority: "ROLE_MEMBER"
-
-                //nickname(varchar), name(varchar), gender(int) 필수컬럼이므로 같이 넘겨야 하는가?
             }
-            //await this.memberConfirm(memberInfo);
-            console.log(memberInfo); //임시
+            console.log(memberInfo); 
             this.$router.push({name: "Signin"}); 
-            axios.post('/auth/signup', memberInfo);
+            axios.post(`${ config.baseUrl }/auth/signup`, memberInfo);
         },
 
         checkEmail() {
             const config = { baseUrl: 'http://localhost:9000' };
             axios.get(`${config.baseUrl}/auth/signup/email/${this.signup.email}`)
             .then(() => {
-                alert('사용가능한 이메일입니다.')
-                this.emailduplication = true
+                if (this.emailValidFlag == true) {
+                    this.emailduplication = true
+                    alert('사용가능한 이메일입니다.')
+                } else {
+                    alert('이메일 형식에 맞게 입력해주세요.')
+                }   
             })
-            .catch(err => {
-                console.log(err)
-                alert('중복된 이메일입니다.')
-                this.emailduplication = false
+            .catch(() => {
+                if (this.signup.email == ''){
+                    alert('이메일을 입력해주세요.')
+                } else {
+                    alert('중복된 이메일입니다.')
+                }
+            })
+        },
+
+        checkNick() {
+            const config = { baseUrl: 'http://localhost:9000' };
+            axios.get(`${config.baseUrl}/auth/signup/nickname/${this.signup.nickname}`)
+            .then(() => {
+                this.nickduplication = true
+                alert('사용가능한 닉네임입니다.')
+            })
+            .catch(() => {
+                if (this.signup.nickname == ''){
+                    alert('닉네임을 입력해주세요.')
+                } else {
+                    alert('중복된 닉네임입니다.')
+                }
             })
         },
 
@@ -227,10 +249,13 @@ export default {
                 !this.emailValidFlag) {
                 alert('유효성 검사가 필요합니다.')
                 return
-                }
-            
+            }
+            if (this.emailduplication == '' ||
+                this.nickduplication == ''){
+                alert('중복체크를 해주세요!')
+                return
+            }
             this.Signup();
-            // this.$router.push({ name: 'Home', params: {signup: this.signup}})
         },
         emailValid () {
             if (/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/.test(this.signup.email)) {
@@ -277,7 +302,7 @@ export default {
 #goJoin { color: black; }
 .xcircle { color: gray; }
 #submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
-.modalsize { 
+.smallBtn { 
     display:inline; float:right;
     color: #fff !important;
     background-color: #7e7fb9 !important;

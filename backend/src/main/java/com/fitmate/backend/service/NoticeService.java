@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,31 +22,45 @@ public class NoticeService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Notice createNotice(NoticeDto dto){
+    public NoticeDto createNotice(NoticeDto dto){
         Member writer = memberRepository.findByNickname(dto.getWriter()).orElseThrow(NotFoundUserInformation::new);
         Notice notice = NoticeDto.toEntity(dto, writer);
-        return noticeRepository.save(notice);
+        return NoticeDto.of(noticeRepository.save(notice));
     }
 
-    public List<Notice> findNotice(PageRequest pageRequest){
-        return noticeRepository.findAll(pageRequest).getContent();
+    public List<NoticeDto> findNotice(PageRequest pageRequest){
+        List<Notice> noticeList = noticeRepository.findAll(pageRequest).getContent();
+        List<NoticeDto> result = new ArrayList<NoticeDto>();
+        for(int i=0; i<noticeList.size(); i++){
+            result.add(NoticeDto.of(noticeList.get(i)));
+        }
+        return result;
     }
 
-    public Notice findNoticeById(Long id){
-        return noticeRepository.findById(id).orElseThrow();
+    public List<NoticeDto> findNotice(){
+        List<Notice> noticeList = noticeRepository.findAll();
+        List<NoticeDto> result = new ArrayList<NoticeDto>();
+        for(int i=0; i<noticeList.size(); i++){
+            result.add(NoticeDto.of(noticeList.get(i)));
+        }
+        return result;
+    }
+
+    public NoticeDto findNoticeById(Long id){
+        return NoticeDto.of(noticeRepository.findById(id).orElseThrow());
     }
 
     @Transactional
     public String deleteNoticeById(Long id){
-        Notice notice = this.findNoticeById(id);
+        Notice notice = noticeRepository.findById(id).orElseThrow();
         noticeRepository.delete(notice);
         return notice.getTitle();
     }
 
     @Transactional
-    public Notice updateNotice(NoticeDto dto){
-        Notice notice = this.findNoticeById(dto.getId());
+    public NoticeDto updateNotice(NoticeDto dto){
+        Notice notice = noticeRepository.findById(dto.getId()).orElseThrow();
         notice.updateNotice(dto);
-        return noticeRepository.save(notice);
+        return NoticeDto.of(noticeRepository.save(notice));
     }
 }

@@ -6,6 +6,7 @@ import SignupStylist from '@/views/signup/SignupStylist'
 import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
+import Portfolio from '@/views/Portfolio'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,12 @@ const routes = [
     name: 'Signin',
     component: Signin
   },
+  {
+    path: '/portfolio', //임시지정
+    name: 'Portfolio',
+    component: Portfolio
+  },
+
   // {
   //   path: '/signuot',
   //   name: 'Signout',

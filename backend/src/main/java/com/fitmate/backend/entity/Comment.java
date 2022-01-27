@@ -1,41 +1,42 @@
 package com.fitmate.backend.entity;
 
-import com.fitmate.backend.dto.NoticeDto;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import com.fitmate.backend.dto.CommentDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-public class Notice {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "no")
+    @Column(name="no")
     private Long id;
-    @Column(nullable = false)
-    private String title;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
-    private String content;
-    private LocalDateTime createdAt;
+    private String comment;
     @ManyToOne
     @JoinColumn(name = "writer", nullable = false)
     private Member member;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+    @OneToOne
+    @JoinColumn(name = "qna", nullable = false)
+    private Qna qna;
 
     @PrePersist
     public void createdAt(){
         this.createdAt = LocalDateTime.now();
     }
 
-    public Notice updateNotice(NoticeDto noticeDto){
-        this.title = noticeDto.getTitle();
-        this.content = noticeDto.getContent();
+    public Comment updateComment(CommentDto commentDto){
+        this.comment = commentDto.getComment();
         this.createdAt = LocalDateTime.now();
         return this;
     }

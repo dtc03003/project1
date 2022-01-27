@@ -14,24 +14,30 @@ import java.util.List;
 
 @Tag(name = "NoticeController", description = "Notion board 게시글 정보 처리")
 @RestController
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")
 public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping(value = "/notice")
-    public ResponseEntity<Notice> createNotice(@RequestBody NoticeDto noticeDto){
+    public ResponseEntity<NoticeDto> createNotice(@RequestBody NoticeDto noticeDto){
         return ResponseEntity.ok(noticeService.createNotice(noticeDto));
     }
 
-    @GetMapping(value = "/noticeList")
-    public ResponseEntity<List<Notice>> findNotice(@RequestParam("page") Integer page){
+    @GetMapping(value = "/noticeListPage")
+    public ResponseEntity<List<NoticeDto>> findNotice(@RequestParam("page") Integer page){
         PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("createdAt").descending());
         return ResponseEntity.ok(noticeService.findNotice(pageRequest));
     }
 
+    @GetMapping(value = "/noticeList")
+    public ResponseEntity<List<NoticeDto>> findAllNotice(){
+        return ResponseEntity.ok(noticeService.findNotice());
+    }
+
     @GetMapping(value = "/notice/{id}")
-    public ResponseEntity<Notice> findNoticeById(@PathVariable Long id){
+    public ResponseEntity<NoticeDto> findNoticeById(@PathVariable Long id){
         return ResponseEntity.ok(noticeService.findNoticeById(id));
     }
 
@@ -41,7 +47,7 @@ public class NoticeController {
     }
 
     @PutMapping(value = "/notice")
-    public ResponseEntity<Notice> updateNotice(@RequestBody NoticeDto noticeDto){
+    public ResponseEntity<NoticeDto> updateNotice(@RequestBody NoticeDto noticeDto){
         return ResponseEntity.ok(noticeService.updateNotice(noticeDto));
     }
 }
