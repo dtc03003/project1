@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- <h1>스타일리스트 목록</h1> -->
+    <!-- 스타일리스트 데이터 들어오면 v-for로 가져오기 각자의 프로필(한 라인) 갖고 오기 -->
     <the-stylist-list-item></the-stylist-list-item>
       
   </div>

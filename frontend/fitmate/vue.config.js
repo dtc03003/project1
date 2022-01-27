@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: 'http://localhost:9000',
   //   changeOrigin: true,
-    logLevel: 'debug',
+    // logLevel: 'debug',
   },
   transpileDependencies: [
     'vuetify'
