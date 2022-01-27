@@ -8,7 +8,7 @@
                     <v-app>
                         <v-row justify="center">
                             <v-date-picker v-model="picker" color="green lighten-1" :allowed-dates="allowedDates"></v-date-picker>
-                            {{ submittableDateTime }} <!--테스트-->
+                            <p v-show="!picker">{{ submittableDateTime }}</p> <!--테스트-->
                         </v-row>
                     </v-app>
                     <!-- <b-calendar v-model="value" :date-info-fn="dateClass" :date-disabled-fn="dateDisabled"
