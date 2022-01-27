@@ -1,20 +1,20 @@
 package com.fitmate.backend.entity;
 
-import com.fitmate.backend.dto.NoticeDto;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import com.fitmate.backend.dto.QnaDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-public class Notice {
+public class Qna {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
@@ -23,19 +23,18 @@ public class Notice {
     private String title;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
     @ManyToOne
-    @JoinColumn(name = "writer", nullable = false)
+    @JoinColumn(name="writer", nullable = false)
     private Member member;
 
     @PrePersist
-    public void createdAt(){
-        this.createdAt = LocalDateTime.now();
-    }
+    public void createAt(){ this.createdAt = LocalDateTime.now(); }
 
-    public Notice updateNotice(NoticeDto noticeDto){
-        this.title = noticeDto.getTitle();
-        this.content = noticeDto.getContent();
+    public Qna updateQna(QnaDto qnaDto){
+        this.title = qnaDto.getTitle();
+        this.content = qnaDto.getContent();
         this.createdAt = LocalDateTime.now();
         return this;
     }
