@@ -24,7 +24,7 @@
             :search-input.sync="search"
             hide-selected
             hint="Maximum of 5 tags"
-            label="ex)출근룩, 하객룩 등"
+            label="ex)출근룩, 하객룩"
             multiple
             persistent-hint
             small-chips
