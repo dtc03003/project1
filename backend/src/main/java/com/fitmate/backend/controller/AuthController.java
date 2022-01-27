@@ -1,14 +1,11 @@
 package com.fitmate.backend.controller;
 
-import com.fitmate.backend.dto.LoginDto;
-import com.fitmate.backend.dto.MemberDto;
-import com.fitmate.backend.dto.TokenDto;
-import com.fitmate.backend.entity.Member;
+import com.fitmate.backend.dto.*;
+import com.fitmate.backend.kakao.OAuthToken;
 import com.fitmate.backend.service.AuthService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthController {
     private final AuthService authService;
+    @Value("${url.base}")
+    private String baseUrl;
+    @Value("${social.kakao.client-id}")
+    private String kakaoClientId;
+    @Value("${social.kakao.redirect}")
+    private String kakaoRedirectUri;
+
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody MemberDto memberDto) {
         return ResponseEntity.ok(authService.signup(memberDto));
@@ -41,5 +45,10 @@ public class AuthController {
     @GetMapping("/signup/nickname/{nickname}")
     public void confirmDuplicateNickName(@PathVariable String nickname ){
         authService.existByNickname(nickname);
+    }
+
+    @PostMapping("/login/kakao")
+    public ResponseEntity<TokenDto> kakaoLogin(@RequestBody KakaoTokenDto kakaoTokenDto){
+        return ResponseEntity.ok(authService.kakaoLogin(kakaoTokenDto));
     }
 }
