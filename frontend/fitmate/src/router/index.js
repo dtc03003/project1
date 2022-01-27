@@ -5,6 +5,7 @@ import SignupNormal from '@/views/signup/SignupNormal'
 import SignupStylist from '@/views/signup/SignupStylist'
 import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
+import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
 
 Vue.use(VueRouter)
@@ -51,11 +52,11 @@ const routes = [
   //   name: 'Mypage',
   //   component: Mypage
   // },
-  // {
-  //   path: '/stylist',
-  //   name: 'Stylist',
-  //   component: Stylist
-  // },
+  {
+    path: '/stylist',
+    name: 'Stylist',
+    component: Stylist
+  },
   // {
   //   path: '/stylebook',
   //   name: 'Stylebook',
