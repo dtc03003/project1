@@ -8,6 +8,7 @@ import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,7 +39,7 @@ public class QnaService {
     }
 
     public List<QnaDto> findQna() {
-        List<Qna> qnaList = qnaRepository.findAll();
+        List<Qna> qnaList = qnaRepository.findAll(Sort.by("createdAt").descending());
         List<QnaDto> qnaDtoList = new ArrayList<QnaDto>();
         for(int i=0; i<qnaList.size(); i++){
             qnaDtoList.add(QnaDto.of(qnaList.get(i)));

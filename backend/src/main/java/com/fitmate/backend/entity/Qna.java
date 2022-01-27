@@ -24,18 +24,18 @@ public class Qna {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name="writer", nullable = false)
     private Member member;
 
     @PrePersist
-    public void createAt(){ this.createAt = LocalDateTime.now(); }
+    public void createAt(){ this.createdAt = LocalDateTime.now(); }
 
     public Qna updateQna(QnaDto qnaDto){
         this.title = qnaDto.getTitle();
         this.content = qnaDto.getContent();
-        this.createAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
         return this;
     }
 }
