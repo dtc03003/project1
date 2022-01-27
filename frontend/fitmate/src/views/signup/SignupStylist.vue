@@ -71,22 +71,6 @@
                                 <div v-if="!phonecheckFlag">
                                     휴대폰 번호를 올바르게 입력해주세요.
                                 </div>
-
-                                <!-- <h4 id="signinTitle" align="left" class="mt-3">은행</h4>
-                                <b-input-group>
-                                    <b-form-select v-model="signup.bank" :options="bankoptions" class="border" required placeholder="은행">
-                                    </b-form-select>
-                                </b-input-group>
-                                
-
-                                <h4 id="signinTitle" align="left" class="mt-3">계좌번호</h4>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" v-model="signup.bankaccount" required placeholder="계좌번호" maxlength="30" @blur=bankaccountValid>
-                                    </b-form-input>
-                                </b-input-group>
-                                <div v-if="!bankaccountFlag">
-                                    계좌 번호를 정확하게 입력해주세요.
-                                </div> -->
                             </b-form-group>
 
                             <!-- 회원가입 버튼 -->
@@ -102,8 +86,6 @@
     </div>
 </template>
 <script>
-// import { mapActions } from 'vuex';
-// import EmailValidator from "email-validator"; //이메일 유효성 검사
 import axios from 'axios';
 export default {
     name: "Stylist",
