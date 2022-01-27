@@ -15,7 +15,7 @@
                     :header-html="`
                     <h3>${notice.title}</h3>
                     <!-- <h5>(${notice.id})</h5> -->
-                    <h5>${notice.member.nickname}</h5>
+                    <h5>${notice.writer}</h5>
                     <div>
                         <h6>${notice.createdAt}</h6>
                     </div>
