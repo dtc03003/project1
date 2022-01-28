@@ -34,7 +34,7 @@ const memberStore = {
               console.log("로그인 성공");
               commit("SIGNIN", true);
               commit("SET_IS_ACCESSTOKEN", response.data["accessToken"]);
-              //토큰을 로컬 스토리지에 저장(쿠키에 저장도 가능)
+              //토큰을 로컬 스토리지에 저장(저장소는 아직도 고민중,, 로컬? 세션? 쿠키?)
               localStorage.setItem("grantType", response.data["grantType"]);
               localStorage.setItem("accessToken", response.data["accessToken"]); //로컬 스토리지에 accessToken 저장
               localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
@@ -52,6 +52,7 @@ const memberStore = {
           await getMemberInfo(accessToken, (response) => {
             if(response.status == 200) {
               console.log("로그인한 사용자 정보 받기 성공");
+              localStorage.setItem("authority", response.data["authority"]); //회원,스타일리스트 구분
               commit("SET_MEMBER_INFO", response.data);
             }
           },
