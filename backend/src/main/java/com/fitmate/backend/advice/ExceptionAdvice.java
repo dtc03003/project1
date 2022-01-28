@@ -65,5 +65,14 @@ public class ExceptionAdvice {
                         .build());
 
     }
-
+    @ExceptionHandler({MultipartFileException.class})
+    protected ResponseEntity<ApiError> cannotUploadMultipartFile(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("F001")
+                        .message("error: MultipartFile -> File convert fail")
+                        .build());
+    }
 }

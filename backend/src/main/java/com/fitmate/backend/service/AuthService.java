@@ -37,6 +37,7 @@ public class AuthService {
     private final Environment env;
     @Transactional
     public Member signup(MemberDto memberDto){
+        memberDto.setProfile("https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");
         return memberRepository.save(MemberDto.toEntity(memberDto,passwordEncoder));
     }
     @Transactional
@@ -90,11 +91,13 @@ public class AuthService {
         SocialMemberDto socialMemberDto = getKakaoProfile(kakaoTokenDto.getAccess_token());
         final String email = socialMemberDto.getKakao_account().getEmail();
         final String password = env.getProperty("social.password");
+        System.out.println(email);
         if(!memberRepository.existsByEmail(email)){
             MemberDto memberDto = MemberDto.of(SocialMemberDto.toEntity(socialMemberDto));
             memberDto.setPassword(password);
             signup(memberDto);
         }
+        System.out.println("kakao login!");
         return login(new LoginDto(email,password));
     }
     public SocialMemberDto getKakaoProfile(String kakaoAccessToken){
