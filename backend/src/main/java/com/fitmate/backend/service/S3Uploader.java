@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.fitmate.backend.advice.exception.MultipartFileException;
+import com.fitmate.backend.dto.ImageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +24,15 @@ public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    public ImageDto upload(MultipartFile multipartFile, String dirName) throws IOException {
         System.out.println("upload시작");
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new MultipartFileException("error: MultipartFile -> File convert fail"));
         System.out.println("upload실패");
-        return upload(uploadFile, dirName);
+        String src = upload(uploadFile, dirName);
+        return ImageDto.builder()
+                .src(src)
+                .build();
     }
 
     // S3로 파일 업로드하기
