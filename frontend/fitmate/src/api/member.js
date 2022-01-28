@@ -18,6 +18,7 @@ async function reissue(info, success, fail) {
     await api.post("/auth/reissue", JSON.stringify(info)).then(success).catch(fail);
 }
 
+//카카오 간편로그인
 async function sendKakao(token, success, fail) {
     await api.post("/auth/login/kakao", JSON.stringify(token)).then(success).catch(fail);
 }
