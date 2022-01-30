@@ -28,4 +28,8 @@ public class PortfolioService {
         return portfolioRepository.findPortfolioByMemberId(member.getId())
                 .orElseThrow(NotFoundUserInformation::new);
     }
+
+    public Portfolio updateAbout(PortfolioDto portfolioDto) {
+        return portfolioRepository.save(getMyPortfolio().updatePortfolio(portfolioDto));
+    }
 }

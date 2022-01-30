@@ -22,4 +22,8 @@ public class PortfolioController {
     public ResponseEntity<?> getMyPortfolio(){
         return ResponseEntity.ok(portfolioService.getMyPortfolio());
     }
+    @PutMapping("/portfolio/about")
+    public ResponseEntity<?> updateMyPortfolioForAbout(PortfolioDto portfolioDto){
+        return ResponseEntity.ok(portfolioService.updateAbout(portfolioDto));
+    }
 }
