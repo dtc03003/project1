@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class PortfolioController {
     private final PortfolioService portfolioService;
     @PostMapping("/portfolio")
-    public ResponseEntity<?> makePortfolio(PortfolioDto portfolioDto){
+    public ResponseEntity<?> makePortfolio(@RequestBody PortfolioDto portfolioDto){
         return ResponseEntity.ok(portfolioService.makePortfolio(portfolioDto));
     }
     @GetMapping("/portfolio/me")
@@ -23,7 +23,9 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolioService.getMyPortfolio());
     }
     @PutMapping("/portfolio/about")
-    public ResponseEntity<?> updateMyPortfolioForAbout(PortfolioDto portfolioDto){
+    public ResponseEntity<?> updateMyPortfolioForAbout(@RequestBody PortfolioDto portfolioDto){
         return ResponseEntity.ok(portfolioService.updateAbout(portfolioDto));
     }
+//    @PostMapping("/portfolio/style")
+//    public ResponseEntity<?> postStyle()
 }
