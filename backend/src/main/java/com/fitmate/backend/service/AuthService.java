@@ -2,28 +2,29 @@ package com.fitmate.backend.service;
 
 import com.fitmate.backend.advice.exception.DuplicatedEmailException;
 import com.fitmate.backend.advice.exception.DuplicatedNicknameException;
-import com.fitmate.backend.dto.LoginDto;
-import com.fitmate.backend.dto.MemberDto;
-import com.fitmate.backend.dto.TokenDto;
+import com.fitmate.backend.advice.exception.SocialCommunicationException;
+import com.fitmate.backend.dto.*;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.RefreshToken;
 import com.fitmate.backend.jwt.TokenProvider;
 import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.RefreshTokenRepository;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 
-import java.util.Optional;
-
-import static com.fitmate.backend.dto.MemberDto.toEntity;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -33,8 +34,10 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final Environment env;
     @Transactional
     public Member signup(MemberDto memberDto){
+        memberDto.setProfile("https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");
         return memberRepository.save(MemberDto.toEntity(memberDto,passwordEncoder));
     }
     @Transactional
@@ -82,5 +85,32 @@ public class AuthService {
     }
     public void existByNickname(String nickname){
         if(memberRepository.existsByNickname(nickname)) throw new DuplicatedNicknameException();
+    }
+    @Transactional
+    public TokenDto kakaoLogin(KakaoTokenDto kakaoTokenDto){
+        SocialMemberDto socialMemberDto = getKakaoProfile(kakaoTokenDto.getAccess_token());
+        final String email = socialMemberDto.getKakao_account().getEmail();
+        final String password = env.getProperty("social.password");
+        System.out.println(email);
+        if(!memberRepository.existsByEmail(email)){
+            MemberDto memberDto = MemberDto.of(SocialMemberDto.toEntity(socialMemberDto));
+            memberDto.setPassword(password);
+            signup(memberDto);
+        }
+        System.out.println("kakao login!");
+        return login(new LoginDto(email,password));
+    }
+    public SocialMemberDto getKakaoProfile(String kakaoAccessToken){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set(env.getProperty("jwt.header"), "Bearer "+kakaoAccessToken);
+        String requestUrl = env.getProperty("social.kakao.url.profile");
+        HttpEntity<MultiValueMap<String,String>> request = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = new RestTemplate().postForEntity(requestUrl,request,String.class);
+        if(response.getStatusCode()!= HttpStatus.OK){
+            log.error("header : "+ response.getHeaders());
+            throw new SocialCommunicationException();
+        }
+        return new Gson().fromJson(response.getBody(), SocialMemberDto.class);
     }
 }

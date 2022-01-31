@@ -31,7 +31,7 @@ public class QnaDto {
                 .id(qna.getId())
                 .title(qna.getTitle())
                 .content(qna.getContent())
-                .createdAt(qna.getCreateAt())
+                .createdAt(qna.getCreatedAt())
                 .writer(qna.getMember().getNickname())
                 .build();
     }

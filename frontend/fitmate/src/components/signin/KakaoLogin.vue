@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+const memberStore = "memberStore";
 const codes = {}; //간편로그인 시 인증 코드 받을 부분
 
 export default {
@@ -17,29 +19,49 @@ export default {
     created() {
         window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { codes[key] = value; });
         if(codes['code']) {
-            console.log("kakao 인증코드 \n" + codes['code']);
             window.Kakao.Auth.login({
-                success: this.getProfile
+                // success: this.getProfile
+                success: this.getKakaoToken
             });
             // window.Kakao.Auth.setAccessToken(codes['code']); //로그인 이후 할일!
         }
     },
+    computed: {
+        ...mapGetters(memberStore, ["checkisSignin"]),
+    },
     methods: {
+        ...mapActions(memberStore, ["sendKakaoToken"]),
         kakaoLogin() {
             const params = {
                 redirectUri: this.redirect_uri,
             };
             window.Kakao.Auth.authorize(params);
         },
-        getProfile(authObj) {
-            console.log(authObj);
-            window.Kakao.API.request({
-                url: '/v2/user/me',
-                success: res => {
-                    console.log(res);
-                }
-            });
-        }
+        async getKakaoToken(authObj) {
+        // getKakaoToken(authObj) {
+            const kakao = {
+                access_token: authObj['access_token'],
+                expires_in: authObj['expires_in'],
+                refresh_token: authObj['refresh_token'],
+                refresh_token_expires_in: authObj['refresh_token_expires_in'],
+                scope: authObj['scope'],
+                token_type: authObj['token_type'],
+            };
+            await this.sendKakaoToken(kakao); //kako 로그인 토큰 값 넘기기
+            if(this.checkisSignin) {
+                this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
+            }
+        },
+        
+        // getProfile(authObj) {
+        //     console.log(authObj);
+        //     window.Kakao.API.request({
+        //         url: '/v2/user/me',
+        //         success: res => {
+        //             console.log(res);
+        //         }
+        //     });
+        // }
     }
 }
 </script>

@@ -3,11 +3,10 @@
 
         <b-row>
             <b-col>
-                <h3 class="underline-hotpink">게시물 목록</h3>
+                <h3 class="underline-hotpink">Q&A 목록</h3>
             </b-col>
         </b-row>
 
-        <!-- 페이지네이션 -->
         <pagination :list-array="pageArray"></pagination>
 
     </b-container>
@@ -30,12 +29,12 @@ export default {
     },
 
     created () {
-        axios.get('/api/v1/noticeList')
+        axios.get('/api/v1/qnaList')
         .then(({ data }) => {
             console.log(data);
             this.pageArray = data;
         })
     }
-
-};
+    
+}
 </script>

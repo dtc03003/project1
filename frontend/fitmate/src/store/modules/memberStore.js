@@ -1,4 +1,4 @@
-import { signin, getMemberInfo, reissue } from '@/api/member.js'
+import { signin, getMemberInfo, reissue, sendKakao } from '@/api/member.js'
 
 /* 회원 관련 상태 관리(vuex) */
 const memberStore = {
@@ -10,6 +10,10 @@ const memberStore = {
       },
       getters: {
         checkMemberInfo: function(state) { return state.memberInfo },
+        checkisSignin: function(state) {
+          state.isSignin = (localStorage.getItem("accessToken")) ? true : false;
+          return state.isSignin;
+        },
       },
       mutations: {
         SIGNIN: (state, isSignin) => {
@@ -30,7 +34,7 @@ const memberStore = {
               console.log("로그인 성공");
               commit("SIGNIN", true);
               commit("SET_IS_ACCESSTOKEN", response.data["accessToken"]);
-              //토큰을 로컬 스토리지에 저장(쿠키에 저장도 가능)
+              //토큰을 로컬 스토리지에 저장(저장소는 아직도 고민중,, 로컬? 세션? 쿠키?)
               localStorage.setItem("grantType", response.data["grantType"]);
               localStorage.setItem("accessToken", response.data["accessToken"]); //로컬 스토리지에 accessToken 저장
               localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
@@ -49,6 +53,8 @@ const memberStore = {
             if(response.status == 200) {
               console.log("로그인한 사용자 정보 받기 성공");
               commit("SET_MEMBER_INFO", response.data);
+            }else {
+              this.reissueToken(); //토큰 유효기간 지났을 경우 재발급 필요
             }
           },
           (error) => {
@@ -66,7 +72,7 @@ const memberStore = {
           await reissue(tokenInfo, (response) => {
             if(response.status == 200) {
               console.log("토큰 재발급 성공");
-              // localStorage.setItem("grantType", response.data["grantType"]); //이 값은 바뀌지 않을 듯함
+              localStorage.setItem("grantType", response.data["grantType"]); //이 값은 바뀌지 않을 듯함
               localStorage.setItem("accessToken", response.data["accessToken"]);
               localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
               localStorage.setItem("refreshToken", response.data["refreshToken"]);
@@ -76,6 +82,23 @@ const memberStore = {
             console.log("토큰 재발급 실패");
           });
         },
+
+        async sendKakaoToken({ commit }, accessToken) { //카카오 토큰 서버로 보내기
+          await sendKakao(accessToken, (response) => {
+            if(response.status == 200) {
+              console.log("서버로 토큰 전송 성공");
+              //토큰을 로컬 스토리지에 저장(쿠키에 저장도 가능)
+              commit("SIGNIN", true);
+              localStorage.setItem("grantType", response.data["grantType"]);
+              localStorage.setItem("accessToken", response.data["accessToken"]); //로컬 스토리지에 accessToken 저장
+              localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
+              localStorage.setItem("refreshToken", response.data["refreshToken"]); //로컬 스토리지에 refreshToken 저장
+            }
+          },
+          (error) => {
+            console.log(error);
+          });
+        }
     },
     modules: {
     
