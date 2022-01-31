@@ -7,7 +7,7 @@
         <b-avatar src="https://placekitten.com/300/300" size="4rem">
         </b-avatar>
         <!-- 지금은 멤버 스토어에서 가져오는데, 나중에는 글 쓴 사람 이름 가져와야 함 -->
-        <h3 class="d-inline">{{ memberStore.state.memberInfo.nickname }}</h3>
+        <!-- <h3 class="d-inline">{{ memberStore.state.memberInfo.nickname }}</h3> -->
       </template>
       <div class="row">
         <div class="col">
