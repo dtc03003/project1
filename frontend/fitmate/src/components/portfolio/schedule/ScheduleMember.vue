@@ -97,13 +97,17 @@ export default {
                 && (!impossible.includes(date.get("d")))
         },
         selectTime(value) {
-            let result = this.calcTimes[this.calcTimes.indexOf(value)+3];
-            if(!this.reservedTime.includes(result)) {
-                this.selectedTime = value;
-                this.moveOrder();
+            if(this.picker) {
+                let result = this.calcTimes[this.calcTimes.indexOf(value)+3];
+                if(!this.reservedTime.includes(result)) {
+                        this.selectedTime = value;
+                    this.moveOrder();
+                }else {
+                        alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위:2시간)");
+                    this.selectedTime = '';
+                }
             }else {
-                alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위:2시간)");
-                this.selectedTime = '';
+                alert("날짜를 먼저 선택해주세요.");
             }
         },
         moveOrder() {
@@ -134,6 +138,8 @@ export default {
 </script>
 
 <style scoped>
+h4 {font-family: 'Cafe24Ssurround', serif;}
+h6 {font-family: 'GmarketSansMedium', serif;}
 .container {margin: 0 auto;}
 .btn {background-color: #d8d7ec; width: 80%; font-size: 10pt; border-radius: 0} /*#E0FFFF #F0F8FF*/
 .disabled { background: rgb(184, 181, 181); }
