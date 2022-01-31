@@ -13,7 +13,7 @@
 
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
-          <!-- 아래는 로그인 후 보여지는 것 -->
+          <!-- 로그인 후 보여지는 것: Sign out, My page -->
           <div v-if="memberStore.state.isSignin">
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
@@ -24,7 +24,7 @@
               </li>
             </ul>
           </div>
-          <!-- 아래는 로그인 전 보여지는 것 -->
+          <!-- 로그인 전 보여지는 것: Sign up, Sign in -->
           <div v-else>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
