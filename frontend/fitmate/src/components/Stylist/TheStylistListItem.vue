@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- 사용자정보 이렇게 생겼음
-    {{ memberStore }}
+    사용자정보 이렇게 생겼음
     {{ memberStore.state.memberInfo }}
-    <hr> -->
+    <hr>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container-fluid" style="hight:7rem">
       <div>
@@ -35,12 +34,9 @@
         <div id="images" class="d-inline-block" style="height:160px;">
           <!-- 사진 -->
           <img src="@/assets/study.jpg" height="150px" class="m-1">
-          <img src="@/assets/eunwoo.jpg" height="150px" class="m-1">
-          <!-- <img src="@/assets/yeonwoo.jpg" height="150px" class="m-1"> -->
-          <img src="@/assets/study.jpg" height="150px" class="m-1">
 
           <!-- 실제로는 아래처럼 가져와야 함 -->
-          <the-stylist-list-image></the-stylist-list-image>
+          <the-image-modal></the-image-modal>
           <!-- stylist data 들어오면 v-for로 연결해서 다 가져오기 -->
           <!-- 여기서 가져오는 건 한 사람의 포트폴리오 사진들 -->
           <!-- <the-stylist-list-image></the-stylist-list-image> -->
@@ -51,7 +47,7 @@
 </template>
 
 <script>
-import TheStylistListImage from '@/components/Stylist/TheStylistListImage'
+import TheImageModal from '@/components/Stylist/TheImageModal'
 // import { signin, getMemberInfo } from '@/api/member'
 import memberStore from '@/store/modules/memberStore'
 
@@ -67,7 +63,7 @@ export default {
     }
   },
   components:{
-    TheStylistListImage,
+    TheImageModal,
   },
   computed: {
     // width 속성은 computed로 api로 넘어온 평균 평점 값을 계산하여 percentage로 변환하여 스타일 바인딩을 이용

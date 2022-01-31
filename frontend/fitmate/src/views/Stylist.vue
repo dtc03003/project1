@@ -60,10 +60,18 @@ export default {
         TheStylistList,
     },
     data: () => ({
-      item: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      value:null,
+      items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
+      model: ['Vuetify'],
+      search: null,
     }),
-    methods:{}
+    methods:{},
+    // watch: {
+    //   model (val) {
+    //     if (val.length > 5) {
+    //       this.$nextTick(() => this.model.pop())
+    //     }
+    //   },
+    // },
 
 }
 </script>

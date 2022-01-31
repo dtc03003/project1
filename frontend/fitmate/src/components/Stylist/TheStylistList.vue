@@ -20,9 +20,9 @@ export default {
     return {}
   },
   methods: {
-    getStyles: function() {
-      this.$store.dispatch('getStyles')
-    },
+    // getStyles: function() {
+    //   this.$store.dispatch('getStyles')
+    // },
   },
   computed: {
     ...mapGetters([
@@ -32,9 +32,9 @@ export default {
 
     ])
   },
-  created:function() {
-    this.getStyles()
-  }
+  // created:function() {
+  //   this.getStyles()
+  // }
 
 }
 </script>
