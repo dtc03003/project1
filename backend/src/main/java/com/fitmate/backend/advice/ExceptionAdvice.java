@@ -1,9 +1,6 @@
 package com.fitmate.backend.advice;
 
-import com.fitmate.backend.advice.exception.DuplicatedEmailException;
-import com.fitmate.backend.advice.exception.DuplicatedNicknameException;
-import com.fitmate.backend.advice.exception.NotFoundAuthentication;
-import com.fitmate.backend.advice.exception.NotFoundUserInformation;
+import com.fitmate.backend.advice.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -57,5 +54,25 @@ public class ExceptionAdvice {
                         .message("This email already exists...")
                         .build());
     }
+    @ExceptionHandler({SocialCommunicationException.class})
+    protected ResponseEntity<ApiError> notFoundSocialMember(){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("D001")
+                        .message("This token is not valid...")
+                        .build());
 
+    }
+    @ExceptionHandler({MultipartFileException.class})
+    protected ResponseEntity<ApiError> cannotUploadMultipartFile(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("F001")
+                        .message("error: MultipartFile -> File convert fail")
+                        .build());
+    }
 }

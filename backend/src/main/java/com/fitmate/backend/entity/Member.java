@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
-import org.hibernate.validator.constraints.UniqueElements;
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,6 +41,7 @@ public class Member implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+    private String profile;
 
     public Member updateMember(MemberDto dto){
         this.password = dto.getPassword();
@@ -53,6 +54,7 @@ public class Member implements Serializable {
         this.top = dto.getTop();
         this.bottom = dto.getBottom();
         this.shoeSize = dto.getShoeSize();
+        this.profile = dto.getPassword();
         return this;
     }
 }

@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import SignupNormal from '@/views/signup/SignupNormal'
 import SignupStylist from '@/views/signup/SignupStylist'
-import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
@@ -34,10 +33,15 @@ const routes = [
   {
     path: '/signin',
     name: 'Signin',
-    component: Signin
+    component: () => import("@/views/sign/Signin"),
   },
   {
-    path: '/portfolio', //임시지정
+    path: '/order',
+    name: 'Order',
+    component: () => import("@/views/order/Order.vue"),
+  },
+  {
+    path: '/portfolio',
     name: 'Portfolio',
     component: Portfolio
   },

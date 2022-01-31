@@ -9,6 +9,10 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+#    클라이언트
+url:
+  base: http://localhost:8080 
+
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -18,8 +22,8 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate.:
-      ddl-auto: create-drop
-#      ddl-auto: update
+#      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -40,4 +44,26 @@ jwt:
   secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
   token-validity-in-seconds: 86400          # 1일
   token-refresh-in-seconds: 1000*60*60*24*7 # 1주일
+
+social:
+  kakao:
+    client-id: 30fb9b59db516bf7c56055b26f8daf47
+    redirect: http://localhost:8080
+    url:
+      login: https://kauth.kakao.com/oauth/authorize
+      token: https://kauth.kakao.com/oauth/token
+      profile: https://kapi.kakao.com/v2/user/me
+      unlink: https://kapi.kakao.com/v1/user/unlink
+  password: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAWVRECJEE5G74RTEV
+      secretKey: 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
+    s3:
+      bucket: hongjunland
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
