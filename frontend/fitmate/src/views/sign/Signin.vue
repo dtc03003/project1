@@ -111,6 +111,8 @@ export default {
                 await this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
                 console.log(this.memberInfo);
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
+            }else {
+                this.isAlert = true;
             }
 
         },
