@@ -12,6 +12,14 @@ const store = new Vuex.Store({
     noticeStore,
     orderStore,
   },
+  state: {
+    // getStyles:'',
+  },
+  actions: {
+    logout : function ({commit}){
+      commit('SIGNOUT')
+    },
+  }
 });
 
 export default store;

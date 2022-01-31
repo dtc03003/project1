@@ -13,8 +13,19 @@
 
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
-          <!-- 아래는 로그인 전 보여지는 것 -->
-          <div>
+          <!-- 로그인 후 보여지는 것: Sign out, My page -->
+          <div v-if="memberStore.state.isSignin">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link"><router-link to="/signout">Sign out</router-link></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
+              </li>
+            </ul>
+          </div>
+          <!-- 로그인 전 보여지는 것: Sign up, Sign in -->
+          <div v-else>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
                 <a class="nav-link"><router-link to="/Signup">Sign up</router-link></a>
@@ -24,17 +35,6 @@
               </li>
             </ul>
           </div>
-          <!-- 아래는 로그인 후 보여지는 것 -->
-          <!-- <div>
-            <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
-              <li class="nav-item">
-                <a class="nav-link"><router-link to="/signout">Sign out</router-link></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
-              </li>
-            </ul>
-          </div> -->
           <!-- 언더라인 정렬, 간격은 추후 논의할 것 -->
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-center">
@@ -53,9 +53,6 @@
             </ul>
           </div>
         </div>
-
-
-
       </div>
     </nav>
     <!-- 로그인하면 따로 보여줄 게 있다면? -->
@@ -65,13 +62,27 @@
 </template>
 
 <script>
+import memberStore from '@/store/modules/memberStore'
 
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+  data: function() {
+    return {
+      memberStore,
+      isSignin:null,
+    }
+  },
+  methods:{
+    logout: function() {
+      this.isSignin = false
+      localStorage.removeItem('jwt')
+      this.$store.dispatch('signout')
+      // location.reload()
+      this.$router.push({name:'Signin'})
+    }    
+  }
+  
+  
 };
 </script>
 
