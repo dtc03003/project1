@@ -4,8 +4,8 @@ import { signin, getMemberInfo, reissue, sendKakao } from '@/api/member.js'
 const memberStore = {
     namespaced: true,
     state: {
-      isSignin: false, //로그인 여부
-      accessToken: '',
+        isSignin: false, //로그인 여부
+        accessToken: '',
         memberInfo: null,
       },
       getters: {
@@ -52,8 +52,9 @@ const memberStore = {
           await getMemberInfo(accessToken, (response) => {
             if(response.status == 200) {
               console.log("로그인한 사용자 정보 받기 성공");
-              localStorage.setItem("authority", response.data["authority"]); //회원,스타일리스트 구분
               commit("SET_MEMBER_INFO", response.data);
+            }else {
+              this.reissueToken(); //토큰 유효기간 지났을 경우 재발급 필요
             }
           },
           (error) => {
@@ -71,7 +72,7 @@ const memberStore = {
           await reissue(tokenInfo, (response) => {
             if(response.status == 200) {
               console.log("토큰 재발급 성공");
-              // localStorage.setItem("grantType", response.data["grantType"]); //이 값은 바뀌지 않을 듯함
+              localStorage.setItem("grantType", response.data["grantType"]); //이 값은 바뀌지 않을 듯함
               localStorage.setItem("accessToken", response.data["accessToken"]);
               localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
               localStorage.setItem("refreshToken", response.data["refreshToken"]);
