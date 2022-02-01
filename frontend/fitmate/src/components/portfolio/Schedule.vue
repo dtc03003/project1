@@ -25,16 +25,22 @@ export default {
         ScheduleStyle,
     },
     created() {
-        this.getRole(localStorage.getItem("accessToken"));
+        this.getRole();
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
-        async getRole(accessToken) {
-            await this.signInMemberInfo(accessToken);
-            this.role = this.checkMemberInfo.authority;
+        getRole() {
+            if(this.checkMemberInfo != null) this.role = this.checkMemberInfo.authority;
+            else this.importRole(localStorage.getItem("accessToken"));
+        },
+        async importRole(accessToken) {
+            if(accessToken) {
+                await this.signInMemberInfo(accessToken);
+                this.role = this.checkMemberInfo.authority;
+            }
         }
     }
 }
