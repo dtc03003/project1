@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import SignupNormal from '@/views/signup/SignupNormal'
 import SignupStylist from '@/views/signup/SignupStylist'
+import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
@@ -33,15 +34,10 @@ const routes = [
   {
     path: '/signin',
     name: 'Signin',
-    component: () => import("@/views/sign/Signin"),
+    component: Signin
   },
   {
-    path: '/order',
-    name: 'Order',
-    component: () => import("@/views/order/Order.vue"),
-  },
-  {
-    path: '/portfolio',
+    path: '/portfolio', //임시지정
     name: 'Portfolio',
     component: Portfolio
   },
@@ -66,11 +62,6 @@ const routes = [
   //   name: 'Stylebook',
   //   component: Stylebook
   // },
-  // {
-  //   path: '/qna',
-  //   name: 'Qna',
-  //   component: Qna
-  // },
   {
     path: "/notice",
     name: "Notice",
@@ -91,6 +82,30 @@ const routes = [
         path: "view/:id",
         name: 'NoticeView',
         component: () => import("@/components/Notice/NoticeView.vue"),
+      },
+    ]
+  },
+
+  {
+    path: '/qna',
+    name: 'QnA',
+    component: () => import("@/views/QnA.vue"),
+
+    children: [
+      {
+        path: "",
+        name: 'QnAList',
+        component: () => import("@/components/QnA/QnAList.vue"),
+      },
+      {
+        path: "create",
+        name: 'QnACreate',
+        component: () => import("@/components/QnA/QnACreate.vue"),
+      },
+      {
+        path: "view/:id",
+        name: 'QnAView',
+        component: () => import("@/components/QnA/QnAView.vue"),
       },
     ]
   },
