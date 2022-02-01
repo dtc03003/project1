@@ -37,16 +37,15 @@ const routes = [
     component: Signin
   },
   {
-    path: '/portfolio', //임시지정
+    path: '/portfolio',
     name: 'Portfolio',
     component: Portfolio
   },
-
-  // {
-  //   path: '/signuot',
-  //   name: 'Signout',
-  //   component: Signout 
-  // },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import("@/views/order/Order.vue")
+  },
   // {
   //   path: '/mypage',
   //   name: 'Mypage',

@@ -30,36 +30,20 @@
                 <!-- 결제 정보 -->
                 <table>
                     <tr>
-                        <td>
-                            스타일리스트
-                        </td>
-                        <td>
-                            미어켓
-                        </td>
+                        <td>스타일리스트</td>
+                        <td>미어켓</td> <!--아직 저장된 스타일리스트명이 없음 -->
                     </tr>
                     <tr>
-                        <td>
-                            예약 날짜 및 시간
-                        </td>
-                        <td>
-                            {{this.getDate + " " + this.getTime}}
-                        </td>
+                        <td>예약 날짜 및 시간</td>
+                        <td>{{this.getDate + " " + this.getTime}}</td>
                     </tr>
                     <tr>
-                        <td>
-                            컨설팅 비용
-                        </td>
-                        <td>
-                            12,000원
-                        </td>
+                        <td>컨설팅 비용</td>
+                        <td>12,000원</td> <!--저장된 스타일리스트가 없어 가격 임의 지정-->
                     </tr>
                     <tr>
-                        <td>
-                            결제 방법
-                        </td>
-                        <td>
-                            카카오페이
-                        </td>
+                        <td>결제 방법</td>
+                        <td>카카오페이</td>
                     </tr>
                 </table>
             </b-row>
