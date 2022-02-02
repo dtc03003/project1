@@ -7,6 +7,7 @@ import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
+import Stylebook from '@/views/Stylebook'
 
 Vue.use(VueRouter)
 
@@ -56,11 +57,11 @@ const routes = [
     name: 'Stylist',
     component: Stylist
   },
-  // {
-  //   path: '/stylebook',
-  //   name: 'Stylebook',
-  //   component: Stylebook
-  // },
+  {
+    path: '/stylebook',
+    name: 'Stylebook',
+    component: Stylebook
+  },
   {
     path: "/notice",
     name: "Notice",
