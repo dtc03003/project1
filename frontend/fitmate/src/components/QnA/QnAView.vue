@@ -30,22 +30,53 @@
                     </b-card-body>
                 </b-card>
 
+                <b-form-group id="content-group" label="댓글:" label-for="content">
+                    <b-form-textarea
+                        id="content"
+                        ref="content"
+                        v-model="comment"
+                        placeholder="댓글 입력..."
+                        rows="5"
+                        max-rows="10"
+                    >
+                    </b-form-textarea>
+                </b-form-group>
+
+                <b-button 
+                    variant="primary"
+                    class="m-1 float-right"
+                    @click="checkValue"
+                >등록</b-button>
+
             </b-col>
         </b-row>
+
+        
 
 
     </b-container>
 </template>
 
 <script>
+import axios from "@/module/axios.js";
+import { mapState } from 'vuex';
+
+const memberStore = "memberStore";
+
 export default {
     data() {
         return{
             id: this.$route.params.id,
+            comment: "",
+            writer: "",
+            createdAt: "",
+            qnaId: ""
         }
     },
 
     computed: {
+        ...mapState(memberStore, ["memberInfo"]),
+
         qna() {
             return this.$store.state.qnaStore.qna;
         }
@@ -53,6 +84,27 @@ export default {
 
     created() {
         this.$store.dispatch("getQnA", { id: this.id })
+    },
+
+    methods: {
+        checkValue() {
+
+            this.registComment();
+        },
+
+        registComment() {
+            const commentInfo = {
+                "id": 0,
+                "comment": this.comment,
+                "writer": this.memberInfo.nickname,
+                "createdAt": "",
+                "qnaId": parseInt(this.id)
+            };
+
+            axios.post("/api/v1/comment", commentInfo)
+            alert("댓글 등록 완료");
+
+        }
     }
 }
 </script>
