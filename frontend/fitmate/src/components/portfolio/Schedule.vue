@@ -39,7 +39,8 @@ export default {
         async importRole(accessToken) {
             if(accessToken) {
                 await this.signInMemberInfo(accessToken);
-                this.role = this.checkMemberInfo.authority;
+                if(this.checkMemberInfo) this.role = this.checkMemberInfo.authority;
+                else this.$router.push({name: "Signin"});
             }
         }
     }

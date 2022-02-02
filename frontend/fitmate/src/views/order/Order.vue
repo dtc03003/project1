@@ -48,7 +48,10 @@
                 </table>
             </b-row>
             <b-row>
-                <img id="kakaopay" src="@/assets/kakaopay.png" alt="카카오페이 버튼">
+                    <center>
+                        <img id="kakaopay" src="@/assets/kakaopay.png" alt="카카오페이 버튼">
+                        <b-button type="button" class="text-decoration-none" id="reset" @click="goBack">취소</b-button>
+                    </center>
             </b-row>
         </b-container>
     </div>
@@ -87,7 +90,10 @@ export default {
         backSchedule() {
             alert("날짜/시간이 초기화된 관계로 다시 선택해주시길 바랍니다.");
             this.$router.push({name: "Portfolio"}); //날짜 및 시간 미선택(초기화) -> 포트폴리오로 이동
-        }
+        },
+        goBack() {
+            this.$router.go(-1);
+        },
     }
 }
 </script>
@@ -98,5 +104,7 @@ td {border: 2px solid #6667AB; padding: 1%; font-family: 'ChosunGu', serif; font
 td:first-of-type {width: 40%; text-align: center;}
 td:last-of-type {width: 60%; padding-left: 3%;}
 #orderTitle {width: 700px; margin: 0 auto;} /* max-width: 50%; */
-#kakaopay {width: 100px; margin: 0 auto;};
+#kakaopay {width: 100px; margin-right: 1%;}
+#reset {width: 100p; padding: 0.5% 2%; background-color: #bbbbe0; font-size: 14pt;
+        font-family: 'ChosunGu', serif; vertical-align: middle; font-weight: bold; border: 1px solid #bbbbe0;}
 </style>
