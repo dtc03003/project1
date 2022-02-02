@@ -32,6 +32,7 @@
                     <tr>
                         <td>스타일리스트</td>
                         <td>미어켓</td> <!--아직 저장된 스타일리스트명이 없음 -->
+                        <!-- <td>{{this.styleList.nickname}}</td> -->
                     </tr>
                     <tr>
                         <td>예약 날짜 및 시간</td>
@@ -40,6 +41,7 @@
                     <tr>
                         <td>컨설팅 비용</td>
                         <td>12,000원</td> <!--저장된 스타일리스트가 없어 가격 임의 지정-->
+                        <!-- <td>{{this.styleList.price}}</td> -->
                     </tr>
                     <tr>
                         <td>결제 방법</td>
@@ -48,7 +50,10 @@
                 </table>
             </b-row>
             <b-row>
-                <img id="kakaopay" src="@/assets/kakaopay.png" alt="카카오페이 버튼">
+                    <center>
+                        <img id="kakaopay" src="@/assets/kakaopay.png" alt="카카오페이 버튼" @click="payment">
+                        <b-button type="button" class="text-decoration-none" id="reset" @click="goBack">취소</b-button>
+                    </center>
             </b-row>
         </b-container>
     </div>
@@ -64,6 +69,7 @@ export default {
     data() {
         return {
             member: [],
+            styleList: [], //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
         }
     },
     created() {
@@ -76,17 +82,23 @@ export default {
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
-        getInfo() {
+        getInfo() { //사용자 정보 가져오기
             if(this.checkMemberInfo) this.member = this.checkMemberInfo;
             else this.importInfo(localStorage.getItem("accessToken"));
         },
-        async importInfo(accessToken) {
+        async importInfo(accessToken) { //토큰 이용
             await this.signInMemberInfo(accessToken);
             this.member = this.checkMemberInfo;
         },
-        backSchedule() {
+        backSchedule() { //날짜/시간 초기화 시 이전 페이지로 이동
             alert("날짜/시간이 초기화된 관계로 다시 선택해주시길 바랍니다.");
-            this.$router.push({name: "Portfolio"}); //날짜 및 시간 미선택(초기화) -> 포트폴리오로 이동
+            this.$router.go(-1);
+        },
+        goBack() { //취소 시 이전 페이지로 이동
+            this.$router.go(-1);
+        },
+        payment() {
+            alert("카카오페이");
         }
     }
 }
@@ -98,5 +110,7 @@ td {border: 2px solid #6667AB; padding: 1%; font-family: 'ChosunGu', serif; font
 td:first-of-type {width: 40%; text-align: center;}
 td:last-of-type {width: 60%; padding-left: 3%;}
 #orderTitle {width: 700px; margin: 0 auto;} /* max-width: 50%; */
-#kakaopay {width: 100px; margin: 0 auto;};
+#kakaopay {width: 100px; margin-right: 1%;}
+#reset {width: 100p; padding: 0.5% 2%; background-color: #bbbbe0; font-size: 14pt;
+        font-family: 'ChosunGu', serif; vertical-align: middle; font-weight: bold; border: 1px solid #bbbbe0;}
 </style>

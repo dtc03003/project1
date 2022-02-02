@@ -22,7 +22,7 @@
                             <table>
                                 <tr v-for="(time, idx) in times" :key="time[idx]">
                                     <td v-for="(t) in time" :key="t">
-                                        <div ref="selectedTime" @click="selectTime(t)"
+                                        <div @click="selectTime(t)"
                                         :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2'"
                                         >{{ t }}</div>
                                         <!-- v-bind:disabled="reservedTime.includes(t) ? true : false" -->
@@ -72,9 +72,6 @@ export default {
         picker: function() {
             this.importTime();
         },
-        selectedTime: function() {
-            this.SET_TIME(this.selectedTime);
-        }
     },
     computed: {
     },
@@ -100,7 +97,8 @@ export default {
             if(this.picker) {
                 let result = this.calcTimes[this.calcTimes.indexOf(value)+3];
                 if(!this.reservedTime.includes(result)) {
-                        this.selectedTime = value;
+                    this.selectedTime = value;
+                    this.SET_TIME(this.selectedTime);
                     this.moveOrder();
                 }else {
                         alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위:2시간)");
