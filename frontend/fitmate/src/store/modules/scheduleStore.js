@@ -3,15 +3,17 @@
 const scheduleStore = {
     namespaced: true,
     state: {
-        enroll: false,
-    },
-    getters: {
-        getEnroll: (state) => { state.enroll },
+        selectedOpen: false,
+        date: "",
 
     },
+    getters: {
+        getSelectedOpen: (state) => state.selectedOpen,
+        getSelectedDate: (state) => state.date,
+    },
     mutations: {
-        SET_ENROLL_STATUE: (state, enroll) => {state.enroll = enroll},
-        
+        SET_SELECTED_OPEN: (state, selectedOpen) => state.selectedOpen = selectedOpen,
+        SET_SELECTED_DATE: (state, date) => state.date = date,
     },
     actions: {
     }

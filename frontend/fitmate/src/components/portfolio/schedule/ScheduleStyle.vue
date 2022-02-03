@@ -29,11 +29,11 @@
                             <v-spacer></v-spacer> <!--오른쪽 정렬-->
 
                             <!--일정 등록-->
-                            <v-btn fab text small color="grey darken-2" id="enrollSchedule" @click="showEnroll">
+                            <!-- <v-btn fab text small color="grey darken-2" id="enrollSchedule" @click="showEnroll">
                                 <v-icon id="enrollIcon"> mdi-plus </v-icon>
                             </v-btn>
 
-                            <sch-event v-show="enroll == true" :enroll="this.enroll"/>
+                            <sch-event v-show="enroll == true" :enroll="this.enroll"/> -->
 
                             <!--달/주/일 선택 리스트-->
                             <v-menu bottom right>
@@ -61,14 +61,22 @@
                     <!--하위(스케줄표)(여기부터 수정하면 될듯)-->
                     <v-sheet height="600">
                         <!--오늘 날짜 클릭시 오늘 스케줄표로 이동(day)-->
-                        <v-calendar ref="calendar" v-model="focus" color="#bbbbe0" :events="events" :event-color="getEventColor"
-                        :type="type" @click:event="showEvent" @click:more="viewDay" @click:date="viewDay" @change="updateRange">
+                        <!--
+                            viewDay : 선택한 날짜 보여줌,
+                            type: 월/주/일,
+                            @click:more="viewDay" @click:date="viewDay"
+                        -->
+                        <v-calendar ref="calendar" v-model="focus" color="#bbbbe0"
+                        :events="events" :event-color="getEventColor"
+                        :type="type" @click:date="viewDay" @click:event="showEvent" @change="updateRange">
                         </v-calendar>
                         
                         <!--
                             close-on-content-click: 메뉴의 컨텐츠를 클릭하면 메뉴를 닫음
+                            필요한 내용: 예약자명(닉네임), 예약자이메일, 날짜, 시간
                         -->
-                        <!--상세보기 창(dialog)-->
+
+                        <!--상세보기 창(dialog) - db 연동 후 데이터 받아올 것-->
                         <v-dialog v-model="selectedOpen" persistent max-width="600px" flat
                         :close-on-content-click="false" :activator="selectedElement" offset-x>
                         <v-card min-width="350px" flat>
@@ -76,15 +84,13 @@
                                 <span class="text-h5">일정</span>
                             </v-card-title>
                             <v-card-text>
-                                <!--
-                                    필요한 내용: 예약자명(닉네임), 예약자이메일, 날짜, 시간
-                                -->
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12">
                                             <v-text-field label="예약자" prepend-icon="mdi-account"></v-text-field>
                                             <v-text-field label="예약자이메일" prepend-icon="mdi-email"></v-text-field>
-                                            <v-text-field label="일정내용" prepend-icon="mdi-pencil"></v-text-field>
+                                            <!--이런 식으로-->
+                                            <v-text-field label="일정내용" prepend-icon="mdi-pencil" :value="selectedEvent.name"></v-text-field>
                                         </v-col>
                                         <v-col cols="12">
                                             <v-text-field label="일정날짜" prepend-icon="mdi-calendar"></v-text-field>
@@ -99,9 +105,6 @@
                                 <v-btn color="blue darken-1" text @click="selectedOpen = false">
                                     Close
                                 </v-btn>
-                                <v-btn color="blue darken-1" text @click="selectedOpen = false">
-                                    Save
-                                </v-btn>
                             </v-card-actions>
                         </v-card>
                         </v-dialog>
@@ -114,9 +117,10 @@
 </template>
 
 <script>
-import SchEvent from './SchEvent.vue'
+import { mapMutations } from 'vuex'
+const scheduleStore = "scheduleStore";
+
 export default {
-  components: { SchEvent },
     name: "ScheduleStyle",
     data() {
         return {
@@ -140,9 +144,12 @@ export default {
         this.$refs.calendar.checkChange()
     },
     methods: {
+        ...mapMutations(scheduleStore, ["SET_SELECTED_OPEN", "SET_SELECTED_DATE"]),
         viewDay({ date }) {
             this.focus = date
             this.type = 'day'
+            console.log(this.focus);
+            this.SET_SELECTED_DATE(this.focus);
         },
         getEventColor(event) { //하루 일정표에서 확인 가능
             return event.color
@@ -156,11 +163,7 @@ export default {
         next() {
             this.$refs.calendar.next()
         },
-        showEnroll() {
-            this.enroll = true;
-        },
-        //-------아래부터 수정해야 함-------
-        showEvent({ nativeEvent, event }) {
+        showEvent({ nativeEvent, event }) { //다이얼로그 열기/닫기
             const open = () => {
                 this.selectedEvent = event
                 this.selectedElement = nativeEvent.target
@@ -168,6 +171,8 @@ export default {
                 //window.requestAnimationFrame()은 브라우저에게 수행하기를 원하는 애니메이션을 알리고
                 //다음 리페인트가 진행되기 전에 해당 애니메이션을 업데이트하는 함수를 호출하게 합니다. 이 메소드는 리페인트 이전에 실행할 콜백을 인자로 받습니다.
             }
+            this.SET_SELECTED_OPEN(this.selectedOpen);
+            console.log();
 
             if(this.selectedOpen) {
                 this.selectedOpen = false
@@ -178,6 +183,7 @@ export default {
             
             nativeEvent.stopPropagation()
         },
+        //-------아래부터 수정해야 함-------
         updateRange ({ start, end }) {
             const events = []
             
@@ -203,10 +209,10 @@ export default {
         }
 
         this.events = events
-      },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-      },
+        },
+        rnd (a, b) { //현재 코드에서 무작위로 배치하는 부분(나중에는 데이터가 있으므로 사용하지 않을 것(지금 test에서만 사용))
+            return Math.floor((b - a + 1) * Math.random()) + a
+        },
     },
 }
 </script>

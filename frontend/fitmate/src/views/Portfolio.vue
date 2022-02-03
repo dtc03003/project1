@@ -22,7 +22,7 @@
 
 <script>
 import Schedule from "@/components/portfolio/Schedule.vue";
-import StylePage from "@/components/portfolio/StylePage"
+import StylePage from "@/components/portfolio/Stylepage.vue"
 import memberStore from '@/store/modules/memberStore'
 
 export default {
