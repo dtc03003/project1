@@ -30,29 +30,105 @@
                     </b-card-body>
                 </b-card>
 
+                <!-- 댓글 등록 -->
+                <b-form-group id="content-group" label="댓글:" label-for="content">
+                    <b-form-textarea
+                        id="content"
+                        ref="content"
+                        v-model="comment"
+                        placeholder="댓글 입력..."
+                        rows="5"
+                        max-rows="10"
+                    >
+                    </b-form-textarea>
+                </b-form-group>
+
+                <b-button 
+                    variant="primary"
+                    class="m-1 float-right"
+                    @click="checkValue"
+                >등록</b-button>
+
+                <!-- 댓글 목록 -->
+                <b-table-simple hover responsive>
+
+                    <b-thead head-variant="dark">
+                        <b-tr>
+                            <b-th>작성자</b-th>
+                            <b-th>댓글</b-th>
+                            <b-th>작성일</b-th>
+                        </b-tr>
+                    </b-thead>
+
+                    <b-tbody>
+                        <b-tr v-for="(comments, id) in commentInfo" :key="id">
+                            <b-td>{{comments.writer}} </b-td>
+                            <b-th>{{comments.comment}}</b-th>
+                            <b-td>{{comments.createdAt}}</b-td>
+                        </b-tr>
+                    </b-tbody>
+
+                </b-table-simple>
+
             </b-col>
         </b-row>
-
 
     </b-container>
 </template>
 
 <script>
+import axios from "@/module/axios.js";
+import { mapState } from 'vuex';
+
+const memberStore = "memberStore";
+
 export default {
     data() {
         return{
             id: this.$route.params.id,
+            comment: "",
+            writer: "",
+            createdAt: "",
+            qnaId: ""
         }
     },
 
     computed: {
+        ...mapState(memberStore, ["memberInfo"]),
+
         qna() {
             return this.$store.state.qnaStore.qna;
+        },
+        commentInfo () {
+            return this.$store.state.qnaStore.comments;
         }
     },
 
     created() {
         this.$store.dispatch("getQnA", { id: this.id })
+        this.$store.dispatch("getComments", { id: this.id })
+    },
+
+    methods: {
+        checkValue() {
+
+            this.registComment();
+        },
+
+        registComment() {
+            const commentInfo = {
+                "id": 0,
+                "comment": this.comment,
+                "writer": this.memberInfo.nickname,
+                "createdAt": "",
+                "qnaId": parseInt(this.id)
+            };
+
+            axios.post("/api/v1/comment", commentInfo)
+            alert("댓글 등록 완료");
+
+            window.location.reload();
+        },
     }
 }
 </script>
