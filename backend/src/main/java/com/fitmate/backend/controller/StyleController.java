@@ -5,14 +5,17 @@ import com.fitmate.backend.entity.Style;
 import com.fitmate.backend.service.StyleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Min;
 
 @Tag(name="StyleController" , description = "포트폴리오의 스타일 관리")
 @RestController
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/portfolio")
 public class StyleController {
     private final StyleService styleService;
 
@@ -23,5 +26,17 @@ public class StyleController {
     @GetMapping("/style/{id}")
     public ResponseEntity<?> getStyle(@PathVariable Long id){
         return ResponseEntity.ok(styleService.getStyle(id));
+    }
+//    @GetMapping("/styles")
+//    public ResponseEntity<?> getStyles(){
+//        return ResponseEntity.ok(styleService.findAll());
+//    }
+    @GetMapping(value="/{nickname}/styles")
+    public ResponseEntity<?> selectStylesByPortfolioId(@RequestParam("page") @Min(0) Integer page, @PathVariable String nickname){
+        return ResponseEntity.ok(styleService.findAllStylesByOrderByIdDesc(page,nickname));
+    }
+    @PutMapping("/style")
+    public ResponseEntity<?> updateStylebyId(StyleDto styleDto){
+        return ResponseEntity.ok(styleService.updateStyle(styleDto));
     }
 }

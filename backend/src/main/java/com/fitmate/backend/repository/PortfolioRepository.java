@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     Optional<Portfolio> findPortfolioByMemberId(Long id);
+    Optional<Portfolio> findByMember_Nickname(String nickname);
 }

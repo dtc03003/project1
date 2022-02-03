@@ -21,20 +21,20 @@ import java.util.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/member")
-    public ResponseEntity<Member> getMemberInfo(){
+    @GetMapping("/member/me")
+    public ResponseEntity<Member> getMyInfo(){
         return ResponseEntity.ok(memberService.getMyInfo());
     }
     @GetMapping("/members")
-    public ResponseEntity<List<Member>> findMembers(){
+    public ResponseEntity<List<Member>> findAllMembers(){
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(memberService.findMembers());
     }
-    @PutMapping(value = "/member")
+    @PutMapping(value = "/member/me")
     public ResponseEntity<Member> updateMember(@RequestBody MemberDto memberDto){
         return ResponseEntity.ok(memberService.updateMember(memberDto));
     }
-    @DeleteMapping(value = "/member")
+    @DeleteMapping(value = "/member/me")
     public ResponseEntity<Long> deleteMember(){
         return ResponseEntity.ok(memberService.deleteMember());
     }

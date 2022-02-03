@@ -87,4 +87,24 @@ public class ExceptionAdvice {
                         .message("error: This portfolio cannot make due to its unique property.")
                         .build());
     }
+    @ExceptionHandler({NotFoundPortfolioException.class})
+    protected ResponseEntity<ApiError> cannotReadPortfolioById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G002")
+                        .message("error: This portfolio is not found!!")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundStyleException.class})
+    protected ResponseEntity<ApiError> cannotReadStyleById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G003")
+                        .message("error: This style is not found!!")
+                        .build());
+    }
 }

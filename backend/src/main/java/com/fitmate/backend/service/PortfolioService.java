@@ -1,13 +1,11 @@
 package com.fitmate.backend.service;
 
-import com.fitmate.backend.advice.exception.IntegrityConstraintViolationException;
+import com.fitmate.backend.advice.exception.NotFoundPortfolioException;
 import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.PortfolioDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
-import com.fitmate.backend.entity.Style;
 import com.fitmate.backend.repository.PortfolioRepository;
-import com.fitmate.backend.repository.StyleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +31,16 @@ public class PortfolioService {
 
     public Portfolio updateAbout(PortfolioDto portfolioDto) {
         return portfolioRepository.save(getMyPortfolio().updatePortfolio(portfolioDto));
+    }
+
+    public Portfolio getPortfolioByNickname(String nickname) {
+        return portfolioRepository.findByMember_Nickname(nickname).orElseThrow(NotFoundPortfolioException::new);
+    }
+    @Transactional
+    public String deleteMyPortfolio() {
+        Portfolio portfolio = getMyPortfolio();
+        String nickname = portfolio.getMember().getNickname();
+        portfolioRepository.deleteById(portfolio.getId());
+        return nickname;
     }
 }
