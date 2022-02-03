@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +31,14 @@ public class CommentService {
         return CommentDto.of(commentRepository.save(CommentDto.toEntity(commentDto,writer,qna)));
     }
 
-    public CommentDto findComment(Long qnaId){
+    public List<CommentDto> findComment(Long qnaId){
         Qna qna = qnaRepository.findById(qnaId).orElseThrow();
-        return CommentDto.of(commentRepository.findByQna(qna).orElseThrow());
+        List<Comment> lists = commentRepository.findAllByQna(qna).orElseThrow();
+        List<CommentDto> result = new ArrayList<CommentDto>();
+        for(int i=0; i<lists.size(); i++){
+            result.add(CommentDto.of(lists.get(i)));
+        }
+        return result;
     }
 
     @Transactional
