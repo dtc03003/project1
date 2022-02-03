@@ -1,6 +1,5 @@
 package com.fitmate.backend.entity;
 
-import com.fitmate.backend.dto.CommentDto;
 import com.fitmate.backend.dto.StyleCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,15 +22,23 @@ public class StyleComment {
     private Long id;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String comment;
+
     @ManyToOne
     @JoinColumn(name = "writer", nullable = false)
     private Member member;
     @Column(nullable = false)
     private LocalDateTime createdAt;
-    @OneToOne
-    @JoinColumn(name = "qna", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "style", nullable = false)
     private Style style;
 
+    public StyleComment(StyleComment styleComment) {
+        id = styleComment.getId();
+        comment = styleComment.getComment();
+        member = styleComment.getMember();
+        createdAt = styleComment.getCreatedAt();
+        style = styleComment.getStyle();
+    }
     @PrePersist
     public void createdAt(){
         this.createdAt = LocalDateTime.now();

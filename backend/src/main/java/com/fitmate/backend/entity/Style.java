@@ -18,7 +18,7 @@ public class Style{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String thumbnail;
     @Column(nullable = false)
     private LocalDateTime createdAt;

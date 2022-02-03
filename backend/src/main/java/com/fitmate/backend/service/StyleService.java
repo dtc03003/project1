@@ -49,4 +49,7 @@ public class StyleService {
         style.updateStyle(styleDto);
         return styleRepository.save(style);
     }
+    public Style findById(Long id){
+        return styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
+    }
 }

@@ -36,7 +36,7 @@ public class StyleController {
         return ResponseEntity.ok(styleService.findAllStylesByOrderByIdDesc(page,nickname));
     }
     @PutMapping("/style")
-    public ResponseEntity<?> updateStylebyId(StyleDto styleDto){
+    public ResponseEntity<?> updateStyle(StyleDto styleDto){
         return ResponseEntity.ok(styleService.updateStyle(styleDto));
     }
 }
