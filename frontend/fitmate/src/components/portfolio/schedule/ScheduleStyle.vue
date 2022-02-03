@@ -1,5 +1,6 @@
 <template>
     <div>
+        스타일리스트
     </div>
 </template>
 
