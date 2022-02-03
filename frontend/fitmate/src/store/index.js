@@ -17,11 +17,6 @@ const store = new Vuex.Store({
   state: {
     // getStyles:'',
   },
-  actions: {
-    logout : function ({commit}){
-      commit('SIGNOUT')
-    },
-  }
 });
 
 export default store;

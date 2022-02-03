@@ -14,13 +14,18 @@
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
-          <div v-if="memberStore.state.isSignin">
+          <!-- checkisSignin  -->
+          <div v-if="checkisSignin">
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
-                <a class="nav-link"><router-link to="/signout">Sign out</router-link></a>
+                <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
+              </li>
+              <!-- 스타일리스트? -->
+              <li class="nav-item">
+                <a class="nav-link"><router-link to="/portfolio">Portfolio(임시!!!)</router-link></a>
               </li>
             </ul>
           </div>
@@ -55,6 +60,7 @@
         </div>
       </div>
     </nav>
+    
     <!-- 로그인하면 따로 보여줄 게 있다면? -->
     <!-- <router-view @login="isLogin=true"/>  -->
     <router-view></router-view>
@@ -62,25 +68,29 @@
 </template>
 
 <script>
-import memberStore from '@/store/modules/memberStore'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   data: function() {
     return {
-      memberStore,
-      isSignin:null,
     }
   },
   methods:{
-    logout: function() {
+    signout: function() {
       this.isSignin = false
-      localStorage.removeItem('jwt')
-      this.$store.dispatch('signout')
-      // location.reload()
+      // localStorage.removeItem('jwt')
+      localStorage.clear()
+      this.$store.dispatch('signout')      
       this.$router.push({name:'Signin'})
+      window.location.reload()
     }    
-  }
+  },
+  computed:{
+    ...mapGetters (
+      'memberStore', ["checkisSignin"]
+    )
+  },
   
   
 };

@@ -2,6 +2,7 @@
   <div>
     사용자정보 이렇게 생겼음
     {{ memberStore.state.memberInfo }}
+    
     <hr>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container-fluid" style="hight:7rem">
