@@ -20,11 +20,11 @@
               <li class="nav-item">
                 <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
-              <li class="nav-item">
+              <li v-if="memberStore.state.memberInfo.authority=='ROLE_MEMBER'" class="nav-item">
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
               </li>
               <!-- 스타일리스트? -->
-              <li class="nav-item">
+              <li v-else class="nav-item">
                 <a class="nav-link"><router-link to="/portfolio">Portfolio(임시!!!)</router-link></a>
               </li>
             </ul>
@@ -64,16 +64,19 @@
     <!-- 로그인하면 따로 보여줄 게 있다면? -->
     <!-- <router-view @login="isLogin=true"/>  -->
     <router-view></router-view>
+    
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import memberStore from '@/store/modules/memberStore'
 
 export default {
   name: 'App',
   data: function() {
     return {
+      memberStore
     }
   },
   methods:{
