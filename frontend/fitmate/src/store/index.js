@@ -20,8 +20,6 @@ const store = new Vuex.Store({
   state: {
     // getStyles:'',
   },
-<<<<<<< HEAD
-=======
   actions: {
     logout : function ({commit}){
       commit('SIGNOUT')
@@ -32,7 +30,6 @@ const store = new Vuex.Store({
       paths: ["memberStore"],
     }),
   ],
->>>>>>> develop
 });
 
 export default store;
