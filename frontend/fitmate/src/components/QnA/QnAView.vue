@@ -98,11 +98,15 @@ export default {
 
         qna() {
             return this.$store.state.qnaStore.qna;
+        },
+        commentInfo () {
+            return this.$store.state.qnaStore.comments;
         }
     },
 
     created() {
         this.$store.dispatch("getQnA", { id: this.id })
+        this.$store.dispatch("getComments", { id: this.id })
     },
 
     methods: {
@@ -122,7 +126,9 @@ export default {
 
             axios.post("/api/v1/comment", commentInfo)
             alert("댓글 등록 완료");
-        }
+
+            window.location.reload();
+        },
     }
 }
 </script>

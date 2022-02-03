@@ -22,19 +22,11 @@ const qnaStore = {
             commit("setQnA", { qna : data })
         },
 
-        async getComments({commit}, payload) {
+        async getComments({ commit }, payload) {
             let { data } = await axios.get(`/api/v1/comment/${payload.id}`)
             console.log(data);
             commit("setComments", { comments: data })
         },
-
-        // getComments(context) {
-        //     return axios.get(`/api/v1/comment/${payload.id}`)
-        //         .then(({ data }) => {
-        //             console.log(data);
-        //             context.commit("setComments", { comments : data })
-        //     })
-        // },
 
     }
 }
