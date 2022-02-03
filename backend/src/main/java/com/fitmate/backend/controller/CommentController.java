@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "CommentController", description = "Qna Board Comment 정보 처리")
 @RestController
 @CrossOrigin(origins = "*")
@@ -21,7 +23,7 @@ public class CommentController {
     }
 
     @GetMapping(value = "/comment/{qnaId}")
-    public ResponseEntity<CommentDto> findComment(@PathVariable Long qnaId){
+    public ResponseEntity<List<CommentDto>> findComment(@PathVariable Long qnaId){
         return ResponseEntity.ok(commentService.findComment(qnaId));
     }
 
