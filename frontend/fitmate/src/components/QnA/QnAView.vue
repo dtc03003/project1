@@ -30,6 +30,7 @@
                     </b-card-body>
                 </b-card>
 
+                <!-- 댓글 등록 -->
                 <b-form-group id="content-group" label="댓글:" label-for="content">
                     <b-form-textarea
                         id="content"
@@ -48,11 +49,29 @@
                     @click="checkValue"
                 >등록</b-button>
 
+                <!-- 댓글 목록 -->
+                <b-table-simple hover responsive>
+
+                    <b-thead head-variant="dark">
+                        <b-tr>
+                            <b-th>작성자</b-th>
+                            <b-th>댓글</b-th>
+                            <b-th>작성일</b-th>
+                        </b-tr>
+                    </b-thead>
+
+                    <b-tbody>
+                        <b-tr v-for="(comments, id) in commentInfo" :key="id">
+                            <b-td>{{comments.writer}} </b-td>
+                            <b-th>{{comments.comment}}</b-th>
+                            <b-td>{{comments.createdAt}}</b-td>
+                        </b-tr>
+                    </b-tbody>
+
+                </b-table-simple>
+
             </b-col>
         </b-row>
-
-        
-
 
     </b-container>
 </template>
@@ -103,7 +122,6 @@ export default {
 
             axios.post("/api/v1/comment", commentInfo)
             alert("댓글 등록 완료");
-
         }
     }
 }
