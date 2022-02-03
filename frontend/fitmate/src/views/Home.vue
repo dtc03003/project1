@@ -55,18 +55,20 @@
       Slide #: {{ slide }}<br>
       Sliding: {{ sliding }}
     </p>
+    <p>{{ memberStore.state.memberInfo }}</p>
   </div>
 </template>
 
 <script>
   // import HelloWorld from '../components/HelloWorld'
-
+  import memberStore from '@/store/modules/memberStore'
   export default {
     name: 'Home',
     data() {
       return {
         slide: 0,
-        sliding: null
+        sliding: null,
+        memberStore
       }
     },
     methods: {
