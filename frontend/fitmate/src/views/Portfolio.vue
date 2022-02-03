@@ -2,16 +2,17 @@
     <div>
         <b-container class="bv-example-row mt-3">
             <b-row>
-
                 <b-col>
-                    <img id="stylist" src="@/assets/stylist.png" width="300" height="300">
+                    <img id="stylist" src="https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg" width="300" height="300">
+                    <!-- <h2 style="text-align:center">{{ memberStore.state.memberInfo }}</h2> -->
+                    <!-- <img src="" alt=""> -->
                 </b-col>
                 <b-col cols="9">
                     <b-tabs content-class="mt-3" fill pills card>
-                        <b-tab class="mx-1" title="Style"><Stylepage/></b-tab>
-                        <b-tab title="Review"><Stylepage/></b-tab>
+                        <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
+                        <b-tab title="Review"></b-tab>
                         <b-tab title="Schedule" active><Schedule/></b-tab>
-                        <b-tab title="About"><Stylepage/></b-tab>
+                        <b-tab title="About"></b-tab>
                     </b-tabs>
                 </b-col>
             </b-row>
@@ -21,13 +22,19 @@
 
 <script>
 import Schedule from "@/components/portfolio/Schedule.vue";
-import Stylepage from "@/components/portfolio/Stylepage"
+import StylePage from "@/components/portfolio/StylePage"
+import memberStore from '@/store/modules/memberStore'
 
 export default {
     name: "Portfolio",
     components: {
         Schedule,
-        Stylepage
+        StylePage
+    },
+    data: function() {
+        return {
+            memberStore,
+        }
     }
 }
 </script>
