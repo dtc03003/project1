@@ -61,9 +61,6 @@
         </div>
       </div>
     </nav>
-    
-    <!-- 로그인하면 따로 보여줄 게 있다면? -->
-    <!-- <router-view @login="isLogin=true"/>  -->
     <router-view></router-view>
 
     <footer>
@@ -83,15 +80,11 @@ export default {
   data: function() {
     return {
       memberStore,
-      // checkMemberInfo:{
-      //   authority:null,
-      // }
     }
   },
   methods:{
     signout: function() {
       this.isSignin = false
-      // localStorage.removeItem('jwt')
       localStorage.clear()
       this.$store.dispatch('signout')      
       this.$router.push({name:'Signin'})
@@ -103,7 +96,6 @@ export default {
       'memberStore', ["checkisSignin", 'checkMemberInfo']
     )
   },
-  
 };
 </script>
 
