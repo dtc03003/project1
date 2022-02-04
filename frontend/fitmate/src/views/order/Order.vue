@@ -31,8 +31,8 @@
                 <table>
                     <tr>
                         <td>스타일리스트</td>
-                        <td>미어켓</td> <!--아직 저장된 스타일리스트명이 없음 -->
-                        <!-- <td>{{this.styleList.nickname}}</td> -->
+                        <!-- <td>미어켓</td> 아직 저장된 스타일리스트명이 없음 -->
+                        <td>{{this.styleList.nickname}}</td>
                     </tr>
                     <tr>
                         <td>예약 날짜 및 시간</td>
@@ -40,8 +40,8 @@
                     </tr>
                     <tr>
                         <td>컨설팅 비용</td>
-                        <td>12,000원</td> <!--저장된 스타일리스트가 없어 가격 임의 지정-->
-                        <!-- <td>{{this.styleList.price}}</td> -->
+                        <!-- <td>12,000원</td> 저장된 스타일리스트가 없어 가격 임의 지정 -->
+                        <td>{{this.price}}원</td>
                     </tr>
                     <tr>
                         <td>결제 방법</td>
@@ -51,7 +51,7 @@
             </b-row>
             <b-row>
                     <center>
-                        <img id="kakaopay" src="@/assets/kakaopay.png" alt="카카오페이 버튼" @click="payment">
+                        <img id="kakaopaybtn" src="@/assets/kakaopayimg.png" alt="카카오페이 버튼" @click="payment()">
                         <b-button type="button" class="text-decoration-none" id="reset" @click="goBack">취소</b-button>
                     </center>
             </b-row>
@@ -68,13 +68,18 @@ export default {
     name: 'Order',
     data() {
         return {
-            member: [],
-            styleList: [], //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
+            member: {},
+            styleList: { //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
+                nickname : "미어켓",
+                price : 12000
+            },
+            price: "",
         }
     },
     created() {
         if(!this.getDate && !this.getTime) this.backSchedule();
         this.getInfo();
+        this.price = this.styleList.price.toLocaleString()
     },
     computed: {
         ...mapGetters(orderStore, ["getDate", "getTime"]),
@@ -82,6 +87,7 @@ export default {
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
+        ...mapActions(orderStore, ["requestKakaoPay"]),
         getInfo() { //사용자 정보 가져오기
             if(this.checkMemberInfo) this.member = this.checkMemberInfo;
             else this.importInfo(localStorage.getItem("accessToken"));
@@ -97,8 +103,21 @@ export default {
         goBack() { //취소 시 이전 페이지로 이동
             this.$router.go(-1);
         },
-        payment() {
-            alert("카카오페이");
+        async payment() {
+            const payinfo = {
+                "cid" : "TC0ONETIME", //테스트일 경우 사용(우리는 이거 사용!)
+                "partner_order_id" : "partner_order_id",
+                "partner_user_id" : "partner_user_id",
+                "item_name" : `${this.styleList.nickname} 스타일리스트 의뢰비`,
+                "quantity" : 1,
+                "total_amount" : this.styleList.price,
+                "tax_free_amount" : 0,
+                "approval_url" : "http://localhost:8080/",
+                "cancel_url" : "http://localhost:8080/portfolio",
+                "fail_url" : "http://localhost:8080/signin"
+            }
+
+            await this.requestKakaoPay(payinfo);
         }
     }
 }
@@ -110,7 +129,7 @@ td {border: 2px solid #6667AB; padding: 1%; font-family: 'ChosunGu', serif; font
 td:first-of-type {width: 40%; text-align: center;}
 td:last-of-type {width: 60%; padding-left: 3%;}
 #orderTitle {width: 700px; margin: 0 auto;} /* max-width: 50%; */
-#kakaopay {width: 100px; margin-right: 1%;}
+#kakaopaybtn {width: 100px; margin-right: 1%;}
 #reset {width: 100p; padding: 0.5% 2%; background-color: #bbbbe0; font-size: 14pt;
         font-family: 'ChosunGu', serif; vertical-align: middle; font-weight: bold; border: 1px solid #bbbbe0;}
 </style>
