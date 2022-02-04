@@ -1,22 +1,5 @@
 <template>  
     <div>
-<<<<<<< HEAD
-        <b-container class="bv-example-row mt-3">
-            <b-row>
-                <b-col>
-                    <Profile/>
-                </b-col>
-                <b-col cols="9">
-                    <b-tabs content-class="mt-3" fill pills card>
-                        <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
-                        <b-tab title="Review"></b-tab>
-                        <b-tab title="Schedule" active><Schedule/></b-tab>
-                        <b-tab title="About"><About/></b-tab>
-                    </b-tabs>
-                </b-col>
-            </b-row>
-        </b-container>
-=======
         <!-- <div v-if="!this.input_about" > -->
         <div>
             <b-container class="bv-example-row mt-5">
@@ -55,7 +38,6 @@
                 </b-row>
             </b-container>
         </div>
->>>>>>> feature/Mypage_303
     </div>
 </template>
 
@@ -72,11 +54,8 @@ export default {
     components: {
         Schedule,
         StylePage,
-<<<<<<< HEAD
         Profile,
         About,
-=======
->>>>>>> feature/Mypage_303
     },
     data: function() {
         return {
