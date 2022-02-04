@@ -8,4 +8,4 @@ async function kakaopay(params, success, fail) {
     await api.post("https://kapi.kakao.com/v1/payment/ready", JSON.stringify(params)).then(success).catch(fail);
 }
 
-export default { kakaopay };
+export { kakaopay };

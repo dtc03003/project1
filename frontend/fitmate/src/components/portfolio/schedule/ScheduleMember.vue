@@ -95,13 +95,13 @@ export default {
         },
         selectTime(value) {
             if(this.picker) {
-                let result = this.calcTimes[this.calcTimes.indexOf(value)+3];
+                let result = this.calcTimes[this.calcTimes.indexOf(value)+1];
                 if(!this.reservedTime.includes(result)) {
                     this.selectedTime = value;
                     this.SET_TIME(this.selectedTime);
                     this.moveOrder();
                 }else {
-                        alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위:2시간)");
+                        alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위: 1시간)");
                     this.selectedTime = '';
                 }
             }else {
@@ -121,7 +121,7 @@ export default {
             let temp = [];
             for(let time of this.reservedTime) {
                 let index = this.calcTimes.indexOf(time);
-                for(let n = index; n < index+5; ++n) { //휴게시간 30분 포함
+                for(let n = index; n < index+3; ++n) { //휴게시간 30분 포함
                     temp.push(this.calcTimes[n])
                 }
             }

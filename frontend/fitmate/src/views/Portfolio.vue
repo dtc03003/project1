@@ -7,7 +7,7 @@
                 <b-col></b-col>
                 <b-col class="col-8">
                     <b-card class="text-center mt-3" style="max-width: 90rem" align="left">
-                        <h1 id="signinTitle">{{ memberStore.state.memberInfo.name }} 님의 포트폴리오를 만드시겠습니까?</h1>
+                        <h1 id="signinTitle">{{ this.checkMemberInfo.name }} 님의 포트폴리오를 만드시겠습니까?</h1>
                         <b-form-input  v-model="portfoliocreate.about" placeholder="아무 단어나 입력하세요."></b-form-input>
                         <b-form-input  v-model="portfoliocreate.price" placeholder="아무 단어나 입력하세요."></b-form-input>
                         <b-form-input @keyup.enter="createportfolio" v-model="portfoliocreate.bio" placeholder="아무 단어나 입력하세요."></b-form-input>
@@ -44,22 +44,23 @@
 <script>
 import Schedule from "@/components/portfolio/Schedule.vue";
 import StylePage from "@/components/portfolio/Stylepage.vue"
-import Profile from "@/components/portfolio/Profile.vue"
-import About from "@/components/portfolio/About.vue"
-import memberStore from '@/store/modules/memberStore'
+// import Profile from "@/components/portfolio/Profile.vue"
+// import About from "@/components/portfolio/About.vue"
 import axios from 'axios';
+import { mapGetters } from 'vuex';
+import { FITMATE_BASE_URL } from "@/config";
+const memberStore = "memberStore";
 
 export default {
     name: "Portfolio",
     components: {
         Schedule,
         StylePage,
-        Profile,
-        About,
+        // Profile,
+        // About,
     },
     data: function() {
         return {
-            memberStore,
             portfoliocreate : {
                 about : '',
                 price : '',
@@ -67,16 +68,21 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters(memberStore, ["checkMemberInfo"]),
+    },
+    created() {
+    },
     methods: {
-        createportfolio() {
-            const config = { baseUrl: 'http://localhost:9000' };            
+        async createportfolio() {
+            const portinfo = {
+                about : this.portfoliocreate.about,
+                price : this.portfoliocreate.price,
+                bio : this.portfoliocreate.bio,
+            }     
             const accessToken = localStorage.getItem("accessToken");
-            axios({
-                method: 'post',
-                url: `${config.baseUrl}/api/v1/portfolio`,
-                data: this.portfoliocreate,
-                headers: { Authorization: `Bearer ${accessToken}` }
-            })
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
             .then((res) => {
                 alert('포트폴리오 생성완료')
                 console.log(res)
