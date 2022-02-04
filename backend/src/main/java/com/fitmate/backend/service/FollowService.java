@@ -40,7 +40,7 @@ public class FollowService {
     }
 
     @Transactional
-    public String followCancel(FollowDto followDto){
+    public String cancelFollow(FollowDto followDto){
         Member follower = memberRepository.findByNickname(followDto.getFollowerNickName()).orElseThrow(NotFoundUserInformation::new);
         Portfolio following = portfolioRepository.findByMember_Nickname(followDto.getFollowingNickName()).orElseThrow(NotFoundUserInformation::new);
         Follow follow = followRepository.findByMemberAndStylist(follower, following).orElseThrow();
@@ -59,8 +59,8 @@ public class FollowService {
         return GradeDto.of(grade);
     }
 
-    public List<MemberDto> getMyFollowing(MemberDto memberDto){
-        Member member = memberRepository.findByNickname(memberDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
+    public List<MemberDto> getMyFollowing(String memberNickname){
+        Member member = memberRepository.findByNickname(memberNickname).orElseThrow(NotFoundUserInformation::new);
         List<Follow> followingList = followRepository.findAllByMember(member).orElseThrow();
         List<MemberDto> resultList = new ArrayList<MemberDto>();
         for(int i=0; i<followingList.size(); i++){
@@ -69,19 +69,19 @@ public class FollowService {
         return resultList;
     }
 
-    public List<MemberDto> getMyFollower(MemberDto stylistDto){
-        Member stylist = memberRepository.findByNickname(stylistDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
+    public List<MemberDto> getMyFollower(String stylistNickname){
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundUserInformation::new);
         List<Follow> followerList = followRepository.findAllByStylist(stylist).orElseThrow();
         List<MemberDto> resultList = new ArrayList<MemberDto>();
         for(int i=0; i<followerList.size(); i++){
-            resultList.add(MemberDto.of(followerList.get(i).getStylist()));
+            resultList.add(MemberDto.of(followerList.get(i).getStylist().getMember()));
         }
         return resultList;
     }
 
-    public boolean isFollowed(MemberDto memberDto, Member stylistDto){
-        Member member = memberRepository.findByNickname(memberDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
-        Member stylist = memberRepository.findByNickname(stylistDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
+    public boolean isFollowed(FollowDto followDto){
+        Member member = memberRepository.findByNickname(followDto.getFollowerNickName()).orElseThrow(NotFoundUserInformation::new);
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(followDto.getFollowingNickName()).orElseThrow(NotFoundUserInformation::new);
         boolean result = followRepository.countByMemberAndStylist(member, stylist);
         return result;
     }
