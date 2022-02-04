@@ -3,6 +3,7 @@ package com.fitmate.backend.controller;
 import com.fitmate.backend.advice.ApiError;
 import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.MemberDto;
+import com.fitmate.backend.dto.MemberPasswordDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,5 +43,9 @@ public class MemberController {
     @GetMapping(value = "/member/{id}")
     public ResponseEntity<Member> findMemberById(@PathVariable Long id){
         return ResponseEntity.ok(memberService.findMemberById(id));
+    }
+    @PutMapping(value = "/member/me/password")
+    public ResponseEntity<Member> updatePassword(@RequestBody MemberPasswordDto memberPasswordDto){
+        return ResponseEntity.ok(memberService.updatePassword(memberPasswordDto));
     }
 }
