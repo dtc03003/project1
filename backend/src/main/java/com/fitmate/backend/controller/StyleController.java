@@ -27,10 +27,6 @@ public class StyleController {
     public ResponseEntity<?> getStyle(@PathVariable Long id){
         return ResponseEntity.ok(styleService.getStyle(id));
     }
-//    @GetMapping("/styles")
-//    public ResponseEntity<?> getStyles(){
-//        return ResponseEntity.ok(styleService.findAll());
-//    }
     @GetMapping(value="/{nickname}/styles")
     public ResponseEntity<?> selectStylesByPortfolioId(@RequestParam("page") @Min(0) Integer page, @PathVariable String nickname){
         return ResponseEntity.ok(styleService.findAllStylesByOrderByIdDesc(page,nickname));
