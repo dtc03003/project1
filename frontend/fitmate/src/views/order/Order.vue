@@ -87,7 +87,6 @@ export default {
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
-        ...mapActions(orderStore, ["requestKakaoPay"]),
         getInfo() { //사용자 정보 가져오기
             if(this.checkMemberInfo) this.member = this.checkMemberInfo;
             else this.importInfo(localStorage.getItem("accessToken"));
@@ -103,7 +102,7 @@ export default {
         goBack() { //취소 시 이전 페이지로 이동
             this.$router.go(-1);
         },
-        async payment() {
+        payment() {
             const payinfo = {
                 "cid" : "TC0ONETIME", //테스트일 경우 사용(우리는 이거 사용!)
                 "partner_order_id" : "partner_order_id",
@@ -117,7 +116,8 @@ export default {
                 "fail_url" : "http://localhost:8080/signin"
             }
 
-            await this.requestKakaoPay(payinfo);
+            console.log(payinfo);
+            alert("카카오페이");
         }
     }
 }

@@ -214,7 +214,7 @@ export default {
                 const firstTimestamp = this.rnd(min.getTime(), max.getTime())
                 const first = new Date(firstTimestamp - (firstTimestamp % 900000)) //db에서 날짜 받아오면 시작시간 재설정 필요
                 let temp =  new Date(firstTimestamp - (firstTimestamp % 900000));
-                const second = new Date(temp.setHours(temp.getHours()+2)); //2시간 뒤(현 서비스는 2시간 단위) --나중에 필요
+                const second = new Date(temp.setHours(temp.getHours()+1)); //1시간 뒤(현 서비스는 1시간 단위) --나중에 필요
 
                 events.push({
                     name: this.names[this.rnd(0, this.names.length - 1)],
@@ -226,7 +226,7 @@ export default {
                     endTime: dayjs(second).format("HH:mm"), //종료시간
                     color: this.colors[this.rnd(0, this.colors.length - 1)], //색은 랜덤이 나옴
                     timed: !allDay,
-                    date: start.date, //예약날짜
+                    date: dayjs(first).format("YYYY-MM-DD"), //예약날짜
                 })
             }
             this.events = events //db에서 연동해서 담은 정보들 data에 담아주기
