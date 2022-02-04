@@ -48,7 +48,7 @@ export default {
                 const image = this.$refs['image'].files[0]
 
                 formData.append('images', image);
-                console.log(files[0])
+                console.log(files)
                 console.log(formData)
 
                 axios.post(`${config.baseUrl}/api/v1/images`, formData, {
@@ -60,16 +60,20 @@ export default {
                 })
             },
             Posting() {
+                const config = { baseUrl: 'http://localhost:9000' };
                 const postInfo = {
-                    text: this.post.text,
-                    image: this.post.image
+                    content: this.post.text,
+                    thumbnail: this.post.image,
                 }
                 console.log(postInfo)
-                // axios.post(`${config.baseUrl}/api/v1/images`, postInfo.image)
-                // .then(() => {
-                //     alert('게시 완료')
-                //     console.log('정상적으로 게시되었습니다.')
-                // })
+                axios.post(`${config.baseUrl}/api/v1/portfolio/style`, postInfo)
+                .then(() => {
+                    alert('게시 완료')
+                    console.log('정상적으로 게시되었습니다.')
+                }) 
+                .catch(() => {
+                    alert('게시 실패')
+                })
             }
         }
 }
