@@ -8,7 +8,7 @@ import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
 import Stylebook from '@/views/Stylebook'
-
+import Mypage from '@/views/Mypage'
 Vue.use(VueRouter)
 
 const routes = [
@@ -47,11 +47,11 @@ const routes = [
     name: 'Order',
     component: () => import("@/views/order/Order.vue")
   },
-  // {
-  //   path: '/mypage',
-  //   name: 'Mypage',
-  //   component: Mypage
-  // },
+  {
+    path: '/mypage',
+    name: 'Mypage',
+    component: Mypage
+  },
   {
     path: '/stylist',
     name: 'Stylist',
