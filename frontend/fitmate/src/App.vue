@@ -20,11 +20,12 @@
               <li class="nav-item">
                 <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
+              <!-- 일반회원일 경우 -->
               <li v-if="checkMemberInfo.authority=='ROLE_MEMBER'" class="nav-item">
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
               </li>
               <!-- 스타일리스트? -->
-              <li v-else class="nav-item">
+              <li v-if="checkMemberInfo.authority=='ROLE_STYLIST'" class="nav-item">
                 <a class="nav-link"><router-link to="/portfolio">Portfolio(임시)</router-link></a>
               </li>
             </ul>
@@ -66,6 +67,7 @@
     <router-view></router-view>
 
     <footer>
+      <p>아래는 시험용</p>
       {{checkMemberInfo.authority}}
     </footer>
     
@@ -81,6 +83,9 @@ export default {
   data: function() {
     return {
       memberStore,
+      // checkMemberInfo:{
+      //   authority:null,
+      // }
     }
   },
   methods:{
@@ -98,7 +103,6 @@ export default {
       'memberStore', ["checkisSignin", 'checkMemberInfo']
     )
   },
-  
   
 };
 </script>
