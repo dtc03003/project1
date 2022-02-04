@@ -18,7 +18,7 @@ public class StyleCommentController {
     private final StyleCommentService styleCommentService;
 
     @PostMapping("/style/{id}/comment")
-    public ResponseEntity<?> postComment(@PathVariable Long id, @RequestBody StyleCommentDto styleCommentDto){
+    public ResponseEntity<?> writeComment(@PathVariable Long id, @RequestBody StyleCommentDto styleCommentDto){
         return ResponseEntity.ok(styleCommentService.writeComment(id,styleCommentDto));
     }
     @GetMapping("/style/{id}/comments")

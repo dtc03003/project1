@@ -1,5 +1,6 @@
 package com.fitmate.backend.dto;
 
+import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Style;
 import lombok.*;
@@ -12,15 +13,13 @@ import javax.persistence.*;
 @Setter
 @Builder
 public class StyleDto {
-    private Long id;
     private String content;
     private String thumbnail;
-    private Portfolio portfolio;
-    public static Style toEntity(StyleDto styleDto){
+    public static Style toEntity(StyleDto styleDto, Portfolio portfolio){
         return Style.builder()
                 .content(styleDto.getContent())
                 .thumbnail(styleDto.getThumbnail())
-                .portfolio(styleDto.getPortfolio())
+                .portfolio(portfolio)
                 .build();
     }
 }

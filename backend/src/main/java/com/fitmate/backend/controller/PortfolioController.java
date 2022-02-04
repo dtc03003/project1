@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.nio.file.Path;
 
 @Tag(name="PortfolioController" , description = "포트폴리오 관리")
@@ -21,10 +22,6 @@ public class PortfolioController {
     public ResponseEntity<?> makePortfolio(@RequestBody PortfolioDto portfolioDto){
         return ResponseEntity.ok(portfolioService.makePortfolio(portfolioDto));
     }
-//    @GetMapping("/portfolio/me")
-//    public ResponseEntity<?> getMyPortfolio(){
-//        return ResponseEntity.ok(portfolioService.getMyPortfolio());
-//    }
     @PutMapping("/portfolio/about")
     public ResponseEntity<?> updateMyPortfolioForAbout(@RequestBody PortfolioDto portfolioDto){
         return ResponseEntity.ok(portfolioService.updateAbout(portfolioDto));
@@ -32,6 +29,14 @@ public class PortfolioController {
     @GetMapping("/portfolio/{nickname}")
     public ResponseEntity<?> getPortfolioByNickname(@PathVariable String nickname){
         return ResponseEntity.ok(portfolioService.getPortfolioByNickname(nickname));
+    }
+    @GetMapping("/portfolios")
+    public ResponseEntity<?> findAllPortfoliosOrderByDesc(@RequestParam("page") @Min(0) Integer page){
+        return ResponseEntity.ok(portfolioService.findAllPortfoliosOrderByDesc(page));
+    }
+    @GetMapping("/portfolios/all")
+    public ResponseEntity<?> findAllPortfolios(){
+        return ResponseEntity.ok(portfolioService.findAllPortfolios());
     }
     @DeleteMapping("/portfolio")
     public ResponseEntity<?> deleteMyPortfolio(){

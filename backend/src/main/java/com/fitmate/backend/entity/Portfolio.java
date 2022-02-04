@@ -24,6 +24,11 @@ public class Portfolio {
     @OneToOne
     @JoinColumn(name ="stylist" , nullable = false, unique = true)
     private Member member;
+    public Portfolio(Portfolio portfolio){
+        id = portfolio.getId();
+        about = portfolio.getAbout();
+        member = portfolio.getMember();
+    }
     public Portfolio updatePortfolio(PortfolioDto portfolioDto){
         this.about = portfolioDto.getAbout();
         return this;

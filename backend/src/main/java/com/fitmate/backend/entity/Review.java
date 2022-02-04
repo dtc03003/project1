@@ -22,6 +22,7 @@ public class Review {
     private Long id;
     private String content;
     private Integer rating;
+    private String thumbnail;
     @Column(nullable = false)
     private LocalDateTime createdAt;
     @ManyToOne
@@ -39,11 +40,15 @@ public class Review {
         id = review.getId();
         content = review.getContent();
         rating = review.getRating();
+        thumbnail = review.getThumbnail();
         createdAt = review.getCreatedAt();
         portfolio = review.getPortfolio();
         member = review.getMember();
     }
     public Review updateReview(ReviewDto reviewDto){
+        content = reviewDto.getContent();
+        rating = reviewDto.getRating();
+        thumbnail = reviewDto.getThumbnail();
         return this;
     }
 }

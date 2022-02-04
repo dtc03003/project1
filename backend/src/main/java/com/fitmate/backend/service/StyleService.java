@@ -25,8 +25,8 @@ public class StyleService {
 
     @Transactional
     public Style postStyle(StyleDto styleDto){
-        styleDto.setPortfolio(portfolioService.getMyPortfolio());
-        return styleRepository.save(StyleDto.toEntity(styleDto));
+        Portfolio portfolio = portfolioService.getMyPortfolio();
+        return styleRepository.save(StyleDto.toEntity(styleDto,portfolio));
     }
     public Style getStyle(Long id){
         return styleRepository.findById(id).orElseThrow(NotFoundUserInformation::new);
@@ -44,8 +44,8 @@ public class StyleService {
     }
 
     @Transactional
-    public Style updateStyle(StyleDto styleDto) {
-        Style style = styleRepository.findById(styleDto.getId()).orElseThrow(NotFoundStyleException::new);
+    public Style updateStyle(StyleDto styleDto, Long id) {
+        Style style = styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
         style.updateStyle(styleDto);
         return styleRepository.save(style);
     }

@@ -107,4 +107,14 @@ public class ExceptionAdvice {
                         .message("error: This style is not found!!")
                         .build());
     }
+    @ExceptionHandler({NotFoundPortfolioReviewException.class})
+    protected ResponseEntity<ApiError> cannotReadReviewById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G004")
+                        .message("error: This review is not found!!")
+                        .build());
+    }
 }

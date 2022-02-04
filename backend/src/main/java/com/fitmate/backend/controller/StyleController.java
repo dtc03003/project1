@@ -35,8 +35,8 @@ public class StyleController {
     public ResponseEntity<?> selectStylesByPortfolioId(@RequestParam("page") @Min(0) Integer page, @PathVariable String nickname){
         return ResponseEntity.ok(styleService.findAllStylesByOrderByIdDesc(page,nickname));
     }
-    @PutMapping("/style")
-    public ResponseEntity<?> updateStyle(StyleDto styleDto){
-        return ResponseEntity.ok(styleService.updateStyle(styleDto));
+    @PutMapping("/style/{id}")
+    public ResponseEntity<?> updateStyle(StyleDto styleDto, @PathVariable Long id){
+        return ResponseEntity.ok(styleService.updateStyle(styleDto, id));
     }
 }
