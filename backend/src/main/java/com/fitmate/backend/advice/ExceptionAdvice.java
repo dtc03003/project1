@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RequiredArgsConstructor
 @RestControllerAdvice(annotations = RestController.class)
 public class ExceptionAdvice {
@@ -73,6 +75,46 @@ public class ExceptionAdvice {
                         .status(HttpStatus.BAD_REQUEST)
                         .code("F001")
                         .message("error: MultipartFile -> File convert fail")
+                        .build());
+    }
+    @ExceptionHandler({IntegrityConstraintViolationException.class})
+    protected ResponseEntity<ApiError> cannotMakePortfoiloByUniqueProperty(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G001")
+                        .message("error: This portfolio cannot make due to its unique property.")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundPortfolioException.class})
+    protected ResponseEntity<ApiError> cannotReadPortfolioById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G002")
+                        .message("error: This portfolio is not found!!")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundStyleException.class})
+    protected ResponseEntity<ApiError> cannotReadStyleById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G003")
+                        .message("error: This style is not found!!")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundPortfolioReviewException.class})
+    protected ResponseEntity<ApiError> cannotReadReviewById(){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiError.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code("G004")
+                        .message("error: This review is not found!!")
                         .build());
     }
 }
