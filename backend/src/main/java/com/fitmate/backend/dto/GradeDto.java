@@ -2,6 +2,7 @@ package com.fitmate.backend.dto;
 
 import com.fitmate.backend.entity.Grade;
 import com.fitmate.backend.entity.Member;
+import com.fitmate.backend.entity.Portfolio;
 import lombok.*;
 
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class GradeDto {
     private int followCount;
     private float grade;
 
-    public static Grade toEntity(GradeDto gradeDto, Member stylist){
+    public static Grade toEntity(GradeDto gradeDto, Portfolio stylist){
         return Grade.builder()
                 .stylist(stylist)
                 .followCount(gradeDto.followCount)
@@ -24,7 +25,7 @@ public class GradeDto {
 
     public static GradeDto of(Grade grade){
         return GradeDto.builder()
-                .stylistNickName(grade.getStylist().getNickname())
+                .stylistNickName(grade.getStylist().getMember().getNickname())
                 .followCount(grade.getFollowCount())
                 .grade(grade.getGrade())
                 .build();

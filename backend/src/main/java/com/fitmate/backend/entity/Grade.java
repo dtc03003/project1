@@ -20,7 +20,7 @@ public class Grade {
     private Long id;
     @OneToOne
     @JoinColumn(name = "stylist", nullable = false)
-    private Member stylist;
+    private Portfolio stylist;
     @Column(name = "followCount", nullable = false)
     @ColumnDefault("0")
     private int followCount;

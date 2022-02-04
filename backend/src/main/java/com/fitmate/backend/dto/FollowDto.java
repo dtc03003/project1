@@ -14,7 +14,7 @@ public class FollowDto {
     private String followingNickName;
     private String followerNickName;
 
-    public static Follow toEntity(Member member, Member stylist){
+    public static Follow toEntity(Member member, Portfolio stylist){
         return Follow.builder()
                 .member(member)
                 .stylist(stylist)
@@ -24,7 +24,7 @@ public class FollowDto {
     public static FollowDto of(Follow follow){
         return FollowDto.builder()
                 .followerNickName(follow.getMember().getNickname())
-                .followingNickName(follow.getStylist().getNickname())
+                .followingNickName(follow.getStylist().getMember().getNickname())
                 .build();
     }
 }

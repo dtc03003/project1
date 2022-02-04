@@ -22,6 +22,6 @@ public class Follow {
     private Member member;
     @ManyToOne
     @JoinColumn(name = "following", nullable = false)
-    private Member stylist;
+    private Portfolio stylist;
 
 }
