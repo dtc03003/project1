@@ -45,7 +45,7 @@
 
                 <b-button 
                     variant="primary"
-                    class="m-1 float-right"
+                    class="commentBtn"
                     @click="checkValue"
                 >등록</b-button>
 
@@ -63,7 +63,7 @@
                     <b-tbody>
                         <b-tr v-for="(comments, id) in commentInfo" :key="id">
                             <b-td>{{comments.writer}} </b-td>
-                            <b-th>{{comments.comment}}</b-th>
+                            <b-td width="700" style="word-break:break-all">{{comments.comment}}</b-td>
                             <b-td>{{comments.createdAt}}</b-td>
                         </b-tr>
                     </b-tbody>

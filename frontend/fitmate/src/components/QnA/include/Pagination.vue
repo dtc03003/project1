@@ -13,7 +13,7 @@
                         </b-tr>
                     </b-thead>
 
-                    <b-tbody>
+                    <b-tbody class="list">
                         <b-tr v-for="(qna, id) in paginatedData" :key="id">
                             <b-td> {{qna.id}} </b-td>
                             <b-td> {{qna.writer}} </b-td>
@@ -25,22 +25,14 @@
                 </b-table-simple>
 
                 <div class="btn-cover">
-                        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-                            이전
-                        </button>
+                    <button :disabled="pageNum === 0" @click="prevPage" class="page-btn btn-secondary">이전</button>
+                    <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                    <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn btn-secondary">다음</button>
+                </div>
 
-                        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-
-                        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
-                            다음
-                        </button>
-                    </div>
-
-                    <b-row class="mb-1">
-                        <b-col v-if="checkisSignin" class="text-right">
-                            <b-button variant="outline-primary" @click="moveCreate">등록</b-button>
-                        </b-col>
-                    </b-row>
+                <div class="btn">
+                    <b-button v-if="checkisSignin" variant="outline-primary" @click="moveCreate">등록</b-button>
+                </div>
 
             </b-col>
         </b-row>
@@ -113,3 +105,22 @@ export default {
     }
 }
 </script>
+
+<style>
+.btn-cover {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+.btn-cover .page-btn {
+    width: 5rem;
+    height: 2rem;
+    letter-spacing: 0.5px;
+}
+.btn-cover .page-count {
+    padding: 0 1rem;
+}
+.btn {
+    float: right;
+}
+
+</style>

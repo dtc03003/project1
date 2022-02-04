@@ -35,7 +35,6 @@ export default {
             console.log(data);
             this.pageArray = data;
         })
-    }
-
+    },
 };
 </script>
