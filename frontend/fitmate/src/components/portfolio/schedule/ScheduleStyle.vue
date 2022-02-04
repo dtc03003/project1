@@ -3,6 +3,20 @@
         <v-app>
             <v-row class="fill-height">
                 <v-col>
+                    <!--스타일리스트가 자신이 안되는 날짜 및 시간(공통) 표시(후작업)-->
+                    <!-- <v-sheet height="100">
+                            <b-form-group label="활동 불가 요일 선택"  v-slot="{ ariaDescribedby }">
+                                <b-form-checkbox-group id="checkbox-group-2" name="flavour-2" :aria-describedby="ariaDescribedby">
+                                    <b-form-checkbox class="date" value="Mon">월</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Tue">화</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Wed">수</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Thu">목</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Fri">금</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Sat">토</b-form-checkbox>
+                                    <b-form-checkbox class="date" value="Sun">일</b-form-checkbox>
+                                </b-form-checkbox-group>
+                            </b-form-group>
+                    </v-sheet> -->
                     <!--상위(달/월/일 선택 및 스케줄 등록)-->
                     <v-sheet height="64">
                         <v-toolbar flat>
@@ -87,15 +101,15 @@
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12">
-                                            <v-text-field label="예약자" prepend-icon="mdi-account"></v-text-field>
-                                            <v-text-field label="예약자이메일" prepend-icon="mdi-email"></v-text-field>
+                                            <v-text-field label="예약자" prepend-icon="mdi-account" :value="selectedEvent.nickname" readonly></v-text-field>
+                                            <v-text-field label="예약자이메일" prepend-icon="mdi-email" :value="selectedEvent.email" readonly></v-text-field>
                                             <!--이런 식으로-->
-                                            <v-text-field label="일정내용" prepend-icon="mdi-pencil" :value="selectedEvent.name"></v-text-field>
+                                            <v-text-field label="일정내용" prepend-icon="mdi-pencil" :value="selectedEvent.name" readonly></v-text-field>
                                         </v-col>
                                         <v-col cols="12">
-                                            <v-text-field label="일정날짜" prepend-icon="mdi-calendar"></v-text-field>
-                                            <v-text-field label="시작시간" prepend-icon="mdi-clock"></v-text-field>
-                                            <v-text-field label="종료시간" prepend-icon="mdi-clock"></v-text-field>
+                                            <v-text-field label="일정날짜" prepend-icon="mdi-calendar" :value="selectedEvent.date"></v-text-field>
+                                            <v-text-field label="시작시간" prepend-icon="mdi-clock" :value="selectedEvent.startTime" readonly></v-text-field>
+                                            <v-text-field label="종료시간" prepend-icon="mdi-clock" :value="selectedEvent.endTime" readonly></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -118,6 +132,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import dayjs from "dayjs";
 const scheduleStore = "scheduleStore";
 
 export default {
@@ -165,7 +180,7 @@ export default {
         },
         showEvent({ nativeEvent, event }) { //다이얼로그 열기/닫기
             const open = () => {
-                this.selectedEvent = event
+                this.selectedEvent = event //선택한 이벤트 정보 담기
                 this.selectedElement = nativeEvent.target
                 requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
                 //window.requestAnimationFrame()은 브라우저에게 수행하기를 원하는 애니메이션을 알리고
@@ -183,32 +198,38 @@ export default {
             
             nativeEvent.stopPropagation()
         },
-        //-------아래부터 수정해야 함-------
+        //db와 연동되면 필요함!
         updateRange ({ start, end }) {
-            const events = []
+            const events = [] //스케줄 정보 - db 연동되면 여기에 담에서 넘김
             
+            //--db 연동되면 사용 안할 부분
             const min = new Date(`${start.date}T00:00:00`)
             const max = new Date(`${end.date}T23:59:59`)
             const days = (max.getTime() - min.getTime()) / 86400000
-            const eventCount = this.rnd(days, days + 20)
+            const eventCount = this.rnd(days, days + 20) //이후 등록된 갯수로 받을 것
+            
+            for (let i = 0; i < eventCount; i++) {
+                //db 연동 시 바뀔 것
+                const allDay = this.rnd(0, 3) === 0
+                const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+                const first = new Date(firstTimestamp - (firstTimestamp % 900000)) //db에서 날짜 받아오면 시작시간 재설정 필요
+                let temp =  new Date(firstTimestamp - (firstTimestamp % 900000));
+                const second = new Date(temp.setHours(temp.getHours()+2)); //2시간 뒤(현 서비스는 2시간 단위) --나중에 필요
 
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
-
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
-          })
-        }
-
-        this.events = events
+                events.push({
+                    name: this.names[this.rnd(0, this.names.length - 1)],
+                    nickname: "고객명",
+                    email: "고객 이메일",
+                    start: first,
+                    startTime: dayjs(first).format("HH:mm"), //시작시간
+                    end: second,
+                    endTime: dayjs(second).format("HH:mm"), //종료시간
+                    color: this.colors[this.rnd(0, this.colors.length - 1)], //색은 랜덤이 나옴
+                    timed: !allDay,
+                    date: start.date, //예약날짜
+                })
+            }
+            this.events = events //db에서 연동해서 담은 정보들 data에 담아주기
         },
         rnd (a, b) { //현재 코드에서 무작위로 배치하는 부분(나중에는 데이터가 있으므로 사용하지 않을 것(지금 test에서만 사용))
             return Math.floor((b - a + 1) * Math.random()) + a
@@ -220,4 +241,5 @@ export default {
 <style scoped>
 #enrollSchedule {background-color: #6495ED; margin-right: 1%;}
 #enrollIcon {color: white;}
+.date {display: inline-block; padding-right: 2%;}
 </style>
