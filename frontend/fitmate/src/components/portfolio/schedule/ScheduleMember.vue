@@ -82,7 +82,7 @@ export default {
             const now = dayjs((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10));
 
             //과거 날짜 제외한 나머지 날짜 활성화(스타일리스트가 임의로 불가한 요일(해당 날짜)도 이후 비활성화)
-            const impossible = [1, 5]; //임의로 설정한 불가능한 날짜(월요일, 금요일)
+            // const impossible = [1, 5]; //임의로 설정한 불가능한 날짜(월요일, 금요일)
             
             //생각해보니 주말에도 이용자가 있을 수도! 혹여 주말까지 비활성화 하려면 weekday !== 0 && weekday !== 6 도 적기!!
             // const weekday = date.get("d");
@@ -91,7 +91,7 @@ export default {
                 (now.get("y") < date.get("y")) || 
                 ((now.get("y") == date.get("y")) && (now.get("M") < date.get("M"))) ||
                 ((now.get("y") == date.get("y")) && (now.get("M") == date.get("M")) && (now.get("D") <= date.get("D"))) )
-                && (!impossible.includes(date.get("d")))
+                // && (!impossible.includes(date.get("d")))
         },
         selectTime(value) {
             if(this.picker) {
@@ -121,7 +121,7 @@ export default {
             let temp = [];
             for(let time of this.reservedTime) {
                 let index = this.calcTimes.indexOf(time);
-                for(let n = index; n < index+4; ++n) {
+                for(let n = index; n < index+5; ++n) { //휴게시간 30분 포함
                     temp.push(this.calcTimes[n])
                 }
             }
