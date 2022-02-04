@@ -10,11 +10,9 @@
               <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
-
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
-          <!-- checkisSignin  -->
           <div v-if="checkisSignin">
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
