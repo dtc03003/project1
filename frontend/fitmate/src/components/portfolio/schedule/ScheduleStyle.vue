@@ -3,8 +3,8 @@
         <v-app>
             <v-row class="fill-height">
                 <v-col>
-                    <!--스타일리스트가 자신이 안되는 날짜 및 시간(공통) 표시-->
-                    <v-sheet height="100">
+                    <!--스타일리스트가 자신이 안되는 날짜 및 시간(공통) 표시(후작업)-->
+                    <!-- <v-sheet height="100">
                             <b-form-group label="활동 불가 요일 선택"  v-slot="{ ariaDescribedby }">
                                 <b-form-checkbox-group id="checkbox-group-2" name="flavour-2" :aria-describedby="ariaDescribedby">
                                     <b-form-checkbox class="date" value="Mon">월</b-form-checkbox>
@@ -16,7 +16,7 @@
                                     <b-form-checkbox class="date" value="Sun">일</b-form-checkbox>
                                 </b-form-checkbox-group>
                             </b-form-group>
-                    </v-sheet>
+                    </v-sheet> -->
                     <!--상위(달/월/일 선택 및 스케줄 등록)-->
                     <v-sheet height="64">
                         <v-toolbar flat>
@@ -198,6 +198,7 @@ export default {
             
             nativeEvent.stopPropagation()
         },
+        //db와 연동되면 필요함!
         updateRange ({ start, end }) {
             const events = [] //스케줄 정보 - db 연동되면 여기에 담에서 넘김
             
@@ -205,18 +206,17 @@ export default {
             const min = new Date(`${start.date}T00:00:00`)
             const max = new Date(`${end.date}T23:59:59`)
             const days = (max.getTime() - min.getTime()) / 86400000
-            const eventCount = this.rnd(days, days + 20)
+            const eventCount = this.rnd(days, days + 20) //이후 등록된 갯수로 받을 것
             
             for (let i = 0; i < eventCount; i++) {
                 //db 연동 시 바뀔 것
                 const allDay = this.rnd(0, 3) === 0
                 const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-                const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+                const first = new Date(firstTimestamp - (firstTimestamp % 900000)) //db에서 날짜 받아오면 시작시간 재설정 필요
                 let temp =  new Date(firstTimestamp - (firstTimestamp % 900000));
                 const second = new Date(temp.setHours(temp.getHours()+2)); //2시간 뒤(현 서비스는 2시간 단위) --나중에 필요
 
                 events.push({
-                    // name: this.names[this.rnd(0, this.names.length - 1)],
                     name: this.names[this.rnd(0, this.names.length - 1)],
                     nickname: "고객명",
                     email: "고객 이메일",
