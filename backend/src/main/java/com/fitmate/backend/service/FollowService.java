@@ -74,4 +74,11 @@ public class FollowService {
         }
         return resultList;
     }
+
+    public boolean isFollowed(MemberDto memberDto, Member stylistDto){
+        Member member = memberRepository.findByNickname(memberDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
+        Member stylist = memberRepository.findByNickname(stylistDto.getNickname()).orElseThrow(NotFoundUserInformation::new);
+        boolean result = followRepository.countByMemberAndStylist(member, stylist);
+        return result;
+    }
 }
