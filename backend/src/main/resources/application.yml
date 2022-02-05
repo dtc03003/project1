@@ -21,7 +21,7 @@ spring:
     password: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    hibernate.:
+    hibernate:
       ddl-auto: create-drop
 #      ddl-auto: update
     show-sql: true
