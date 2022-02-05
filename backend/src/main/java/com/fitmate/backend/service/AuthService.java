@@ -95,6 +95,7 @@ public class AuthService {
         if(!memberRepository.existsByEmail(email)){
             MemberDto memberDto = MemberDto.of(SocialMemberDto.toEntity(socialMemberDto));
             memberDto.setPassword(password);
+            memberDto.setSocial("kakao");
             signup(memberDto);
         }
         System.out.println("kakao login!");

@@ -13,10 +13,14 @@ import javax.persistence.*;
 @Builder
 public class PortfolioDto {
     private String about;
+    private Long price;
+    private String bio;
 
     public static Portfolio toEntity(PortfolioDto portfolioDto, Member member){
         return Portfolio.builder()
                 .about(portfolioDto.getAbout())
+                .price(portfolioDto.getPrice())
+                .bio(portfolioDto.getBio())
                 .member(member)
                 .build();
     }

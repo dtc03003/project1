@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,13 +37,18 @@ public class Member implements Serializable {
     private int top;
     private int bottom;
     private int shoeSize;
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
     private String profile;
+    @Column(nullable = false)
+    private String social;
 
-    public Member updateMember(MemberDto dto){
-        this.password = dto.getPassword();
+    @PrePersist
+    public void social(){
+        this.social = this.social == null ? "normal" : this.social;
+    }
+
+    public void updateMember(MemberDto dto){
         this.nickname = dto.getNickname();
         this.name =dto.getName();
         this.gender= dto.getGender();
@@ -55,6 +59,8 @@ public class Member implements Serializable {
         this.bottom = dto.getBottom();
         this.shoeSize = dto.getShoeSize();
         this.profile = dto.getPassword();
-        return this;
+    }
+    public void updatePassword(String password, PasswordEncoder passwordEncoder){
+        this.password = passwordEncoder.encode(password);
     }
 }

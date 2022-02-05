@@ -37,7 +37,9 @@ public class PortfolioService {
     }
 
     public Portfolio updateAbout(PortfolioDto portfolioDto) {
-        return portfolioRepository.save(getMyPortfolio().updatePortfolio(portfolioDto));
+        Portfolio portfolio = getMyPortfolio();
+        portfolio.updatePortfolio(portfolioDto);
+        return portfolioRepository.save(portfolio);
     }
 
     public Portfolio getPortfolioByNickname(String nickname) {
