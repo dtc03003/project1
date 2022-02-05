@@ -23,16 +23,14 @@
             <b-container class="bv-example-row mt-3">
                 <b-row>
                     <b-col>
-                        <img id="stylist" src="https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg" width="300" height="300">
-                        <!-- <h2 style="text-align:center">{{ memberStore.state.memberInfo }}</h2> -->
-                        <!-- <img src="" alt=""> -->
+                        <Profile/>
                     </b-col>
                     <b-col cols="9">
                         <b-tabs content-class="mt-3" fill pills card>
                             <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
                             <b-tab title="Review"></b-tab>
                             <b-tab title="Schedule" active><Schedule/></b-tab>
-                            <b-tab title="About"></b-tab>
+                            <b-tab title="About"><About/></b-tab>
                         </b-tabs>
                     </b-col>
                 </b-row>
@@ -44,8 +42,8 @@
 <script>
 import Schedule from "@/components/portfolio/Schedule.vue";
 import StylePage from "@/components/portfolio/Stylepage.vue"
-// import Profile from "@/components/portfolio/Profile.vue"
-// import About from "@/components/portfolio/About.vue"
+import Profile from "@/components/portfolio/Profile.vue"
+import About from "@/components/portfolio/About.vue"
 import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { FITMATE_BASE_URL } from "@/config";
@@ -56,8 +54,8 @@ export default {
     components: {
         Schedule,
         StylePage,
-        // Profile,
-        // About,
+        Profile,
+        About,
     },
     data: function() {
         return {

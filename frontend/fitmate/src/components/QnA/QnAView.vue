@@ -42,10 +42,10 @@
                     >
                     </b-form-textarea>
                 </b-form-group>
-
+                
                 <b-button 
                     variant="primary"
-                    class="commentBtn"
+                    class="btn m-1 float-right"
                     @click="checkValue"
                 >등록</b-button>
 
@@ -132,3 +132,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.btn {
+ float: right;
+}
+</style>

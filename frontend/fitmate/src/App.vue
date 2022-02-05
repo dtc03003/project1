@@ -20,13 +20,13 @@
               <li class="nav-item">
                 <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
-              <li v-if="memberStore.state.memberInfo.authority=='ROLE_MEMBER'" class="nav-item">
+              <!-- <li v-if="memberStore.state.memberInfo.authority=='ROLE_MEMBER'" class="nav-item"> -->
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
-              </li>
+              <!-- </li> -->
               <!-- 스타일리스트? -->
-              <li v-else class="nav-item">
+              <!-- <li v-else class="nav-item"> -->
                 <a class="nav-link"><router-link to="/portfolio">Portfolio(임시!!!)</router-link></a>
-              </li>
+              <!-- </li> -->
             </ul>
           </div>
           <!-- 로그인 전 보여지는 것: Sign up, Sign in -->
