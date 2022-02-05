@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     Optional<Follow> findByMemberAndStylist(Member member, Portfolio stylist);
-    boolean countByMemberAndStylist(Member member, Portfolio Stylist);
+    int countByMemberAndStylist(Member member, Portfolio Stylist);
     Optional<List<Follow>> findAllByMember(Member member);
     Optional<List<Follow>> findAllByStylist(Portfolio stylist);
 }

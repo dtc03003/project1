@@ -15,11 +15,9 @@ public class GradeDto {
     private int followCount;
     private float grade;
 
-    public static Grade toEntity(GradeDto gradeDto, Portfolio stylist){
+    public static Grade toEntity(Portfolio stylist){
         return Grade.builder()
                 .stylist(stylist)
-                .followCount(gradeDto.followCount)
-                .grade(gradeDto.grade)
                 .build();
     }
 

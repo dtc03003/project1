@@ -2,10 +2,13 @@ package com.fitmate.backend.service;
 
 import com.fitmate.backend.advice.exception.NotFoundPortfolioException;
 import com.fitmate.backend.advice.exception.NotFoundUserInformation;
+import com.fitmate.backend.dto.GradeDto;
 import com.fitmate.backend.dto.PortfolioDto;
+import com.fitmate.backend.entity.Grade;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.StyleComment;
+import com.fitmate.backend.repository.GradeRepository;
 import com.fitmate.backend.repository.PortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,13 +24,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
+    private final GradeRepository gradeRepository;
     private final MemberService memberService;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
     public Portfolio makePortfolio(PortfolioDto portfolioDto){
         Member member = memberService.getMyInfo();
-        return portfolioRepository.save(PortfolioDto.toEntity(portfolioDto, member));
+        Portfolio portfolio = PortfolioDto.toEntity(portfolioDto, member);
+        portfolioRepository.save(PortfolioDto.toEntity(portfolioDto, member));
+        Portfolio getPortfolio = portfolioRepository.findPortfolioByMemberId(member.getId()).orElseThrow(NotFoundUserInformation::new);
+        Grade grade = GradeDto.toEntity(getPortfolio);
+        gradeRepository.save(grade);
+        return portfolio;
     }
 
     public Portfolio getMyPortfolio() {

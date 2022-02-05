@@ -19,14 +19,14 @@ import java.util.List;
 public class FollowController {
     private final FollowService followService;
 
-    @PostMapping(value = "/follow")
-    public ResponseEntity<FollowDto> follow(@RequestBody FollowDto followDto){
-        return ResponseEntity.ok(followService.follow(followDto));
+    @PostMapping(value = "/follow/{stylistNickname}")
+    public ResponseEntity<FollowDto> follow(@PathVariable String stylistNickname){
+        return ResponseEntity.ok(followService.follow(stylistNickname));
     }
 
-    @DeleteMapping (value = "/cancelFollow")
-    public ResponseEntity<String> cancelFollow(@RequestBody FollowDto followDto){
-        return ResponseEntity.ok(followService.cancelFollow(followDto));
+    @DeleteMapping (value = "/cancelFollow/{stylistNickname}")
+    public ResponseEntity<String> cancelFollow(@PathVariable String stylistNickname){
+        return ResponseEntity.ok(followService.cancelFollow(stylistNickname));
     }
 
     @PutMapping (value="/updateGrade")
@@ -34,18 +34,18 @@ public class FollowController {
         return ResponseEntity.ok(followService.calculateGrade(gradeDto));
     }
 
-    @GetMapping(value = "/getFollowingList/{memberNickname}")
-    public ResponseEntity<List<MemberDto>> getMyFollowing(@PathVariable String memberNickname){
-        return ResponseEntity.ok(followService.getMyFollowing(memberNickname));
+    @GetMapping(value = "/getFollowingList")
+    public ResponseEntity<List<MemberDto>> getMyFollowing(){
+        return ResponseEntity.ok(followService.getMyFollowing());
     }
 
-    @GetMapping(value="/getFollowerList/{stylistNickname}")
-    public ResponseEntity<List<MemberDto>> getMyFollower(@PathVariable String stylistNickname){
-        return ResponseEntity.ok(followService.getMyFollower(stylistNickname));
+    @GetMapping(value="/getFollowerList")
+    public ResponseEntity<List<MemberDto>> getMyFollower(){
+        return ResponseEntity.ok(followService.getMyFollower());
     }
 
-    @GetMapping(value="/isFollowed")
-    public ResponseEntity<Boolean> isFollowed(@RequestBody FollowDto followDto){
-        return ResponseEntity.ok(followService.isFollowed(followDto));
+    @GetMapping(value="/isFollowed/{stylistNickname}")
+    public ResponseEntity<Boolean> isFollowed(@PathVariable String stylistNickname){
+        return ResponseEntity.ok(followService.isFollowed(stylistNickname));
     }
 }
