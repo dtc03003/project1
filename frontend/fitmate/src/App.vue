@@ -63,7 +63,7 @@
 
     <footer>
       <p>아래는 시험용</p>
-      {{checkMemberInfo.authority}}
+      {{checkMemberInfo}}
     </footer>
     
   </div>
@@ -92,7 +92,7 @@ export default {
   computed:{
     ...mapGetters (
       'memberStore', ["checkisSignin", 'checkMemberInfo']
-    )
+    ),
   },
 };
 </script>

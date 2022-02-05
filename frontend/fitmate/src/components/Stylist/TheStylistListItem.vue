@@ -1,5 +1,6 @@
 <template>
-  <div>    
+  <div>
+    이거 떠야 되는데{{styles}}    
     <hr>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container-fluid" style="hight:7rem">
@@ -12,7 +13,7 @@
           </div>
 
           <!-- 프로필 이름, 이건 로그인 구현 된 다음 user 받아오고 나서 처리하기 -->
-          <h4>{{ stylist.name }}</h4>
+          <h4>{{ checkMemberInfo.nickname }}</h4>
           
           <!-- 찜, DB 필요 -->
 
@@ -48,6 +49,7 @@
 import TheImageModal from '@/components/Stylist/TheImageModal'
 // import { signin, getMemberInfo } from '@/api/member'
 import memberStore from '@/store/modules/memberStore'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'TheStylistListItem',
@@ -64,12 +66,22 @@ export default {
     TheImageModal,
   },
   computed: {
+    ...mapState(
+      'styleStore',['styles']
+    ),
+    ...mapGetters(
+      'memberStore', ['checkMemberInfo']
+    ),
     // width 속성은 computed로 api로 넘어온 평균 평점 값을 계산하여 percentage로 변환하여 스타일 바인딩을 이용
     // return값에 1.5를 더하여 주는 이유는 half star일 시 미세하게 절반이 안되어보여서 보여지는 값을 조정하기 위해 추가한 offset 값
     ratingToPercent() {
       const score = +this.stylist.averageScore * 10;
       return score;
-    }
+    },
+  },
+  created:function() {
+    // const nickname = '스타일리스트지원'
+    this.$store.dispatch('getPortfolioStyles')
   }
 
 }
