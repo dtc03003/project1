@@ -2,7 +2,6 @@ package com.fitmate.backend.dto;
 
 import com.fitmate.backend.entity.Authority;
 import com.fitmate.backend.entity.Member;
-import com.fitmate.backend.jwt.TokenProvider;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,6 +24,8 @@ public class MemberDto {
     private int shoeSize;
     private String profile;
     private Authority authority;
+    private String social;
+
     public static Member toEntity(MemberDto memberDto, PasswordEncoder passwordEncoder){
         return Member.builder()
                 .email(memberDto.getEmail())
@@ -40,6 +41,7 @@ public class MemberDto {
                 .shoeSize(memberDto.getShoeSize())
                 .authority(memberDto.getAuthority())
                 .profile(memberDto.getProfile())
+                .social(memberDto.getSocial())
                 .build();
     }
     public static MemberDto of(Member member){
@@ -57,6 +59,7 @@ public class MemberDto {
                 .shoeSize(member.getShoeSize())
                 .authority(member.getAuthority())
                 .profile(member.getProfile())
+                .social(member.getSocial())
                 .build();
     }
 }
