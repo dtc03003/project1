@@ -4,7 +4,7 @@
             <!-- 이미지는 개인 프로필 이미지로 변경 -->
             <img id="profile" src="https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg">
             <div>
-                <h1 style="text-align:center ">{{ memberStore.state.memberInfo.nickname }}</h1>
+                <h1 style="text-align:center ">{{ this.checkMemberInfo.nickname }}</h1>
                 <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                     <template #button-content >
                         &#128274;<span ></span>
@@ -17,7 +17,7 @@
                             <b-form-input type="password" v-model="this.pwdconfirm"></b-form-input>
                         </div>
                         <div class="modal_button">
-                            {{ memberStore.state.memberInfo }}
+                            {{ this.checkMemberInfo }}
                             <b-button @click="checkpwd">확인</b-button>
                             <b-button @click="$bvModal.hide('modal-1')">취소</b-button>
                         </div>
@@ -30,18 +30,21 @@
 </template>
 
 <script>
-import memberStore from '@/store/modules/memberStore'
+import { mapGetters } from 'vuex';
+const memberStore = "memberStore";
 export default {
     name: 'Mypage',
     data() {
         return {
-            memberStore,
             pwdconfirm:'',
         }
     },
+    computed: {
+        ...mapGetters(memberStore, ["checkMemberInfo"]),
+    },
     methods: {
         checkpwd() {
-            if (this.pwdconfirm == memberStore.state.memberInfo.nickname) {
+            if (this.pwdconfirm == this.checkMemberInfo.nickname) {
                 alert('확인되었습니다.')
 
             } else {
