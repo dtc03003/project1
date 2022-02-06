@@ -1,15 +1,17 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <temporary/>
+            <styleModal :list-array="styleArray"></styleModal>
         </div>
-        <hr>
+        <hr class="mt-3">
         <div class="col-12 text-end" >
+            
             <b-button v-b-modal.modal-1 id="registBtn">등록</b-button>
             <b-modal size="lg" id="modal-1" title="Style 등록" hide-footer>
                 <b-row>
                     <b-col class="col-12">
-                        <b-form-textarea id="textarea" size="lg" v-model="post.text" placeholder="Enter something..." rows="10" max-rows="10">                            
+                        <b-form-textarea id="textarea" size="lg" v-model="post.text" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10"
+                        >                            
                         </b-form-textarea>
                     </b-col>
                     <b-col class="col-12">
@@ -27,19 +29,36 @@
 <script>
 import axios from 'axios'
 import UploadImages from "vue-upload-drop-images"
-import temporary from "./stylePage/temporary.vue"
+import styleModal from "./stylePage/styleModal.vue"
+import { FITMATE_BASE_URL } from "@/config";
+import { mapGetters } from 'vuex';
+
+const memberStore = "memberStore";
+
 export default {
     data() {
         return {
             post: {
                 text: '',
                 image: '',
-            }
+            },
+            styleArray: []
         }
     },
     components: {
         UploadImages,
-        temporary,
+        styleModal,
+    },
+    computed: {
+        ...mapGetters(memberStore, ["checkMemberInfo"]),
+    },
+    created() {
+        const params = {page: 1}
+        axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}/styles`,{params})
+        .then(({ data })=> {
+            console.log(data)
+            this.styleArray = data;
+        })
     },
     methods:{
             handleImages(files){
@@ -59,20 +78,23 @@ export default {
                     console.log(res.data.src)
                 })
             },
-            Posting() {
-                const config = { baseUrl: 'http://localhost:9000' };
+            async Posting() {
                 const postInfo = {
                     content: this.post.text,
                     thumbnail: this.post.image,
                 }
                 console.log(postInfo)
-                axios.post(`${config.baseUrl}/api/v1/portfolio/style`, postInfo)
+                const accessToken = localStorage.getItem("accessToken");
+                axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+                await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio/style`, postInfo)
                 .then(() => {
                     alert('게시 완료')
                     console.log('정상적으로 게시되었습니다.')
+                    window.location.reload();
                 }) 
-                .catch(() => {
+                .catch((err) => {
                     alert('게시 실패')
+                    console.log(err)
                 })
             }
         }

@@ -1,16 +1,15 @@
 <template>  
     <div>
-        <!-- <div v-if="!this.input_about" > -->
-        <div>
+        <div v-show="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm == false)" >
             <b-container class="bv-example-row mt-5">
                 <b-row>
                 <b-col></b-col>
                 <b-col class="col-8">
                     <b-card class="text-center mt-3" style="max-width: 90rem" align="left">
-                        <h1 id="signinTitle">{{ this.checkMemberInfo.name }} 님의 포트폴리오를 만드시겠습니까?</h1>
-                        <b-form-input  v-model="portfoliocreate.about" placeholder="아무 단어나 입력하세요."></b-form-input>
-                        <b-form-input  v-model="portfoliocreate.price" placeholder="아무 단어나 입력하세요."></b-form-input>
-                        <b-form-input @keyup.enter="createportfolio" v-model="portfoliocreate.bio" placeholder="아무 단어나 입력하세요."></b-form-input>
+                        <h1 id="signinTitle">{{ this.checkMemberInfo.nickname }} 님의 포트폴리오를 만드시겠습니까?</h1>
+                        <b-form-input @keyup.enter="createportfolio" v-model="portfoliocreate.about" placeholder="아무 단어나 입력해주세요."></b-form-input>
+                        <b-form-input @keyup.enter="createportfolio" v-model="portfoliocreate.price" placeholder="스타일링 금액을 입력해주세요."></b-form-input>
+                        <b-form-input @keyup.enter="createportfolio" v-model="portfoliocreate.bio" placeholder="자신을 표현할 수 있는 한 줄을 적어주세요."></b-form-input>
                     </b-card>
                 </b-col>
                 <b-col></b-col>
@@ -18,8 +17,7 @@
             </b-container>
         </div>
 
-        <!-- <div v-else-if="this.input_about">     -->
-        <div>
+        <div v-show="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm) || this.checkMemberInfo.authority == 'ROLE_MEMBER'">
             <b-container class="bv-example-row mt-3">
                 <b-row>
                     <b-col>
@@ -61,15 +59,24 @@ export default {
     },
     data: function() {
         return {
+            portfolioconfirm: '',
             portfoliocreate : {
                 about : '',
                 price : '',
                 bio : '',
-            }
+            },
         }
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
+    },
+    mounted() {
+        axios({
+            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
+            method: 'get',
+        })
+        .then((res)=> this.portfolioconfirm = res.data.about)
+        .catch(()=>{})
     },
     created() {
     },
@@ -85,10 +92,11 @@ export default {
             await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
             .then((res) => {
                 alert('포트폴리오 생성완료')
+                this.portfolioconfirm = true
                 console.log(res)
             }) 
             .catch((err) => {
-                alert('포트폴리오 생성실패')
+                alert('포트폴리오 생성실패')  
                 console.log(err)
             })
         }
