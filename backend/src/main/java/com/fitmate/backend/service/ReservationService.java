@@ -47,6 +47,7 @@ public class ReservationService {
         }
         return reservationDateTimeDtos;
     }
+
     @Transactional
     public Long deleteReservation(String nickname, Long id) {
         Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);

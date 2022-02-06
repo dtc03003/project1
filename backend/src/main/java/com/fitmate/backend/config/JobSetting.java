@@ -22,12 +22,12 @@ public class JobSetting {
     public void start(){
         JobDetail jobDetail = buildJobDetail(ScheduleJob.class, new HashMap());
         JobDetail jobDetail2 = buildJobDetail(ScheduleJob2.class, new HashMap());
-        try {
-            scheduler.scheduleJob(jobDetail,buildJobTrigger("0/1 * * * * ?"));
-            scheduler.scheduleJob(jobDetail2,buildJobTrigger("0/2 * * * * ?"));
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            scheduler.scheduleJob(jobDetail,buildJobTrigger("0/1 * * * * ?"));
+//            scheduler.scheduleJob(jobDetail2,buildJobTrigger("0/2 * * * * ?"));
+//        } catch (SchedulerException e) {
+//            e.printStackTrace();
+//        }
     }
     public Trigger buildJobTrigger(String scheduleExp){
         return TriggerBuilder.newTrigger()
