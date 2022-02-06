@@ -2,6 +2,7 @@ package com.fitmate.backend.dto;
 
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
+import com.fitmate.backend.entity.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,27 +16,17 @@ import java.util.Date;
 @Builder
 public class ReservationDto {
 
-    private Long id;
     private Long cost;
-    private Portfolio portfolio;
-    private Member member;
-    private LocalDateTime createdAt;
-    private Date startTime;
-    private Date endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    @PrePersist
-    public void createdAt(){
-        this.createdAt = LocalDateTime.now();
+    public static Reservation toEntity(ReservationDto reservationDto, Member member, Portfolio portfolio){
+        return Reservation.builder()
+                .member(member)
+                .portfolio(portfolio)
+                .cost(reservationDto.cost)
+                .startTime(reservationDto.startTime)
+                .endTime(reservationDto.endTime)
+                .build();
     }
-
-    public ReservationDto(ReservationDto reservation){
-        id = reservation.getId();
-        cost = reservation.getCost();
-        portfolio = reservation.getPortfolio();
-        member = reservation.getMember();
-        createdAt = reservation.getCreatedAt();
-        startTime = reservation.getStartTime();
-        endTime = reservation.getEndTime();
-    }
-
 }

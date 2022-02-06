@@ -16,19 +16,19 @@ import javax.validation.constraints.Min;
 @RequestMapping(value = "/api/v1/portfolio")
 public class ReviewController {
     private final ReviewService reviewService;
-    @PostMapping("{nickname}/review")
+    @PostMapping("/{nickname}/review")
     public ResponseEntity<?> writeReview(@PathVariable String nickname,@RequestBody ReviewDto reviewDto){
         return ResponseEntity.ok(reviewService.writeReview(nickname, reviewDto));
     }
-    @GetMapping("{nickname}/review/{id}")
+    @GetMapping("/{nickname}/review/{id}")
     public ResponseEntity<?> selectReviewById(@PathVariable String nickname,@PathVariable Long id){
         return ResponseEntity.ok(reviewService.findById(nickname,id));
     }
-    @GetMapping("{nickname}/reviews")
+    @GetMapping("/{nickname}/reviews")
     public ResponseEntity<?> selectReviewsByPortfolioNickname(@RequestParam("page") @Min(0) Integer page, @PathVariable String nickname){
         return ResponseEntity.ok(reviewService.findAllReviewsByPortfolioNickname(page,nickname));
     }
-    @GetMapping("{nickname}/reviews/all")
+    @GetMapping("/{nickname}/reviews/all")
     public ResponseEntity<?> selectAllReviews(@PathVariable String nickname){
         return ResponseEntity.ok(reviewService.findAll(nickname));
     }

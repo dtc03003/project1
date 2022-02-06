@@ -1,43 +1,56 @@
-//package com.fitmate.backend.service;
-//
-//import com.fitmate.backend.dto.getDateDto;
-//import net.minidev.json.JSONObject;
-//
-//import java.security.Timestamp;
-//import java.time.DayOfWeek;
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.time.YearMonth;
-//
-//public class ReservationService {
-//    public JSONObject getDateBySeat(getDateDto getDateDto){
-//        int month = getDateDto.getMonth();
-//        LocalDate selectDate = LocalDate.of(getDateDto.getYear(), month, 1);
-//        YearMonth yearMonth = YearMonth.from(selectDate);
-//        int lastDay = yearMonth.lengthOfMonth();
-//        int start = 0;
-//        DayOfWeek dayOfWeek = selectDate.getDayOfWeek();
-//        int temp = 1;
-//        start=dayOfWeek.getValue();
-//        int endDayIdOfMonth= lastDay+start;
-//        JSONObject dates=new JSONObject();
-//        int [][]dateAndValue=new int[endDayIdOfMonth][3];
-//        for (int i = 0; i < start; i++) {
-//            dateAndValue[i][0]=0;
-//            dateAndValue[i][1]=0;
-//            dateAndValue[i][2]=cantFlag;
-//        }
-//        for(int i=start;i<endDayIdOfMonth;i++) {
-//            Timestamp timestamp=Timestamp.valueOf(getDateDto.getYear()+"-"+month+"-"+temp+" 00:00:00");
-//            int countAlready=getCountAlreadyInDate(timestamp,getDateDto.getSeat());
-//            dateAndValue[i][0]=temp;
-//            dateAndValue[i][1]=countAlready;
-//            if(countAlready>=maxPeopleOfDay||utillService.compareDate(timestamp, LocalDateTime.now())){
-//                dateAndValue[i][2]=cantFlag;
-//            }
-//            temp+=1;
-//
-//        }
-//        return null;
-//    }
-//}
+package com.fitmate.backend.service;
+
+import com.fitmate.backend.dto.ReservationDateTimeDto;
+import com.fitmate.backend.dto.ReservationDto;
+import com.fitmate.backend.entity.Member;
+import com.fitmate.backend.entity.Portfolio;
+import com.fitmate.backend.entity.Reservation;
+import com.fitmate.backend.repository.ReservationRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.LinkedList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ReservationService {
+
+    private final ReservationRepository reservationRepository;
+    private final MemberService memberService;
+    private final PortfolioService portfolioService;
+
+    @Transactional
+    public Reservation makeReservation(String nickname, ReservationDto reservationDto) {
+        Member member = memberService.getMyInfo();
+        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+        return reservationRepository.save(ReservationDto.toEntity(reservationDto,member,portfolio));
+    }
+
+    public List<Reservation> findAllReservationsByNickname(String nickname) {
+        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+        return reservationRepository.findAllByPortfolioId(portfolio.getId());
+    }
+
+    public List<ReservationDateTimeDto> findAllTimeByNickname(String nickname) {
+        List<Reservation> reservations = findAllReservationsByNickname(nickname);
+        List<ReservationDateTimeDto> reservationDateTimeDtos = new LinkedList<>();
+        for (Reservation reservation: reservations) {
+            Long hours = reservation.getBetween();
+            for(int i = 0 ; i < hours; i++){
+                reservationDateTimeDtos.add(ReservationDateTimeDto.builder()
+                        .localDate(reservation.getStartTime().toLocalDate())
+                        .hours(reservation.getHour()+i)
+                        .build());
+            }
+        }
+        return reservationDateTimeDtos;
+    }
+    @Transactional
+    public Long deleteReservation(String nickname, Long id) {
+        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+        reservationRepository.deleteById(id);
+        return portfolio.getId();
+    }
+}
