@@ -1,5 +1,6 @@
 package com.fitmate.backend.service;
 
+import com.fitmate.backend.advice.exception.NotFoundPortfolioException;
 import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.FollowDto;
 import com.fitmate.backend.dto.GradeDto;
@@ -32,7 +33,7 @@ public class FollowService {
     @Transactional
     public FollowDto follow(String stylistNickname){
         Member follower = memberService.getMyInfo();
-        Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundUserInformation::new);
+        Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
         Follow follow = FollowDto.toEntity(follower, following);
         Grade grade = gradeRepository.findByStylist(following).orElseThrow();
         grade.increasingFollow();
@@ -43,7 +44,7 @@ public class FollowService {
     @Transactional
     public String cancelFollow(String stylistNickname){
         Member follower = memberService.getMyInfo();
-        Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundUserInformation::new);
+        Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
         Follow follow = followRepository.findByMemberAndStylist(follower, following).orElseThrow();
         Grade grade = gradeRepository.findByStylist(following).orElseThrow();
         grade.decreasingFollow();
@@ -54,7 +55,7 @@ public class FollowService {
 
     @Transactional
     public GradeDto calculateGrade(GradeDto gradeDto){
-        Portfolio stylist = portfolioRepository.findByMember_Nickname(gradeDto.getStylistNickName()).orElseThrow(NotFoundUserInformation::new);
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(gradeDto.getStylistNickName()).orElseThrow(NotFoundPortfolioException::new);
         Grade grade = gradeRepository.findByStylist(stylist).orElseThrow(NotFoundUserInformation::new);
         grade.updateGrade(gradeDto.getGrade());
         return GradeDto.of(grade);
@@ -72,7 +73,7 @@ public class FollowService {
 
     public List<MemberDto> getMyFollower(){
         Member stylistMember = memberService.getMyInfo();
-        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistMember.getNickname()).orElseThrow(NotFoundUserInformation::new);
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistMember.getNickname()).orElseThrow(NotFoundPortfolioException::new);
         List<Follow> followerList = followRepository.findAllByStylist(stylist).orElseThrow();
         List<MemberDto> resultList = new ArrayList<MemberDto>();
         for(int i=0; i<followerList.size(); i++){
@@ -83,8 +84,13 @@ public class FollowService {
 
     public boolean isFollowed(String stylistNickname){
         Member member = memberService.getMyInfo();
-        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundUserInformation::new);
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
         int result = followRepository.countByMemberAndStylist(member, stylist);
         return result==0?false:true;
+    }
+
+    public int getCountOfFollower(String stylistNickname){
+        Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
+        return followRepository.countByStylist(stylist);
     }
 }
