@@ -51,4 +51,7 @@ public class Review {
         thumbnail = reviewDto.getThumbnail();
         return this;
     }
+    public String getWriterNickName(){
+        return member.getNickname();
+    }
 }

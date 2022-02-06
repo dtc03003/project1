@@ -51,4 +51,7 @@ public class Portfolio {
         this.bio = portfolioDto.getBio();
         this.about = portfolioDto.getAbout();
     }
+    public String getNickname(){
+        return member.getNickname();
+    }
 }
