@@ -21,6 +21,7 @@ spring:
     password: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
 #      ddl-auto: update
@@ -28,6 +29,10 @@ spring:
     properties:
       hibernate:
         format_sql: false
+#  quartz:
+#    job-store-type: jdbc
+#    properties.org.quartz.threadPool.threadCount: 5
+
 #    hibernate:
 #      naming:
 #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
