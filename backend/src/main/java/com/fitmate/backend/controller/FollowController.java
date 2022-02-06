@@ -48,4 +48,9 @@ public class FollowController {
     public ResponseEntity<Boolean> isFollowed(@PathVariable String stylistNickname){
         return ResponseEntity.ok(followService.isFollowed(stylistNickname));
     }
+
+    @GetMapping(value = "/countOfFollower/{stylistNickname}")
+    public ResponseEntity<Integer> getCountOfFollower(@PathVariable String stylistNickname){
+        return ResponseEntity.ok(followService.getCountOfFollower(stylistNickname));
+    }
 }
