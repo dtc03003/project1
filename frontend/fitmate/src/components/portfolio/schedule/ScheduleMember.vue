@@ -16,7 +16,7 @@
                 <b-col cols="1"></b-col>
                 <b-col>
                     <h4>시간선택</h4>
-                    <h6>(시간은 기본 2시간 단위입니다.)</h6>
+                    <h6>시작 시간을 선택해주세요&#128522;(1시간 단위)</h6>
                     <v-item-group class="mt-3">
                         <v-row>
                             <table>
@@ -62,7 +62,7 @@ export default {
                 "18:00", "18:30", "19:00", "19:30"
             ],
             selectedTime: '',
-            reservedTime: ["10:00", "15:00"], //DB에서 받아올 값(스타일리스트, 날짜 값을 통해 이미 예약된 시간 얻어오기)
+            reservedTime: [] //DB에서 받아올 값(스타일리스트, 날짜 값을 통해 이미 예약된 시간 얻어오기)
         }
     },
     created() {
@@ -116,14 +116,24 @@ export default {
             this.SET_DATE(this.picker);
             this.selectedTime = '';
             
-            this.reservedTime = ["10:00", "15:00"]; //- db 연동해서 저장될 예약 시간(임시)
+            this.reservedTime = ["10:00", "12:00", "15:00"]; //- db 연동해서 저장될 예약 시간(임시)
 
             let temp = [];
             for(let time of this.reservedTime) {
                 let index = this.calcTimes.indexOf(time);
-                for(let n = index; n < index+3; ++n) { //휴게시간 30분 포함
-                    temp.push(this.calcTimes[n])
+                for(let n = index; n <= index+1; ++n) {
+                        temp.push(this.calcTimes[n])
                 }
+                //휴게시간 포함하는 경우
+                // if(time == '12:00') {
+                //     for(let n = index; n <= index+1; ++n) { //점심시간
+                //         temp.push(this.calcTimes[n])
+                //     }
+                // }else { //휴게시간 30분 포함 여부는 아직 미정(포함할 경우 필요)
+                //     for(let n = index; n <= index+1; ++n) {
+                //         temp.push(this.calcTimes[n])
+                //     }
+                // }
             }
             this.reservedTime = temp;
         }

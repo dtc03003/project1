@@ -26,7 +26,7 @@
                     <b-col cols="9">
                         <b-tabs content-class="mt-3" fill pills card>
                             <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
-                            <b-tab title="Review"></b-tab>
+                            <b-tab title="Review"><Review/></b-tab>
                             <b-tab title="Schedule" active><Schedule/></b-tab>
                             <b-tab title="About"><About/></b-tab>
                         </b-tabs>
@@ -42,6 +42,7 @@ import Schedule from "@/components/portfolio/Schedule.vue";
 import StylePage from "@/components/portfolio/Stylepage.vue"
 import Profile from "@/components/portfolio/Profile.vue"
 import About from "@/components/portfolio/About.vue"
+import Review from "@/components/portfolio/Review.vue"
 import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { FITMATE_BASE_URL } from "@/config";
@@ -54,6 +55,7 @@ export default {
         StylePage,
         Profile,
         About,
+        Review
     },
     data: function() {
         return {
