@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FollowService {
     private final FollowRepository followRepository;
-    private final MemberRepository memberRepository;
     private final PortfolioRepository portfolioRepository;
     private final GradeRepository gradeRepository;
     private final MemberService memberService;
