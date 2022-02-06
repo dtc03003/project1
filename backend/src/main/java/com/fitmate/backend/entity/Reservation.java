@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "reservation")
@@ -25,22 +25,20 @@ public class Reservation {
     private Long cost;
 
     @ManyToOne
-    @JoinColumn(name = "portfolio_no")
-    @Column(nullable = false)
+    @JoinColumn(name = "portfolio")
     private Portfolio portfolio;
 
     @ManyToOne
-    @JoinColumn(name = "customer_no")
-    @Column(nullable = false)
+    @JoinColumn(name = "customer")
     private Member member;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private Date startTime;
+    private LocalDateTime startTime;
     @Column(nullable = false)
-    private Date endTime;
+    private LocalDateTime endTime;
 
     @PrePersist
     public void createdAt(){
@@ -57,4 +55,10 @@ public class Reservation {
         endTime = reservation.getEndTime();
     }
 
+    public Long getBetween(){
+        return ChronoUnit.HOURS.between(startTime,endTime);
+    }
+    public Integer getHour(){
+        return startTime.getHour();
+    }
 }
