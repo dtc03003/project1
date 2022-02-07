@@ -24,12 +24,24 @@ public class ReservationController {
     public ResponseEntity<?> findAllReservationsByNickname(@PathVariable String nickname){
         return ResponseEntity.ok(reservationService.findAllReservationsByNickname(nickname));
     }
-    @GetMapping("/{nickname}/reservations")
+    @GetMapping("/{nickname}/reservations/timeList")
     public ResponseEntity<?> findAllTimeByNickname(@PathVariable String nickname){
         return ResponseEntity.ok(reservationService.findAllTimeByNickname(nickname));
+    }
+    @GetMapping("/{nickname}/reservations")
+    public ResponseEntity<?> findAllReservationByNicknameInState(@PathVariable String nickname , @RequestParam String state){
+        return ResponseEntity.ok(reservationService.findAllReservationByNicknameInState(nickname,state));
     }
     @DeleteMapping("/{nickname}/reservation/{id}")
     public ResponseEntity<?> deleteReservation(@PathVariable String nickname, @PathVariable Long id){
         return ResponseEntity.ok(reservationService.deleteReservation(nickname,id));
+    }
+    @PutMapping("/{nickname}/reservation/cancel/{id}")
+    public ResponseEntity<?> cancelReservation(@PathVariable String nickname, @PathVariable Long id){
+        return ResponseEntity.ok(reservationService.cancelReservation(nickname, id));
+    }
+    @PutMapping("/{nickname}/reservation/complete/{id}")
+    public ResponseEntity<?> completeReservation(@PathVariable String nickname, @PathVariable Long id){
+        return ResponseEntity.ok(reservationService.completeReservation(nickname, id));
     }
 }

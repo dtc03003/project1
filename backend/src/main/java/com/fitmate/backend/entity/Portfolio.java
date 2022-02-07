@@ -21,7 +21,7 @@ public class Portfolio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private Long id;
-    @Column(length = 50000)
+    @Column(length = 1000)
     private String about;
     private Long price;
     @Column(length = 1000)
