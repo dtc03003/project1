@@ -103,13 +103,26 @@
                                         <v-col cols="12">
                                             <v-text-field label="예약자" prepend-icon="mdi-account" :value="selectedEvent.nickname" readonly></v-text-field>
                                             <v-text-field label="예약자이메일" prepend-icon="mdi-email" :value="selectedEvent.email" readonly></v-text-field>
-                                            <!--이런 식으로-->
                                             <v-text-field label="일정내용" prepend-icon="mdi-pencil" :value="selectedEvent.name" readonly></v-text-field>
                                         </v-col>
                                         <v-col cols="12">
                                             <v-text-field label="일정날짜" prepend-icon="mdi-calendar" :value="selectedEvent.date"></v-text-field>
                                             <v-text-field label="시작시간" prepend-icon="mdi-clock" :value="selectedEvent.startTime" readonly></v-text-field>
                                             <v-text-field label="종료시간" prepend-icon="mdi-clock" :value="selectedEvent.endTime" readonly></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                            <v-card-subtitle>고객정보</v-card-subtitle>
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <v-text-field label="키" prepend-icon="mdi-auto-fix" :value="selectedEvent.height == 0 ? '미입력' : selectedEvent.height+'cm'" readonly></v-text-field>
+                                            <v-text-field label="몸무게" prepend-icon="mdi-auto-fix" :value="selectedEvent.weight == 0 ? '미입력' : selectedEvent.weight+'kg'" readonly></v-text-field>
+                                            <v-text-field label="상의 사이즈" prepend-icon="mdi-hanger" :value="selectedEvent.top == 0 ? '미입력' : selectedEvent.top" readonly></v-text-field>
+                                            <v-text-field label="하의 사이즈" prepend-icon="mdi-hanger" :value="selectedEvent.bottom == 0 ? '미입력' : selectedEvent.bottom" readonly></v-text-field>
+                                            <v-text-field label="신발 사이즈" prepend-icon="mdi-stocking" :value="selectedEvent.shoeSize == 0 ? '미입력' : selectedEvent.shoeSize+'mm'" readonly></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -122,7 +135,6 @@
                             </v-card-actions>
                         </v-card>
                         </v-dialog>
-
                     </v-sheet>
                 </v-col>
             </v-row>
@@ -172,7 +184,6 @@ export default {
         viewDay({ date }) {
             this.focus = date
             this.type = 'day'
-            console.log(this.focus);
             this.SET_SELECTED_DATE(this.focus);
         },
         getEventColor(event) { //하루 일정표에서 확인 가능
@@ -231,6 +242,11 @@ export default {
                     color: this.colors[this.rnd(0, this.colors.length - 1)], //색은 랜덤이 나옴
                     timed: !allDay,
                     date: dayjs(first).format("YYYY-MM-DD"), //예약날짜
+                    height: event.member.height,
+                    weight: event.member.weight,
+                    top: event.member.top,
+                    bottom: event.member.bottom,
+                    shoeSize: event.member.shoeSize,
                 })
             }
             this.SET_NEW_EVENTS(events);
