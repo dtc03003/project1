@@ -6,13 +6,16 @@
             </li>
         </div>
 
-        <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" hide-footer>
+        <b-modal v-if="this.styleData" size="xl" centered  scrollable ref="style-modal" hide-footer>
             <div class="row">
                 <div class="col-6">
                     <img :src="this.styleData.thumbnail" class="item">
+                    <h4>태그가 들어갈 부분</h4>
+                    
                 </div>
                 <div class="col-6">
-                    <h1>{{this.styleData.content}}</h1>
+                    <h1>{{this.styleData.thumbnail}}</h1>
+                    <h1>{{this.styleData.content}}</h1>                  
                     <the-modal-comment/>
                 </div>
             </div>
@@ -123,5 +126,8 @@ export default {
 .btn {
     background-color: #7e7fb9;
     
+}
+.modal-body {
+  padding: 2rem !important;
 }
 </style>
