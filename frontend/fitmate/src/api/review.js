@@ -13,8 +13,8 @@ async function writeReview(review, nickname, success, fail) {
 }
 
 //해당 스타일리스트의 페이지별 모든 리뷰 불러오기
-async function reviewByPage(nickname, page, success, fail) {
-    await api.get(`/api/v1/portfolio/${nickname}/reviews?page=${page}`).then(success).catch(fail);
+async function reviewByPage(info, success, fail) {
+    await api.get(`/api/v1/portfolio/${info.nickname}/reviews?page=${info.page}`).then(success).catch(fail);
 }
 
 //해당 스타일리스트의 모든 리뷰 불러오기
