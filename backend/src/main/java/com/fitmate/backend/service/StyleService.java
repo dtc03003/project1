@@ -5,6 +5,7 @@ import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.StyleDto;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Style;
+import com.fitmate.backend.repository.PortfolioRepository;
 import com.fitmate.backend.repository.StyleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,13 +21,18 @@ import java.util.stream.Collectors;
 public class StyleService {
     private final StyleRepository styleRepository;
     private final PortfolioService portfolioService;
+    private final PortfolioRepository portfolioRepository;
     private final MemberService memberService;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
     public Style postStyle(StyleDto styleDto){
         Portfolio portfolio = portfolioService.getMyPortfolio();
-        return styleRepository.save(StyleDto.toEntity(styleDto,portfolio));
+        Style style = styleRepository.save(StyleDto.toEntity(styleDto,portfolio));
+        Style resultStyle = styleRepository.findById(style.getId()).orElseThrow(NotFoundStyleException::new);
+        portfolio.updateLatestStyle(resultStyle.getCreatedAt());
+        portfolioRepository.save(portfolio);
+        return style;
     }
     public Style getStyle(Long id){
         return styleRepository.findById(id).orElseThrow(NotFoundUserInformation::new);

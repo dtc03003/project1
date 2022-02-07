@@ -21,7 +21,7 @@
               <!-- 일반회원일 경우 -->
               <li v-if="checkMemberInfo.authority=='ROLE_MEMBER'" class="nav-item">
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
-              </li>
+              <!-- </li> -->
               <!-- 스타일리스트? -->
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST'" class="nav-item">
                 <a class="nav-link"><router-link to="/portfolio">Portfolio(임시)</router-link></a>
