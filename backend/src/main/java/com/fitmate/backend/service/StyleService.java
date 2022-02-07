@@ -58,4 +58,9 @@ public class StyleService {
     public Style findById(Long id){
         return styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
     }
+
+    public List<Style> findAllStylesByNickname(String nickname) {
+        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+        return styleRepository.findAllByPortfolioId(portfolio.getId());
+    }
 }

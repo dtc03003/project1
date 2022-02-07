@@ -35,4 +35,8 @@ public class StyleController {
     public ResponseEntity<?> updateStyle(StyleDto styleDto, @PathVariable Long id){
         return ResponseEntity.ok(styleService.updateStyle(styleDto, id));
     }
+    @GetMapping("/{nickname}/styles/all")
+    public ResponseEntity<?> selectAllStylesByPortfolioId(@PathVariable String nickname){
+        return ResponseEntity.ok(styleService.findAllStylesByNickname(nickname));
+    }
 }
