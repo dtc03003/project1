@@ -50,8 +50,10 @@
       v-for="stylist in stylistArray"
       v-bind:key="stylist.id"
       v-bind:nickname="stylist.nickname"
+      v-bind:profile="stylist.member.profile"
       >
       {{stylist.id}}
+      <!-- {{stylist.member.profile}} -->
       </the-stylist-list>
 
 
@@ -68,38 +70,38 @@ import { mapGetters } from 'vuex'
 const memberStore = "memberStore"
 
 export default {
-    name: 'Stylist',
-    components:{
-        TheStylistList,
-    },
-    data:function () {
-      return {
-        selected:'',
-        stylistArray:[],
-        checkauthority:'',
-      } 
-    },
-    methods:{
-    },
-    created () {
-        axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
-        .then(({ data })=> {
-            console.log(data)
-            this.stylistArray = data;
-        })
-        this.checkauthority = this.checkMemberInfo.authority
-        console.log(this.checkauthority)
-    },
-    // watch: {
-    //   model (val) {
-    //     if (val.length > 5) {
-    //       this.$nextTick(() => this.model.pop())
-    //     }
-    //   },
-    // },
-    computed: {
-        ...mapGetters( memberStore, ["checkMemberInfo"]),
-    },
+  name: 'Stylist',
+  components:{
+      TheStylistList,
+  },
+  data:function () {
+    return {
+      selected:'',
+      stylistArray:[],
+      checkauthority:'',
+    } 
+  },
+  methods:{
+  },
+  created () {
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
+      .then(({ data })=> {
+          console.log(data)
+          this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+  },
+  // watch: {
+  //   model (val) {
+  //     if (val.length > 5) {
+  //       this.$nextTick(() => this.model.pop())
+  //     }
+  //   },
+  // },
+  computed: {
+      ...mapGetters( memberStore, ["checkMemberInfo"]),
+  },
 
 }
 </script>

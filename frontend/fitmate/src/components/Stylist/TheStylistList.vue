@@ -1,19 +1,15 @@
 <template>
   <div>
-    <!-- 이것은 키 {{key}} -->
-    <!-- <p>이것은 싱글 {{ single }}</p> -->
-    <hr>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container-fluid" style="hight:7rem">
       <div>
         <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">
           <div>
-            <b-avatar src="" size="5rem">
+            <b-avatar :src="profile" size="5rem">
             </b-avatar>
           </div>
-
-          <!-- 프로필 이름, 이건 로그인 구현 된 다음 user 받아오고 나서 처리하기 -->
+          <!-- 프로필 이름 -->
           <h4>{{ nickname }}</h4>
           
           <!-- 찜, DB 필요 -->
@@ -32,14 +28,13 @@
           </div>
         </div>
         <div id="images" class="d-inline-block" style="height:160px;">
-          <!-- 사진 -->
-          <img src="@/assets/study.jpg" height="150px" class="m-1">
-
           <!-- 실제로는 아래처럼 가져와야 함 -->
-          <the-image-modal></the-image-modal>
-          <!-- stylist data 들어오면 v-for로 연결해서 다 가져오기 -->
-          <!-- 여기서 가져오는 건 한 사람의 포트폴리오 사진들 -->
-          <!-- <the-stylist-list-image></the-stylist-list-image> -->
+          <the-image-modal
+          v-for="image in stylistimages"
+          v-bind:key="image.id"
+          >
+          <img :src="image.thumbnail" alt="">
+          </the-image-modal>
         </div>
       </div>
     </div>
@@ -48,9 +43,10 @@
 
 <script>
 import TheImageModal from '@/components/Stylist/TheImageModal'
-// import { signin, getMemberInfo } from '@/api/member'
 import memberStore from '@/store/modules/memberStore'
 import { mapState, mapGetters } from 'vuex'
+import axios from 'axios'
+import { FITMATE_BASE_URL } from '@/config'
 
 export default {
   name: 'TheStylistListItem',
@@ -61,11 +57,14 @@ export default {
         averageScore:5
       },
       memberStore,
+      // stylistImages:[],
+      checkauthority:''
       
     }
   },
   props:{
-    nickname:String
+    nickname:String,
+    profile:String,
   },
   components:{
     TheImageModal,
@@ -84,10 +83,16 @@ export default {
       return score;
     },
   },
-  created:function() {
-    // const nickname = '스타일리스트지원'
-    this.$store.dispatch('getPortfolioStyles')
-  }
+  created () {
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
+      .then(({ data })=> {
+        console.log('이거봐라')      
+        console.log(data)
+        this.stylistImages = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+  },
 
 }
 </script>
