@@ -40,7 +40,7 @@ public class StylistsService {
     }
 
     public List<Portfolio> sortByLatest(){
-        return portfolioRepository.findAll(Sort.by("createdAt").descending());
+        return portfolioRepository.findAll(Sort.by("latestStyle").descending());
     }
 
     public List<Style> latestStylesOfStylist(String stylistNickname){
