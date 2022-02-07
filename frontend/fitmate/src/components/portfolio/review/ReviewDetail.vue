@@ -61,15 +61,17 @@ export default {
         idx: Number,
     },
     computed: {
-        ...mapGetters(reviewStore, ["getReviews"]),
+        ...mapGetters(reviewStore, ["getReviews", "getSomeReviews", "getReviewStatus"]),
     },
     created() {
-        this.thumbnail = this.getReviews[this.idx].thumbnail;
-        this.nickname = this.getReviews[this.idx].member.nickname;
-        this.rating = this.getReviews[this.idx].rating;
-        this.createdAt = dayjs(this.getReviews[this.idx].createdAt).format("YYYY-MM-DD HH:mm");
-        this.content = this.getReviews[this.idx].content;
-        if(this.content.length > 50) this.content = this.content.substring(0, 50);
+        if(this.getReviewStatus) {
+            this.thumbnail = this.getSomeReviews[this.idx].thumbnail;
+            this.nickname = this.getSomeReviews[this.idx].member.nickname;
+            this.rating = this.getSomeReviews[this.idx].rating;
+            this.createdAt = dayjs(this.getSomeReviews[this.idx].createdAt).format("YYYY-MM-DD HH:mm");
+            this.content = this.getSomeReviews[this.idx].content;
+            if(this.content.length > 50) this.content = this.content.substring(0, 50);
+        }
     },
     methods: {
         showContent() {
