@@ -46,35 +46,49 @@
 
 
       <!-- 스타일리스트 목록 컴포넌트 -->
-      <the-stylist-list></the-stylist-list>
+      <the-stylist-list 
+      v-for="stylist in stylistArray"
+      v-bind:key="stylist.id"
+      v-bind:nickname="stylist.nickname"
+      >
+      {{stylist.id}}
+      </the-stylist-list>
+
+
     </div>
-
-
   </div>
 </template>
 
 <script>
 import TheStylistList from '@/components/Stylist/TheStylistList'
+import axios from 'axios'
+import { FITMATE_BASE_URL } from '@/config'
+import { mapGetters } from 'vuex'
+
+const memberStore = "memberStore"
 
 export default {
     name: 'Stylist',
     components:{
         TheStylistList,
     },
-    // data: () => ({
-    //   items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
-    //   model: ['Vuetify'],
-    //   search: null,
-    // }),
     data:function () {
       return {
-        selected:''
+        selected:'',
+        stylistArray:[],
+        checkauthority:'',
       } 
     },
     methods:{
-      latest:function() {
-
-      }
+    },
+    created () {
+        axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
+        .then(({ data })=> {
+            console.log(data)
+            this.stylistArray = data;
+        })
+        this.checkauthority = this.checkMemberInfo.authority
+        console.log(this.checkauthority)
     },
     // watch: {
     //   model (val) {
@@ -83,6 +97,9 @@ export default {
     //     }
     //   },
     // },
+    computed: {
+        ...mapGetters( memberStore, ["checkMemberInfo"]),
+    },
 
 }
 </script>
