@@ -90,9 +90,9 @@ public class ExceptionAdvice {
     @ExceptionHandler({NotFoundPortfolioException.class})
     protected ResponseEntity<ApiError> cannotReadPortfolioById(){
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body(ApiError.builder()
-                        .status(HttpStatus.BAD_REQUEST)
+                        .status(HttpStatus.NOT_FOUND)
                         .code("G002")
                         .message("error: This portfolio is not found!!")
                         .build());
@@ -100,9 +100,9 @@ public class ExceptionAdvice {
     @ExceptionHandler({NotFoundStyleException.class})
     protected ResponseEntity<ApiError> cannotReadStyleById(){
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body(ApiError.builder()
-                        .status(HttpStatus.BAD_REQUEST)
+                        .status(HttpStatus.NOT_FOUND)
                         .code("G003")
                         .message("error: This style is not found!!")
                         .build());
@@ -110,11 +110,41 @@ public class ExceptionAdvice {
     @ExceptionHandler({NotFoundPortfolioReviewException.class})
     protected ResponseEntity<ApiError> cannotReadReviewById(){
         return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("G004")
+                        .message("error: This review is not found!!")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundReservationException.class})
+    protected ResponseEntity<ApiError> cannotReadReservation(){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("G005")
+                        .message("error: This reservation is not found!!")
+                        .build());
+    }
+    @ExceptionHandler({UpdateStateException.class})
+    protected ResponseEntity<ApiError> cannotUpdateReservationState(){
+        return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiError.builder()
                         .status(HttpStatus.BAD_REQUEST)
-                        .code("G004")
-                        .message("error: This review is not found!!")
+                        .code("G006")
+                        .message("error: It can only be changed in progress!!")
+                        .build());
+    }
+    @ExceptionHandler({NotFoundPaymentException.class})
+    protected ResponseEntity<ApiError> cannotReadPayment(){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("G007")
+                        .message("error: This payment is not found!!")
                         .build());
     }
 }
