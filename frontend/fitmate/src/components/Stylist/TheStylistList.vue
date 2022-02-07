@@ -28,6 +28,7 @@
             </div>            
           </div>
         </div>
+        <!-- {{stylistImages}} -->
         <div id="images" class="d-inline-block" style="height:160px;">
           <!-- {{stylistImages}} -->
           <!-- 실제로는 아래처럼 가져와야 함 -->
@@ -35,6 +36,9 @@
           v-for="image in stylistImages"
           v-bind:key="image.id"
           v-bind:thumbnail="image.thumbnail"
+          v-bind:id="image.id"
+          v-bind:content="image.content"
+          v-bind:nickname="image.portfolio.member.nickname"
           >
           {{ image.id }}
           </the-image-modal>

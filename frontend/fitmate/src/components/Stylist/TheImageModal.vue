@@ -1,13 +1,13 @@
 <template>
 	<span>
-    <img :src="thumbnail" @click="$bvModal.show('bv-modal-example')" height="150px" class="m-1">
+    <img :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)" height="150px" class="m-1">
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
-    <b-modal size="lg" id="bv-modal-example" scrollable hide-footer>
+    <b-modal size="lg" :id="'bv-modal-'+id" scrollable hide-footer>
       <template #modal-title>
-        <b-avatar src="https://placekitten.com/300/300" size="4rem">
+        <b-avatar :src="profile" size="4rem">
         </b-avatar>
         <!-- 지금은 멤버 스토어에서 가져오는데, 나중에는 글 쓴 사람 이름 가져와야 함 -->
-        <!-- <h3 class="d-inline">{{ memberStore.state.memberInfo.nickname }}</h3> -->
+        <h3 class="d-inline">{{ nickname }}</h3>
       </template>
       <div class="row">
         <div class="col">
@@ -16,7 +16,7 @@
           <!-- 태그 -->
         </div>
         <div class="col">
-          <h6>게시 내용 여기 와야 함</h6>
+          <h6>{{ content }}</h6>
           <the-modal-comment></the-modal-comment>
         </div>
       </div>
@@ -37,6 +37,10 @@ export default {
   },
   props:{
     thumbnail:String,
+    profile:String,
+    id:Number,
+    content:String,
+    nickname:String
   },
   data: function() {
     return {
