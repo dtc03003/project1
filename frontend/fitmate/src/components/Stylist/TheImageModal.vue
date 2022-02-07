@@ -1,6 +1,6 @@
 <template>
 	<span>
-    <img src="@/assets/study.jpg" @click="$bvModal.show('bv-modal-example')" height="150px" class="m-1">
+    <img :src="thumbnail" @click="$bvModal.show('bv-modal-example')" height="150px" class="m-1">
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
     <b-modal size="lg" id="bv-modal-example" scrollable hide-footer>
       <template #modal-title>
@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col">
           <!-- 상세 이미지 -->
-          <img src="@/assets/study.jpg" alt="" height="400rem" class="mr-2">
+          <img :src="thumbnail" alt="" height="400rem" class="mr-2">
           <!-- 태그 -->
         </div>
         <div class="col">
@@ -34,6 +34,9 @@ export default {
   name: 'TheImageModal',
   components: {
     TheModalComment,
+  },
+  props:{
+    thumbnail:String,
   },
   data: function() {
     return {

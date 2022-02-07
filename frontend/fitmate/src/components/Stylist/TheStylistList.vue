@@ -6,6 +6,7 @@
         <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">
           <div>
+            <!-- 아래꺼는 먹히는거!!! 유후!!! -->
             <b-avatar :src="profile" size="5rem">
             </b-avatar>
           </div>
@@ -28,12 +29,14 @@
           </div>
         </div>
         <div id="images" class="d-inline-block" style="height:160px;">
+          <!-- {{stylistImages}} -->
           <!-- 실제로는 아래처럼 가져와야 함 -->
           <the-image-modal
-          v-for="image in stylistimages"
+          v-for="image in stylistImages"
           v-bind:key="image.id"
+          v-bind:thumbnail="image.thumbnail"
           >
-          <img :src="image.thumbnail" alt="">
+          {{ image.id }}
           </the-image-modal>
         </div>
       </div>
@@ -57,7 +60,7 @@ export default {
         averageScore:5
       },
       memberStore,
-      // stylistImages:[],
+      stylistImages:[], 
       checkauthority:''
       
     }
@@ -86,7 +89,7 @@ export default {
   created () {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
       .then(({ data })=> {
-        console.log('이거봐라')      
+        console.log('이거봐라')       
         console.log(data)
         this.stylistImages = data;
       })
