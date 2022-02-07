@@ -27,7 +27,7 @@
                         <b-tabs content-class="mt-3" fill pills card>
                             <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
                             <b-tab title="Review"><Review/></b-tab>
-                            <b-tab title="Schedule" active><Schedule/></b-tab>
+                            <b-tab title="Schedule"><Schedule/></b-tab>
                             <b-tab title="About"><About/></b-tab>
                         </b-tabs>
                     </b-col>

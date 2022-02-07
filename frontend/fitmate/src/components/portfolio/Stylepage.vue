@@ -6,7 +6,7 @@
         <hr class="mt-3">
         <div class="col-12 text-end" >
             
-            <b-button v-show="this.checkMemberinfo.authority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
+            <b-button v-if="this.checkauthority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
             <b-modal size="lg" id="modal-1" title="Style 등록" hide-footer>
                 <b-row>
                     <b-col class="col-12">
@@ -42,7 +42,8 @@ export default {
                 text: '',
                 image: '',
             },
-            styleArray: []
+            styleArray: [],
+            checkauthority: '',
         }
     },
     components: {
@@ -53,11 +54,12 @@ export default {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     created() {
-        const params = {page: 1}
+        const params = {page: 2}
         axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}/styles`,{params})
         .then(({ data })=> {
             console.log(data)
             this.styleArray = data;
+            this.checkauthority = this.checkMemberInfo.authority
         })
     },
     methods:{
