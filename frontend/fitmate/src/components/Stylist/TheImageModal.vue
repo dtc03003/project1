@@ -6,8 +6,8 @@
       <template #modal-title>
         <b-avatar :src="profile" size="4rem">
         </b-avatar>
-        <!-- 지금은 멤버 스토어에서 가져오는데, 나중에는 글 쓴 사람 이름 가져와야 함 -->
         <h3 class="d-inline">{{ nickname }}</h3>
+        <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
         <div class="col">
@@ -29,6 +29,9 @@
 <script>
 import TheModalComment from '@/components/Stylist/TheModalComment'
 import memberStore from '@/store/modules/memberStore'
+// import axios from 'axios'
+// import { FITMATE_BASE_URL } from '@/config'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'TheImageModal',
@@ -40,13 +43,30 @@ export default {
     profile:String,
     id:Number,
     content:String,
-    nickname:String
+    nickname:String,
   },
   data: function() {
     return {
       memberStore,
+      // styleComments:[],
+      // checkauthority:''
     }
-  }
+  },
+  // computed: {
+  //   ...mapGetters(
+  //     'memberStore', ['checkMemberInfo']
+  //   )
+  // },
+  // created () {
+  //     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments`)
+  //     .then(({ data })=> {
+  //       console.log('이거는 코멘트들')       
+  //       console.log(data)
+  //       this.styleComments = data;
+  //     })
+  //     this.checkauthority = this.checkMemberInfo.authority
+  //     console.log(this.checkauthority)
+  // },
 
 }
 </script>

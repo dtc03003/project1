@@ -6,11 +6,9 @@
         <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">
           <div>
-            <!-- 아래꺼는 먹히는거!!! 유후!!! -->
             <b-avatar :src="profile" size="5rem">
             </b-avatar>
           </div>
-          <!-- 프로필 이름 -->
           <h4>{{ nickname }}</h4>
           
           <!-- 찜, DB 필요 -->
@@ -28,9 +26,7 @@
             </div>            
           </div>
         </div>
-        <!-- {{stylistImages}} -->
         <div id="images" class="d-inline-block" style="height:160px;">
-          <!-- {{stylistImages}} -->
           <!-- 실제로는 아래처럼 가져와야 함 -->
           <the-image-modal
           v-for="image in stylistImages"
@@ -38,6 +34,7 @@
           v-bind:thumbnail="image.thumbnail"
           v-bind:id="image.id"
           v-bind:content="image.content"
+          v-bind:profile="image.portfolio.member.profile"
           v-bind:nickname="image.portfolio.member.nickname"
           >
           {{ image.id }}
