@@ -85,8 +85,14 @@ export default {
             };
 
             axios.post("/api/v1/notice", noticeInfo)
-            alert("등록완료!");
-            this.moveList();
+            .then(() => {
+                alert("등록완료!");
+                this.moveList();
+            })
+            .catch((err) => {
+                alert("등록실패!");
+                console.log(err)
+            })
         },
     
         // List 페이지로 이동
