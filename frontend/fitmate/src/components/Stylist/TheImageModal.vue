@@ -2,7 +2,7 @@
 	<span>
     <img src="@/assets/study.jpg" @click="$bvModal.show('bv-modal-example')" height="150px" class="m-1">
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
-    <b-modal size="lg" id="bv-modal-example" hide-footer>
+    <b-modal size="lg" id="bv-modal-example" scrollable hide-footer>
       <template #modal-title>
         <b-avatar src="https://placekitten.com/300/300" size="4rem">
         </b-avatar>

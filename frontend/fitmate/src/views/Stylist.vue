@@ -7,16 +7,18 @@
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
       <div class="col-2 d-flex align-items-center justify-content-start">
-        <select class="form-select" aria-label="Default select example">
-          <option selected value="1">최신순</option>
-          <option value="2">좋아요순</option>
-          <option value="3">평점순</option>
+        <select class="form-select" aria-label="Default select example" v-model="selected">
+          <option disabled value="">정렬</option>
+          <option value="1">최신순</option>
+          <option value="2">평점순</option>
+          <option value="3">팔로워순</option>
         </select>
       </div>
+      <!-- <span>선택함: {{ selected }}</span> -->
 
       <!-- 검색창 -->
       <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
-      <div class="col-6 offset-2">
+      <!-- <div class="col-6 offset-2">
         <v-container fluid>
           <v-combobox
             v-model="model"
@@ -40,7 +42,7 @@
             </template>
           </v-combobox>
         </v-container>
-      </div>
+      </div> -->
 
 
       <!-- 스타일리스트 목록 컴포넌트 -->
@@ -59,12 +61,21 @@ export default {
     components:{
         TheStylistList,
     },
-    data: () => ({
-      items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
-      model: ['Vuetify'],
-      search: null,
-    }),
-    methods:{},
+    // data: () => ({
+    //   items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
+    //   model: ['Vuetify'],
+    //   search: null,
+    // }),
+    data:function () {
+      return {
+        selected:''
+      } 
+    },
+    methods:{
+      latest:function() {
+
+      }
+    },
     // watch: {
     //   model (val) {
     //     if (val.length > 5) {
