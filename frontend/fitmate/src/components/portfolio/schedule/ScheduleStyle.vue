@@ -131,15 +131,16 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import dayjs from "dayjs";
 const scheduleStore = "scheduleStore";
+const reserveStore = "reserveStore";
 
 export default {
     name: "ScheduleStyle",
     data() {
         return {
-            focus: '', //현재 선택한 날짜
+            focus: new Date(Date.now()), //현재 선택한 날짜
             type: 'month', //초기 스케줄표 타입
             typeToLabel: { //리스트
                 month: 'Month',
@@ -151,15 +152,23 @@ export default {
             selectedOpen: false,
             events: [], //스케줄표에 작성된 일정들
             colors: ['#F08080', '#98FB98', '#DDA0DD', '#7B68EE', '#EEE8AA'], //색상들
-            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
             enroll: false,
         }
+    },
+    created() {
+        this.SET_STATUS(false);
+        this.importAllTime();
     },
     mounted() {
         this.$refs.calendar.checkChange()
     },
+    computed: {
+        ...mapGetters(reserveStore, ["getReservStatus", "getAllReservation", "getNewEvents"]),
+    },
     methods: {
         ...mapMutations(scheduleStore, ["SET_SELECTED_OPEN", "SET_SELECTED_DATE"]),
+        ...mapMutations(reserveStore, ["SET_STATUS", "SET_NEW_EVENTS"]),
+        ...mapActions(reserveStore, ["getReservDetailList"]),
         viewDay({ date }) {
             this.focus = date
             this.type = 'day'
@@ -187,7 +196,6 @@ export default {
                 //다음 리페인트가 진행되기 전에 해당 애니메이션을 업데이트하는 함수를 호출하게 합니다. 이 메소드는 리페인트 이전에 실행할 콜백을 인자로 받습니다.
             }
             this.SET_SELECTED_OPEN(this.selectedOpen);
-            console.log();
 
             if(this.selectedOpen) {
                 this.selectedOpen = false
@@ -198,28 +206,24 @@ export default {
             
             nativeEvent.stopPropagation()
         },
-        //db와 연동되면 필요함!
-        updateRange ({ start, end }) {
-            const events = [] //스케줄 정보 - db 연동되면 여기에 담에서 넘김
+        async importAllTime() {
+            await this.getReservDetailList("지니쓰"); //styleList명은 이후 받아올 수 있으면 변경 --test시 변경하세요!
+            this.updateRange();
+        },
+        updateRange() {
+            const events = [] //스케줄 정보
+            const eventCount = this.getAllReservation;
             
-            //--db 연동되면 사용 안할 부분
-            const min = new Date(`${start.date}T00:00:00`)
-            const max = new Date(`${end.date}T23:59:59`)
-            const days = (max.getTime() - min.getTime()) / 86400000
-            const eventCount = this.rnd(days, days + 20) //이후 등록된 갯수로 받을 것
-            
-            for (let i = 0; i < eventCount; i++) {
+            for (let event of eventCount) {
                 //db 연동 시 바뀔 것
                 const allDay = this.rnd(0, 3) === 0
-                const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-                const first = new Date(firstTimestamp - (firstTimestamp % 900000)) //db에서 날짜 받아오면 시작시간 재설정 필요
-                let temp =  new Date(firstTimestamp - (firstTimestamp % 900000));
-                const second = new Date(temp.setHours(temp.getHours()+1)); //1시간 뒤(현 서비스는 1시간 단위) --나중에 필요
+                const first = event.startTime;
+                const second = event.endTime; //1시간 뒤(현 서비스는 1시간 단위)
 
                 events.push({
-                    name: this.names[this.rnd(0, this.names.length - 1)],
-                    nickname: "고객명",
-                    email: "고객 이메일",
+                    name: "코디 상담",
+                    nickname: event.member.nickname + " 고객님",
+                    email: event.member.email,
                     start: first,
                     startTime: dayjs(first).format("HH:mm"), //시작시간
                     end: second,
@@ -229,9 +233,10 @@ export default {
                     date: dayjs(first).format("YYYY-MM-DD"), //예약날짜
                 })
             }
+            this.SET_NEW_EVENTS(events);
             this.events = events //db에서 연동해서 담은 정보들 data에 담아주기
         },
-        rnd (a, b) { //현재 코드에서 무작위로 배치하는 부분(나중에는 데이터가 있으므로 사용하지 않을 것(지금 test에서만 사용))
+        rnd (a, b) { //색깔만 무작위로 배치
             return Math.floor((b - a + 1) * Math.random()) + a
         },
     },
