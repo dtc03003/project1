@@ -17,7 +17,7 @@
         </div>
         <div class="col">
           <!-- 게시글(?) 내용 -->
-          <h6>{{ content }}</h6>
+          <pre>{{ content }}</pre>
           <!-- 아래는 댓글 -->
           <v-form>
             <v-container class="p-0">

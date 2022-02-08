@@ -24,11 +24,18 @@
           </v-combobox>
         </v-container>
       </div>
+      <div class="d-flex-wrap">
+        <the-image-modal
+        v-for="image in stylebooks"
+        v-bind:key="image.id"
+        v-bind:thumbnail="image.thumbnail"
+        v-bind:profile="image.portfolio.member.profile"
+        v-bind:id="image.id"
+        v-bind:content="image.content"
+        v-bind:nickname="image.portfolio.member.nickname"     
+        >{{image.id}}</the-image-modal>
+      </div>
 
-      <!-- 스타일리스트 목록 컴포넌트 -->
-      <!-- 근데 이거 재활용하면 되는 건가... -->
-      <h6>컴포넌트 만들까말까 고민중... 아무튼 여기는 사진 뜨는 곳</h6>
-      <p>모달은 재활용 예정</p>
     </div>
 
 
@@ -36,13 +43,37 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { FITMATE_BASE_URL } from '@/config'
+import { mapGetters } from 'vuex'
+// import TheStylebookImage from '@/components/Stylebook/TheStylebookImage'
+import TheImageModal from '@/components/Stylist/TheImageModal'
+
 export default {
-    name:'Stylebook',
-    data: () => ({
-      items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
-      model: ['Vuetify'],
-      search: null,
-    }),
+  name:'Stylebook',
+  components:{
+    // TheStylebookImage,
+    TheImageModal
+  },
+  data: () => ({
+    items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
+    model: ['Vuetify'],
+    search: null,
+    stylebooks:[],
+    checkauthority:''
+  }),
+  created () {
+      axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)
+      .then(({ data })=> {
+          console.log(data)
+          this.stylebooks = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+  },
+  computed: {
+      ...mapGetters( 'memberStore', ["checkMemberInfo"]),
+  },
 }
 </script>
 
