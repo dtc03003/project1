@@ -36,4 +36,23 @@ async function readypay(params, success, fail) {
     await api.post("/api/v1/payment/ready", JSON.stringify(params)).then(success).catch(fail);
 }
 
-export { reservationList, reservationDetailList, reservationNowList, enrollReservation, readypay, deleteReservation };
+//결제 완료(결제 내역에 push)
+async function finpay(info, success, fail) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
+    await api.post(`/api/v1/payment`, JSON.stringify(info)).then(success).catch(fail);
+}
+
+//나의 결제 내역 가져오기
+async function mypayment(success, fail) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
+    await api.get(`/api/v1/payments/me`).then(success).catch(fail);
+}
+
+//결제 내역 찾기
+async function findPaymentById(id, success, fail) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
+    await api.get(`/api/v1/payments/${id}`).then(success).catch(fail);
+}
+
+export { reservationList, reservationDetailList, reservationNowList, enrollReservation, deleteReservation,
+        readypay, finpay, mypayment, findPaymentById };
