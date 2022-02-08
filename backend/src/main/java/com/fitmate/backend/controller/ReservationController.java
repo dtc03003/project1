@@ -42,6 +42,6 @@ public class ReservationController {
     }
     @PutMapping("/{nickname}/reservation/complete/{id}")
     public ResponseEntity<?> completeReservation(@PathVariable String nickname, @PathVariable Long id){
-        return ResponseEntity.ok(reservationService.completeReservation(nickname, id));
+        return ResponseEntity.ok(reservationService.completeReservation(id));
     }
 }
