@@ -32,9 +32,4 @@ public class TagController {
     public ResponseEntity<List<String>> getTagByStyle(@PathVariable Long styleId){
         return ResponseEntity.ok(tagService.getTagByStyle(styleId));
     }
-
-    @GetMapping("/tag/search/{tagList}")
-    public ResponseEntity<List<Style>> getStyleByTag(@PathVariable List<String> tagList){
-        return ResponseEntity.ok(tagService.getStyleByTag(tagList));
-    }
 }

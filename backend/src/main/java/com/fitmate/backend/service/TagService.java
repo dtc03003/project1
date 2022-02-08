@@ -44,29 +44,4 @@ public class TagService {
         }
         return resultTagList;
     }
-
-    public List<Style> getStyleByTag(List<String> tagList){
-        List<Style> styleList = styleRepository.findAll();
-        List<Style> resultStyleList = new ArrayList<Style>();
-        for(int i=0; i<styleList.size(); i++){
-            List<Tag> tagByStyle = tagRepository.findAllByStyle(styleList.get(i));
-            boolean checkTagList = true;
-            for(int j=0; j<tagList.size(); j++){
-                boolean checkTag = false;
-                for(int k=0; k<tagByStyle.size(); k++){
-                    if(tagByStyle.get(k).getTag().equals(tagList.get(j))){
-                        checkTag = true;
-                        break;
-                    }
-                }
-                if(!checkTag) {
-                    checkTagList = false;
-                    break;
-                }
-            }
-            if (checkTagList)
-                resultStyleList.add(styleList.get(i));
-        }
-        return resultStyleList;
-    }
 }
