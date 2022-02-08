@@ -50,6 +50,13 @@ public class StyleService {
     }
 
     @Transactional
+    public String deleteStyle(Long id){
+        Style style = styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
+        styleRepository.delete(style);
+        return "delete Success";
+    }
+
+    @Transactional
     public Style updateStyle(StyleDto styleDto, Long id) {
         Style style = styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
         style.updateStyle(styleDto);
