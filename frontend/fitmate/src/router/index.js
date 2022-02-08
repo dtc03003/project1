@@ -64,7 +64,6 @@ const routes = [
   },
   {
     path: "/notice",
-    name: "Notice",
     component: () => import("@/views/Notice.vue"),
 
     children: [
@@ -88,7 +87,6 @@ const routes = [
 
   {
     path: '/qna',
-    name: 'QnA',
     component: () => import("@/views/QnA.vue"),
 
     children: [

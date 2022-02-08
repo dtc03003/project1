@@ -2,42 +2,66 @@
     <div>
         <div id="my_container">
             <!-- 이미지는 개인 프로필 이미지로 변경 -->
-            <img id="profile" src="https://hongjunland.s3.ap-northeast-2.amazonaws.com/default_profile.jpg">
-            <div>
-                <h1 style="text-align:center ">{{ this.checkMemberInfo.nickname }}</h1>
-                <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-                    <template #button-content >
-                        &#128274;<span ></span>
+            <div class="profile-img">
+                <img class="profile-user-img" :src="this.checkMemberInfo.profile">
+            </div>
+            <div class="trytocenter">
+                <h1 class="dropdown" >{{ this.checkMemberInfo.nickname }}</h1>
+                <b-dropdown class="dropdown" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template #button-content>
+                        &#128274;
                     </template>
-                    <b-dropdown-item-button v-b-modal.modal-1>회원정보 수정</b-dropdown-item-button>
+                    <b-dropdown-item-button v-b-modal.usermodify>회원정보 수정</b-dropdown-item-button>
+                    <b-modal id="usermodify" size="lg" centered  scrollable ref="style-modal" hide-footer>
+                        <template #modal-title>
+                            &#x26a0;&#xfe0f; 회원정보 수정
+                        </template>
+                        
+                        <div></div>
+                    </b-modal>
 
-                    <b-modal id="modal-1" title="회원정보 수정" hide-footer centered>
-                        <div class="d-block text-center mb-3" >
-                            <h3>비밀번호 재확인</h3>
-                            <b-form-input type="password" v-model="this.pwdconfirm"></b-form-input>
-                        </div>
-                        <div class="modal_button">
-                            {{ this.checkMemberInfo }}
-                            <b-button @click="checkpwd">확인</b-button>
-                            <b-button @click="$bvModal.hide('modal-1')">취소</b-button>
+                    <b-dropdown-item-button v-b-modal.userdelete>회원탈퇴</b-dropdown-item-button>
+                    <b-modal id="userdelete" size="md" centered  scrollable ref="style-modal" hide-footer>
+                        <template #modal-title>
+                            &#x26d4; 정말로 탈퇴하시겠습니까?
+                        </template>
+                        <div>
+                            
                         </div>
                     </b-modal>
-                    <b-dropdown-item-button >회원탈퇴</b-dropdown-item-button>
                 </b-dropdown>
             </div>
+
         </div>
+        <b-tabs content-class="mt-3" fill pills card>
+            <b-tab class="mx-1" title="My Pick"><MyPick/></b-tab>
+            <b-tab title="Mate"><Mate/></b-tab>
+            <b-tab title="History"><History/></b-tab>
+            <b-tab title="Review"><Review/></b-tab>
+        </b-tabs>
     </div>
 </template>
 
 <script>
+import MyPick from '../components/Mypage/MyPick.vue'
+import Mate from '../components/Mypage/Mate.vue'
+import History from '../components/Mypage/History.vue'
+import Review from '../components/Mypage/Review.vue'
 import { mapGetters } from 'vuex';
 const memberStore = "memberStore";
+
 export default {
     name: 'Mypage',
     data() {
         return {
             pwdconfirm:'',
         }
+    },
+    components: {
+        MyPick,
+        Mate,
+        History,
+        Review
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
@@ -59,16 +83,27 @@ export default {
 #my_container {
     margin-top: 5rem;
 }
-#profile {
+.profile-img {
     display: block;
-    text-align: center;
-    width: "300"; height:"300";
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 50%;
+    margin: 0 auto;
+    width: 250px; height: 250px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.profile-user-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
 }
 .modal_button {
     text-align: right;
     margin-right: 5px;
+}
+.dropdown {
+    display:inline-block;
+}
+.trytocenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

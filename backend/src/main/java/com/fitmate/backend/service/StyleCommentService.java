@@ -40,4 +40,7 @@ public class StyleCommentService {
                 .map(StyleComment::new)
                 .collect(Collectors.toList());
     }
+    public List<StyleComment> getCommentsByStyleId(Long id) {
+        return styleCommentRepository.findAllByStyleId(id);
+    }
 }
