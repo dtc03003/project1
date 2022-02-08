@@ -9,7 +9,7 @@ import org.springframework.util.MultiValueMap;
 @Setter
 @Builder
 public class KakaoPayDto {
-    private String cid = "TC0ONETIME";
+    private String cid;
 //    private String cid_secret;
     private String partner_order_id;
     private String partner_user_id;

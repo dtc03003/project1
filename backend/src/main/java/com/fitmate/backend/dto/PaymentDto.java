@@ -2,6 +2,7 @@ package com.fitmate.backend.dto;
 
 import com.fitmate.backend.entity.Payment;
 import com.fitmate.backend.entity.Reservation;
+import com.fitmate.backend.entity.State;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,15 +15,12 @@ import javax.persistence.*;
 public class PaymentDto {
 
     private Reservation reservation;
-    private Boolean isCanceled;
+    private State state;
 
-    public void cancel(){
-        this.isCanceled = true;
-    }
     public static Payment toEntity(PaymentDto paymentDto, Reservation reservation){
         return Payment.builder()
                 .reservation(reservation)
-                .isCanceled(paymentDto.getIsCanceled())
+                .state(paymentDto.getState())
                 .build();
     }
 }
