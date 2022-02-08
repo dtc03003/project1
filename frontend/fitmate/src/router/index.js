@@ -45,7 +45,19 @@ const routes = [
   {
     path: '/order',
     name: 'Order',
-    component: () => import("@/views/order/Order.vue")
+    component: () => import("@/views/order/Order.vue"),
+    children: [
+      {
+        path: "/approval",
+        name: 'OrderDone',
+        component: () => import("@/views/order/OrderDone.vue"),
+      },
+      {
+        path: "/fail",
+        name: 'OrderFail',
+        component: () => import("@/views/order/OrderFail.vue"),
+      },
+    ]
   },
   {
     path: '/mypage',
