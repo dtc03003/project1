@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,7 +70,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation completeReservation(String nickname, Long id) {
+    public Reservation completeReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new);
         if(reservation.getState()!=State.IN_PROGRESS) throw new UpdateStateException();
         reservation.complete();
@@ -81,6 +82,12 @@ public class ReservationService {
         return reservationRepository.findAllByPortfolioId(portfolio.getId())
                 .stream()
                 .filter(reservation -> reservation.getState().equals(State.valueOf(state)))
+                .collect(Collectors.toList());
+    }
+    public List<Reservation> findAllAtCurrentTime(LocalDateTime now){
+        List<Reservation> reservations = reservationRepository.findAllByState(State.IN_PROGRESS);
+        return reservations.stream()
+                .filter(reservation -> reservation.getStartTime().isBefore(now))
                 .collect(Collectors.toList());
     }
 }
