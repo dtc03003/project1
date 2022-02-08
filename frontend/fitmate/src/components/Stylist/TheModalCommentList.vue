@@ -1,12 +1,17 @@
 <template>
   <div>
-    <h4>댓글달린거 쭉쭉쭉쭉ㅉ궂꿎구쭉</h4>
+    <!-- 아래는 댓글 -->
+    <h6>{{writer}} : {{content}}</h6>
   </div>
 </template>
 
 <script>
 export default {
   name:'TheModalCommentList',
+  props:{
+    content:String,
+    writer:String,
+  },
 
 }
 </script>
