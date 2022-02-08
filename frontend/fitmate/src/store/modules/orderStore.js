@@ -1,8 +1,9 @@
-import { enrollReservation, readypay } from '@/api/reserve.js'
+import { enrollReservation, deleteReservation, readypay } from '@/api/reserve.js'
 
 const orderStore = {
     namespaced: true,
     state: {
+        id: '',
         date: '',
         time: '',
         reserveStatus: false,
@@ -12,6 +13,7 @@ const orderStore = {
         app_url: "",
     },
     getters: {
+        getID: (state) => state.id,
         getDate: (state) => state.date,
         getTime: (state) => state.time,
         getReserveStatus: (state) => state.reserveStatus,
@@ -22,6 +24,7 @@ const orderStore = {
 
     },
     mutations: {
+        SET_ID: (state, id) => { state.id = id; },
         SET_DATE: (state, date) => { state.date = date; },
         SET_TIME: (state, time) => { state.time = time; },
         SET_RESERVE_STATUS: (state, reserveStatus) => { state.reserveStatus = reserveStatus; },
@@ -48,9 +51,21 @@ const orderStore = {
                 if(response.status == 200) {
                     console.log("예약 기록 성공");
                     commit("SET_RESERVE_STATUS", true);
+                    commit("SET_ID", response.data.id);
                 }
             },
             () => { commit("SET_RESERVE_STATUS", false);});
+        },
+        async deleteOrder({commit}, info) { //예약 취소
+            console.log(info);
+            await deleteReservation(info.nickname, info.id, (response) => {
+                if(response.status == 200) {
+                    console.log("예약 기록 삭제");
+                    commit("SET_RESERVE_STATUS", false);
+                    commit("SET_ID", "");
+                }
+            },
+            () => {});
         },
         async requestKakaoPay({commit}, payinfo) { //카카오 결제 요청
             await readypay(payinfo, (response) => {

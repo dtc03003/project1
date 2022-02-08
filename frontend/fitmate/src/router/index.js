@@ -50,8 +50,8 @@ const routes = [
     children: [
       {
         path: "/approval",
-        name: 'OrderDone',
-        component: () => import("@/views/order/OrderDone.vue"),
+        name: 'OrderApproval',
+        component: () => import("@/views/order/OrderApproval.vue"),
       },
       {
         path: "/fail",

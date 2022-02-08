@@ -7,10 +7,8 @@
 <script>
 export default {
     name: "OrderFail",
-    data() {
-        return {
-            
-        }
+    created() {
+        alert("결제 중 오류가 발생되었습니다.");
     },
     methods: {
 

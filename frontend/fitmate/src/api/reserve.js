@@ -26,10 +26,14 @@ async function enrollReservation(nickname, info, success, fail) {
     await api.post(`/api/v1/portfolio/${nickname}/reservation`, JSON.stringify(info)).then(success).catch(fail);
 }
 
+//예약 취소하기
+async function deleteReservation(nickname, id, success, fail) {
+    await api.delete(`/api/v1/portfolio/${nickname}/reservation/${id}`).then(success).catch(fail);
+}
+
 //카카오페이 결제 요청
 async function readypay(params, success, fail) {
-    console.log(params);
     await api.post("/api/v1/payment/ready", JSON.stringify(params)).then(success).catch(fail);
 }
 
-export { reservationList, reservationDetailList, reservationNowList, enrollReservation, readypay };
+export { reservationList, reservationDetailList, reservationNowList, enrollReservation, readypay, deleteReservation };

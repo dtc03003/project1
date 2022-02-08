@@ -49,7 +49,7 @@
             </b-row>
             <b-row>
                     <center>
-                        <img id="kakaopaybtn" src="@/assets/kakaopayimg.png" alt="카카오페이 버튼" @click="payment()">
+                        <img id="kakaopaybtn" src="@/assets/kakaopayimg.png" alt="카카오페이 버튼" @click="requestPay()">
                         <b-button type="button" class="text-decoration-none" id="reset" @click="goBack">취소</b-button>
                     </center>
             </b-row>
@@ -59,7 +59,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import dayjs from "dayjs";
 const orderStore = "orderStore";
 const memberStore = "memberStore";
 
@@ -81,12 +80,12 @@ export default {
         this.price = this.styleList.price.toLocaleString()
     },
     computed: {
-        ...mapGetters(orderStore, ["getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus"]),
+        ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
-        ...mapActions(orderStore, ["registOrder", "requestKakaoPay"]),
+        ...mapActions(orderStore, ["deleteOrder", "requestKakaoPay"]),
         getInfo() { //사용자 정보 가져오기
             if(this.checkMemberInfo) this.member = this.checkMemberInfo;
             else this.importInfo(localStorage.getItem("accessToken"));
@@ -99,24 +98,13 @@ export default {
             alert("날짜/시간이 초기화된 관계로 다시 선택해주시길 바랍니다.");
             this.$router.go(-1);
         },
-        goBack() { //취소 시 이전 페이지로 이동
-            this.$router.go(-1);
-        },
-        async payment() {
-            const start = new Date(this.getDate + " " +this.getTime);
-            let endTime = (start.getHours() + 1) + ":00";
-            const end = new Date(this.getDate + " " + endTime);
-            const orderinfo = {
-                "nickname": this.styleList.nickname,
-                "cost": this.styleList.price,
-                "startTime": dayjs(start).format('YYYY-MM-DDTHH:00:00.000') + 'Z',
-                "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00.000') + 'Z'
+        async goBack() { //취소 시 이전 페이지로 이동
+            const info = {
+                nickname: this.styleList.nickname,
+                id: this.getID,
             }
-            await this.registOrder(orderinfo);
-            if(this.getReserveStatus) {
-                this.requestPay();
-            }
-
+            await this.deleteOrder(info);
+            if(!this.getReserveStatus) this.$router.go(-1);
         },
         async requestPay() {
             const payinfo = {
