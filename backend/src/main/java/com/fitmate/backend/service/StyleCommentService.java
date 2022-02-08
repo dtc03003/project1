@@ -41,6 +41,6 @@ public class StyleCommentService {
                 .collect(Collectors.toList());
     }
     public List<StyleComment> getCommentsByStyleId(Long id) {
-        return styleCommentRepository.findAllByStyleId(id);
+        return styleCommentRepository.findAllByStyleIdOrderByIdDesc(id);
     }
 }

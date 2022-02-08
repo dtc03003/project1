@@ -39,4 +39,8 @@ public class StyleController {
     public ResponseEntity<?> selectAllStylesByPortfolioId(@PathVariable String nickname){
         return ResponseEntity.ok(styleService.findAllStylesByNickname(nickname));
     }
+    @DeleteMapping("/style/{id}")
+    public ResponseEntity<?> deleteStyle(@PathVariable Long id){
+        return ResponseEntity.ok(styleService.deleteStyle(id));
+    }
 }
