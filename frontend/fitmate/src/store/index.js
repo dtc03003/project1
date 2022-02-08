@@ -8,6 +8,7 @@ import scheduleStore from "@/store/modules/scheduleStore";
 import reviewStore from"@/store/modules/reviewStore";
 import reserveStore from"@/store/modules/reserveStore";
 import createPersistedState from "vuex-persistedstate";
+import styleStore from "@/store/modules/styleStore"
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     orderStore,
     qnaStore,
     scheduleStore,
+    styleStore,
     reviewStore,
     reserveStore,
   },
