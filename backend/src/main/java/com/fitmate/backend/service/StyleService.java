@@ -61,6 +61,6 @@ public class StyleService {
 
     public List<Style> findAllStylesByNickname(String nickname) {
         Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
-        return styleRepository.findAllByPortfolioId(portfolio.getId());
+        return styleRepository.findAllByPortfolioIdOrderByIdDesc(portfolio.getId());
     }
 }
