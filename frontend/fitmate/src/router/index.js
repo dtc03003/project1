@@ -54,6 +54,11 @@ const routes = [
     component: () => import("@/views/order/OrderApproval.vue")
   },
   {
+    path: "/order/cancel",
+    name: 'OrderCancel',
+    component: () => import("@/views/order/OrderCancel.vue"),
+  },
+  {
     path: "/order/fail",
     name: 'OrderFail',
     component: () => import("@/views/order/OrderFail.vue"),

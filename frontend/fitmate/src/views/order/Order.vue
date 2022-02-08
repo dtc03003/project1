@@ -116,7 +116,7 @@ export default {
                 "total_amount": this.styleList.price,
                 "tax_free_amount": 0,
                 "approval_url": "http://localhost:8080/order/approval",
-                "cancel_url": "http://localhost:8080/portfolio",
+                "cancel_url": "http://localhost:8080/order/cancel",
                 "fail_url": "http://localhost:8080/order/fail"
             }
             
