@@ -20,20 +20,19 @@
             persistent-hint
             small-chips
           >
- 
           </v-combobox>
         </v-container>
       </div>
       <div class="d-flex-wrap">
         <the-image-modal
         v-for="image in stylebooks"
-        v-bind:key="image.id"
+        v-bind:key="image.createdAt"
         v-bind:thumbnail="image.thumbnail"
         v-bind:profile="image.portfolio.member.profile"
         v-bind:id="image.id"
         v-bind:content="image.content"
         v-bind:nickname="image.portfolio.member.nickname"     
-        >{{image.id}}</the-image-modal>
+        >{{image}}</the-image-modal>
       </div>
 
     </div>

@@ -14,6 +14,11 @@
           <!-- 상세 이미지 -->
           <img :src="thumbnail" alt="" width="500rem" class="mr-2">
           <!-- 태그 -->
+          <the-image-tag
+          v-for="tag in tags"
+          v-bind:key="tag.id"
+          v-bind:tag="tag"
+          >{{tag}}</the-image-tag>
         </div>
         <div class="col">
           <!-- 게시글(?) 내용 -->
@@ -57,6 +62,7 @@
 <script>
 import memberStore from '@/store/modules/memberStore'
 import TheModalCommentList from '@/components/Stylist/TheModalCommentList'
+import TheImageTag from '@/components/Stylist/TheImageTag'
 import axios from 'axios'
 import { FITMATE_BASE_URL } from '@/config'
 import { mapGetters } from 'vuex'
@@ -65,6 +71,7 @@ export default {
   name: 'TheImageModal',
   components: {
     TheModalCommentList,
+    TheImageTag,
   },
   props:{
     thumbnail:String,
@@ -83,6 +90,7 @@ export default {
       message: '',
       marker: true,
       iconIndex: 0,
+      tags:[],
     }
   },
   computed: {
@@ -94,14 +102,20 @@ export default {
     },
   },
   created () {
-      axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
-      .then(({ data })=> {
-        console.log('이거는 코멘트들')       
-        console.log(data)
-        this.comments = data;
-      })
-      this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
+    axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
+    .then(({ data })=> {
+      console.log('이거는 코멘트들')       
+      console.log(data)
+      this.comments = data;
+    })
+    this.checkauthority = this.checkMemberInfo.authority
+    console.log(this.checkauthority)
+    axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
+    .then(({ data })=> {
+      console.log('태그')       
+      console.log(data)
+      this.tags = data;
+    })
   },
   methods: {
     toggleMarker () {
