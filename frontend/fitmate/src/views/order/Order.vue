@@ -31,7 +31,6 @@
                 <table>
                     <tr>
                         <td>스타일리스트</td>
-                        <!-- <td>미어켓</td> 아직 저장된 스타일리스트명이 없음 -->
                         <td>{{this.styleList.nickname}}</td>
                     </tr>
                     <tr>
@@ -40,7 +39,6 @@
                     </tr>
                     <tr>
                         <td>컨설팅 비용</td>
-                        <!-- <td>12,000원</td> 저장된 스타일리스트가 없어 가격 임의 지정 -->
                         <td>{{this.price}}원</td>
                     </tr>
                     <tr>
@@ -61,6 +59,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import dayjs from "dayjs";
 const orderStore = "orderStore";
 const memberStore = "memberStore";
 
@@ -70,8 +69,8 @@ export default {
         return {
             member: {},
             styleList: { //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
-                nickname : "미어켓",
-                price : 12000
+                nickname : "지니쓰", //스타일리스트명과 가격정보는 이후 스타일리스트 정보 가져올 수 있으면 변경
+                price : 13000
             },
             price: "",
         }
@@ -82,11 +81,12 @@ export default {
         this.price = this.styleList.price.toLocaleString()
     },
     computed: {
-        ...mapGetters(orderStore, ["getDate", "getTime"]),
+        ...mapGetters(orderStore, ["getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
+        ...mapActions(orderStore, ["registOrder", "requestKakaoPay"]),
         getInfo() { //사용자 정보 가져오기
             if(this.checkMemberInfo) this.member = this.checkMemberInfo;
             else this.importInfo(localStorage.getItem("accessToken"));
@@ -102,22 +102,48 @@ export default {
         goBack() { //취소 시 이전 페이지로 이동
             this.$router.go(-1);
         },
-        payment() {
-            const payinfo = {
-                "cid" : "TC0ONETIME", //테스트일 경우 사용(우리는 이거 사용!)
-                "partner_order_id" : "partner_order_id",
-                "partner_user_id" : "partner_user_id",
-                "item_name" : `${this.styleList.nickname} 스타일리스트 의뢰비`,
-                "quantity" : 1,
-                "total_amount" : this.styleList.price,
-                "tax_free_amount" : 0,
-                "approval_url" : "http://localhost:8080/",
-                "cancel_url" : "http://localhost:8080/portfolio",
-                "fail_url" : "http://localhost:8080/signin"
+        async payment() {
+            const start = new Date(this.getDate + " " +this.getTime);
+            let endTime = (start.getHours() + 1) + ":00";
+            const end = new Date(this.getDate + " " + endTime);
+            const orderinfo = {
+                "nickname": this.styleList.nickname,
+                "cost": this.styleList.price,
+                "startTime": dayjs(start).format('YYYY-MM-DDTHH:00:00.000') + 'Z',
+                "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00.000') + 'Z'
+            }
+            await this.registOrder(orderinfo);
+            if(this.getReserveStatus) {
+                this.requestPay();
             }
 
-            console.log(payinfo);
-            alert("카카오페이");
+        },
+        async requestPay() {
+            const payinfo = {
+                "cid": "TC0ONETIME",
+                "partner_order_id": "partner_order_id",
+                "partner_user_id": "partner_user_id",
+                "item_name": "Fitmate",
+                "quantity": 1,
+                "total_amount": this.styleList.price,
+                "tax_free_amount": 0,
+                "approval_url": "http://localhost:8080/order/approval",
+                "cancel_url": "http://localhost:8080/portfolio",
+                "fail_url": "http://localhost:8080/order/fail"
+            }
+            
+            await this.requestKakaoPay(payinfo);
+
+            if(this.getPayStatus) {
+                // console.log(window.navigator.userAgent); -- 사용자가 현재 pc인지 모바일인지 확인
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    console.log("모바일임!");
+                    window.open(this.getMobileUrl, "_self");
+                }else {
+                    console.log("pc임!");
+                    window.open(this.getPCUrl, "_self");
+                }
+            }
         }
     }
 }
