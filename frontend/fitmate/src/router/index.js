@@ -9,6 +9,7 @@ import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
 import Stylebook from '@/views/Stylebook'
 import Mypage from '@/views/Mypage'
+import Modify from '@/views/Mypagenormal/Modify'
 Vue.use(VueRouter)
 
 const routes = [
@@ -73,6 +74,11 @@ const routes = [
     path: '/stylebook',
     name: 'Stylebook',
     component: Stylebook
+  },
+  {
+    path: '/Mypagenormal/modify',
+    name: 'Modify',
+    component: Modify
   },
   {
     path: "/notice",
