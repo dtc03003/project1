@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <h1>About </h1>
+    <div class="row">
+        <div class="col-10">
+            <h1>About </h1>
+        </div>
+        <div class="col-2">
+            <b-button class="submitBtn">수정</b-button>
+        </div>
         <p>{{profileData.about}}</p>
     </div>
 </template>
@@ -32,3 +37,6 @@ export default {
     }
 }
 </script>
+<style scoped>
+.submitBtn { background-color: #7e7fb9 !important; width: 70%;}
+</style>
