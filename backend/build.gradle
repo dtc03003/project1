@@ -54,6 +54,9 @@ dependencies {
 //    Quartz
     implementation 'org.springframework.boot:spring-boot-starter-quartz:2.6.3'
     implementation 'org.quartz-scheduler:quartz-jobs:2.2.1'
+//    mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 test {

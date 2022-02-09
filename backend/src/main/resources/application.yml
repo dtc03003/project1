@@ -29,6 +29,17 @@ spring:
     properties:
       hibernate:
         format_sql: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fitmate2022@gmail.com
+    password: Fitmate2022@@
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 #  quartz:
 #    job-store-type: jdbc
 #    properties.org.quartz.threadPool.threadCount: 5
@@ -76,4 +87,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-

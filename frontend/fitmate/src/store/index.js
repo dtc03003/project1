@@ -33,7 +33,7 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({ //새로고침해도 초기화 안되도록 방지
-      paths: ["memberStore"],
+      paths: ["memberStore", "orderStore"],
     }),
   ],
 });

@@ -30,7 +30,7 @@ export default {
         ...mapGetters(memberStore, ["checkisSignin"]),
     },
     methods: {
-        ...mapActions(memberStore, ["sendKakaoToken"]),
+        ...mapActions(memberStore, ["sendKakaoToken", "signInMemberInfo"]),
         kakaoLogin() {
             const params = {
                 redirectUri: this.redirect_uri,
@@ -47,8 +47,10 @@ export default {
                 scope: authObj['scope'],
                 token_type: authObj['token_type'],
             };
-            await this.sendKakaoToken(kakao); //kako 로그인 토큰 값 넘기기
+            await this.sendKakaoToken(kakao); //kakao 로그인 토큰 값 넘기기
+            let accessToken = localStorage.getItem("accessToken");
             if(this.checkisSignin) {
+                await this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
             }
         },
