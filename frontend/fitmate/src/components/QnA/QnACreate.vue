@@ -32,6 +32,7 @@
             variant="primary"
             class="m-1 float-right"
             @click="checkValue"
+            v-bind:disabled="title == '' || content == ''"
         >등록</b-button>
     
     </b-container>
@@ -99,6 +100,7 @@ export default {
         moveList() {
             console.log("리스트로 이동");
             this.$router.push({ name: "QnAList" }).catch(()=>{});
+            window.location.reload();
         },
     },
 }

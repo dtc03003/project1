@@ -32,6 +32,7 @@
             variant="primary"
             class="m-1 float-right"
             @click="checkValue"
+            v-bind:disabled="title == '' || content == ''"
         >등록</b-button>
     
     </b-container>
@@ -53,7 +54,7 @@ export default {
             title : "",
             content: "",
             writer : "",
-            createdAt : ""
+            createdAt : "",
         }
     },
 
@@ -62,11 +63,8 @@ export default {
     },
     
     methods: {
-        // 제목 내용 작성에 이상없는지 확인
+
         checkValue() {
-            // 체크 할 부분
-
-
             // 데이터 전송
             this.registNotice();
 
@@ -100,6 +98,7 @@ export default {
         moveList() {
             console.log("리스트로 이동");
             this.$router.push({ name: "NoticeList" }).catch(()=>{});
+            window.location.reload();
         },
     },
 }

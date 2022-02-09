@@ -3,7 +3,7 @@
 
         <img id="stylist" :src="this.memberInfo.profile" width="300" height="300">
         <h1 class="mt-3" v-if="this.checkauthority == 'ROLE_STYLIST'">{{ profileData.nickname }}</h1>
-        <p class="mt-3" v-if="this.checkauthority == 'ROLE_STYLIST'"> {{ profileData.bio }} </p>
+        <p class="mt-3" v-if="this.checkauthority == 'ROLE_STYLIST'">{{ profileData.bio }} </p>
 
         <div class="mt-5">
             <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;"></b-icon>

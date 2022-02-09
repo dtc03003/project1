@@ -15,8 +15,8 @@
 
                     <b-tbody class="list">
                         <b-tr v-for="(qna, id) in paginatedData" :key="id">
-                            <b-td> {{qna.id}} </b-td>
-                            <b-td> {{qna.writer}} </b-td>
+                            <b-td>{{qna.id}}</b-td>
+                            <b-td>{{qna.writer}}</b-td>
                             <b-th><router-link :to="`/qna/view/${qna.id}`">{{qna.title}}</router-link></b-th>
                             <b-td>{{qna.createdAt}}</b-td>
                         </b-tr>
@@ -38,7 +38,6 @@
         </b-row>
     </b-container>
 </template>
-
 
 <script>
 import { mapState, mapGetters } from 'vuex';
@@ -65,7 +64,6 @@ export default {
             default: 10
         }
     },
-
 
     methods: {
 

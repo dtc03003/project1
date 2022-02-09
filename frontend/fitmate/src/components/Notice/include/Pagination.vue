@@ -65,9 +65,7 @@ export default {
         }
     },
 
-
     methods: {
-
          //  게시물 등록페이지로 이동
         moveCreate() {
             console.log("등록페이지 이동")
@@ -80,7 +78,6 @@ export default {
         prevPage () {
             this.pageNum -= 1;
         },
-
     },
 
     computed: {
@@ -100,7 +97,6 @@ export default {
                 end = start + this.pageSize;
             return this.listArray.slice(start, end);
         }
-
     }
 }
 </script>
