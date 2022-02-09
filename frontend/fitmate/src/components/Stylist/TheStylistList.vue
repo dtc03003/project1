@@ -6,7 +6,8 @@
         <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">
           <div>
-            <b-avatar :src="profile" size="5rem">
+            <!-- 나중에 프로필사진 클릭하면 포트폴리오로 넘어갈 수 있도록 -->
+            <b-avatar @click.native="goToPortfolio" :src="profile" size="5rem">
             </b-avatar>
           </div>
           <h4>{{ nickname }}</h4>
@@ -72,6 +73,11 @@ export default {
   },
   components:{
     TheImageModal,
+  },
+  methods:{
+    goToPortfolio: function(){
+      this.$router.push({name:'Portfolio'})
+    }
   },
   computed: {
     ...mapState(

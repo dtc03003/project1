@@ -1,8 +1,8 @@
 <template>
   <v-chip draggable
     class="m-1"
-    color="indigo"
-  >{{tag}}
+    style="background-color:blue; color:white;"
+  >{{ tag }}
   </v-chip>
 </template>
 
@@ -11,8 +11,7 @@ export default {
   name: 'TheImageTag',
   props:{
     tag:String,
-  }
-
+  },
 }
 </script>
 

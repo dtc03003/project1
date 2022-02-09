@@ -4,13 +4,14 @@
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
     <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
       <template #modal-title>
-        <b-avatar :src="profile" size="4rem">
+        <b-avatar :src="profile" size="4rem" class="me-2">
         </b-avatar>
         <h3 class="d-inline">{{ nickname }}</h3>
         <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
         <div class="col">
+
           <!-- 상세 이미지 -->
           <img :src="thumbnail" alt="" width="500rem" class="mr-2">
           <!-- 태그 -->
@@ -34,7 +35,7 @@
                     clear-icon="mdi-close-circle"
                     append-outer-icon="mdi-send"
                     clearable
-                    label="댓글은 예쁜 말로!"
+                    label="댓글 달아주세요!!"
                     type="text"
                     @click:clear="clearMessage"
                     @click:append-outer="saveComment"
@@ -44,7 +45,6 @@
               </v-row>
             </v-container>
           </v-form>
-          <!-- {{comments}} -->
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
           v-for="singlecomment in comments"
@@ -56,7 +56,7 @@
       </div>
       <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
     </b-modal>
-    </span>
+  </span>
 </template>
 
 <script>
@@ -110,6 +110,7 @@ export default {
     })
     this.checkauthority = this.checkMemberInfo.authority
     console.log(this.checkauthority)
+
     axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
     .then(({ data })=> {
       console.log('태그')       
@@ -136,6 +137,7 @@ export default {
         ? this.iconIndex = 0
         : this.iconIndex++
     },
+    // 댓글 저장용
     saveComment() {
       console.log(this.message)
       axios({
@@ -155,9 +157,9 @@ export default {
       this.clearMessage()
     }
   },
-
 }
 </script>
+
 
 
 <style>
