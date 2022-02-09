@@ -1,9 +1,9 @@
 <template>
     <div>
         <div>
-            <img id="stylist" :src="this.memberInfo.profile" width="300" height="300">
+            <img id="stylist" :src="profile" width="300" height="300">
             <h1 class="mt-3" >{{ profileData.nickname }}</h1>
-            <p class="mt-3" >{{ profileData.bio }} </p>
+            <p class="mt-3" >{{ profileData.bio }}</p>
 
             <div class="mt-5">
                 <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;"></b-icon>
@@ -27,6 +27,7 @@ export default {
             nickname: this.$route.params.nickname,
             profileData : [],
             checkauthority: '',
+            profile : ''
         }
     },
 
@@ -38,8 +39,8 @@ export default {
 
         axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
-            console.log(data);
             this.profileData = data;
+            this.profile = this.profileData.member.profile
         })
         
     }
