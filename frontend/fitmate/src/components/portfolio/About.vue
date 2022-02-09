@@ -14,6 +14,7 @@ const memberStore = "memberStore";
 export default {
     data() {
         return {
+            nickname: this.$route.params.nickname,
             profileData : [],
         }
     },
@@ -23,7 +24,7 @@ export default {
     },
 
     created () {
-        axios.get(`/api/v1/portfolio/${this.memberInfo.nickname}`)
+        axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
             console.log(data);
             this.profileData = data;

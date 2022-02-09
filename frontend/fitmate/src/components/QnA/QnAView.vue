@@ -47,6 +47,7 @@
                     variant="primary"
                     class="btn m-1 float-right"
                     @click="checkValue"
+                    v-bind:disabled="comment == ''"
                 >등록</b-button>
 
                 <!-- 댓글 목록 -->
@@ -135,6 +136,6 @@ export default {
 
 <style>
 .btn {
- float: right;
+    float: right;
 }
 </style>

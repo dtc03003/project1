@@ -24,7 +24,7 @@
               <!-- </li> -->
               <!-- 스타일리스트? -->
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST'" class="nav-item">
-                <a class="nav-link"><router-link to="/portfolio">Portfolio(임시)</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio(임시)</router-link></a>
               </li>
             </ul>
           </div>

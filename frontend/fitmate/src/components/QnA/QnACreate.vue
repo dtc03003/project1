@@ -32,6 +32,7 @@
             variant="primary"
             class="m-1 float-right"
             @click="checkValue"
+            v-bind:disabled="title == '' || content == ''"
         >등록</b-button>
     
     </b-container>
