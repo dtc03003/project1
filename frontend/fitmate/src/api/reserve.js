@@ -51,7 +51,7 @@ async function mypayment(success, fail) {
 //결제 내역 찾기
 async function findPaymentById(id, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
-    await api.get(`/api/v1/payments/${id}`).then(success).catch(fail);
+    await api.put(`/api/v1/payment/${id}`).then(success).catch(fail);
 }
 
 export { reservationList, reservationDetailList, reservationNowList, enrollReservation, deleteReservation,
