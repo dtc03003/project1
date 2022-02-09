@@ -25,7 +25,6 @@
                                         <div @click="selectTime(t)"
                                         :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2'"
                                         >{{ t }}</div>
-                                        <!-- v-bind:disabled="reservedTime.includes(t) ? true : false" -->
                                     </td>
                                 </tr>
                             </table>
@@ -60,20 +59,10 @@ export default {
             ],
             selectedTime: '',
             reservedTime: [],
-            // times: [
-            //     ["10:00", "10:30", "11:00", "11:30"],
-            //     ["12:00", "12:30", "13:00", "13:30"],
-            //     ["14:00", "14:30", "15:00", "15:30"],
-            //     ["16:00", "16:30", "17:00", "17:30"],
-            //     ["18:00", "18:30", "19:00", "19:30"]
-            // ],
-            // calcTimes: [
-            //     "10:00", "10:30", "11:00", "11:30",
-            //     "12:00", "12:30", "13:00", "13:30",
-            //     "14:00", "14:30", "15:00", "15:30",
-            //     "16:00", "16:30", "17:00", "17:30",
-            //     "18:00", "18:30", "19:00", "19:30"
-            // ],
+            styleList: {
+                nickname : "지니쓰", //스타일리스트 정보 가져올 수 있으면 할 것 - test시 변경하세요!!
+                price : 13000
+            },
         }
     },
     created() {
@@ -87,11 +76,13 @@ export default {
     },
     computed: {
         ...mapGetters(reserveStore, ["getReservStatus", "getAllReservation"]),
+        ...mapGetters(orderStore, ["getDate", "getTime", "getReserveStatus"]),
     },
     methods: {
         ...mapMutations(orderStore, ["SET_DATE", "SET_TIME"]),
         ...mapMutations(reserveStore, ["SET_STATUS"]),
         ...mapActions(reserveStore, ["getReservList"]),
+        ...mapActions(orderStore, ["registOrder"]),
         allowedDates(value) {
             const date = dayjs(value);
             const now = dayjs((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10));
@@ -126,9 +117,20 @@ export default {
                 alert("날짜를 먼저 선택해주세요.");
             }
         },
-        moveOrder() {
-            if(confirm(`날짜: ${this.picker}\n시간: ${this.selectedTime}\n예약을 진행할까요?`))
-            this.$router.push({name: "Order"});
+        async moveOrder() {
+            if(confirm(`날짜: ${this.picker}\n시작시간: ${this.selectedTime}\n예약을 진행할까요?`)) {
+                const start = new Date(this.getDate + " " +this.getTime);
+                let endTime = (start.getHours() + 1) + ":00";
+                const end = new Date(this.getDate + " " + endTime);
+                const orderinfo = {
+                    "nickname": this.styleList.nickname,
+                    "cost": this.styleList.price,
+                    "startTime": dayjs(start).format('YYYY-MM-DDTHH:00:00'),
+                    "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00')
+                }
+                await this.registOrder(orderinfo);
+                if(this.getReserveStatus) this.$router.push({name: "Order"});
+            }
         },
         async importAllTime() {
             await this.getReservList("지니쓰"); //styleList명은 이후 받아올 수 있으면 변경 -- test시 변경하세요!!

@@ -2,7 +2,7 @@
     <div>
         <v-app>
             <v-container class="mt-5">
-                <h4 align="center">결제 중 오류가 발생되었습니다. 10초 후 메인으로 이동합니다.</h4>
+                <h4 align="center">결제가 취소되었습니다. 10초 후 스타일리스트 목록으로 이동합니다.</h4>
                 <v-progress-linear
                 color="white accent-4"
                 indeterminate
@@ -21,10 +21,9 @@ import { mapActions, mapGetters } from 'vuex';
 const orderStore = "orderStore";
 
 export default {
-    name: "OrderFail",
-    data() {
+    name: "OrderCancel",data() {
         return {
-            nickname : "지니쓰", //이후 가져올 값
+            nickname : "지니쓰", //이후 가져올 값 -- 스타일리스트 값 저장가능 할 때 바꿀 부분
         }
     },
     created() {
@@ -41,7 +40,7 @@ export default {
                 id: this.getID,
             }
             await this.deleteOrder(info); //예약 취소(결제 오류로 예약 내역도 취소)
-            if(!this.getReserveStatus) this.$router.push({name: "Home"});
+            if(!this.getReserveStatus) this.$router.push({name: "Stylist"});
         }
     },
 }
