@@ -47,7 +47,7 @@
                                 <hr>
 
                                 <h3 id="signinTitle" align="left" class="mt-3">&#x1F512; 계정 보안</h3>
-                                <h5 id="signinTitle" align="left" class="mt-3">비밀번호</h5>
+                                <h5 id="signinTitle" align="left" class="mt-3">변경할 비밀번호</h5>
                                 <b-input-group >
                                     <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
                                     </b-form-input>
@@ -149,6 +149,10 @@
 <script>
 import axios from 'axios'
 import { FITMATE_BASE_URL } from "@/config";
+import { mapState, mapActions } from "vuex";
+// import mapActions from "vuex";
+const memberStore = "memberStore";
+
 export default {
     data() {
         return {
@@ -167,7 +171,11 @@ export default {
             pwdcheckFlag: true,
             phonecheckFlag: true,
             nickduplication: true,
+            memberStore,
         }
+    },
+    computed: {
+        ...mapState(memberStore, ["isSignin", "memberInfo"]),
     },
     async mounted() {
         const accessToken = localStorage.getItem("accessToken");
@@ -179,16 +187,18 @@ export default {
         })
     },
     methods: {
+        ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
         PwdModify() {
             const pwdInfo = {
                 password : this.signup.password
             } 
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me/password`, pwdInfo)
-            .then((res) => {
-                alert('비밀번호가 변경되었습니다. 다시 로그인 해주세요!')
-                this.$router.push({name: "Signin"});
-                this.signout()
-                console.log(res)
+            .then(() => {
+                alert('비밀번호가 변경되었습니다.')
+                this.reissueToken()
+                let accessToken = localStorage.getItem("accessToken");
+                this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                window.location.reload()
             })
             .catch((err)=>console.log(err))
         },
@@ -209,9 +219,12 @@ export default {
             console.log(memberInfo); 
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me`, memberInfo)
             .then(() => {
-                alert('회원정보가 수정되었습니다. 다시 로그인 해주세요!')
-                this.$router.push({name: "Signin"});
-                this.signout()
+                alert('회원정보가 수정되었습니다.')
+                this.reissueToken()
+                let accessToken = localStorage.getItem("accessToken");
+                this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                console.log(this.memberInfo);
+                window.location.reload()
             })
             .catch((err) => {
                 console.log(err)
