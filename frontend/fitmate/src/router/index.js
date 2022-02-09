@@ -46,19 +46,22 @@ const routes = [
   {
     path: '/order',
     name: 'Order',
-    component: () => import("@/views/order/Order.vue"),
-    children: [
-      {
-        path: "/approval",
-        name: 'OrderDone',
-        component: () => import("@/views/order/OrderDone.vue"),
-      },
-      {
-        path: "/fail",
-        name: 'OrderFail',
-        component: () => import("@/views/order/OrderFail.vue"),
-      },
-    ]
+    component: () => import("@/views/order/Order.vue")
+  },
+  {
+    path: "/order/approval",
+    name: 'OrderApproval',
+    component: () => import("@/views/order/OrderApproval.vue")
+  },
+  {
+    path: "/order/cancel",
+    name: 'OrderCancel',
+    component: () => import("@/views/order/OrderCancel.vue"),
+  },
+  {
+    path: "/order/fail",
+    name: 'OrderFail',
+    component: () => import("@/views/order/OrderFail.vue"),
   },
   {
     path: '/mypage',
