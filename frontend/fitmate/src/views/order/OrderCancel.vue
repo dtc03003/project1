@@ -23,14 +23,15 @@ const orderStore = "orderStore";
 export default {
     name: "OrderCancel",data() {
         return {
-            nickname : "지니쓰", //이후 가져올 값 -- 스타일리스트 값 저장가능 할 때 바꿀 부분
+            nickname : '',
         }
     },
     created() {
+        this.nickname = this.getStyleList;
         setTimeout(this.moveMain, 10000); //10초 뒤 이동
     },
     computed: {
-        ...mapGetters(orderStore, ["getID","getReserveStatus"]),
+        ...mapGetters(orderStore, ["getID","getReserveStatus", "getStyleList"]),
     },
     methods: {
         ...mapActions(orderStore, ["deleteOrder"]),

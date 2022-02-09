@@ -8,10 +8,11 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import ScheduleMember from './schedule/ScheduleMember.vue';
 import ScheduleStyle from './schedule/ScheduleStyle.vue';
 const memberStore = "memberStore";
+const orderStore = "orderStore";
 
 export default {
     name: "Schedule",
@@ -27,11 +28,14 @@ export default {
     },
     created() {
         this.getRole();
+        this.SET_STYLELIST(this.$route.params.nickname);
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
+        ...mapGetters(orderStore, ["getStyleList"]),
     },
     methods: {
+        ...mapMutations(orderStore, ["SET_STYLELIST"]),
         ...mapActions(memberStore, ["signInMemberInfo"]),
         getRole() {
             if(this.checkMemberInfo != null) this.role = this.checkMemberInfo.authority;
