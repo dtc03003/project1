@@ -24,6 +24,7 @@ public class Portfolio {
     @Column(length = 1000)
     private String about;
     private Long price;
+    @Column(length = 1000)
     private String bio;
     @OneToOne
     @JoinColumn(name ="stylist" , nullable = false, unique = true)

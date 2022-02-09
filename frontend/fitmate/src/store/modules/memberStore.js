@@ -6,7 +6,22 @@ const memberStore = {
     state: {
         isSignin: false, //로그인 여부
         accessToken: '',
-        memberInfo: null,
+        // 에러 방지용 null값 미리 넣어주기
+        memberInfo:{ 
+          id:null, 
+          email : "",
+          password: "",
+          nickname: "", 
+          name: "",
+          gender:null,
+          phone: "", 
+          height:null, 
+          weight: null,
+          top:null,
+          bottom:null,
+          shoeSize:null,
+          authority: "",
+          profile:null } ,
       },
     getters: {
       checkMemberInfo: function(state) { return state.memberInfo },

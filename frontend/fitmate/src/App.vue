@@ -10,23 +10,22 @@
               <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
-
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
-          <!-- checkisSignin  -->
           <div v-if="checkisSignin">
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
               <li class="nav-item">
                 <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
-              <!-- <li v-if="memberStore.state.memberInfo.authority=='ROLE_MEMBER'" class="nav-item"> -->
+              <!-- 일반회원일 경우 -->
+              <li v-if="checkMemberInfo.authority=='ROLE_MEMBER'" class="nav-item">
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
               <!-- </li> -->
               <!-- 스타일리스트? -->
-              <!-- <li v-else class="nav-item"> -->
-                <a class="nav-link"><router-link to="/portfolio">Portfolio(임시!!!)</router-link></a>
-              <!-- </li> -->
+              <li v-if="checkMemberInfo.authority=='ROLE_STYLIST'" class="nav-item">
+                <a class="nav-link"><router-link to="/portfolio">Portfolio(임시)</router-link></a>
+              </li>
             </ul>
           </div>
           <!-- 로그인 전 보여지는 것: Sign up, Sign in -->
@@ -60,10 +59,12 @@
         </div>
       </div>
     </nav>
-    
-    <!-- 로그인하면 따로 보여줄 게 있다면? -->
-    <!-- <router-view @login="isLogin=true"/>  -->
     <router-view></router-view>
+
+    <footer>
+      <p>아래는 시험용</p>
+      {{checkMemberInfo}}
+    </footer>
     
   </div>
 </template>
@@ -76,13 +77,12 @@ export default {
   name: 'App',
   data: function() {
     return {
-      memberStore
+      memberStore,
     }
   },
   methods:{
     signout: function() {
       this.isSignin = false
-      // localStorage.removeItem('jwt')
       localStorage.clear()
       this.$store.dispatch('signout')      
       this.$router.push({name:'Signin'})
@@ -91,11 +91,9 @@ export default {
   },
   computed:{
     ...mapGetters (
-      'memberStore', ["checkisSignin"]
-    )
+      'memberStore', ["checkisSignin", 'checkMemberInfo']
+    ),
   },
-  
-  
 };
 </script>
 

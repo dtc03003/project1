@@ -40,6 +40,8 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
+    private State state;
+
     @PrePersist
     public void createdAt(){
         this.createdAt = LocalDateTime.now();
@@ -53,8 +55,10 @@ public class Reservation {
         createdAt = reservation.getCreatedAt();
         startTime = reservation.getStartTime();
         endTime = reservation.getEndTime();
+        state = reservation.getState();
     }
-
+    public void cancel(){state = State.CANCEL;}
+    public void complete(){state = State.COMPLETE;}
     public Long getBetween(){
         return ChronoUnit.HOURS.between(startTime,endTime);
     }

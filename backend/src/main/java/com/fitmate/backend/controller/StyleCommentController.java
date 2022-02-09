@@ -25,4 +25,8 @@ public class StyleCommentController {
     public ResponseEntity<?> selectCommentsByStyleId(@RequestParam("page") @Min(0) Integer page, @PathVariable Long id){
         return ResponseEntity.ok(styleCommentService.findAllCommentsByStyleId(page,id));
     }
+    @GetMapping("/style/{id}/comments/all")
+    public ResponseEntity<?> selectAllCommentsByStyleId(@PathVariable Long id){
+        return ResponseEntity.ok(styleCommentService.getCommentsByStyleId(id));
+    }
 }

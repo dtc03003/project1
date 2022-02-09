@@ -58,7 +58,7 @@ public class Member implements Serializable {
         this.top = dto.getTop();
         this.bottom = dto.getBottom();
         this.shoeSize = dto.getShoeSize();
-        this.profile = dto.getPassword();
+        this.profile = dto.getProfile();
     }
     public void updatePassword(String password, PasswordEncoder passwordEncoder){
         this.password = passwordEncoder.encode(password);

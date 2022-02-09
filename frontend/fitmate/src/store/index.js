@@ -6,7 +6,9 @@ import orderStore from "@/store/modules/orderStore.js";
 import qnaStore from "@/store/modules/qnaStore.js";
 import scheduleStore from "@/store/modules/scheduleStore";
 import reviewStore from"@/store/modules/reviewStore";
+import reserveStore from"@/store/modules/reserveStore";
 import createPersistedState from "vuex-persistedstate";
+import styleStore from "@/store/modules/styleStore"
 
 Vue.use(Vuex)
 
@@ -17,7 +19,9 @@ const store = new Vuex.Store({
     orderStore,
     qnaStore,
     scheduleStore,
+    styleStore,
     reviewStore,
+    reserveStore,
   },
   state: {
     // getStyles:'',
@@ -29,7 +33,7 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({ //새로고침해도 초기화 안되도록 방지
-      paths: ["memberStore"],
+      paths: ["memberStore", "orderStore"],
     }),
   ],
 });

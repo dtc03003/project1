@@ -29,6 +29,17 @@ spring:
     properties:
       hibernate:
         format_sql: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fitmate2022@gmail.com
+    password: Fitmate2022@@
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 #  quartz:
 #    job-store-type: jdbc
 #    properties.org.quartz.threadPool.threadCount: 5
@@ -53,13 +64,18 @@ jwt:
 social:
   kakao:
     client-id: 30fb9b59db516bf7c56055b26f8daf47
+    admin-key: 38228a700f9de14ca3ea1932a2ff17de
     redirect: http://localhost:8080
+    cid: TC0ONETIME
     url:
       login: https://kauth.kakao.com/oauth/authorize
       token: https://kauth.kakao.com/oauth/token
       profile: https://kapi.kakao.com/v2/user/me
       unlink: https://kapi.kakao.com/v1/user/unlink
+      payment:
+        ready: https://kapi.kakao.com/v1/payment/ready
   password: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+
 cloud:
   aws:
     credentials:
@@ -71,4 +87,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-

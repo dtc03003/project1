@@ -20,6 +20,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private Long id;
+    @Column(length = 1000)
     private String content;
     private Integer rating;
     private String thumbnail;

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 public class StyleCommentDto {
     private String comment;
-    private String writer;
     private LocalDateTime createdAt;
 
     public static StyleComment toEntity(StyleCommentDto commentDto, Member member, Style style){
@@ -27,7 +26,6 @@ public class StyleCommentDto {
     public static StyleCommentDto of(StyleComment comment){
         return StyleCommentDto.builder()
                 .comment(comment.getComment())
-                .writer(comment.getMember().getNickname())
                 .createdAt(comment.getCreatedAt())
                 .build();
     }

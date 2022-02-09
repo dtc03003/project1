@@ -78,7 +78,31 @@ export default {
                     this.post.image = res.data.src
                     console.log(res.data.src)
                 })
+                // if (files.length > 1) {
+                //     for (this.i = 0; this.i <= files.length ; this.i++ ){
+                //         const image = this.$refs['image'].files[this.i]
+                //         formData.append('images', image)
+                //         axios.post(`${config.baseUrl}/api/v1/images`, formData, {
+                //             header: { 'Content-Type': 'multipart/form-data' }
+                //         })
+                //         .then((res) => {
+                //             this.post.image.append(res.data.src) 
+                //             console.log(res.data.src)
+                //         })
+                //     }
+                // } else {
+                //     const image = this.$refs['image'].files[0]
+                //     formData.append('images', image);
+                //     axios.post(`${config.baseUrl}/api/v1/images`, formData, {
+                //         header: { 'Content-Type': 'multipart/form-data' }
+                //     })
+                //     .then((res) => {
+                //         this.post.image = res.data.src
+                //         console.log(res.data.src)
+                //     })
+                // }
             },
+
             async Posting() {
                 const postInfo = {
                     content: this.post.text,

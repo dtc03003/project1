@@ -9,6 +9,7 @@ import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
 import Stylebook from '@/views/Stylebook'
 import Mypage from '@/views/Mypage'
+import Modify from '@/views/Mypagenormal/Modify'
 Vue.use(VueRouter)
 
 const routes = [
@@ -48,6 +49,21 @@ const routes = [
     component: () => import("@/views/order/Order.vue")
   },
   {
+    path: "/order/approval",
+    name: 'OrderApproval',
+    component: () => import("@/views/order/OrderApproval.vue")
+  },
+  {
+    path: "/order/cancel",
+    name: 'OrderCancel',
+    component: () => import("@/views/order/OrderCancel.vue"),
+  },
+  {
+    path: "/order/fail",
+    name: 'OrderFail',
+    component: () => import("@/views/order/OrderFail.vue"),
+  },
+  {
     path: '/mypage',
     name: 'Mypage',
     component: Mypage
@@ -61,6 +77,11 @@ const routes = [
     path: '/stylebook',
     name: 'Stylebook',
     component: Stylebook
+  },
+  {
+    path: '/Mypagenormal/modify',
+    name: 'Modify',
+    component: Modify
   },
   {
     path: "/notice",

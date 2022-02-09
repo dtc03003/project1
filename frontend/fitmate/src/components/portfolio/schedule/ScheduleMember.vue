@@ -25,7 +25,6 @@
                                         <div @click="selectTime(t)"
                                         :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2'"
                                         >{{ t }}</div>
-                                        <!-- v-bind:disabled="reservedTime.includes(t) ? true : false" -->
                                     </td>
                                 </tr>
                             </table>
@@ -38,8 +37,9 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 const orderStore = "orderStore";
+const reserveStore = "reserveStore";
 
 export default {
     name: "ScheduleMember",
@@ -48,25 +48,26 @@ export default {
             // picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10), //현재 날짜
             picker: '',
             times: [
-                ["10:00", "10:30", "11:00", "11:30"],
-                ["12:00", "12:30", "13:00", "13:30"],
-                ["14:00", "14:30", "15:00", "15:30"],
-                ["16:00", "16:30", "17:00", "17:30"],
-                ["18:00", "18:30", "19:00", "19:30"]
+                ["9:00", "10:00", "11:00", "12:00"],
+                ["13:00", "14:00", "15:00", "16:00"],
+                ["17:00", "18:00", "19:00", "20:00"],
             ],
             calcTimes: [
-                "10:00", "10:30", "11:00", "11:30",
-                "12:00", "12:30", "13:00", "13:30",
-                "14:00", "14:30", "15:00", "15:30",
-                "16:00", "16:30", "17:00", "17:30",
-                "18:00", "18:30", "19:00", "19:30"
+                "9:00", "10:00", "11:00", "12:00",
+                "13:00", "14:00", "15:00", "16:00",
+                "17:00", "18:00", "19:00", "20:00"
             ],
             selectedTime: '',
-            reservedTime: [] //DB에서 받아올 값(스타일리스트, 날짜 값을 통해 이미 예약된 시간 얻어오기)
+            reservedTime: [],
+            styleList: {
+                nickname : "지니쓰", //스타일리스트 정보 가져올 수 있으면 할 것 - test시 변경하세요!!
+                price : 13000
+            },
         }
     },
     created() {
-        this.importTime();
+        this.SET_STATUS(false);
+        this.importAllTime();
     },
     watch: {
         picker: function() {
@@ -74,9 +75,14 @@ export default {
         },
     },
     computed: {
+        ...mapGetters(reserveStore, ["getReservStatus", "getAllReservation"]),
+        ...mapGetters(orderStore, ["getDate", "getTime", "getReserveStatus"]),
     },
     methods: {
         ...mapMutations(orderStore, ["SET_DATE", "SET_TIME"]),
+        ...mapMutations(reserveStore, ["SET_STATUS"]),
+        ...mapActions(reserveStore, ["getReservList"]),
+        ...mapActions(orderStore, ["registOrder"]),
         allowedDates(value) {
             const date = dayjs(value);
             const now = dayjs((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10));
@@ -91,39 +97,72 @@ export default {
                 (now.get("y") < date.get("y")) || 
                 ((now.get("y") == date.get("y")) && (now.get("M") < date.get("M"))) ||
                 ((now.get("y") == date.get("y")) && (now.get("M") == date.get("M")) && (now.get("D") <= date.get("D"))) )
-                // && (!impossible.includes(date.get("d")))
         },
         selectTime(value) {
             if(this.picker) {
-                let result = this.calcTimes[this.calcTimes.indexOf(value)+1];
-                if(!this.reservedTime.includes(result)) {
-                    this.selectedTime = value;
-                    this.SET_TIME(this.selectedTime);
-                    this.moveOrder();
-                }else {
-                        alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위: 1시간)");
-                    this.selectedTime = '';
-                }
+                this.selectedTime = value;
+                this.SET_TIME(this.selectedTime);
+                this.moveOrder();
+
+                // let result = this.calcTimes[this.calcTimes.indexOf(value)+1];
+                // if(!this.reservedTime.includes(result)) {
+                //     this.selectedTime = value;
+                //     this.SET_TIME(this.selectedTime);
+                //     this.moveOrder();
+                // }else {
+                //         alert("예약 불가능한 시간입니다. 다른 시간을 골라주세요(기본 단위: 1시간)");
+                //     this.selectedTime = '';
+                // }
             }else {
                 alert("날짜를 먼저 선택해주세요.");
             }
         },
-        moveOrder() {
-            if(confirm(`날짜: ${this.picker}\n시간: ${this.selectedTime}\n예약을 진행할까요?`))
-            this.$router.push({name: "Order"});
+        async moveOrder() {
+            if(confirm(`날짜: ${this.picker}\n시작시간: ${this.selectedTime}\n예약을 진행할까요?`)) {
+                const start = new Date(this.getDate + " " +this.getTime);
+                let endTime = (start.getHours() + 1) + ":00";
+                const end = new Date(this.getDate + " " + endTime);
+                const orderinfo = {
+                    "nickname": this.styleList.nickname,
+                    "cost": this.styleList.price,
+                    "startTime": dayjs(start).format('YYYY-MM-DDTHH:00:00'),
+                    "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00')
+                }
+                await this.registOrder(orderinfo);
+                if(this.getReserveStatus) this.$router.push({name: "Order"});
+            }
+        },
+        async importAllTime() {
+            await this.getReservList("지니쓰"); //styleList명은 이후 받아올 수 있으면 변경 -- test시 변경하세요!!
         },
         importTime() { //해당 날짜의 불가/예약된 시간 가져오기 - db 연동 필요
             this.SET_DATE(this.picker);
             this.selectedTime = '';
-            
-            this.reservedTime = ["10:00", "12:00", "15:00"]; //- db 연동해서 저장될 예약 시간(임시)
+            let temp = ["12:00"]; //점심시간?
 
-            let temp = [];
-            for(let time of this.reservedTime) {
-                let index = this.calcTimes.indexOf(time);
-                for(let n = index; n <= index+1; ++n) {
-                        temp.push(this.calcTimes[n])
+            const nowTime = dayjs(new Date(Date.now()));
+            if(this.picker == nowTime.format("YYYY-MM-DD")) {
+                for(let h = 9; h <= nowTime.format("HH"); ++h) {
+                    let tdate = h + ":00"
+                    let index = this.calcTimes.indexOf(tdate);
+                    temp.push(this.calcTimes[index]);
                 }
+            }
+
+            for(let date of this.getAllReservation) {
+                if(this.picker == date.localDate) {
+                    let tdate = date.hours + ":00"
+                    let index = this.calcTimes.indexOf(tdate);
+                    if(!temp.includes(this.calcTimes[index])) temp.push(this.calcTimes[index]);
+                }
+            }
+            this.reservedTime = temp;
+
+            // for(let time of this.reservedTime) {
+            //     let index = this.calcTimes.indexOf(time);
+            //     for(let n = index; n <= index+1; ++n) {
+            //             temp.push(this.calcTimes[n])
+            //     }
                 //휴게시간 포함하는 경우
                 // if(time == '12:00') {
                 //     for(let n = index; n <= index+1; ++n) { //점심시간
@@ -134,13 +173,8 @@ export default {
                 //         temp.push(this.calcTimes[n])
                 //     }
                 // }
-            }
-            this.reservedTime = temp;
+            // }
         }
-        // dateClass(ymd, date) {
-        //     const day = date.getDate()
-        //     return day >= 10 && day <= 20 ? 'table-info' : ''
-        // },
     }
 }
 </script>

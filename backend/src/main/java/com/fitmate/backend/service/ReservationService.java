@@ -1,17 +1,22 @@
 package com.fitmate.backend.service;
 
+import com.fitmate.backend.advice.exception.NotFoundReservationException;
+import com.fitmate.backend.advice.exception.UpdateStateException;
 import com.fitmate.backend.dto.ReservationDateTimeDto;
 import com.fitmate.backend.dto.ReservationDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Reservation;
+import com.fitmate.backend.entity.State;
 import com.fitmate.backend.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +43,7 @@ public class ReservationService {
         List<ReservationDateTimeDto> reservationDateTimeDtos = new LinkedList<>();
         for (Reservation reservation: reservations) {
             Long hours = reservation.getBetween();
+            if(reservation.getState()!= State.IN_PROGRESS) continue;
             for(int i = 0 ; i < hours; i++){
                 reservationDateTimeDtos.add(ReservationDateTimeDto.builder()
                         .localDate(reservation.getStartTime().toLocalDate())
@@ -53,5 +59,34 @@ public class ReservationService {
         Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
         reservationRepository.deleteById(id);
         return portfolio.getId();
+    }
+
+    @Transactional
+    public Reservation cancelReservation(String nickname, Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new);
+        if(reservation.getState()!=State.IN_PROGRESS) throw new UpdateStateException();
+        reservation.cancel();
+        return reservationRepository.save(reservation);
+    }
+
+    @Transactional
+    public Reservation completeReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new);
+        if(reservation.getState()!=State.IN_PROGRESS) throw new UpdateStateException();
+        reservation.complete();
+        return reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> findAllReservationByNicknameInState(String nickname, String state) {
+        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+        return reservationRepository.findAllByPortfolioId(portfolio.getId()).stream()
+                .filter(reservation -> reservation.getState().equals(State.valueOf(state)))
+                .collect(Collectors.toList());
+    }
+    public List<Reservation> findAllAtCurrentTime(LocalDateTime now){
+        List<Reservation> reservations = reservationRepository.findAllByState(State.IN_PROGRESS);
+        return reservations.stream()
+                .filter(reservation -> reservation.getStartTime().isBefore(now))
+                .collect(Collectors.toList());
     }
 }
