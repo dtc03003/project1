@@ -17,8 +17,7 @@
       <!-- <span>선택함: {{ selected }}</span> -->
 
       <!-- 검색창 -->
-      <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
-      <!-- <div class="col-6 offset-2">
+      <div class="col-6 offset-2">
         <v-container fluid>
           <v-combobox
             v-model="model"
@@ -42,7 +41,7 @@
             </template>
           </v-combobox>
         </v-container>
-      </div> -->
+      </div>
 
 
       <!-- 스타일리스트 목록 컴포넌트 -->

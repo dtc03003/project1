@@ -24,13 +24,14 @@
         <div class="col">
           <!-- 게시글(?) 내용 -->
           <pre>{{ content }}</pre>
-          <!-- 아래는 댓글 -->
+          <!-- 아래는 댓글 입력 폼 -->
           <v-form>
             <v-container class="p-0">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
                     v-model="message"
+                    @keyup.enter="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
                     append-outer-icon="mdi-send"
@@ -39,7 +40,6 @@
                     type="text"
                     @click:clear="clearMessage"
                     @click:append-outer="saveComment"
-                    @keyup.enter="saveComment"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -54,7 +54,7 @@
           >{{singlecomment}}</the-modal-comment-list>
         </div>
       </div>
-      <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+      <!-- <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button> -->
     </b-modal>
   </span>
 </template>
@@ -87,7 +87,7 @@ export default {
       checkauthority:'',
       password: 'Password',
       show: false,
-      message: '',
+      message: null,
       marker: true,
       iconIndex: 0,
       tags:[],
@@ -102,6 +102,7 @@ export default {
     },
   },
   created () {
+    // 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
     .then(({ data })=> {
       console.log('이거는 코멘트들')       
@@ -111,6 +112,7 @@ export default {
     this.checkauthority = this.checkMemberInfo.authority
     console.log(this.checkauthority)
 
+    // 태그 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
     .then(({ data })=> {
       console.log('태그')       
@@ -137,21 +139,25 @@ export default {
         ? this.iconIndex = 0
         : this.iconIndex++
     },
-    // 댓글 저장용
+    // 댓글 저장하는 axios
     saveComment() {
-      console.log(this.message)
+      const messageInfo = {
+        "comment":this.message, 
+        "createdAt":"",
+        };
+      const accessToken = localStorage.getItem("accessToken");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       axios({
         url: `${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comment`,
         method: 'post', // 통신할 방식
-        data:{comment:this.message}, //전송할 데이터
-        headers: localStorage.getItem("accessToken") //post라서 토큰까지
+        data: messageInfo, //전송할 데이터
       })
-      .then(
+      .then((res) => {
         console.log('success')
-      )
+        console.log(res.data)
+      })
       .catch(err =>{
         console.log(err)
-        console.log('fail')
       });
       this.resetIcon()
       this.clearMessage()
