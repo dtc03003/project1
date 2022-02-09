@@ -40,6 +40,7 @@ import dayjs from "dayjs";
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 const orderStore = "orderStore";
 const reserveStore = "reserveStore";
+const reviewStore = "reviewStore";
 
 export default {
     name: "ScheduleMember",
@@ -61,14 +62,15 @@ export default {
             selectedTime: '',
             reservedTime: [],
             styleList: {
-                nickname : this.nickname, //스타일리스트 정보 가져올 수 있으면 할 것 - test시 변경하세요!!
-                price : 13000
+                nickname : this.$route.params.nickname, //스타일리스트 정보 가져올 수 있으면 할 것
+                price : 0
             },
         }
     },
     created() {
         this.SET_STATUS(false);
         this.importAllTime();
+        this.findCost(this.styleList.nickname);
     },
     watch: {
         picker: function() {
@@ -78,12 +80,14 @@ export default {
     computed: {
         ...mapGetters(reserveStore, ["getReservStatus", "getAllReservation"]),
         ...mapGetters(orderStore, ["getDate", "getTime", "getReserveStatus"]),
+        ...mapGetters(reviewStore, ["getPortfolioStatus", "getPortfolioData"]),
     },
     methods: {
         ...mapMutations(orderStore, ["SET_DATE", "SET_TIME"]),
         ...mapMutations(reserveStore, ["SET_STATUS"]),
         ...mapActions(reserveStore, ["getReservList"]),
         ...mapActions(orderStore, ["registOrder"]),
+        ...mapActions(reviewStore, ["findPortfolioStatus"]),
         allowedDates(value) {
             const date = dayjs(value);
             const now = dayjs((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10));
@@ -129,12 +133,13 @@ export default {
                     "startTime": dayjs(start).format('YYYY-MM-DDTHH:00:00'),
                     "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00')
                 }
+                console.log(orderinfo);
                 await this.registOrder(orderinfo);
                 if(this.getReserveStatus) this.$router.push({name: "Order"});
             }
         },
         async importAllTime() {
-            await this.getReservList(this.nickname); //styleList명은 이후 받아올 수 있으면 변경 -- test시 변경하세요!!
+            await this.getReservList(this.nickname);
         },
         importTime() { //해당 날짜의 불가/예약된 시간 가져오기 - db 연동 필요
             this.SET_DATE(this.picker);
@@ -175,6 +180,14 @@ export default {
                 //     }
                 // }
             // }
+        },
+        async findCost(nickname) {
+            console.log(nickname)
+            await this.findPortfolioStatus(nickname);
+            if(this.getPortfolioStatus) {
+                this.styleList.price = this.getPortfolioData.price;
+                console.log(this.styleList.price);
+            }
         }
     }
 }

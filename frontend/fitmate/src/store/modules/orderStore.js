@@ -12,6 +12,7 @@ const orderStore = {
         mobile_url: "",
         app_url: "",
         orderData: "",
+        styleList: "",
     },
     getters: {
         getID: (state) => state.id,
@@ -23,6 +24,7 @@ const orderStore = {
         getMobileUrl: (state) => state.mobile_url,
         getAPPUrl: (state) => state.app_url,
         getOrderData: (state) => state.orderData,
+        getStyleList: (state) => state.styleList,
 
     },
     mutations: {
@@ -35,6 +37,7 @@ const orderStore = {
         SET_MOBILE_URL: (state, mobile_url) => { state.mobile_url = mobile_url },
         SET_APP_URL: (state, app_url) => { state.app_url = app_url },
         SET_ORDER_DATA: (state, data) => {state.orderData = data},
+        SET_STYLELIST: (state, styleList) => {state.styleList = styleList},
     },
     actions: {
         setDate({commit}, date) {
