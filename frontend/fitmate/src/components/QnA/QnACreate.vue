@@ -100,7 +100,6 @@ export default {
         moveList() {
             console.log("리스트로 이동");
             this.$router.push({ name: "QnAList" }).catch(()=>{});
-            window.location.reload();
         },
     },
 }

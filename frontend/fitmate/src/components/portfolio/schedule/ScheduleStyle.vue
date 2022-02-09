@@ -152,6 +152,7 @@ export default {
     name: "ScheduleStyle",
     data() {
         return {
+            nickname: this.$route.params.nickname,
             focus: new Date(Date.now()), //현재 선택한 날짜
             type: 'month', //초기 스케줄표 타입
             typeToLabel: { //리스트
@@ -218,7 +219,7 @@ export default {
             nativeEvent.stopPropagation()
         },
         async importAllTime() {
-            await this.getReservDetailList("지니쓰"); //styleList명은 이후 받아올 수 있으면 변경 --test시 변경하세요!
+            await this.getReservDetailList(this.nickname); //styleList명은 이후 받아올 수 있으면 변경 --test시 변경하세요!
             this.updateRange();
         },
         updateRange() {
