@@ -45,16 +45,16 @@ public class PaymentService {
     }
 
     public Payment makePayment(Reservation reservation) {
-        return Payment.builder()
+        return paymentRepository.save(Payment.builder()
                 .reservation(reservation)
                 .state(State.COMPLETE)
-                .build();
+                .build());
     }
     public Payment cancelPayment(Long id){
         Payment payment = paymentRepository.findById(id).orElseThrow(NotFoundPaymentException::new);
         if(payment.getState()==State.CANCEL) throw new UpdateStateException();
         payment.cancel();
-        return payment;
+        return paymentRepository.save(payment);
     }
     public List<Payment> findAllMyPayments(){
         Member member = memberService.getMyInfo();

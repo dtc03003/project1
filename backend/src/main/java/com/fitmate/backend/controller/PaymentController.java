@@ -22,7 +22,7 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.payWithKakao(kakaoPayDto));
     }
     @PostMapping("/payment")
-    public ResponseEntity<?> makePayment(@RequestBody Reservation reservation){
+    public ResponseEntity<?> makePayment(@RequestParam Reservation reservation){
         return ResponseEntity.ok(paymentService.makePayment(reservation));
     }
     @PutMapping("/payment/{id}")
