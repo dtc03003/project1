@@ -29,7 +29,7 @@ export default {
     },
     components: { ReviewDetail },
     created() {
-        this.nickname = '지니쓰'; //스타일리스트 이름 받아오게되면 변경
+        this.nickname = this.$route.params.nickname; //스타일리스트 이름 받아오게되면 변경
         this.importReviews(this.nickname);
     },
     computed: {

@@ -26,7 +26,6 @@ export default {
     created () {
         axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
-            console.log(data);
             this.profileData = data;
         })
         

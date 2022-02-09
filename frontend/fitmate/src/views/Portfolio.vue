@@ -13,7 +13,7 @@
                     </b-card>
                 </b-col>
                 <b-col></b-col>
-                </b-row>    
+                </b-row>
             </b-container>
         </div>
 
@@ -59,6 +59,7 @@ export default {
     },
     data: function() {
         return {
+            nickname: this.$route.params.nickname,
             portfolioconfirm: '',
             portfoliocreate : {
                 about : '',
@@ -72,7 +73,7 @@ export default {
     },
     mounted() {
         axios({
-            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
+            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}`,
             method: 'get',
         })
         .then((res)=> this.portfolioconfirm = res.data.about)
@@ -86,7 +87,7 @@ export default {
                 about : this.portfoliocreate.about,
                 price : this.portfoliocreate.price,
                 bio : this.portfoliocreate.bio,
-            }     
+            }
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
