@@ -37,9 +37,9 @@ async function readypay(params, success, fail) {
 }
 
 //결제 완료(결제 내역에 push)
-async function finpay(info, success, fail) {
+async function finpay(reservation, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
-    await api.post(`/api/v1/payment`, JSON.stringify(info)).then(success).catch(fail);
+    await api.post(`/api/v1/payment`, JSON.stringify(reservation)).then(success).catch(fail);
 }
 
 //나의 결제 내역 가져오기
