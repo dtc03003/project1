@@ -3,7 +3,8 @@
         <b-container class="detail">
             <b-row>
                 <b-col cols="3" class="r">
-                    {{ thumbnail }}
+                    <!-- <img :src="thumbnail" /> -->
+                    <img src="@/assets/eunwoo.jpg"/>
                 </b-col>
                 <b-col cols="9" class="r">
                     <b-row>
@@ -91,4 +92,5 @@ export default {
 .detail { width: 80%; }
 .r { border: 1px solid black; }
 #nick {font-weight: bold;}
+img {max-width: 100%;}
 </style>
