@@ -56,13 +56,11 @@
         </div>
 
         <p class="mt-3" v-if="this.checkauthority == 'ROLE_STYLIST'"> {{ profileData.bio }} </p>
-
         <div class="mt-5">
             <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;"></b-icon>
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
             <b-icon icon="share-fill" font-scale="4"></b-icon>
-        </div>
-
+        </div>            
     </div>
 </template>
 
@@ -75,9 +73,11 @@ const memberStore = "memberStore";
 export default {
     data() {
         return {
+            nickname: this.$route.params.nickname,
             profileData : [],
             checkauthority: '',
             biotext: '',
+            profile : ''
         }
     },
 
@@ -97,6 +97,11 @@ export default {
                 this.profileData = data;
             })
         }
+        axios.get(`/api/v1/portfolio/${this.nickname}`)
+        .then(({ data }) => {
+            this.profileData = data;
+            this.profile = this.profileData.member.profile
+        })
     },
     methods: {
         async withDrawal() {
@@ -115,7 +120,7 @@ export default {
             this.$router.push({name:'/'})
             window.location.reload()
         },
-        ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
+        ...mapActions(memberStore, ["signInMemberInfo"]),
         modifybio() {
             const bioinfo = {
                 about : this.profileData.about,
@@ -127,12 +132,14 @@ export default {
             axios.put(`${ FITMATE_BASE_URL }/api/v1/portfolio/about`, bioinfo)
             .then(() => {
                 alert('한 줄 소개글 수정 완료!')
-                this.reissueToken()
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken);
                 window.location.reload()
             })
         }
+
+        
+        
     }
 }
 </script>

@@ -39,7 +39,7 @@ const routes = [
     component: Signin
   },
   {
-    path: '/portfolio',
+    path: '/portfolio/:nickname',
     name: 'Portfolio',
     component: Portfolio
   },

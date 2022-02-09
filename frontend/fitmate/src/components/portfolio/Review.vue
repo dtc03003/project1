@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx"/>
+        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
         <b-pagination align="center" class="mt-2"
             v-model="page"
             :total-rows="rows"
@@ -29,13 +29,13 @@ export default {
     },
     components: { ReviewDetail },
     created() {
-        this.nickname = '지니쓰'; //스타일리스트 이름 받아오게되면 변경
+        this.nickname = this.$route.params.nickname; //스타일리스트 이름 받아오게되면 변경
         this.importReviews(this.nickname);
     },
     computed: {
         ...mapGetters(reviewStore, ["getReviews", "getPortfolioStatus", "getSomeReviews"]),
         rows() {
-        return this.allReviews.length
+            return this.allReviews.length
         },
     },
     methods: {
@@ -56,11 +56,10 @@ export default {
                 this.someReviews = this.getSomeReviews; //페이지별 가져오기
             }
         },
-        async changePage() {
-            console.log(this.page)
+        async changePage(page) {
             const info = {
                 nickname: this.nickname,
-                page: this.page
+                page: page
             }
             this.SET_SOME_REVEIW_LIST([]);
             await this.fineReviewsByPage(info);

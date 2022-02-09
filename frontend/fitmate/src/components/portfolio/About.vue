@@ -4,7 +4,7 @@
             <h1>About </h1>
         </div>
         <div class="col-2">
-            <b-button class="submitBtn" @click="Posting">수정</b-button>
+            <b-button class="submitBtn">수정</b-button>
         </div>
         <p>{{profileData.about}}</p>
     </div>
@@ -19,6 +19,7 @@ const memberStore = "memberStore";
 export default {
     data() {
         return {
+            nickname: this.$route.params.nickname,
             profileData : [],
         }
     },
@@ -28,9 +29,8 @@ export default {
     },
 
     created () {
-        axios.get(`/api/v1/portfolio/${this.memberInfo.nickname}`)
+        axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
-            console.log(data);
             this.profileData = data;
         })
         

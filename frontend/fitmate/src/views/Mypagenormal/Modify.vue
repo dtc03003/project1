@@ -187,7 +187,7 @@ export default {
         })
     },
     methods: {
-        ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
+        ...mapActions(memberStore, ["signInMemberInfo"]),
         PwdModify() {
             const pwdInfo = {
                 password : this.signup.password
@@ -195,7 +195,6 @@ export default {
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me/password`, pwdInfo)
             .then(() => {
                 alert('비밀번호가 변경되었습니다.')
-                this.reissueToken()
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
                 // window.location.reload()
@@ -219,7 +218,6 @@ export default {
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me`, memberInfo)
             .then(() => {
                 alert('회원정보가 수정되었습니다.')
-                this.reissueToken()
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
                 // window.location.reload()

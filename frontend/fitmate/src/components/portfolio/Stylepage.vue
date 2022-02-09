@@ -37,6 +37,7 @@ const memberStore = "memberStore";
 export default {
     data() {
         return {
+            nickname: this.$route.params.nickname,
             post: {
                 text: '',
                 image: '',
@@ -53,7 +54,7 @@ export default {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     created() {
-        axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}/styles/all`)
+        axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}/styles/all`)
         .then(({ data })=> {
             console.log(data)
             this.styleArray = data;
