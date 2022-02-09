@@ -61,6 +61,7 @@
 import { mapGetters, mapActions } from 'vuex'
 const orderStore = "orderStore";
 const memberStore = "memberStore";
+const reviewStore = "reviewStore";
 
 export default {
     name: 'Order',
@@ -68,20 +69,23 @@ export default {
         return {
             member: {},
             styleList: { //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
-                nickname : "지니쓰", //스타일리스트명과 가격정보는 이후 스타일리스트 정보 가져올 수 있으면 변경
-                price : 13000
+                nickname : '', //스타일리스트명과 가격정보는 이후 스타일리스트 정보 가져올 수 있으면 변경
+                price : 0
             },
-            price: "",
+            price: 0,
         }
     },
     created() {
         if(!this.getDate && !this.getTime) this.backSchedule();
         this.getInfo();
-        this.price = this.styleList.price.toLocaleString()
+        this.styleList.nickname = this.getStyleList;
+        this.styleList.price = this.getPortfolioData.price;
+        this.price = this.styleList.price.toLocaleString();
     },
     computed: {
-        ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus"]),
+        ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus", "getStyleList"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
+        ...mapGetters(reviewStore, ["getPortfolioData", "getPortfolioStatus"]),
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
@@ -120,6 +124,8 @@ export default {
                 "fail_url": "http://localhost:8080/order/fail"
             }
             
+            console.log(this.styleList.price)
+            console.log(payinfo);
             await this.requestKakaoPay(payinfo);
 
             if(this.getPayStatus) {
@@ -132,7 +138,7 @@ export default {
                     window.open(this.getPCUrl, "_self");
                 }
             }
-        }
+        },
     }
 }
 </script>
