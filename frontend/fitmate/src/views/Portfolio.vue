@@ -44,7 +44,7 @@ import Profile from "@/components/portfolio/Profile.vue"
 import About from "@/components/portfolio/About.vue"
 import Review from "@/components/portfolio/Review.vue"
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 import { FITMATE_BASE_URL } from "@/config";
 const memberStore = "memberStore";
 
@@ -69,6 +69,7 @@ export default {
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
+        ...mapState(memberStore, ["isSignin", "memberInfo"]),
     },
     mounted() {
         axios({
@@ -81,6 +82,7 @@ export default {
     created() {
     },
     methods: {
+        ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
         async createportfolio() {
             const portinfo = {
                 about : this.portfoliocreate.about,
@@ -90,10 +92,12 @@ export default {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
-            .then((res) => {
+            .then(() => {
                 alert('포트폴리오 생성완료')
+                let accessToken = localStorage.getItem("accessToken");
+                this.signInMemberInfo(accessToken);
                 this.portfolioconfirm = true
-                console.log(res)
+                window.location.reload()
             }) 
             .catch((err) => {
                 alert('포트폴리오 생성실패')  

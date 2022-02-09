@@ -40,7 +40,7 @@
                                     <b-button class="smallBtn" v-show="nickduplication" @click="nickduplication = !nickduplication">수정</b-button>
                                 </b-input-group>
 
-                                <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkProfile()">
+                                <b-button block class="submitBtn mt-3 mb-3" @click="checkProfile()">
                                     계정정보 변경
                                 </b-button>
 
@@ -68,7 +68,7 @@
                                     비밀번호가 동일하지 않습니다.
                                 </div>
 
-                                <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkPassword()">
+                                <b-button block class="submitBtn mt-3 mb-3" @click="checkPassword()">
                                     비밀번호 변경
                                 </b-button>
 
@@ -133,7 +133,7 @@
 
                             </b-form-group>
 
-                            <b-button id="submitBtn" block class="mt-3 mb-3" @click="Modify()">
+                            <b-button block class="submitBtn mt-3 mb-3" @click="Modify()">
                                 부가정보 저장
                             </b-button>
 
@@ -198,7 +198,7 @@ export default {
                 this.reissueToken()
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
-                window.location.reload()
+                // window.location.reload()
             })
             .catch((err)=>console.log(err))
         },
@@ -216,15 +216,13 @@ export default {
                 shoeSize: this.userinfo.shoeSize,
                 profile: this.userinfo.profile,
             }
-            console.log(memberInfo); 
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me`, memberInfo)
             .then(() => {
                 alert('회원정보가 수정되었습니다.')
                 this.reissueToken()
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
-                console.log(this.memberInfo);
-                window.location.reload()
+                // window.location.reload()
             })
             .catch((err) => {
                 console.log(err)
@@ -334,7 +332,7 @@ export default {
 #signinTitle { font-family: "Cafe24Ohsquare", fantasy; }
 #goJoin { color: black; }
 .xcircle { color: gray; }
-#submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
 .smallBtn { 
     display:inline; float:right;
     color: #fff !important;
@@ -362,7 +360,7 @@ margin: 0px 16px;
 .profile-img {
     display: block;
     margin: 0 auto;
-    width: 150px; height: 150px;
+    width: 250px; height: 250px;
     border-radius: 70%;
     overflow: hidden;
 }

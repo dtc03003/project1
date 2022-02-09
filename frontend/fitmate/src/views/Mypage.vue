@@ -76,14 +76,6 @@ export default {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     methods: {
-        checkpwd() {
-            if (this.pwdconfirm == this.checkMemberInfo.nickname) {
-                alert('확인되었습니다.')
-
-            } else {
-                alert('비밀번호가 다릅니다.')
-            }
-        },
         // 일반회원은 탈퇴가능한데 스타일리스트는 탈퇴불가능 swagger에서도 못함 => 물어보기
         // 카카오 로그인회원은 Mypage들어가는것도 불가능 why? => 물어보기
         async withDrawal() {
