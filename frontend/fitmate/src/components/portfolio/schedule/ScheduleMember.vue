@@ -45,6 +45,7 @@ export default {
     name: "ScheduleMember",
     data() {
         return {
+            nickname: this.$route.params.nickname,
             // picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10), //현재 날짜
             picker: '',
             times: [
@@ -60,7 +61,7 @@ export default {
             selectedTime: '',
             reservedTime: [],
             styleList: {
-                nickname : "지니쓰", //스타일리스트 정보 가져올 수 있으면 할 것 - test시 변경하세요!!
+                nickname : this.nickname, //스타일리스트 정보 가져올 수 있으면 할 것 - test시 변경하세요!!
                 price : 13000
             },
         }
@@ -133,7 +134,7 @@ export default {
             }
         },
         async importAllTime() {
-            await this.getReservList("지니쓰"); //styleList명은 이후 받아올 수 있으면 변경 -- test시 변경하세요!!
+            await this.getReservList(this.nickname); //styleList명은 이후 받아올 수 있으면 변경 -- test시 변경하세요!!
         },
         importTime() { //해당 날짜의 불가/예약된 시간 가져오기 - db 연동 필요
             this.SET_DATE(this.picker);

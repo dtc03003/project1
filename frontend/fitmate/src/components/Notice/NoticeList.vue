@@ -3,7 +3,7 @@
 
         <b-row>
             <b-col>
-                <h3 class="underline-hotpink"> 게시물 목록</h3>
+                <h3 class="underline-hotpink">공지사항 목록</h3>
             </b-col>
         </b-row>
 

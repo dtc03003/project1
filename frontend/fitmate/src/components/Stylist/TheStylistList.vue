@@ -76,7 +76,7 @@ export default {
   },
   methods:{
     goToPortfolio: function(){
-      this.$router.push({name:'Portfolio'})
+      this.$router.push(`/portfolio/${this.nickname}`)
     }
   },
   computed: {

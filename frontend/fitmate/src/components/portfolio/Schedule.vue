@@ -1,9 +1,9 @@
 <template>
     <div>
-        <!-- 사용자 화면 -->
-        <schedule-member v-if="role == 'ROLE_MEMBER'"/>
         <!-- 스타일리스트 화면 -->
-        <schedule-style v-else-if ="role == 'ROLE_STYLIST'"/>
+        <schedule-style v-if ="role == 'ROLE_STYLIST' && this.nickname == this.checkMemberInfo.nickname"/>
+        <!-- 사용자 화면 -->
+        <schedule-member v-else/>
         
     </div>
 </template>
@@ -17,6 +17,7 @@ export default {
     name: "Schedule",
     data() {
         return {
+            nickname: this.$route.params.nickname,
             role: '',
         }
     },
