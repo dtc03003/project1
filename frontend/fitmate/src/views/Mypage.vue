@@ -11,12 +11,13 @@
                         &#128274;
                     </template>
                     <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
-                        <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_MEMBER'">일반회원 정보수정</b-dropdown-item-button>
+                        <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_MEMBER'">회원정보 수정</b-dropdown-item-button>
                     </router-link>
                     
-                    <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
+                    <!-- <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
                         <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_STYLIST'" v-b-modal.stylistmodify>스타일리스트 정보수정</b-dropdown-item-button>
-                    </router-link>
+                    </router-link> -->
+
                     <b-dropdown-item-button @click="$bvModal.show('userdelete')">회원탈퇴</b-dropdown-item-button>
                 </b-dropdown>
             </div>
