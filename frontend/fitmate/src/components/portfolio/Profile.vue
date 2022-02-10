@@ -1,11 +1,13 @@
 <template>
     <div>
         <div class="stylist-img">
-            <img class="stylist-user-img" id="stylist" :src="this.memberInfo.profile">
+            <img class="stylist-user-img" id="stylist" :src="profile">
         </div>
         <div class="row">
-            <h1 class="mt-2 col-8 nickname" v-if="this.checkauthority == 'ROLE_STYLIST'">{{ profileData.nickname }}</h1>
-            <b-dropdown class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+            <h1 class="mt-2 col-8 nickname" >{{ profileData.nickname }}</h1>
+
+            <b-dropdown v-if="this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.nickname == this.checkMemberInfo.nickname" 
+            class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content class="dropcontent">
                     &#128274;
                 </template>
@@ -28,9 +30,8 @@
                     </b-row>
                 </b-modal>
 
-
                 <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
-                    <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_STYLIST'" v-b-modal.stylistmodify>회원정보 수정</b-dropdown-item-button>
+                    <b-dropdown-item-button v-b-modal.stylistmodify>회원정보 수정</b-dropdown-item-button>
                 </router-link>
 
                 <b-dropdown-item-button @click="$bvModal.show('userdelete')">회원탈퇴</b-dropdown-item-button>
@@ -55,9 +56,9 @@
 
         </div>
 
-        <p class="mt-3" v-if="this.checkauthority == 'ROLE_STYLIST'"> {{ profileData.bio }} </p>
+        <p class="mt-3" > {{ profileData.bio }} </p>
         <div class="mt-5">
-            <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;"></b-icon>
+            <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="like()"></b-icon>
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
             <b-icon icon="share-fill" font-scale="4"></b-icon>
         </div>            
@@ -67,7 +68,6 @@
 <script>
 import axios from "@/module/axios.js";
 import {mapState, mapGetters, mapActions} from 'vuex'
-import { FITMATE_BASE_URL } from "@/config";
 const memberStore = "memberStore";
 
 export default {
@@ -88,31 +88,28 @@ export default {
 
     created () {
         this.checkauthority = this.memberInfo.authority;
-        console.log(this.checkauthority)
+        // console.log(this.checkauthority)
 
-        if(this.checkauthority == 'ROLE_STYLIST'){
-            axios.get(`/api/v1/portfolio/${this.memberInfo.nickname}`)
-            .then(({ data }) => {
-                console.log(data);
-                this.profileData = data;
-            })
-        }
         axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
             this.profileData = data;
             this.profile = this.profileData.member.profile
         })
     },
+
     methods: {
+        ...mapActions(memberStore, ["signInMemberInfo"]),
+
         async withDrawal() {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            await axios.delete(`${ FITMATE_BASE_URL }/api/v1/member/me`)
+            await axios.delete(`/api/v1/member/me`)
             .then(() =>{
                 alert('계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.')
                 this.signout()
             })
         },
+
         signout() {
             this.isSignin = false
             localStorage.clear()
@@ -120,7 +117,7 @@ export default {
             this.$router.push({name:'/'})
             window.location.reload()
         },
-        ...mapActions(memberStore, ["signInMemberInfo"]),
+
         modifybio() {
             const bioinfo = {
                 about : this.profileData.about,
@@ -129,17 +126,22 @@ export default {
             }
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            axios.put(`${ FITMATE_BASE_URL }/api/v1/portfolio/about`, bioinfo)
+            axios.put(`/api/v1/portfolio/about`, bioinfo)
             .then(() => {
                 alert('한 줄 소개글 수정 완료!')
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken);
                 window.location.reload()
             })
-        }
+        },
 
-        
-        
+        like() {
+            axios.post(`/api/v1/follow/${this.nickname}`)
+            .then(() => {
+                alert(`${this.nickname}님 팔로우 완료!`)
+                
+            })
+        }
     }
 }
 </script>

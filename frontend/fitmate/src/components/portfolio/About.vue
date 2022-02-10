@@ -4,7 +4,7 @@
             <h1>About </h1>
         </div>
         <div class="col-2">
-            <b-button class="submitBtn">수정</b-button>
+            <b-button v-if="this.nickname == this.memberInfo.nickname" class="submitBtn">수정</b-button>
         </div>
         <p>{{profileData.about}}</p>
     </div>
