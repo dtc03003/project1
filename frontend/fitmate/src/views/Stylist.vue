@@ -9,20 +9,17 @@
       <div class="col-2 d-flex align-items-center justify-content-start">
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
-          <option value="1">최신순</option>
-          <option value="2">평점순</option>
-          <option value="3">팔로워순</option>
+          <option @click="sortedLatest" value="1">최신순</option>
+          <option @click="sortedGrade"  value="2">평점순</option>
+          <option @click="sortedLikes" value="3">팔로워순</option>
         </select>
       </div>
-      <!-- <span>선택함: {{ selected }}</span> -->
+      <span>선택함: {{ selected }}</span>
 
       <!-- 검색창 -->
-      <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
-      <!-- <div class="col-6 offset-2">
+      <div class="col-6 offset-2">
         <v-container fluid>
           <v-combobox
-            v-model="model"
-            :items="items"
             :search-input.sync="search"
             hide-selected
             hint="Maximum of 5 tags"
@@ -31,7 +28,7 @@
             persistent-hint
             small-chips
           >
-            <template v-slot:no-data>
+            <!-- <template v-slot:no-data>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -39,20 +36,20 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-            </template>
+            </template> -->
           </v-combobox>
         </v-container>
-      </div> -->
+      </div>
 
-
+      <!-- {{stylistArray}} -->
       <!-- 스타일리스트 목록 컴포넌트 -->
       <the-stylist-list 
-      v-for="stylist in stylistArray"
-      v-bind:key="stylist.id"
+      v-for="(stylist, index) in stylistArray"
+      :key="index"
       v-bind:nickname="stylist.nickname"
       v-bind:profile="stylist.member.profile"
+      v-bind:stylistId="stylist.id"
       >
-      {{stylist.id}}
       <!-- {{stylist.member.profile}} -->
       </the-stylist-list>
 
@@ -81,8 +78,6 @@ export default {
       checkauthority:'',
     } 
   },
-  methods:{
-  },
   created () {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
       .then(({ data })=> {
@@ -92,17 +87,43 @@ export default {
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
   },
-  // watch: {
-  //   model (val) {
-  //     if (val.length > 5) {
-  //       this.$nextTick(() => this.model.pop())
-  //     }
-  //   },
-  // },
-  computed: {
-      ...mapGetters( memberStore, ["checkMemberInfo"]),
+  methods: {
+    sortedLatest:function(){
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
+      .then(({ data })=> {
+          console.log(data)
+          this.$store.dispatch('reloadStylists', data)
+          // this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+    },
+    sortedGrade:function(){
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByGrade`)
+      .then(({ data })=> {
+          console.log(data)
+          this.$store.dispatch('reloadStylists', data)
+          // this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+    },
+    sortedLikes:function(){
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByFollower`)
+      .then(({ data })=> {
+          console.log(data)
+          this.$store.dispatch('reloadStylists', data)
+          // this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+    },
   },
-
+  computed: {
+      ...mapGetters( memberStore, ["checkMemberInfo"],
+      // ['stylistArray']
+      ),
+  },
 }
 </script>
 

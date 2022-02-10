@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 아래는 댓글 -->
-    <h6>{{writer}} : {{content}}</h6>
+    <h6>{{writer}} 💌 {{content}}</h6>
   </div>
 </template>
 
@@ -12,7 +12,6 @@ export default {
     content:String,
     writer:String,
   },
-
 }
 </script>
 
