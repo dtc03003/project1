@@ -22,19 +22,19 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    lombok
+//   lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-//    swagger 3.0
+//  swagger3.0
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
     implementation 'org.springdoc:springdoc-openapi-data-rest:1.5.2'
 
-//    jpa
+//  jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.1'
     implementation 'org.hibernate:hibernate-core:5.4.10.Final'
-//  db
+//  DBMS
     runtimeOnly 'mysql:mysql-connector-java'
 
 //    security & jwt
@@ -56,6 +56,19 @@ dependencies {
     implementation 'org.quartz-scheduler:quartz-jobs:2.2.1'
 //    mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+//    webRtc
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.kurento:kurento-client:6.15.0'
+    implementation 'org.kurento:kurento-utils-js:6.15.0'
+    implementation 'org.webjars:webjars-locator:0.42'
+    implementation 'org.webjars.bower:bootstrap:3.3.7'
+    implementation 'org.webjars.bower:demo-console:1.5.1'
+    implementation 'org.webjars.bower:draggabilly:2.1.0'
+    implementation 'org.webjars.bower:webrtc-adapter:7.4.0'
+    implementation 'org.webjars.bower:adapter.js:6.4.0'
+    implementation 'org.webjars.bower:jquery:3.3.1'
+    implementation 'org.webjars.bower:ekko-lightbox:4.0.2'
+
 
 }
 

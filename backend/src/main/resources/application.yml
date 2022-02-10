@@ -1,11 +1,25 @@
 server:
-  port: 9000
+  port: 8443
+#  port: 9000
+  http:
+    port: 9000
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/ssafy.p12
+    key-store-password: ssafy6
+    key-alias: ssafy
+    key-password: ssafy6
+
+trust:
+  store: classpath:keystore/ssafy.p12
+  store.password: ssafy6
 
 springdoc:
   api-docs:
     path: /api-docs
 
-# http://localhost:9000/swagger-ui.html
+# https://localhost:8443/swagger-ui.html
   swagger-ui:
     path: /swagger-ui.html
 
@@ -87,3 +101,4 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
