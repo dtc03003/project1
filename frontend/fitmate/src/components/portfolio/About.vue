@@ -1,14 +1,35 @@
 <template>
-    <div>
-        <h1>About </h1>
+    <div class="row">
+        <div class="col-10">
+            <h1>About </h1>
+        </div>
+        <div class="col-2">
+            <b-button v-if="checkMemberInfo.nickname == this.profilenick && checkMemberInfo.authority == 'ROLE_STYLIST'" class="submitBtn" @click="$bvModal.show('aboutmodify')">수정</b-button>
+        </div>
+        <b-modal id="aboutmodify" size="lg" centered hide-footer>
+            <template #modal-title>
+                &#x26d4; 소개글 수정
+            </template>
+            <b-row>
+                <b-form-textarea id="textarea"  v-model="abouttext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="8" max-rows="10"
+                ></b-form-textarea>
+                <b-col class="col-2"></b-col>
+                <b-col class="col-4 trytocenter" >
+                    <b-button class="exitbtn" @click="modifyabout()">수정</b-button>
+                </b-col>
+                <b-col class="col-4 trytocenter">
+                    <b-button class="exitbtn" @click="$bvModal.hide('aboutmodify')">취소</b-button>
+                </b-col>
+            </b-row>
+        </b-modal>
         <p>{{profileData.about}}</p>
     </div>
 </template>
 
 <script>
 import axios from "@/module/axios.js";
-import {mapState} from 'vuex'
-
+import {mapState, mapGetters, mapActions} from 'vuex'
+import { FITMATE_BASE_URL } from "@/config";
 const memberStore = "memberStore";
 
 export default {
@@ -16,20 +37,45 @@ export default {
         return {
             nickname: this.$route.params.nickname,
             profileData : [],
+            abouttext: '',
+            profilenick: '',
         }
     },
 
     computed: {
         ...mapState(memberStore, ["memberInfo"]),
+        ...mapGetters (memberStore, ['checkMemberInfo']),
     },
 
     created () {
         axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
-            console.log(data);
             this.profileData = data;
+            this.profilenick = data.nickname
         })
-        
+    },
+
+    methods: {
+        ...mapActions(memberStore, ["signInMemberInfo"]),
+        modifyabout() {
+            const bioinfo = {
+                about : this.abouttext,
+                price : this.profileData.price,
+                bio : this.profileData.biotext,
+            }
+            const accessToken = localStorage.getItem("accessToken");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            axios.put(`${ FITMATE_BASE_URL }/api/v1/portfolio/about`, bioinfo)
+            .then(() => {
+                alert('소개글 수정 완료!')
+                let accessToken = localStorage.getItem("accessToken");
+                this.signInMemberInfo(accessToken);
+                window.location.reload()
+            })
+        }
     }
 }
 </script>
+<style scoped>
+.submitBtn { background-color: #7e7fb9 !important; width: 70%;}
+</style>

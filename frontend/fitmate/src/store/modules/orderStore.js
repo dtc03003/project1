@@ -12,6 +12,7 @@ const orderStore = {
         mobile_url: "",
         app_url: "",
         orderData: "",
+        styleList: "",
     },
     getters: {
         getID: (state) => state.id,
@@ -23,6 +24,7 @@ const orderStore = {
         getMobileUrl: (state) => state.mobile_url,
         getAPPUrl: (state) => state.app_url,
         getOrderData: (state) => state.orderData,
+        getStyleList: (state) => state.styleList,
 
     },
     mutations: {
@@ -35,6 +37,7 @@ const orderStore = {
         SET_MOBILE_URL: (state, mobile_url) => { state.mobile_url = mobile_url },
         SET_APP_URL: (state, app_url) => { state.app_url = app_url },
         SET_ORDER_DATA: (state, data) => {state.orderData = data},
+        SET_STYLELIST: (state, styleList) => {state.styleList = styleList},
     },
     actions: {
         setDate({commit}, date) {
@@ -64,7 +67,6 @@ const orderStore = {
             () => { commit("SET_RESERVE_STATUS", false);});
         },
         async deleteOrder({commit}, info) { //예약 취소
-            console.log(info);
             await deleteReservation(info.nickname, info.id, (response) => {
                 if(response.status == 200) {
                     console.log("예약 기록 삭제");
@@ -79,7 +81,6 @@ const orderStore = {
             await readypay(payinfo, (response) => {
                 if(response.status == 200) {
                     console.log("카카오 결제 요청 성공");
-                    console.log(response);
                     commit("SET_PC_URL", response.data.next_redirect_pc_url);
                     commit("SET_MOBILE_URL", response.data.next_redirect_mobile_url);
                     commit("SET_APP_URL", response.data.next_redirect_app_url);

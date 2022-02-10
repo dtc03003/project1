@@ -3,7 +3,8 @@
         <b-container class="detail">
             <b-row>
                 <b-col cols="3" class="r">
-                    {{ thumbnail }}
+                    <!-- <img :src="thumbnail" /> -->
+                    <img src="@/assets/eunwoo.jpg"/>
                 </b-col>
                 <b-col cols="9" class="r">
                     <b-row>
@@ -59,27 +60,28 @@ export default {
     },
     props: {
         idx: Number,
+        review: Object,
     },
     computed: {
         ...mapGetters(reviewStore, ["getReviews", "getSomeReviews", "getReviewStatus"]),
     },
     created() {
         if(this.getReviewStatus) {
-            this.thumbnail = this.getSomeReviews[this.idx].thumbnail;
-            this.nickname = this.getSomeReviews[this.idx].member.nickname;
-            this.rating = this.getSomeReviews[this.idx].rating;
-            this.createdAt = dayjs(this.getSomeReviews[this.idx].createdAt).format("YYYY-MM-DD HH:mm");
-            this.content = this.getSomeReviews[this.idx].content;
+            this.thumbnail = this.review.thumbnail;
+            this.nickname = this.review.member.nickname;
+            this.rating = this.review.rating;
+            this.createdAt = dayjs(this.review.createdAt).format("YYYY-MM-DD HH:mm");
+            this.content = this.review.content;
             if(this.content.length > 50) this.content = this.content.substring(0, 50);
         }
     },
     methods: {
         showContent() {
-            this.content = this.getReviews[this.idx].content;
+            this.content = this.review.content;
             this.showOrHide = false;
         },
         hideContent() {
-            this.content = this.content = this.content.substring(0, 50);
+            this.content = this.content.substring(0, 50);
             this.showOrHide = true;
         }
     }
@@ -90,4 +92,5 @@ export default {
 .detail { width: 80%; }
 .r { border: 1px solid black; }
 #nick {font-weight: bold;}
+img {max-width: 100%;}
 </style>

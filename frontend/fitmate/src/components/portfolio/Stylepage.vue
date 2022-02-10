@@ -6,7 +6,7 @@
         <hr class="mt-3">
         <div class="col-12 text-end" >
             
-            <b-button v-if="this.checkauthority === 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
+            <b-button  v-if="checkMemberInfo.nickname == this.profileData.nickname &&  this.checkauthority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
             <b-modal size="lg" id="modal-1" title="Style 등록" hide-footer>
                 <b-row>
                     <b-col class="col-12">
@@ -44,6 +44,7 @@ export default {
             },
             styleArray: [],
             checkauthority: '',
+            profileData : [],
         }
     },
     components: {
@@ -54,13 +55,19 @@ export default {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
     },
     created() {
+        axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}`)
+        .then(({ data }) => {
+            this.profileData = data;
+        })
+        
         axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}/styles/all`)
         .then(({ data })=> {
-            console.log(data)
             this.styleArray = data;
         })
         this.checkauthority = this.checkMemberInfo.authority
         console.log(this.checkauthority)
+        
+        
     },
     methods:{
             handleImages(files){
@@ -79,29 +86,6 @@ export default {
                     this.post.image = res.data.src
                     console.log(res.data.src)
                 })
-                // if (files.length > 1) {
-                //     for (this.i = 0; this.i <= files.length ; this.i++ ){
-                //         const image = this.$refs['image'].files[this.i]
-                //         formData.append('images', image)
-                //         axios.post(`${config.baseUrl}/api/v1/images`, formData, {
-                //             header: { 'Content-Type': 'multipart/form-data' }
-                //         })
-                //         .then((res) => {
-                //             this.post.image.append(res.data.src) 
-                //             console.log(res.data.src)
-                //         })
-                //     }
-                // } else {
-                //     const image = this.$refs['image'].files[0]
-                //     formData.append('images', image);
-                //     axios.post(`${config.baseUrl}/api/v1/images`, formData, {
-                //         header: { 'Content-Type': 'multipart/form-data' }
-                //     })
-                //     .then((res) => {
-                //         this.post.image = res.data.src
-                //         console.log(res.data.src)
-                //     })
-                // }
             },
 
             async Posting() {
