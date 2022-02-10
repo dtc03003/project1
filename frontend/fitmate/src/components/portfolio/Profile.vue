@@ -6,7 +6,7 @@
         <div class="row">
             <h1 class="mt-2 col-8 nickname" >{{ profileData.nickname }}</h1>
 
-            <b-dropdown v-if="this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.nickname == this.checkMemberInfo.nickname" 
+            <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
             class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content class="dropcontent">
                     &#128274;
@@ -93,7 +93,7 @@ export default {
         axios.get(`/api/v1/portfolio/${this.nickname}`)
         .then(({ data }) => {
             this.profileData = data;
-            this.profile = this.profileData.member.profile
+            this.profile = data.member.profile
         })
     },
 
@@ -136,7 +136,7 @@ export default {
         },
 
         like() {
-            axios.post(`/api/v1/follow/${this.nickname}`)
+            axios.post(`/api/v1/follow/${this.nickname}`, )
             .then(() => {
                 alert(`${this.nickname}님 팔로우 완료!`)
                 
