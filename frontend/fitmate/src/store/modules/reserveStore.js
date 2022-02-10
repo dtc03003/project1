@@ -1,4 +1,4 @@
-import { reservationList, reservationDetailList } from '@/api/reserve.js'
+import { reservationList, reservationDetailList, mypayment } from '@/api/reserve.js'
 
 const reserveStore = {
     namespaced: true,
@@ -32,6 +32,15 @@ const reserveStore = {
                 if(response.status == 200) {
                     commit("SET_STATUS", true)
                     commit("SET_ALL_RESERVATIONS", response.data);
+                }
+            },
+            () => {});
+        },
+        async importMyPayment() {
+            await mypayment((response) => {
+                if(response.status == 200) {
+                    let res = response.data.filter((element) => element.state == 'COMPLETE');
+                    console.log(res);
                 }
             },
             () => {});

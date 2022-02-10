@@ -1,6 +1,7 @@
-import { apiInstance } from "./index.js";
+import { apiInstance, apiImgInstance } from "./index.js";
 
 const api = apiInstance();
+const imgapi = apiImgInstance();
 
 //포트폴리오 존재 여부 확인
 async function findPortfolio(nickname, success, fail) {
@@ -32,4 +33,8 @@ async function reviewOne(nickname, id, success, fail) {
     await api.get(`/api/v1/portfolio/${nickname}/review/${id}`).then(success).catch(fail);
 }
 
-export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio };
+async function uploadImage(formData, success, fail) { //이미지 업로드
+    imgapi.post("/api/v1/images", formData).then(success).catch(fail);
+}
+
+export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage };
