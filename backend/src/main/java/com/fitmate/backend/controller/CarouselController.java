@@ -17,8 +17,8 @@ import java.util.List;
 public class CarouselController {
     private final CarouselService carouselService;
 
-    @PostMapping("/carousel/save/{imgSrc}")
-    public ResponseEntity<String> saveCarousel(@PathVariable String imgSrc){
+    @PostMapping("/carousel/save")
+    public ResponseEntity<String> saveCarousel(@RequestBody String imgSrc){
         return ResponseEntity.ok(carouselService.saveCarouselImg(imgSrc));
     }
 
