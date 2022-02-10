@@ -16,3 +16,5 @@ async function saveCarousel(imgSrc, success, fail) {
 async function deleteCarousel(carouselId, success, fail) {
   await api.get(`/api/v1/carousel/delete/${carouselId}`).then(success).catch(fail);
 }
+
+export { findAllCarousel, saveCarousel, deleteCarousel };
