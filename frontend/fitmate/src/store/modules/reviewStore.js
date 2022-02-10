@@ -42,7 +42,7 @@ const reviewStore = {
                 if(response.status == 200) {
                     commit("SET_PORTFOLIO_STATUS", true);
                     commit("SET_PORTFOLIO_DATA", response.data);
-                    console.log(response.data)
+                    console.log("포토폴리오 존재!")
                 }
             },
             () => {

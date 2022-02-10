@@ -38,8 +38,12 @@
                         <td>{{this.data.portfolio.member.email}}</td>
                     </tr>
                     <tr>
-                        <td>확정 날짜 및 시간</td>
-                        <td>{{this.getDate + " " + this.getTime}}</td>
+                        <td>확정 날짜</td>
+                        <td>{{this.getDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>시작 시간 및 종료 시간</td>
+                        <td>{{this.getTime}} ~ {{this.endTime}}</td>
                     </tr>
                     <tr>
                         <td>결제 비용</td>
@@ -58,6 +62,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapActions, mapGetters } from 'vuex';
 const orderStore = "orderStore";
 const tokens = {};
@@ -68,6 +73,7 @@ export default {
         return {
             pg_token: '',
             data: '',
+            endTime: '',
         }
     },
     created() {
@@ -77,6 +83,7 @@ export default {
         }
         console.log(this.pg_token);
         this.registPayment();
+        this.endTime = dayjs(new Date(this.data.endTime)).format("HH:00");
     },
     computed: {
         ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getOrderData"]),

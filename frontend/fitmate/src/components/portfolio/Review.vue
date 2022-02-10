@@ -19,7 +19,6 @@ export default {
     name: 'Review',
     data() {
         return {
-            reviews: [],
             allReviews: [],
             someReviews: [],
             page: 1,
@@ -51,8 +50,7 @@ export default {
             if(this.getPortfolioStatus) {
                 await this.importAllReviews(nickname);
                 this.allReviews = this.getReviews;
-                this.reviews = this.getReviews;
-                this.SET_REVEIW_LIST(this.reviews);
+                this.SET_REVEIW_LIST(this.allReviews);
                 this.someReviews = this.getSomeReviews; //페이지별 가져오기
             }
         },

@@ -67,7 +67,6 @@ const orderStore = {
             () => { commit("SET_RESERVE_STATUS", false);});
         },
         async deleteOrder({commit}, info) { //예약 취소
-            console.log(info);
             await deleteReservation(info.nickname, info.id, (response) => {
                 if(response.status == 200) {
                     console.log("예약 기록 삭제");
@@ -82,7 +81,6 @@ const orderStore = {
             await readypay(payinfo, (response) => {
                 if(response.status == 200) {
                     console.log("카카오 결제 요청 성공");
-                    console.log(response);
                     commit("SET_PC_URL", response.data.next_redirect_pc_url);
                     commit("SET_MOBILE_URL", response.data.next_redirect_mobile_url);
                     commit("SET_APP_URL", response.data.next_redirect_app_url);
