@@ -34,8 +34,12 @@
                         <td>{{this.styleList.nickname}}</td>
                     </tr>
                     <tr>
-                        <td>예약 날짜 및 시간</td>
-                        <td>{{this.getDate + " " + this.getTime}}</td>
+                        <td>예약 날짜</td>
+                        <td>{{this.getDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>시작 시간 및 종료 시간</td>
+                        <td>{{this.getTime}} ~ {{this.endTime}}</td>
                     </tr>
                     <tr>
                         <td>컨설팅 비용</td>
@@ -58,34 +62,35 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapGetters, mapActions } from 'vuex'
 const orderStore = "orderStore";
 const memberStore = "memberStore";
-const reviewStore = "reviewStore";
 
 export default {
     name: 'Order',
     data() {
         return {
             member: {},
-            styleList: { //스타일리스트 정보 받아올 수 있게 되면 받아올 부분
-                nickname : '', //스타일리스트명과 가격정보는 이후 스타일리스트 정보 가져올 수 있으면 변경
+            styleList: {
+                nickname : '',
                 price : 0
             },
             price: 0,
+            endTime: '',
         }
     },
     created() {
         if(!this.getDate && !this.getTime) this.backSchedule();
         this.getInfo();
         this.styleList.nickname = this.getStyleList;
-        this.styleList.price = this.getPortfolioData.price;
+        this.styleList.price = this.getOrderData.cost;
         this.price = this.styleList.price.toLocaleString();
+        this.endTime = dayjs(this.getOrderData.endTime).format("HH:00");
     },
     computed: {
-        ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus", "getStyleList"]),
+        ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getReserveStatus", "getPCUrl", "getMobileUrl", "getPayStatus", "getStyleList", "getOrderData"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
-        ...mapGetters(reviewStore, ["getPortfolioData", "getPortfolioStatus"]),
     },
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
@@ -100,7 +105,7 @@ export default {
         },
         backSchedule() { //날짜/시간 초기화 시 이전 페이지로 이동
             alert("날짜/시간이 초기화된 관계로 다시 선택해주시길 바랍니다.");
-            this.$router.go(-1);
+            this.goBack();
         },
         async goBack() { //취소 시 이전 페이지로 이동
             const info = {
@@ -111,12 +116,13 @@ export default {
             if(!this.getReserveStatus) this.$router.go(-1);
         },
         async requestPay() {
+            let quantity = new Date(this.getOrderData.endTime).getHours() - new Date(this.getOrderData.startTime).getHours();
             const payinfo = {
                 "cid": "TC0ONETIME",
                 "partner_order_id": "partner_order_id",
                 "partner_user_id": "partner_user_id",
                 "item_name": "Fitmate",
-                "quantity": 1,
+                "quantity": quantity,
                 "total_amount": this.styleList.price,
                 "tax_free_amount": 0,
                 "approval_url": "http://localhost:8080/order/approval",
@@ -124,8 +130,6 @@ export default {
                 "fail_url": "http://localhost:8080/order/fail"
             }
             
-            console.log(this.styleList.price)
-            console.log(payinfo);
             await this.requestKakaoPay(payinfo);
 
             if(this.getPayStatus) {
