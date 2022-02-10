@@ -104,8 +104,7 @@ export default {
   created () {
     // 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
-    .then(({ data })=> {
-      console.log('이거는 코멘트들')       
+    .then(({ data })=> {    
       console.log(data)
       this.comments = data;
     })
@@ -114,8 +113,7 @@ export default {
 
     // 태그 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
-    .then(({ data })=> {
-      console.log('태그')       
+    .then(({ data })=> {    
       console.log(data)
       this.tags = data;
     })
@@ -141,26 +139,37 @@ export default {
     },
     // 댓글 저장하는 axios
     saveComment() {
-      const messageInfo = {
-        "comment":this.message, 
-        "createdAt":"",
-        };
-      const accessToken = localStorage.getItem("accessToken");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      axios({
-        url: `${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comment`,
-        method: 'post', // 통신할 방식
-        data: messageInfo, //전송할 데이터
-      })
-      .then((res) => {
-        console.log('success')
-        console.log(res.data)
-      })
-      .catch(err =>{
-        console.log(err)
-      });
-      this.resetIcon()
-      this.clearMessage()
+      if (this.message){
+        const messageInfo = {
+          "comment":this.message, 
+          "createdAt":"",
+          };
+        const accessToken = localStorage.getItem("accessToken");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        axios({
+          url: `${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comment`,
+          method: 'post', // 통신할 방식
+          data: messageInfo, //전송할 데이터
+        })
+        .then((res) => {
+          if (res.data.comment){
+            console.log('success')
+            console.log(res.data)
+            this.$store.dispatch('reloadComments', res.data)
+            this.comments.push(this.message)
+          }else{
+            alert('댓글을 입력하세요!')
+          }
+        })
+        .catch(err =>{
+          console.log(err)
+        });
+        this.resetIcon()
+        this.clearMessage()
+      }else{
+        alert('댓글을 입력하세요!')
+      }
+
     }
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
-    <div class="container-fluid" style="hight:7rem">
+    <div class="container d-block" style="hight:7rem">
       <div>
         <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">

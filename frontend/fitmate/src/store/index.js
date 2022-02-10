@@ -24,12 +24,20 @@ const store = new Vuex.Store({
     reserveStore,
   },
   state: {
-    // getStyles:'',
+    comments:[],
+  },
+  mutations:{
+    RELOAD_COMMENTS: function(state, data){
+      state.comments.push(data)
+    }
   },
   actions: {
     logout : function ({commit}){
       commit('SIGNOUT')
     },
+    reloadComments: function({commit}, data){
+      commit('RELOAD_COMMENTS', data)
+    }
   },
   plugins: [
     createPersistedState({ //새로고침해도 초기화 안되도록 방지
