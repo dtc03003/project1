@@ -29,4 +29,9 @@ public class StyleCommentController {
     public ResponseEntity<?> selectAllCommentsByStyleId(@PathVariable Long id){
         return ResponseEntity.ok(styleCommentService.getCommentsByStyleId(id));
     }
+
+    @GetMapping("/style/comment/{id}")
+    public ResponseEntity<?> selectCommentByCommentId(@PathVariable Long id){
+        return ResponseEntity.ok(styleCommentService.getCommentByCommentId(id));
+    }
 }
