@@ -10,9 +10,10 @@
             <b-avatar @click.native="goToPortfolio" :src="profile" size="5rem">
             </b-avatar>
           </div>
-          <h4>{{ nickname }}</h4>
+          <h5>{{ nickname }}</h5>
           
           <!-- 찜, DB 필요 -->
+          <h5>❤{{likes}}</h5>
 
           <!-- 평점, DB 필요, computed는 만들어놨음-->
           <div class="star-ratings">
@@ -63,13 +64,15 @@ export default {
       },
       memberStore,
       stylistImages:[], 
-      checkauthority:''
+      checkauthority:'',
+      likes:0,
       
     }
   },
   props:{
     nickname:String,
     profile:String,
+    stylistId:Number,
   },
   components:{
     TheImageModal,
@@ -96,12 +99,21 @@ export default {
   created () {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
       .then(({ data })=> {
-        console.log('이거봐라')       
-        console.log(data)
+        // console.log('이거봐라')       
+        // console.log(data)
         this.stylistImages = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
+      // console.log(this.checkauthority)
+      
+      // 찜 가져오는 axios
+      axios.get(`${FITMATE_BASE_URL}/api/v1/like/${this.stylistId}/count`)
+      .then(({ data })=> {
+        console.log('찜 성공') 
+        console.log(this.stylistId)      
+        console.log(data)
+        this.likes = data;
+      })
   },
 
 }

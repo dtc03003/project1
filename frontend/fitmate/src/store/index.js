@@ -25,10 +25,14 @@ const store = new Vuex.Store({
   },
   state: {
     comments:[],
+    stylistArray:[],
   },
   mutations:{
     RELOAD_COMMENTS: function(state, data){
       state.comments.push(data)
+    },
+    RELOAD_STYLISTS: function(state, data){
+      state.stylistArray = data
     }
   },
   actions: {
@@ -37,6 +41,9 @@ const store = new Vuex.Store({
     },
     reloadComments: function({commit}, data){
       commit('RELOAD_COMMENTS', data)
+    },
+    reloadStylists: function({commit}, data){
+      commit('RELOAD_STYLISTS', data)
     }
   },
   plugins: [
