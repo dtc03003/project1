@@ -1,6 +1,6 @@
 <template>  
     <div>
-        <div v-show="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm == false)" >
+        <div v-if="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm == false)" >
             <b-container class="bv-example-row mt-5">
                 <b-row>
                 <b-col></b-col>
@@ -17,7 +17,7 @@
             </b-container>
         </div>
 
-        <div v-show="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm) || this.checkMemberInfo.authority == 'ROLE_MEMBER'">
+        <div v-else-if="(this.checkMemberInfo.authority == 'ROLE_STYLIST' && this.portfolioconfirm) || this.checkMemberInfo.authority == 'ROLE_MEMBER'">
             <b-container class="bv-example-row mt-3">
                 <b-row>
                     <b-col>
@@ -78,7 +78,7 @@ export default {
             method: 'get',
         })
         .then((res)=> this.portfolioconfirm = res.data.about)
-        .catch(()=>{})
+        .catch(()=>{console.log('포트폴리오를 먼저 생성해주세요!')})
     },
     created() {
     },
@@ -98,7 +98,6 @@ export default {
                 let accessToken = localStorage.getItem("accessToken");
                 this.signInMemberInfo(accessToken);
                 this.portfolioconfirm = true
-                window.location.reload()
             }) 
             .catch((err) => {
                 alert('포트폴리오 생성실패')  
