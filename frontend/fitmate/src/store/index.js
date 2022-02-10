@@ -26,12 +26,27 @@ const store = new Vuex.Store({
     followStore,
   },
   state: {
-    // getStyles:'',
+    comments:[],
+    stylistArray:[],
+  },
+  mutations:{
+    RELOAD_COMMENTS: function(state, data){
+      state.comments.push(data)
+    },
+    RELOAD_STYLISTS: function(state, data){
+      state.stylistArray = data
+    }
   },
   actions: {
     logout : function ({commit}){
       commit('SIGNOUT')
     },
+    reloadComments: function({commit}, data){
+      commit('RELOAD_COMMENTS', data)
+    },
+    reloadStylists: function({commit}, data){
+      commit('RELOAD_STYLISTS', data)
+    }
   },
   plugins: [
     createPersistedState({ //새로고침해도 초기화 안되도록 방지
