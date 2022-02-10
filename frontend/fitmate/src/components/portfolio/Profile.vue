@@ -53,12 +53,14 @@
                     </b-row>
                 </b-modal>
             </b-dropdown>
-
         </div>
 
-        <p class="mt-3" > {{ profileData.bio }} </p>
+        <p class="mt-3" > {{ profileData.bio }} {{ isFollow }} </p>
+        <p class="mt-3" > 팔로우 상태 : {{ isFollow }} </p>
         <div class="mt-5">
-            <b-icon icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="like()"></b-icon>
+            <b-icon v-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
+
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
             <b-icon icon="share-fill" font-scale="4"></b-icon>
         </div>            
@@ -77,13 +79,17 @@ export default {
             profileData : [],
             checkauthority: '',
             biotext: '',
-            profile : ''
+            profile: '',
         }
     },
 
     computed: {
         ...mapState(memberStore, ["memberInfo"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
+
+        isFollow() {
+            return this.$store.state.followStore.isFollow;
+        }
     },
 
     created () {
@@ -94,15 +100,21 @@ export default {
         .then(({ data }) => {
             this.profileData = data;
             this.profile = data.member.profile
-        })
+        }),
+
+        this.$store.dispatch("getIsFollow", { nickname: this.nickname })
     },
 
     methods: {
         ...mapActions(memberStore, ["signInMemberInfo"]),
 
-        async withDrawal() {
+        token() {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        },
+
+        async withDrawal() {
+            this.token();
             await axios.delete(`/api/v1/member/me`)
             .then(() =>{
                 alert('계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.')
@@ -113,7 +125,7 @@ export default {
         signout() {
             this.isSignin = false
             localStorage.clear()
-            this.$store.dispatch('signout')      
+            this.$store.dispatch('signout')
             this.$router.push({name:'/'})
             window.location.reload()
         },
@@ -124,8 +136,7 @@ export default {
                 price : this.profileData.price,
                 bio : this.biotext,
             }
-            const accessToken = localStorage.getItem("accessToken");
-            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            this.token();
             axios.put(`/api/v1/portfolio/about`, bioinfo)
             .then(() => {
                 alert('한 줄 소개글 수정 완료!')
@@ -135,13 +146,27 @@ export default {
             })
         },
 
-        like() {
-            axios.post(`/api/v1/follow/${this.nickname}`, )
+        // 팔로우
+        follow() {
+            this.token();
+            axios.post(`/api/v1/follow/${this.nickname}`)
             .then(() => {
                 alert(`${this.nickname}님 팔로우 완료!`)
-                
+                window.location.reload()
+            })
+        },
+
+        // 언팔로우
+        unfollow() {
+            this.token();
+            axios.delete(`/api/v1/cancelFollow/${this.nickname}`)
+            .then(() => {
+                alert(`${this.nickname}님 언팔로우 완료!`)
+                window.location.reload()
             })
         }
+
+
     }
 }
 </script>

@@ -9,6 +9,7 @@ import reviewStore from"@/store/modules/reviewStore";
 import reserveStore from"@/store/modules/reserveStore";
 import createPersistedState from "vuex-persistedstate";
 import styleStore from "@/store/modules/styleStore"
+import followStore from "@/store/modules/followStore"
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
     styleStore,
     reviewStore,
     reserveStore,
+    followStore,
   },
   state: {
     // getStyles:'',
