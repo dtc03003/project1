@@ -13,7 +13,7 @@
                         </b-col>
                         <b-col cols="6" align="right">
                             평점
-                            <span v-for="r in rating" :key="`re-${r}`">■</span>
+                            <span v-for="r in rating" :key="`re-${r}`" class="star-ratings-fill">■</span>
                             <span v-for="r in (5-rating)" :key="`unre-${r}`">□</span>
                             {{ rating }}점
                         </b-col>
@@ -93,4 +93,5 @@ export default {
 .r { border: 1px solid black; }
 #nick {font-weight: bold;}
 img {max-width: 100%;}
+.star-ratings-fill { color: rgb(105, 221, 206); } /*-webkit-text-fill-color */
 </style>
