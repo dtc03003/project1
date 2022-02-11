@@ -33,7 +33,7 @@ public class LikeController {
         return ResponseEntity.ok(likeService.likeCount(styleId));
     }
 
-    @GetMapping("/like/{styleId}")
+    @GetMapping("/like/isLiked/{styleId}")
     public ResponseEntity<Boolean> isLiked(@PathVariable Long styleId){
         return ResponseEntity.ok(likeService.isLiked(styleId));
     }
