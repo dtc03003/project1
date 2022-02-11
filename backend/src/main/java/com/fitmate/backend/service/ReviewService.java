@@ -30,7 +30,7 @@ public class ReviewService {
         Review review = ReviewDto.toEntity(reviewDto,member,portfolio);
         return reviewRepository.save(review);
     }
-    public Review findById(String nickname, Long id) {
+    public Review findById(Long id) {
         return reviewRepository.findById(id).orElseThrow(NotFoundPortfolioReviewException::new);
     }
 
@@ -47,5 +47,9 @@ public class ReviewService {
     public List<Review> findAll(String nickname) {
         Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
         return reviewRepository.findAllByPortfolioId(portfolio.getId());
+    }
+
+    public List<Review> findAllByMemberId(Long id) {
+        return reviewRepository.findAllByMemberId(id);
     }
 }
