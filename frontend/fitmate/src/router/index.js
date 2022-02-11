@@ -7,9 +7,10 @@ import Signin from '@/views/sign/Signin'
 import Signup from '@/views/Signup'
 import Stylist from '@/views/Stylist'
 import Portfolio from '@/views/Portfolio'
+import Portfolionope from '@/views/Portfolionope'
 import Stylebook from '@/views/Stylebook'
 import Mypage from '@/views/Mypage'
-import Modify from '@/views/Mypagenormal/Modify'
+import Modify from '@/views/Modify'
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
     path: '/signin',
     name: 'Signin',
     component: Signin
+  },
+  {
+    path: '/portfolionope/:nickname',
+    name: 'Portfolionope',
+    component: Portfolionope
   },
   {
     path: '/portfolio/:nickname',
@@ -79,7 +85,7 @@ const routes = [
     component: Stylebook
   },
   {
-    path: '/Mypagenormal/modify',
+    path: '/modify',
     name: 'Modify',
     component: Modify
   },
