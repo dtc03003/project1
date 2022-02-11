@@ -65,6 +65,7 @@
 import dayjs from "dayjs";
 import { mapActions, mapGetters } from 'vuex';
 const orderStore = "orderStore";
+const reserveStore = "reserveStore";
 const tokens = {};
 
 export default {
@@ -87,13 +88,24 @@ export default {
     },
     computed: {
         ...mapGetters(orderStore, ["getID", "getDate", "getTime", "getOrderData"]),
+        ...mapGetters(reserveStore, ["getMyPayments"]),
     },
     methods: {
         ...mapActions(orderStore, ["approvalPay"]),
+        ...mapActions(reserveStore, ["importMyPayment"]),
         async registPayment() {
             this.data = this.getOrderData;
             console.log(this.data);
-            await this.approvalPay(this.getOrderData);
+            let check = true;
+            let size = this.getMyPayments.size;
+            for(let i = 1; i < size; i++) {
+                console.log(this.getMyPayments[i]);
+                if(JSON.stringify(this.data) == JSON.stringify(this.getMyPayments[i])) {
+                    check = false;
+                    break;
+                }
+            }
+            if(check) await this.approvalPay(this.getOrderData);
         },
         goHome() {
             this.$router.push({name: "Home"});
