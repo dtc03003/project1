@@ -24,11 +24,15 @@ public class LikeService {
 
     @Transactional
     public String like(Long styleId){
-        Member member = memberService.getMyInfo();
-        Style style = styleRepository.findById(styleId).orElseThrow(NotFoundStyleException::new);
-        LikeEntity like = LikeDto.toEntity(member, style);
-        likeRepository.save(like);
-        return "like success";
+        if(isLiked(styleId))
+            return "already like";
+        else {
+            Member member = memberService.getMyInfo();
+            Style style = styleRepository.findById(styleId).orElseThrow(NotFoundStyleException::new);
+            LikeEntity like = LikeDto.toEntity(member, style);
+            likeRepository.save(like);
+            return "like success";
+        }
     }
 
     @Transactional
