@@ -16,6 +16,7 @@
         v-bind:nickname="image.portfolio.member.nickname"     
         >{{image}}</the-image-modal>
       </div>
+      
     </div>
   </div>
 </template>
@@ -28,8 +29,7 @@ export default {
     TheImageModal
   },
 
-  computed: {
-
+  computed: { 
     likeList() {
       return this.$store.state.followStore.likeList
     }
