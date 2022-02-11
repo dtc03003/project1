@@ -6,6 +6,7 @@ const followStore = {
         isLike: "",
         likeList: "",
         liker: "",
+        countFollow: ""
     },
 
     mutations: {
@@ -20,6 +21,9 @@ const followStore = {
         },
         setLiker(state, payload) {
             state.likeList = payload.likeList;
+        },
+        setCountFollow(state, payload) {
+            state.countFollow = payload.countFollow;
         }
     },
 
@@ -54,6 +58,14 @@ const followStore = {
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             let { data } = await axios.get(`/api/v1/isFollowed/${payload.styleId}`)
             commit("setLiker", { liker: data })
+        },
+
+        // 사용자 팔로워 수
+        async getCountFollow({ commit }, payload) {
+            const accessToken = localStorage.getItem("accessToken");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            let { data } = await axios.get(`/api/v1/countOfFollower/${payload.nickname}`)
+            commit("setCountFollow", { countFollow: data })
         },
     }
 };
