@@ -20,7 +20,7 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping(value = "/follow/{stylistNickname}")
-    public ResponseEntity<FollowDto> follow(@PathVariable String stylistNickname){
+    public ResponseEntity<String> follow(@PathVariable String stylistNickname){
         return ResponseEntity.ok(followService.follow(stylistNickname));
     }
 
