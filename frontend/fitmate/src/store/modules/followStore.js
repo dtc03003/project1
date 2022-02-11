@@ -44,11 +44,11 @@ const followStore = {
         async getLikeList({ commit }) {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            let { data } = await axios.get(`/api/v1/member/me/like`)
+            let { data } = await axios.get(`/api/v1/member/me/likes`)
             commit("setLikeList", { likeList: data })
         },
 
-        // 게시물 별 좋아요한 사용자 리스트
+        // 게시물별 좋아요한 사용자 리스트
         async getLiker({ commit }, payload) {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
