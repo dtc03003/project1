@@ -33,8 +33,14 @@ async function reviewOne(nickname, id, success, fail) {
     await api.get(`/api/v1/portfolio/${nickname}/review/${id}`).then(success).catch(fail);
 }
 
-async function uploadImage(formData, success, fail) { //이미지 업로드
-    imgapi.post("/api/v1/images", formData).then(success).catch(fail);
+//이미지 업로드
+async function uploadImage(formData, success, fail) {
+    await imgapi.post("/api/v1/images", formData).then(success).catch(fail);
 }
 
-export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage };
+//각자의 아이디(db 저장 순서 번호)로 자신의 리뷰 조회
+async function findReviewsById(id, success, fail) {
+    await api.get(`/api/v1/members/${id}/reviews`).then(success).catch(fail);
+}
+
+export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage, findReviewsById };
