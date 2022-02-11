@@ -30,14 +30,18 @@ public class FollowService {
     private final MemberService memberService;
 
     @Transactional
-    public FollowDto follow(String stylistNickname){
-        Member follower = memberService.getMyInfo();
-        Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
-        Follow follow = FollowDto.toEntity(follower, following);
-        Grade grade = gradeRepository.findByStylist(following).orElseThrow();
-        grade.increasingFollow();
-        gradeRepository.save(grade);
-        return FollowDto.of(followRepository.save(follow));
+    public String follow(String stylistNickname){
+        if(isFollowed(stylistNickname)) return "already followed";
+        else {
+            Member follower = memberService.getMyInfo();
+            Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
+            Follow follow = FollowDto.toEntity(follower, following);
+            Grade grade = gradeRepository.findByStylist(following).orElseThrow();
+            grade.increasingFollow();
+            gradeRepository.save(grade);
+            followRepository.save(follow);
+            return "follow success";
+        }
     }
 
     @Transactional
