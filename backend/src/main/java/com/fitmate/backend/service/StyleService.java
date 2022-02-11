@@ -34,6 +34,7 @@ public class StyleService {
         portfolioRepository.save(portfolio);
         return style;
     }
+
     public Style getStyle(Long id){
         return styleRepository.findById(id).orElseThrow(NotFoundUserInformation::new);
     }

@@ -9,6 +9,7 @@ import com.fitmate.backend.entity.Style;
 import com.fitmate.backend.repository.LikeRepository;
 import com.fitmate.backend.repository.StyleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -65,7 +66,7 @@ public class LikeService {
     public List<Style> getMyLikeStyle(){
         List<LikeEntity> likes = likeRepository.findAllByMember(memberService.getMyInfo());
         List<Style> styleList = new ArrayList<Style>();
-        for(int i=0; i<likes.size(); i++){
+        for(int i=likes.size()-1; i>=0; i--){
             styleList.add(likes.get(i).getStyle());
         }
         return styleList;
