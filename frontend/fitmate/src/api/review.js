@@ -10,7 +10,7 @@ async function findPortfolio(nickname, success, fail) {
 }
 
 //특정 스타일리스트의 리뷰 쓰기
-async function writeReview(review, nickname, success, fail) {
+async function writeReview(nickname, review, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
     await api.post(`/api/v1/portfolio/${nickname}/review`, JSON.stringify(review)).then(success).catch(fail);
 }

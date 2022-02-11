@@ -3,8 +3,7 @@
         <b-container class="detail">
             <b-row>
                 <b-col cols="3" class="r">
-                    <!-- <img :src="thumbnail" /> -->
-                    <img src="@/assets/eunwoo.jpg"/>
+                    <img :src="thumbnail" />
                 </b-col>
                 <b-col cols="9" class="r">
                     <b-row>
@@ -63,7 +62,7 @@ export default {
         review: Object,
     },
     computed: {
-        ...mapGetters(reviewStore, ["getReviews", "getSomeReviews", "getReviewStatus"]),
+        ...mapGetters(reviewStore, ["getReviewStatus"]),
     },
     created() {
         if(this.getReviewStatus) {
