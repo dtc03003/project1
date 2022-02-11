@@ -11,7 +11,7 @@
                 &#x26d4; 소개글 수정
             </template>
             <b-row>
-                <b-form-textarea id="textarea"  v-model="abouttext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="8" max-rows="10"
+                <b-form-textarea id="textarea"  v-model="abouttext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="8" size="md"
                 ></b-form-textarea>
                 <b-col class="col-2"></b-col>
                 <b-col class="col-4 trytocenter" >
@@ -22,7 +22,13 @@
                 </b-col>
             </b-row>
         </b-modal>
-        <p>{{profileData.about}}</p>
+        <div class="row">
+            <b-card class="col-12" border-variant="white">
+                <span style="white-space: pre-line">
+                    {{profileData.about}}
+                </span>
+            </b-card>
+        </div>
     </div>
 </template>
 
@@ -45,6 +51,9 @@ export default {
     computed: {
         ...mapState(memberStore, ["memberInfo"]),
         ...mapGetters (memberStore, ['checkMemberInfo']),
+        content() { 
+            return this.content.split('\n').join('<br>'); //return this.content.replace(/(?:\r\n|\r|\n)/g, '<br>'); 정규식 
+        },
     },
 
     created () {
@@ -61,7 +70,7 @@ export default {
             const bioinfo = {
                 about : this.abouttext,
                 price : this.profileData.price,
-                bio : this.profileData.biotext,
+                bio : this.profileData.bio,
             }
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -73,7 +82,7 @@ export default {
                 window.location.reload()
             })
         }
-    }
+    },
 }
 </script>
 <style scoped>

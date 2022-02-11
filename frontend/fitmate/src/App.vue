@@ -23,8 +23,11 @@
                 <a class="nav-link"><router-link to="/mypage">My Page</router-link></a>
               <!-- </li> -->
               <!-- 스타일리스트? -->
-              <li v-if="checkMemberInfo.authority=='ROLE_STYLIST'" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio(임시)</router-link></a>
+              <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && !portfolioconfirm" class="nav-item">
+                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
+              </li>
+              <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && portfolioconfirm" class="nav-item">
+                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
               </li>
             </ul>
           </div>
@@ -70,16 +73,29 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapGetters } from 'vuex'
 import memberStore from '@/store/modules/memberStore'
-
+import { FITMATE_BASE_URL } from "@/config";
 export default {
   name: 'App',
   data: function() {
     return {
       memberStore,
+      portfolioconfirm: '',
     }
   },
+  mounted() {
+        axios({
+            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
+            method: 'get',
+        })
+        .then((res)=> {
+          this.portfolioconfirm = res.data.about
+          console.log(res.data)
+        })
+        .catch(()=> {console.log('포트폴리오 없음')})
+    },
   methods:{
     signout: function() {
       this.isSignin = false
