@@ -13,23 +13,27 @@ import javax.validation.constraints.Min;
 @RestController
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/portfolio")
+@RequestMapping(value = "/api/v1")
 public class ReviewController {
     private final ReviewService reviewService;
-    @PostMapping("/{nickname}/review")
-    public ResponseEntity<?> writeReview(@PathVariable String nickname,@RequestBody ReviewDto reviewDto){
+    @PostMapping("/portfolio/{nickname}/review")
+    public ResponseEntity<?> writeReview(@PathVariable String nickname, @RequestBody ReviewDto reviewDto){
         return ResponseEntity.ok(reviewService.writeReview(nickname, reviewDto));
     }
-    @GetMapping("/{nickname}/review/{id}")
-    public ResponseEntity<?> selectReviewById(@PathVariable String nickname,@PathVariable Long id){
-        return ResponseEntity.ok(reviewService.findById(nickname,id));
+    @GetMapping("/review/{id}")
+    public ResponseEntity<?> selectReviewById(@PathVariable Long id){
+        return ResponseEntity.ok(reviewService.findById(id));
     }
-    @GetMapping("/{nickname}/reviews")
+    @GetMapping("/portfolio/{nickname}/reviews")
     public ResponseEntity<?> selectReviewsByPortfolioNickname(@RequestParam("page") @Min(0) Integer page, @PathVariable String nickname){
         return ResponseEntity.ok(reviewService.findAllReviewsByPortfolioNickname(page,nickname));
     }
-    @GetMapping("/{nickname}/reviews/all")
+    @GetMapping("/portfolio/{nickname}/reviews/all")
     public ResponseEntity<?> selectAllReviews(@PathVariable String nickname){
         return ResponseEntity.ok(reviewService.findAll(nickname));
+    }
+    @GetMapping("/members/{id}/reviews")
+    public ResponseEntity<?> selectAllReviewsByMemberId(@PathVariable Long id){
+        return ResponseEntity.ok(reviewService.findAllByMemberId(id));
     }
 }
