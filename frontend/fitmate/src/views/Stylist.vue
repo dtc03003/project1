@@ -10,7 +10,7 @@
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
-          <option @click="sortedGrade"  value="2">평점순</option>
+          <option @click="sortedGrade" value="2">평점순</option>
           <option @click="sortedLikes" value="3">팔로워순</option>
         </select>
       </div>
@@ -18,27 +18,6 @@
 
       <!-- 검색창 -->
       <div class="col-6 offset-2">
-        <v-container fluid>
-          <v-combobox
-            :search-input.sync="search"
-            hide-selected
-            hint="Maximum of 5 tags"
-            label="ex)출근룩, 하객룩"
-            multiple
-            persistent-hint
-            small-chips
-          >
-            <!-- <template v-slot:no-data>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template> -->
-          </v-combobox>
-        </v-container>
       </div>
 
       <!-- {{stylistArray}} -->
@@ -46,14 +25,12 @@
       <the-stylist-list 
       v-for="(stylist, index) in stylistArray"
       :key="index"
+      v-bind:member="stylist.member"
       v-bind:nickname="stylist.nickname"
       v-bind:profile="stylist.member.profile"
       v-bind:stylistId="stylist.id"
       >
-      <!-- {{stylist.member.profile}} -->
       </the-stylist-list>
-
-
     </div>
   </div>
 </template>
@@ -93,7 +70,7 @@ export default {
       .then(({ data })=> {
           console.log(data)
           this.$store.dispatch('reloadStylists', data)
-          // this.stylistArray = data;
+          this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
@@ -103,7 +80,7 @@ export default {
       .then(({ data })=> {
           console.log(data)
           this.$store.dispatch('reloadStylists', data)
-          // this.stylistArray = data;
+          this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
@@ -113,11 +90,23 @@ export default {
       .then(({ data })=> {
           console.log(data)
           this.$store.dispatch('reloadStylists', data)
-          // this.stylistArray = data;
+          this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
     },
+  },
+  watch:{
+    selected: function(){
+      if (this.selected==1){
+        this.sortedLatest()
+      }else if(this.selected==2){
+        this.sortedGrade()
+      }else{
+        this.sortedLikes()
+      }
+      
+    }
   },
   computed: {
       ...mapGetters( memberStore, ["checkMemberInfo"],

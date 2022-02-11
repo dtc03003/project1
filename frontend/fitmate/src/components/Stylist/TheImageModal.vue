@@ -37,7 +37,7 @@
                     @keyup.enter="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
-                    append-outer-icon="mdi-send"
+                    append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
                     clearable
                     label="댓글 달아주세요!!"
                     type="text"
@@ -215,7 +215,6 @@ export default {
   },
 }
 </script>
-
 
 
 <style>

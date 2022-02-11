@@ -52,11 +52,13 @@
                         </b-col>
                     </b-row>
                 </b-modal>
+
+                <!-- <b-dropdown-item-button @click="deleteport">포폴삭제</b-dropdown-item-button> -->
+                
             </b-dropdown>
         </div>
 
-        <p class="mt-3" > {{ profileData.bio }} </p>
-        <p class="mt-3" > 팔로우 상태 : {{ isFollow }} </p>
+        <p class="mt-3" > {{ profileData.bio }}</p>
         <div class="mt-5">
             <b-icon v-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
@@ -146,6 +148,14 @@ export default {
             })
         },
 
+        // deleteport() {
+        //     this.token();
+        //     axios.delete('/api/v1/portfolio')
+        //     .then(() => {
+        //         alert('삭제 완료')
+        //     })
+        // },
+
         // 팔로우
         follow() {
             this.token();
@@ -165,7 +175,7 @@ export default {
                 window.location.reload()
             })
         }
-    }
+    },
 }
 </script>
 

@@ -5,13 +5,13 @@ const api = apiInstance();
 //예약 내역 가져오기(날짜, 시간)
 async function reservationList(nickname, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
-    await api.get(`/api/v1/portfolio/${nickname}/reservations/timeList`).then(success).catch(fail);
+    await api.get(`/api/v1/portfolio/${nickname}/reservations/schedule`).then(success).catch(fail);
 }
 
 //예약 내역 가져오기(디테일하게)
 async function reservationDetailList(nickname, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
-    await api.get(`/api/v1/portfolio/${nickname}/reservations/all`).then(success).catch(fail);
+    await api.get(`/api/v1/portfolio/${nickname}/reservations`).then(success).catch(fail);
 }
 
 //예약 내역 가져오기(앞으로 존재하는 내역)
@@ -30,6 +30,15 @@ async function enrollReservation(nickname, info, success, fail) {
 async function deleteReservation(nickname, id, success, fail) {
     await api.delete(`/api/v1/portfolio/${nickname}/reservation/${id}`).then(success).catch(fail);
 }
+
+async function putComplete(id, success, fail) {
+    await api.put(`/api/v1/reservation/complete/${id}`).then(success).catch(fail);
+}
+
+async function putCancel(id, success, fail) {
+    await api.put(`/api/v1/reservation/cancel/${id}`).then(success).catch(fail);
+}
+//-----------------------------------------------------------------------------------------------------------------
 
 //카카오페이 결제 요청
 async function readypay(params, success, fail) {
@@ -55,4 +64,4 @@ async function findPaymentById(id, success, fail) {
 }
 
 export { reservationList, reservationDetailList, reservationNowList, enrollReservation, deleteReservation,
-        readypay, finpay, mypayment, findPaymentById };
+        readypay, finpay, mypayment, findPaymentById, putComplete, putCancel };
