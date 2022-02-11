@@ -10,6 +10,7 @@ import com.fitmate.backend.entity.Reservation;
 import com.fitmate.backend.entity.State;
 import com.fitmate.backend.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,6 +38,19 @@ public class ReservationService {
         Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
         return reservationRepository.findAllByPortfolioId(portfolio.getId());
     }
+    public List<Reservation> findAllReservationsByNicknameInAllState(String nickname, Pageable pageable) {
+        return reservationRepository.findAll(pageable).getContent().stream()
+                .filter(reservation -> reservation.getPortfolio().getNickname().equals(nickname))
+                .collect(Collectors.toList());
+    }
+
+    public List<Reservation> findAllReservationsByNicknameInState(String nickname, Pageable pageable, String state) {
+        if(state==null) return findAllReservationsByNicknameInAllState(nickname, pageable);
+        return reservationRepository.findAll(pageable).getContent().stream()
+                .filter(reservation -> reservation.getPortfolio().getNickname().equals(nickname))
+                .filter(reservation -> reservation.getState().name().equals(state))
+                .collect(Collectors.toList());
+    }
 
     public List<ReservationDateTimeDto> findAllTimeByNickname(String nickname) {
         List<Reservation> reservations = findAllReservationsByNickname(nickname);
@@ -55,14 +69,14 @@ public class ReservationService {
     }
 
     @Transactional
-    public Long deleteReservation(String nickname, Long id) {
-        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
+    public Long deleteReservation(Long id) {
+        Long reservationId = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new).getId();
         reservationRepository.deleteById(id);
-        return portfolio.getId();
+        return reservationId;
     }
 
     @Transactional
-    public Reservation cancelReservation(String nickname, Long id) {
+    public Reservation cancelReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new);
         if(reservation.getState()!=State.IN_PROGRESS) throw new UpdateStateException();
         reservation.cancel();
