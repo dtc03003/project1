@@ -55,7 +55,7 @@
             </b-dropdown>
         </div>
 
-        <p class="mt-3" > {{ profileData.bio }} {{ isFollow }} </p>
+        <p class="mt-3" > {{ profileData.bio }} </p>
         <p class="mt-3" > 팔로우 상태 : {{ isFollow }} </p>
         <div class="mt-5">
             <b-icon v-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
@@ -165,8 +165,6 @@ export default {
                 window.location.reload()
             })
         }
-
-
     }
 }
 </script>
