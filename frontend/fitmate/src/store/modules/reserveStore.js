@@ -6,16 +6,23 @@ const reserveStore = {
         reserveStatus: false,
         allReservations: [],
         newEvents: [],
+
+        mypayments: [], //자신의 결제 성공 내역
+        paymentsStatus: false,
     },
     getters: {
         getReservStatus: (state) => state.reserveStatus,
         getAllReservation: (state) => state.allReservations,
         getNewEvents: (state) => state.newEvents,
+
+        getMyPayments: (state) => state.mypayments,
     },
     mutations: {
         SET_STATUS: (state, status) => state.reserveStatus = status,
         SET_ALL_RESERVATIONS: (state, reserv) => state.allReservations = reserv,
         SET_NEW_EVENTS: (state, events) => state.events = events,
+
+        SET_MY_PAYMENTS: (state, payments) => state.mypayments = payments,
     },
     actions: {
         async getReservList({ commit }, nickname) { //전체 예약 내역 가져오기
@@ -36,11 +43,11 @@ const reserveStore = {
             },
             () => {});
         },
-        async importMyPayment() {
+        async importMyPayment({commit}) { //자신의 결제 내역 가져오기(결제 성공한 내역만)
+            commit("SET_MY_PAYMENTS", []);
             await mypayment((response) => {
                 if(response.status == 200) {
-                    let res = response.data.filter((element) => element.state == 'COMPLETE');
-                    console.log(res);
+                    commit("SET_MY_PAYMENTS", response.data);
                 }
             },
             () => {});
