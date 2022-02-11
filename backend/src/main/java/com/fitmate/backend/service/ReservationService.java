@@ -91,12 +91,6 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public List<Reservation> findAllReservationByNicknameInState(String nickname, String state) {
-        Portfolio portfolio = portfolioService.getPortfolioByNickname(nickname);
-        return reservationRepository.findAllByPortfolioId(portfolio.getId()).stream()
-                .filter(reservation -> reservation.getState().equals(State.valueOf(state)))
-                .collect(Collectors.toList());
-    }
     public List<Reservation> findAllAtCurrentTime(LocalDateTime now){
         List<Reservation> reservations = reservationRepository.findAllByState(State.IN_PROGRESS);
         return reservations.stream()

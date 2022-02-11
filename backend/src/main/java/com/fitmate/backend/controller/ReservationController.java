@@ -26,10 +26,6 @@ public class ReservationController {
     public ResponseEntity<Reservation> makeReservation(@PathVariable String nickname, @RequestBody ReservationDto reservationDto){
         return ResponseEntity.ok(reservationService.makeReservation(nickname, reservationDto));
     }
-//    @GetMapping("/portfolio/{nickname}/reservations/all")
-//    public ResponseEntity<?> findAllReservationsByNickname(@PathVariable String nickname){
-//        return ResponseEntity.ok(reservationService.findAllReservationsByNickname(nickname));
-//    }
     @GetMapping("/portfolio/{nickname}/reservations")
     public ResponseEntity<?> findAllReservationsByNickname(@PathVariable String nickname, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size= 100) Pageable pageable, @RequestParam(required = false) String state){
         return ResponseEntity.ok(reservationService.findAllReservationsByNicknameInState(nickname,pageable,state));
@@ -38,10 +34,6 @@ public class ReservationController {
     public ResponseEntity<?> findAllTimeByNickname(@PathVariable String nickname){
         return ResponseEntity.ok(reservationService.findAllTimeByNickname(nickname));
     }
-//    @GetMapping("/portfolio/{nickname}/reservations")
-//    public ResponseEntity<?> findAllReservationByNicknameInState(@PathVariable String nickname , @RequestParam String state){
-//        return ResponseEntity.ok(reservationService.findAllReservationByNicknameInState(nickname,state));
-//    }
     @DeleteMapping("/reservation/{id}")
     public ResponseEntity<?> deleteReservation(@PathVariable Long id){
         return ResponseEntity.ok(reservationService.deleteReservation(id));
