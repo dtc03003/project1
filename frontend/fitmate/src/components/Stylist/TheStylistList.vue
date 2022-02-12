@@ -2,8 +2,6 @@
   <div>
     styleId:{{stylistId}}
     <br>
-    <!-- {{stylistImages}} -->
-    <!-- {{member}} -->
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container d-block" style="hight:7rem">
       <div>
@@ -16,10 +14,10 @@
           </div>
           <h5>{{ nickname }}</h5>
           
-          <!-- 찜, DB 필요 -->
+          <!-- 팔로워 수 -->
           <h5>❤{{likes}}</h5>
 
-          <!-- 평점, DB 필요, computed는 만들어놨음-->
+          <!-- 평점, DB 필요 -->
           <div class="star-ratings">
             <div 
               class="star-ratings-fill space-x-2 text-lg"
@@ -87,23 +85,24 @@ export default {
       this.$router.push(`/portfolio/${this.nickname}`)
     },
     getLikes:function(){
-      // 찜 가져오는 axios
+      // 팔로워 수 가져오는 axios
       axios.get(`${FITMATE_BASE_URL}/api/v1/countOfFollower/${this.nickname}`)
       .then(({ data })=> {
-        console.log('찜 바꾸기 성공') 
+        console.log('찜 성공') 
         console.log(this.stylistId)      
         console.log(data)
         this.likes = data;
       })
     },
-    getImages:function(){
+  getImages:function(){
+    // 이미지 가져오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}/styles/all`)
     .then(({ data })=> {
       this.stylistImages = data;
-    })
-    this.checkauthority = this.checkMemberInfo.authority
-    }
-  },
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      }
+    },
   computed: {
     ...mapState(
       'styleStore',['styles']
@@ -119,24 +118,8 @@ export default {
     },
   },
   created () {
-    // 이미지 가져오는 거
-    // /api/v1/portfolio/{nickname}/styles/all
-    //axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`) // 원본
-    axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}/styles/all`)
-    .then(({ data })=> {
-      this.stylistImages = data;
-    })
-    this.checkauthority = this.checkMemberInfo.authority
-    // console.log(this.checkauthority)
-    
-    // 찜 가져오는 axios
-    axios.get(`${FITMATE_BASE_URL}/api/v1/countOfFollower/${this.nickname}`)
-    .then(({ data })=> {
-      console.log('찜 성공') 
-      console.log(this.stylistId)      
-      console.log(data)
-      this.likes = data;
-    })
+    this.getImages()
+    this.getLikes()
   },
   watch:{
     nickname: function(){

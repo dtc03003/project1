@@ -6,7 +6,7 @@
       </div>
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
-      <div class="col-2 d-flex align-items-center justify-content-start">
+      <div class="col-3 d-flex align-items-center">
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
@@ -14,10 +14,39 @@
           <option @click="sortedLikes" value="3">팔로워순</option>
         </select>
       </div>
-      <span>선택함: {{ selected }}</span>
 
       <!-- 검색창 -->
-      <div class="col-6 offset-2">
+      <div>
+        <b-form-tags v-model="value" no-outer-focus class="mb-1">
+          <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
+            <b-input-group class="mb-2">
+              <!-- input -->
+              <b-form-input
+                v-bind="inputAttrs"
+                v-on="inputHandlers"
+                placeholder="New tag - Press enter to add"
+                class="form-control"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button @click="addTag()" variant="dark">Add</b-button>
+              </b-input-group-append>
+            </b-input-group>
+            <!-- 밑에 태그 띄우는 건가봄? -->
+            <div class="d-inline-block" style="font-size: 1.5rem;">
+              <b-form-tag
+                v-for="tag in tags"
+                @remove="removeTag(tag)"
+                :key="tag"
+                :title="tag"
+                :variant="tagVariant"
+                class="mr-1"
+                id="tags"
+                size="sm"
+              ></b-form-tag>
+            </div>
+          </template>
+        </b-form-tags>
+        {{value}}
       </div>
 
       <!-- {{stylistArray}} -->
@@ -53,6 +82,7 @@ export default {
       selected:'',
       stylistArray:[],
       checkauthority:'',
+      value: []
     } 
   },
   created () {
@@ -95,6 +125,9 @@ export default {
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
     },
+    // searchStylist:function(){
+
+    // }
   },
   watch:{
     selected: function(){
@@ -109,13 +142,19 @@ export default {
     }
   },
   computed: {
-      ...mapGetters( memberStore, ["checkMemberInfo"],
-      // ['stylistArray']
-      ),
+    ...mapGetters( memberStore, ["checkMemberInfo"],
+    // ['stylistArray']
+    ),
   },
 }
 </script>
 
 <style>
+
+#tags {
+  color: rgb(37, 34, 34);
+  background-color: rgb(127, 197, 255);
+  size: 3rem;
+}
 
 </style>

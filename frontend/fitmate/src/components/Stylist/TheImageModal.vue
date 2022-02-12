@@ -37,7 +37,7 @@
                     @keyup.enter="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
-                    append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
+                    append-outer-icon="mdi-send"
                     clearable
                     label="댓글 달아주세요!!"
                     type="text"
@@ -48,12 +48,13 @@
               </v-row>
             </v-container>
           </v-form>
+          <!-- {{comments}} -->
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
-          v-for="singlecomment in comments"
-          v-bind:key="singlecomment.id"
+          v-for="(singlecomment, index) in comments"
+          v-bind:key="index"
           v-bind:content="singlecomment.comment"
-          v-bind:writer="singlecomment.member.nickname"
+          v-bind:commentId="singlecomment.id"
           >{{singlecomment}}</the-modal-comment-list>
         </div>
       </div>
@@ -149,6 +150,16 @@ export default {
         ? this.iconIndex = 0
         : this.iconIndex++
     },
+    // 댓글 다시 불러오는 함수
+    getComment() {
+      axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
+      .then(({ data })=> {    
+        console.log(data)
+        this.comments = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+    },
     // 댓글 저장하는 axios
     saveComment() {
       if (this.message){
@@ -178,11 +189,11 @@ export default {
         });
         this.resetIcon()
         this.clearMessage()
+        this.getComment()
       }else{
         alert('댓글을 입력하세요!')
       }
     },
-
     // 팔로우
     follow() {
       this.token();
@@ -213,6 +224,7 @@ export default {
       this.$store.dispatch("getIsLike", { styleId: this.id })
     }
   },
+
 }
 </script>
 
