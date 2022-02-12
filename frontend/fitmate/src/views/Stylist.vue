@@ -15,41 +15,12 @@
         </select>
       </div>
 
-      <!-- 검색창 -->
+      <!-- 스타일리스트 검색창 -->
       <div>
-        <b-form-tags v-model="value" no-outer-focus class="mb-1">
-          <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
-            <b-input-group class="mb-2">
-              <!-- input -->
-              <b-form-input
-                v-bind="inputAttrs"
-                v-on="inputHandlers"
-                placeholder="New tag - Press enter to add"
-                class="form-control"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button @click="addTag()" variant="dark">Add</b-button>
-              </b-input-group-append>
-            </b-input-group>
-            <!-- 밑에 태그 띄우는 건가봄? -->
-            <div class="d-inline-block" style="font-size: 1.5rem;">
-              <b-form-tag
-                v-for="tag in tags"
-                @remove="removeTag(tag)"
-                :key="tag"
-                :title="tag"
-                :variant="tagVariant"
-                class="mr-1"
-                id="tags"
-                size="sm"
-              ></b-form-tag>
-            </div>
-          </template>
-        </b-form-tags>
-        {{value}}
+        <b-form-input v-model="text" placeholder="찾고 싶은 스타일리스트를 검색하세요."></b-form-input>
+        <div class="mt-2">Value: {{ text }}</div>
       </div>
 
-      <!-- {{stylistArray}} -->
       <!-- 스타일리스트 목록 컴포넌트 -->
       <the-stylist-list 
       v-for="(stylist, index) in stylistArray"
@@ -82,7 +53,8 @@ export default {
       selected:'',
       stylistArray:[],
       checkauthority:'',
-      value: []
+      value: [],
+      text:''
     } 
   },
   created () {
@@ -137,9 +109,20 @@ export default {
         this.sortedGrade()
       }else{
         this.sortedLikes()
-      }
-      
+      }      
+    },
+    text: function() {
+      // 검색어에 해당되는 것만 가져오기
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
+      .then(({ data })=> {
+          console.log(data)
+          this.$store.dispatch('reloadStylists', data)
+          this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
     }
+
   },
   computed: {
     ...mapGetters( memberStore, ["checkMemberInfo"],

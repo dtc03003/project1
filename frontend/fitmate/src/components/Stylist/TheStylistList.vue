@@ -96,7 +96,7 @@ export default {
     },
   getImages:function(){
     // 이미지 가져오는 axios
-    axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}/styles/all`)
+    axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
     .then(({ data })=> {
       this.stylistImages = data;
       })
