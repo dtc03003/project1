@@ -56,7 +56,8 @@ dependencies {
     implementation 'org.quartz-scheduler:quartz-jobs:2.2.1'
 //    mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+//    socket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 test {
