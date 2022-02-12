@@ -16,7 +16,7 @@
                 <b-form-input
                   v-bind="inputAttrs"
                   v-on="inputHandlers"
-                  placeholder="New tag - Press enter to add"
+                  placeholder="태그 검색"
                   class="form-control"
                 ></b-form-input>
                 <b-input-group-append>
@@ -81,19 +81,35 @@ export default {
     // 여기서부터는 검색창을 위한 data
     value: [],
   }),
-  created () {
-      axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)
+  methods:{
+    searchImages:function() {
+      ///styleBook/search/{tagList}
+      axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search/${this.value}`)
       .then(({ data })=> {
           console.log(data)
           this.stylebooks = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
+      console.log(this.checkauthority)     
+    }
+  },
+  created () {
+    // 있는 사진 전부 불러오는 거
+    axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)
+    .then(({ data })=> {
+        console.log(data)
+        this.stylebooks = data;
+    })
+    this.checkauthority = this.checkMemberInfo.authority
+    console.log(this.checkauthority)
   },
   computed: {
       ...mapGetters( 'memberStore', ["checkMemberInfo"]),
   },
   watch: {
+    value:function(){
+      this.searchImages()
+    }
   }
 }
 </script>
