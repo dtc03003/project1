@@ -24,10 +24,10 @@
               <!-- </li> -->
               <!-- 스타일리스트? -->
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && !portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio없을때</router-link></a>
               </li>
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio있을때</router-link></a>
               </li>
             </ul>
           </div>
@@ -86,16 +86,8 @@ export default {
     }
   },
   mounted() {
-        axios({
-            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
-            method: 'get',
-        })
-        .then((res)=> {
-          this.portfolioconfirm = res.data.about
-          console.log(res.data)
-        })
-        .catch(()=> {console.log('포트폴리오 없음')})
-    },
+    this.portfoliobeing()
+  },
   methods:{
     signout: function() {
       this.isSignin = false
@@ -103,13 +95,33 @@ export default {
       this.$store.dispatch('signout')      
       this.$router.push({name:'Signin'})
       window.location.reload()
-    }    
+    },
+    portfoliobeing() {
+      if (this.checkMemberInfo.authority == 'ROLE_STYLIST') {
+        axios({
+          url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
+          method: 'get',
+        })
+        .then((res)=> {
+          this.portfolioconfirm = true
+          console.log(res.data)
+        })
+        .catch(()=> {console.log('포트폴리오 없음')})
+      } else {
+        return
+      }
+    }
   },
   computed:{
     ...mapGetters (
       'memberStore', ["checkisSignin", 'checkMemberInfo']
     ),
   },
+  watch: {
+    checkMemberInfo: function() {
+      this.portfoliobeing()
+    }
+  }
 };
 </script>
 

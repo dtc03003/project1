@@ -139,6 +139,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { FITMATE_BASE_URL } from "@/config";
 export default {
     name: "Stylist",
     data() {
@@ -179,7 +180,6 @@ export default {
     },
     methods: {
         async Signup() { 
-            const config = { baseUrl: 'http://localhost:9000' };
             const memberInfo = { 
                 email: this.signup.email,
                 password: this.signup.password,
@@ -196,12 +196,11 @@ export default {
             }
             console.log(memberInfo); 
             this.$router.push({name: "Signin"}); 
-            axios.post(`${ config.baseUrl }/auth/signup`, memberInfo);
+            axios.post(`${ FITMATE_BASE_URL }/auth/signup`, memberInfo);
         },
 
         checkEmail() {
-            const config = { baseUrl: 'http://localhost:9000' };
-            axios.get(`${config.baseUrl}/auth/signup/email/${this.signup.email}`)
+            axios.get(`${FITMATE_BASE_URL}/auth/signup/email/${this.signup.email}`)
             .then(() => {
                 if (this.emailValidFlag == true) {
                     this.emailduplication = true
@@ -220,8 +219,7 @@ export default {
         },
 
         checkNick() {
-            const config = { baseUrl: 'http://localhost:9000' };
-            axios.get(`${config.baseUrl}/auth/signup/nickname/${this.signup.nickname}`)
+            axios.get(`${FITMATE_BASE_URL}/auth/signup/nickname/${this.signup.nickname}`)
             .then(() => {
                 this.nickduplication = true
                 alert('사용가능한 닉네임입니다.')
