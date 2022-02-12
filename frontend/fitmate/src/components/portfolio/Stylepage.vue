@@ -71,7 +71,6 @@ export default {
     },
     methods:{
             handleImages(files){
-                const config = { baseUrl: 'http://localhost:9000' };
                 const formData = new FormData();
                 const image = this.$refs['image'].files[0]
 
@@ -79,7 +78,7 @@ export default {
                 console.log(files)
                 console.log(formData)
 
-                axios.post(`${config.baseUrl}/api/v1/images`, formData, {
+                axios.post(`${FITMATE_BASE_URL}/api/v1/images`, formData, {
                     header: { 'Content-Type': 'multipart/form-data' }
                 })
                 .then((res) => {
