@@ -134,6 +134,11 @@ const routes = [
       },
     ]
   },
+  {
+    path: "chatting",
+    name: 'Chatting',
+    component: () => import("@/views/ChattingView.vue"),
+  },
 ]
 
 const router = new VueRouter({
