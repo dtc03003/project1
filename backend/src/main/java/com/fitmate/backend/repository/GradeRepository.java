@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface GradeRepository extends JpaRepository<Grade, Long> {
     Optional<Grade> findByStylist(Portfolio stylist);
+    void deleteByStylist(Portfolio stylist);
 }

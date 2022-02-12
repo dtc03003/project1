@@ -14,4 +14,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     int countByStylist(Portfolio stylist);
     Optional<List<Follow>> findAllByMember(Member member);
     Optional<List<Follow>> findAllByStylist(Portfolio stylist);
+    void deleteAllByFollower(Member member);
+    void deleteAllByFollowing(Portfolio stylist);
 }
