@@ -32,8 +32,7 @@ export default {
   },
   created () {
     // 단일 댓글 불러오는 axios
-    const getId = this.commentId
-    axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${getId}`)
+    axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${this.commentId}`)
     .then(({ data })=> {    
       console.log(data)
       this.comment = data;

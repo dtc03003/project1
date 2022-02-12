@@ -5,8 +5,8 @@
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div class="container d-block" style="hight:7rem">
       <div>
-        <!-- 프로필 사진 -->
         <div id="profilebox" class="" style="width:7rem;">
+          <!-- 프로필 사진 -->
           <div>
             <!-- 나중에 프로필사진 클릭하면 포트폴리오로 넘어갈 수 있도록 -->
             <b-avatar @click.native="goToPortfolio" :src="profile" size="5rem">
@@ -15,7 +15,14 @@
           <h5>{{ nickname }}</h5>
           
           <!-- 팔로워 수 -->
-          <h5>❤{{likes}}</h5>
+          <!-- 좋아요 수 100개 이상 -->
+          <div v-if="likes >= 2 ">
+            <h5>💖{{likes}}</h5>
+          </div>
+          <!-- 좋아요 수 100개 미만 -->
+          <div v-else>
+            <h5>❤{{likes}}</h5>
+          </div>          
 
           <!-- 평점, DB 필요 -->
           <div class="star-ratings">
@@ -68,7 +75,6 @@ export default {
       stylistImages:[], 
       checkauthority:'',
       likes:0,
-      
     }
   },
   props:{
@@ -125,7 +131,8 @@ export default {
     nickname: function(){
       this.getLikes()
       this.getImages()
-    }
+    },
+
   }
 }
 </script>

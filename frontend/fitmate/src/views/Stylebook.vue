@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid col-8 offset-2">
     <div class="row">
-      <div id="mainbar" class="col-2 d-flex align-items-center">
+      <div id="mainbar" class="col-12 align-items-center">
         <h1>Stylebook</h1>
       </div>
 
       <!-- 검색창 -->
       <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
-      <div class="col-6 offset-4 align-content-center">
+      <div class="col-12">
         <div>
           <b-form-tags v-model="value" no-outer-focus class="mb-1">
             <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
@@ -79,10 +79,7 @@ export default {
     stylebooks:[],
     checkauthority:'',
     // 여기서부터는 검색창을 위한 data
-    rules: [
-      value => !!value || '검색어를 입력해주세요.',
-      value => (value || '').length <= 20 || 'Max 20 characters',
-    ],
+    value: [],
   }),
   created () {
       axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)

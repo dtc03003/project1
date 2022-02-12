@@ -32,22 +32,10 @@ const store = new Vuex.Store({
     stylistArray: [],
   },
   mutations: {
-    RELOAD_COMMENTS: function (state, data) {
-      state.comments.push(data);
-    },
-    RELOAD_STYLISTS: function (state, data) {
-      state.stylistArray = data;
-    },
   },
   actions: {
     logout: function ({ commit }) {
       commit("SIGNOUT");
-    },
-    reloadComments: function ({ commit }, data) {
-      commit("RELOAD_COMMENTS", data);
-    },
-    reloadStylists: function ({ commit }, data) {
-      commit("RELOAD_STYLISTS", data);
     },
   },
   plugins: [

@@ -48,7 +48,7 @@
               </v-row>
             </v-container>
           </v-form>
-          <!-- {{comments}} -->
+
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
           v-for="(singlecomment, index) in comments"
@@ -56,6 +56,7 @@
           v-bind:content="singlecomment.comment"
           v-bind:commentId="singlecomment.id"
           >{{singlecomment}}</the-modal-comment-list>
+
         </div>
       </div>
       <!-- <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button> -->
@@ -178,7 +179,6 @@ export default {
           if (res.data.comment){
             console.log('success')
             console.log(res.data)
-            this.$store.dispatch('reloadComments', res.data)
             this.comments.push(this.message)
           }else{
             alert('댓글을 입력하세요!')

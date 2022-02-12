@@ -53,7 +53,6 @@ export default {
       selected:'',
       stylistArray:[],
       checkauthority:'',
-      value: [],
       text:''
     } 
   },
@@ -71,7 +70,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
@@ -81,7 +79,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByGrade`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
@@ -91,15 +88,11 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByFollower`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
     },
-    // searchStylist:function(){
-
-    // }
   },
   watch:{
     selected: function(){
@@ -116,7 +109,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
