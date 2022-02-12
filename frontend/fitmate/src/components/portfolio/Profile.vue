@@ -61,7 +61,7 @@
         <p class="mt-3" > {{ profileData.bio }} </p>
         <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
 
-        <div class="mt-5">
+        <div class="mt-5" v-if="checkisSignin">
             <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" style="margin-right:60px;"></b-icon>
             <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
@@ -88,10 +88,11 @@ export default {
         }
     },
 
-    computed: {
+    computed: { 
         ...mapState(memberStore, ["memberInfo"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
-
+        ...mapGetters(memberStore, ["checkisSignin"]),
+        
         isFollow() {
             return this.$store.state.followStore.isFollow;
         },
@@ -176,8 +177,6 @@ export default {
                 window.location.reload()
             })
         }
-
-
     }
 }
 </script>
