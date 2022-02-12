@@ -5,7 +5,7 @@
         <b-container class="container">
             <b-row>
                 <b-col>
-                    <h4>날짜선택</h4>
+                    <h4>📅날짜선택</h4>
                     <v-app>
                         <v-row justify="center">
                             <v-date-picker v-model="picker" ref="picker" color="indigo lighten-3" :allowed-dates="allowedDates"
@@ -15,7 +15,7 @@
                 </b-col>
                 <b-col cols="1"></b-col>
                 <b-col>
-                    <h4>시간선택</h4>
+                    <h4>⏰시간선택</h4>
                     <h6 v-show="!this.selectedTime">시작 시간을 선택해주세요&#128522;</h6>
                     <h6 v-show="this.selectedTime">종료 시간을 선택해주세요&#128522;</h6>
                     <h6>시작시간: <span v-show="this.selectedTime">{{selectedTime}}</span></h6>

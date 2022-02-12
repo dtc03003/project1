@@ -1,0 +1,140 @@
+<template>  
+    <div>
+        <b-container class="bv-example-row mt-5">
+            <b-row>
+            <b-col></b-col>
+            <b-col class="col-8">
+                <b-card class="text-center mt-3" style="max-width: 90rem" align="left">
+                    <h1 id="signinTitle">{{ this.checkMemberInfo.nickname }} 님의 포트폴리오를 만드시겠습니까?</h1>
+                    <b-form-input 
+                        class="portwrite"
+                        v-model="portfoliocreate.price" 
+                        placeholder="스타일링 컨설팅 금액을 입력해주세요.">
+                    </b-form-input>
+                    <b-form-input 
+                        class="portwrite"
+                        v-model="portfoliocreate.bio" 
+                        placeholder="자신을 표현할 수 있는 한 줄을 적어주세요.">
+                    </b-form-input>
+                    <b-form-textarea
+                        class="portwrite"
+                        rows="8" size="md"
+                        v-model="portfoliocreate.about" 
+                        placeholder="자신의 경력 및 이력, 강점을 입력해주세요.">
+                    </b-form-textarea>
+                    <div class="row">
+                        <p class="changeable">위 내용은 추후 변경 가능합니다.</p>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-3"></div>
+                        <b-button class="col-2 makebtn" @click="createportfolio" >생성</b-button>
+                        <div class="col-2"></div>
+                        <b-button class="col-2 makebtn" >취소</b-button>
+                        <div class="col-3"></div>
+                    </div>
+                </b-card>
+            </b-col>
+            <b-col></b-col>
+            </b-row>
+        </b-container>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+import { mapGetters, mapState, mapActions } from 'vuex';
+import { FITMATE_BASE_URL } from "@/config";
+const memberStore = "memberStore";
+
+export default {
+    name: "Portfolionope",
+    data: function() {
+        return {
+            nickname: this.$route.params.nickname,
+            portfoliocreate : {
+                about : '',
+                price : '',
+                bio : '',
+            },
+        }
+    },
+    computed: {
+        ...mapGetters(memberStore, ["checkMemberInfo"]),
+        ...mapState(memberStore, ["isSignin", "memberInfo"]),
+    },
+    mounted() {
+        axios({
+            url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.nickname}`,
+            method: 'get',
+        })
+        .then((res)=> this.portfolioconfirm = res.data.about)
+        .catch(()=>{console.log('포트폴리오를 먼저 생성해주세요!')})
+    },
+    created() {
+    },
+    methods: {
+        ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
+        async createportfolio() {
+            const portinfo = {
+                about : this.portfoliocreate.about,
+                price : this.portfoliocreate.price,
+                bio : this.portfoliocreate.bio,
+            }
+            if (portinfo.about == '' || portinfo.price == '' || portinfo.bio == ''){
+                alert('내용이 비었습니다!')
+                return
+            }
+            if (/^[0-9]{8}$/.test(portinfo.price)) {
+                alert('가격에는 숫자만 입력해주세요!')
+                return
+            }
+            const accessToken = localStorage.getItem("accessToken");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
+            .then(() => {
+                alert('포트폴리오 생성완료')
+                let accessToken = localStorage.getItem("accessToken");
+                this.signInMemberInfo(accessToken);
+                this.$router.push({name:'Portfolio'})
+                window.location.reload()
+            }) 
+            .catch((err) => {
+                alert('포트폴리오 생성실패')  
+                console.log(err)
+            })
+        }
+    }
+}
+</script>
+
+<style>
+.nav-pills .nav-link:not(.active) {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #7e7fb9 !important;
+    color: #fff !important;
+}
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+    width: 90% !important;
+}
+.card-header {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.makebtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7e7fb9 !important;
+}
+.portwrite {
+    margin-top: 2rem;
+}
+.changeable {
+    display: flex;
+    justify-content: flex-end;
+    color: red;
+}
+</style>

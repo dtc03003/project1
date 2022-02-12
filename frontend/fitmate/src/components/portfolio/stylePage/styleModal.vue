@@ -6,16 +6,20 @@
             </li>
         </div>
 
-        <b-modal v-if="this.styleData" size="xl" centered  scrollable ref="style-modal" hide-footer>
+        <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" hide-footer>
+            <template #modal-title>
+                <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2">
+                </b-avatar>
+                <h3 class="d-inline">{{ styleData.portfolio.nickname }}</h3>
+                <!-- <h5>{{id}}</h5> -->
+            </template>
             <div class="row">
                 <div class="col-6">
                     <img :src="this.styleData.thumbnail" class="item">
-                    <h4>태그가 들어갈 부분</h4>
                     
                 </div>
                 <div class="col-6">
-                    <h1>{{this.styleData.thumbnail}}</h1>
-                    <h1>{{this.styleData.content}}</h1>                  
+                    <p>{{this.styleData.content}}</p>                  
                     <the-modal-comment/>
                 </div>
             </div>
@@ -38,11 +42,17 @@ import TheModalComment from "@/components/Stylist/TheModalComment"
 import { mapState, mapGetters } from 'vuex';
 const memberStore = "memberStore";
 export default {
-    name: 'temporary',
+    name: 'style-modal',
     data() {
         return {
             pageNum: 0,
-            styleData: null,
+            styleData: {
+                content: '',
+                createdAt: '',
+                id: '',
+                portfolio: Object,
+                thumbnail: '',
+            },
         }
     },
     props: {

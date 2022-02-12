@@ -11,4 +11,15 @@ function apiInstance() {
     return instance;
 }
 
-export { apiInstance };
+function apiImgInstance() {
+    const instance = axios.create({
+        baseURL: FITMATE_BASE_URL,
+        headers: {
+            "Authorization" : `Bearer ${localStorage.getItem('accessToken')}`,
+            "Content-Type" : "multipart/form-data",
+        }
+    });
+    return instance;
+}
+
+export { apiInstance, apiImgInstance };

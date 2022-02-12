@@ -1,5 +1,20 @@
 server:
-  port: 9000
+  port: 8443
+#    port: 9000
+  http:
+    port: 9000
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/ssafy.p12
+    key-store-password: ssafy6
+    key-alias: ssafy
+    key-password: ssafy6
+
+trust:
+  store: classpath:keystore/ssafy.p12
+  store.password: ssafy6
+
 
 springdoc:
   api-docs:
@@ -58,8 +73,8 @@ logging:
 jwt:
   header: Authorization
   secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-  token-validity-in-seconds: 86400          # 1일
-  token-refresh-in-seconds: 1000*60*60*24*7 # 1주일
+#  token-validity-in-seconds: 86400          # 1일
+#  token-refresh-in-seconds: 1000*60*60*24*7 # 1주일
 
 social:
   kakao:

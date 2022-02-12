@@ -3,9 +3,11 @@
         <div class="stylist-img">
             <img class="stylist-user-img" id="stylist" :src="profile">
         </div>
+
         <div class="row">
             <h1 class="mt-2 col-8 nickname" >{{ profileData.nickname }}</h1>
 
+            <!-- 유정 수정  버튼 -->
             <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
             class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content class="dropcontent">
@@ -53,12 +55,15 @@
                     </b-row>
                 </b-modal>
             </b-dropdown>
+            <!-- 유정 수정  버튼 끝 -->
         </div>
 
         <p class="mt-3" > {{ profileData.bio }} </p>
-        <p class="mt-3" > 팔로우 상태 : {{ isFollow }} </p>
-        <div class="mt-5">
-            <b-icon v-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+        <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
+
+        <div class="mt-5" v-if="checkisSignin">
+            <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" style="margin-right:60px;"></b-icon>
+            <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
 
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
@@ -83,12 +88,17 @@ export default {
         }
     },
 
-    computed: {
+    computed: { 
         ...mapState(memberStore, ["memberInfo"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
-
+        ...mapGetters(memberStore, ["checkisSignin"]),
+        
         isFollow() {
             return this.$store.state.followStore.isFollow;
+        },
+
+        CountFollow() {
+            return this.$store.state.followStore.countFollow
         }
     },
 
@@ -102,7 +112,9 @@ export default {
             this.profile = data.member.profile
         }),
 
-        this.$store.dispatch("getIsFollow", { nickname: this.nickname })
+        this.$store.dispatch("getIsFollow", { nickname: this.nickname }),
+
+        this.$store.dispatch("getCountFollow", { nickname: this.nickname })
     },
 
     methods: {

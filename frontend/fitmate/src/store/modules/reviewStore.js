@@ -1,4 +1,4 @@
-import { findPortfolio, reviewAll, reviewByPage } from '@/api/review.js'
+import { findPortfolio, reviewAll, reviewByPage, uploadImage, writeReview, findReviewsById } from '@/api/review.js'
 
 /* 리뷰 관련 상태 관리(vuex) */
 const reviewStore = {
@@ -6,9 +6,13 @@ const reviewStore = {
     state: {
         reviewStatus: false,
         portfolioStatus: false,
-        portfolioData: {},
-        reviews: {},
-        someReviews: {}
+        portfolioData: [],
+        reviews: [],
+        someReviews: [],
+        reviewStatusByUser: false,
+        reviewsByUser: [],
+        imagesrc: '',
+        rvupload: false,
     },
     getters: {
         getReviewStatus: (state) => state.reviewStatus,
@@ -16,6 +20,10 @@ const reviewStore = {
         getReviews: (state) => state.reviews,
         getSomeReviews: (state) => state.someReviews,
         getPortfolioData: (state) => state.portfolioData,
+        getReviewStatusByUser: (state) => state.reviewStatusByUser,
+        getReviewsByUser: (state) => state.reviewsByUser,
+        getImagesrc: (state) => state.imagesrc,
+        getRvupload: (state) => state.rvupload,
     },
     mutations: {
         SET_REVIEW_STATUS: (state, status) => state.reviewStatus = status,
@@ -23,19 +31,24 @@ const reviewStore = {
         SET_REVEIW_LIST: (state, reviews) => state.reviews = reviews,
         SET_SOME_REVEIW_LIST: (state, someReviews) => state.someReviews = someReviews,
         SET_PORTFOLIO_DATA: (state, portfolioData) => state.portfolioData = portfolioData,
+
+        SET_REVIEW_STATUS_BY_USER: (state, status) => state.reviewStatusByUser = status,
+        SET_REVIEWS_BY_USER: (state, reviews) => state.reviewsByUser = reviews,
+
+        SET_IMAGE_SRC: (state, image) => state.imagesrc = image,
+        SET_REVIEW_UPLOAD: (state, rvupload) => state.rvupload = rvupload,
     },
     actions: {
-        async importAllReviews({commit}, nickname) {
+        async importAllReviews({commit}, nickname) { //해당 스타일리스트의 모든 리뷰 가져오기
             await reviewAll(nickname, (response) => {
                 if(response.status == 200) {
                     commit("SET_REVEIW_LIST", response.data);
                     commit("SET_REVIEW_STATUS", true);
                 }
             },
-            () => {
-            });
+            () => {});
         },
-        async findPortfolioStatus({commit}, nickname) {
+        async findPortfolioStatus({commit}, nickname) { //해당 스타일리스트 포트폴리오 존재 여부 확인
             commit("SET_PORTFOLIO_STATUS", false);
             commit("SET_PORTFOLIO_DATA", {});
             await findPortfolio(nickname, (response) => {
@@ -45,17 +58,45 @@ const reviewStore = {
                     console.log("포토폴리오 존재!")
                 }
             },
-            () => {
-            });
+            () => {});
         },
-        async fineReviewsByPage({commit}, info) {
+        async fineReviewsByPage({commit}, info) { //해당 스타일리스트의 페이지별 리뷰찾기
             await reviewByPage(info, (response) => {
                 if(response.status == 200) {
                     commit("SET_SOME_REVEIW_LIST", response.data);
                 }
             },
-            () => {
-            })
+            () => {});
+        },
+        async findAllReviews({commit}, id) { //자신의 모든 리뷰 가져오기(사용자, 스타일리스트 상관X)
+            commit("SET_REVIEW_STATUS_BY_USER", false);
+            await findReviewsById(id, (response) => {
+                if(response.status == 200) {
+                    commit("SET_REVIEWS_BY_USER", response.data);
+                    commit("SET_REVIEW_STATUS_BY_USER", true);
+                }
+            },
+            () =>{});
+        },
+        async uploadRVImage({commit}, formData) { //이미지 업로드
+            await uploadImage(formData, (response) => {
+                if(response.status == 200) {
+                    commit("SET_IMAGE_SRC", response.data.src);
+                }
+            },() => {});
+        },
+        async writeNewReview({commit}, info) { //리뷰쓰기
+            commit("SET_REVIEW_UPLOAD", false);
+            const reviewinfo = {
+                content: info.content,
+                rating: info.rating,
+                thumbnail: info.thumbnail,
+            }
+            await writeReview(info.nickname, reviewinfo, (reponse) => {
+                if(reponse.status == 200) {
+                    commit("SET_REVIEW_UPLOAD", true);
+                }
+            },() => {});
         }
     },
     modules: {
