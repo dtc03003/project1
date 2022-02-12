@@ -4,6 +4,7 @@ import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.QnaDto;
 import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Qna;
+import com.fitmate.backend.repository.CommentRepository;
 import com.fitmate.backend.repository.MemberRepository;
 import com.fitmate.backend.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 public class QnaService {
     private final QnaRepository qnaRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public QnaDto createQna(QnaDto qnaDto){
@@ -54,8 +56,9 @@ public class QnaService {
     @Transactional
     public String deleteQnaById(Long id){
         Qna qna = qnaRepository.findById(id).orElseThrow();
+        commentRepository.deleteAllByQna(qna);
         qnaRepository.delete(qna);
-        return qna.getTitle();
+        return "delete success";
     }
 
     @Transactional

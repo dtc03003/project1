@@ -68,7 +68,7 @@ public class FollowService {
         Member member = memberService.getMyInfo();
         List<Follow> followingList = followRepository.findAllByMember(member).orElseThrow();
         List<MemberDto> resultList = new ArrayList<MemberDto>();
-        for(int i=0; i<followingList.size(); i++){
+        for(int i=followingList.size()-1; i>=0; i--){
             resultList.add(MemberDto.of(followingList.get(i).getStylist().getMember()));
         }
         return resultList;

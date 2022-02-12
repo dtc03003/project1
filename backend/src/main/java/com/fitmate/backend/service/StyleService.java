@@ -5,8 +5,9 @@ import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.StyleDto;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Style;
-import com.fitmate.backend.repository.PortfolioRepository;
-import com.fitmate.backend.repository.StyleRepository;
+import com.fitmate.backend.entity.StyleComment;
+import com.fitmate.backend.entity.Tag;
+import com.fitmate.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,9 @@ public class StyleService {
     private final StyleRepository styleRepository;
     private final PortfolioService portfolioService;
     private final PortfolioRepository portfolioRepository;
-    private final MemberService memberService;
+    private final StyleCommentRepository styleCommentRepository;
+    private final LikeRepository likeRepository;
+    private final TagRepository tagRepository;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
@@ -34,6 +37,7 @@ public class StyleService {
         portfolioRepository.save(portfolio);
         return style;
     }
+
     public Style getStyle(Long id){
         return styleRepository.findById(id).orElseThrow(NotFoundUserInformation::new);
     }
@@ -52,6 +56,9 @@ public class StyleService {
     @Transactional
     public String deleteStyle(Long id){
         Style style = styleRepository.findById(id).orElseThrow(NotFoundStyleException::new);
+        tagRepository.deleteAllByStyle(style);
+        likeRepository.deleteAllByStyle(style);
+        styleCommentRepository.deleteAllByStyle(style);
         styleRepository.delete(style);
         return "delete Success";
     }

@@ -4,7 +4,10 @@ import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.MemberDto;
 import com.fitmate.backend.dto.MemberPasswordDto;
 import com.fitmate.backend.entity.Member;
-import com.fitmate.backend.repository.MemberRepository;
+import com.fitmate.backend.entity.Qna;
+import com.fitmate.backend.entity.Reservation;
+import com.fitmate.backend.entity.StyleComment;
+import com.fitmate.backend.repository.*;
 import com.fitmate.backend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +21,14 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final QnaRepository qnaRepository;
+    private final QnaService qnaService;
+    private final CommentRepository commentRepository;
+    private final ReviewRepository reviewRepository;
+    private final FollowRepository followRepository;
+    private final ReservationService reservationService;
+    private final LikeRepository likeRepository;
+    private final StyleCommentRepository styleCommentRepository;
 
     public List<Member> findMembers(){return memberRepository.findAll();}
 
@@ -30,6 +41,19 @@ public class MemberService {
     @Transactional
     public Long deleteMember(){
         Member member = getMemberByToken();
+        List<Qna> qnaList = qnaRepository.findAllByWriter(member);
+        for(Qna qna : qnaList){
+            qnaService.deleteQnaById(qna.getId());
+        }
+        commentRepository.deleteAllByWriter(member);
+        reviewRepository.deleteAllByWriter(member);
+        followRepository.deleteAllByFollower(member);
+        styleCommentRepository.deleteAllByMember(member);
+        likeRepository.deleteAllByMember(member);
+        List<Reservation> reservationList = reservationService.findAllReservationsByNickname(member.getNickname());
+        for(Reservation reservation : reservationList){
+            reservationService.deleteReservation(reservation.getId());
+        }
         memberRepository.deleteById(member.getId());
         return member.getId();
     }

@@ -11,4 +11,5 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByStyleAndTag(Style style, String tag);
     List<Tag> findAllByStyle(Style style);
     List<Tag> findAllByTag(String tag);
+    void deleteAllByStyle(Style style);
 }
