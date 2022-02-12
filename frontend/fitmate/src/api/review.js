@@ -1,6 +1,7 @@
-import { apiInstance } from "./index.js";
+import { apiInstance, apiImgInstance } from "./index.js";
 
 const api = apiInstance();
+const imgapi = apiImgInstance();
 
 //포트폴리오 존재 여부 확인
 async function findPortfolio(nickname, success, fail) {
@@ -9,7 +10,7 @@ async function findPortfolio(nickname, success, fail) {
 }
 
 //특정 스타일리스트의 리뷰 쓰기
-async function writeReview(review, nickname, success, fail) {
+async function writeReview(nickname, review, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
     await api.post(`/api/v1/portfolio/${nickname}/review`, JSON.stringify(review)).then(success).catch(fail);
 }
@@ -32,4 +33,14 @@ async function reviewOne(nickname, id, success, fail) {
     await api.get(`/api/v1/portfolio/${nickname}/review/${id}`).then(success).catch(fail);
 }
 
-export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio };
+//이미지 업로드
+async function uploadImage(formData, success, fail) {
+    await imgapi.post("/api/v1/images", formData).then(success).catch(fail);
+}
+
+//각자의 아이디(db 저장 순서 번호)로 자신의 리뷰 조회
+async function findReviewsById(id, success, fail) {
+    await api.get(`/api/v1/members/${id}/reviews`).then(success).catch(fail);
+}
+
+export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage, findReviewsById };

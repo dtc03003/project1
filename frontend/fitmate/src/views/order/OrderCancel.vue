@@ -28,19 +28,22 @@ export default {
     },
     created() {
         this.nickname = this.getStyleList;
-        setTimeout(this.moveMain, 10000); //10초 뒤 이동
+        this.cancelOrder();
     },
     computed: {
         ...mapGetters(orderStore, ["getID","getReserveStatus", "getStyleList"]),
     },
     methods: {
         ...mapActions(orderStore, ["deleteOrder"]),
-        async moveMain() {
+        async cancelOrder() {
             const info = {
                 nickname: this.nickname,
                 id: this.getID,
             }
             await this.deleteOrder(info); //예약 취소(결제 오류로 예약 내역도 취소)
+            setTimeout(this.moveMain, 10000);
+        },
+        moveMain() {
             if(!this.getReserveStatus) this.$router.push({name: "Stylist"});
         }
     },

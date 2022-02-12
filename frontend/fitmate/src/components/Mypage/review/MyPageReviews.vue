@@ -8,7 +8,7 @@
                 <b-col cols="9" class="r">
                     <b-row>
                         <b-col cols="6" align="left">
-                            <span id="nick">{{ nickname }}</span>님
+                            <span id="nick">{{ this.nickname }}</span>님
                         </b-col>
                         <b-col cols="6" align="right">
                             평점
@@ -42,37 +42,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import dayjs from "dayjs";
-const reviewStore = "reviewStore";
 export default {
-    name: "ReviewDetail",
+    name: "MyPageReviews",
     data() {
         return {
             thumbnail: '',
-            nickname: '',
             rating: 0,
             content: '',
             createdAt: '',
             showOrHide: true,
+            nickname: '',
         }
+    },
+    created() {
+        this.thumbnail = this.review.thumbnail;
+        this.nickname = this.review.member.nickname;
+        this.rating = this.review.rating;
+        this.createdAt = dayjs(this.review.createdAt).format("YYYY-MM-DD HH:mm");
+        this.content = this.review.content;
+        if(this.content.length > 50) this.content = this.content.substring(0, 50);
     },
     props: {
         idx: Number,
         review: Object,
     },
     computed: {
-        ...mapGetters(reviewStore, ["getReviewStatus"]),
-    },
-    created() {
-        if(this.getReviewStatus) {
-            this.thumbnail = this.review.thumbnail;
-            this.nickname = this.review.member.nickname;
-            this.rating = this.review.rating;
-            this.createdAt = dayjs(this.review.createdAt).format("YYYY-MM-DD HH:mm");
-            this.content = this.review.content;
-            if(this.content.length > 50) this.content = this.content.substring(0, 50);
-        }
     },
     methods: {
         showContent() {
@@ -92,5 +87,5 @@ export default {
 .r { border: 1px solid black; }
 #nick {font-weight: bold;}
 img {max-width: 100%;}
-.star-ratings-fill { color: rgb(105, 221, 206); } /*-webkit-text-fill-color */
+.star-ratings-fill { color: rgb(105, 221, 206); } 
 </style>
