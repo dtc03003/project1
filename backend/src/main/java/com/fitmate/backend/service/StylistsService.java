@@ -22,7 +22,7 @@ public class StylistsService {
     private final StyleService styleService;
 
     public List<Portfolio> sortByFollower(){
-        List<Grade> grades = gradeRepository.findAll(Sort.by("followCount"));
+        List<Grade> grades = gradeRepository.findAll(Sort.by("followCount").descending());
         List<Portfolio> stylists = new ArrayList<Portfolio>();
         for(int i=0; i<grades.size(); i++){
             stylists.add(grades.get(i).getStylist());

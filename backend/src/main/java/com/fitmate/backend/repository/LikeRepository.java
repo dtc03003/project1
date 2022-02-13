@@ -14,4 +14,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     int countByMemberAndStyle(Member member, Style style);
     List<LikeEntity> findAllByStyle(Style style);
     List<LikeEntity> findAllByMember(Member member);
+    void deleteAllByStyle(Style style);
+    void deleteAllByMember(Member member);
 }

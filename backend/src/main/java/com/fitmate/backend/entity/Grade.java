@@ -21,22 +21,9 @@ public class Grade {
     @OneToOne
     @JoinColumn(name = "stylist", nullable = false)
     private Portfolio stylist;
-    @Column(name = "followCount", nullable = false)
-    @ColumnDefault("0")
-    private int followCount;
     @Column(name = "grade", nullable = false)
     @ColumnDefault("0")
     private float grade;
-
-    public Grade increasingFollow(){
-        this.followCount++;
-        return this;
-    }
-
-    public Grade decreasingFollow(){
-        this.followCount--;
-        return this;
-    }
 
     public Grade updateGrade(float grade){
         if(this.grade==0){

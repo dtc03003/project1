@@ -1,5 +1,6 @@
 package com.fitmate.backend.repository;
 
+import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Reservation;
 import com.fitmate.backend.entity.State;
 import org.springframework.data.jpa.repository.JpaRepository;

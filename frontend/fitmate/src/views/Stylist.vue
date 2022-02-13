@@ -6,7 +6,7 @@
       </div>
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
-      <div class="col-2 d-flex align-items-center justify-content-start">
+      <div class="col-3 d-flex align-items-center">
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
@@ -14,13 +14,13 @@
           <option @click="sortedLikes" value="3">팔로워순</option>
         </select>
       </div>
-      <span>선택함: {{ selected }}</span>
 
-      <!-- 검색창 -->
-      <div class="col-6 offset-2">
+      <!-- 스타일리스트 검색창 -->
+      <div>
+        <b-form-input v-model="text" placeholder="찾고 싶은 스타일리스트를 검색하세요."></b-form-input>
+        <div class="mt-2">Value: {{ text }}</div>
       </div>
 
-      <!-- {{stylistArray}} -->
       <!-- 스타일리스트 목록 컴포넌트 -->
       <the-stylist-list 
       v-for="(stylist, index) in stylistArray"
@@ -53,6 +53,7 @@ export default {
       selected:'',
       stylistArray:[],
       checkauthority:'',
+      text:''
     } 
   },
   created () {
@@ -69,7 +70,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
@@ -79,7 +79,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByGrade`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
@@ -89,7 +88,6 @@ export default {
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByFollower`)
       .then(({ data })=> {
           console.log(data)
-          this.$store.dispatch('reloadStylists', data)
           this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
@@ -104,18 +102,34 @@ export default {
         this.sortedGrade()
       }else{
         this.sortedLikes()
-      }
-      
+      }      
+    },
+    text: function() {
+      // 검색어에 해당되는 것만 가져오기
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
+      .then(({ data })=> {
+          console.log(data)
+          this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
     }
+
   },
   computed: {
-      ...mapGetters( memberStore, ["checkMemberInfo"],
-      // ['stylistArray']
-      ),
+    ...mapGetters( memberStore, ["checkMemberInfo"],
+    // ['stylistArray']
+    ),
   },
 }
 </script>
 
 <style>
+
+#tags {
+  color: rgb(37, 34, 34);
+  background-color: rgb(127, 197, 255);
+  size: 3rem;
+}
 
 </style>

@@ -29,11 +29,6 @@ public class FollowController {
         return ResponseEntity.ok(followService.cancelFollow(stylistNickname));
     }
 
-    @PutMapping (value="/updateGrade")
-    public ResponseEntity<GradeDto> updateGrade(@RequestBody GradeDto gradeDto){
-        return ResponseEntity.ok(followService.calculateGrade(gradeDto));
-    }
-
     @GetMapping(value = "/getFollowingList")
     public ResponseEntity<List<MemberDto>> getMyFollowing(){
         return ResponseEntity.ok(followService.getMyFollowing());

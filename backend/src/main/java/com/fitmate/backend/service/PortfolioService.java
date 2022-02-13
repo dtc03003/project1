@@ -4,12 +4,8 @@ import com.fitmate.backend.advice.exception.NotFoundPortfolioException;
 import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.GradeDto;
 import com.fitmate.backend.dto.PortfolioDto;
-import com.fitmate.backend.entity.Grade;
-import com.fitmate.backend.entity.Member;
-import com.fitmate.backend.entity.Portfolio;
-import com.fitmate.backend.entity.StyleComment;
-import com.fitmate.backend.repository.GradeRepository;
-import com.fitmate.backend.repository.PortfolioRepository;
+import com.fitmate.backend.entity.*;
+import com.fitmate.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +22,14 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final GradeRepository gradeRepository;
     private final MemberService memberService;
+    private final StyleRepository styleRepository;
+    private final ReservationRepository reservationRepository;
+    private final PaymentRepository paymentRepository;
+    private final ReviewRepository reviewRepository;
+    private final FollowRepository followRepository;
+    private final TagRepository tagRepository;
+    private final LikeRepository likeRepository;
+    private final StyleCommentRepository styleCommentRepository;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
@@ -57,9 +61,23 @@ public class PortfolioService {
     @Transactional
     public String deleteMyPortfolio() {
         Portfolio portfolio = getMyPortfolio();
-        String nickname = portfolio.getMember().getNickname();
-        portfolioRepository.deleteById(portfolio.getId());
-        return nickname;
+        List<Style> styleList = styleRepository.findAllByPortfolioIdOrderByIdDesc(portfolio.getId());
+        for(Style style : styleList){
+            tagRepository.deleteAllByStyle(style);
+            likeRepository.deleteAllByStyle(style);
+            styleCommentRepository.deleteAllByStyle(style);
+            styleRepository.delete(style);
+        }
+        List<Reservation> reservationList = reservationRepository.findAllByPortfolioId(portfolio.getId());;
+        for(Reservation reservation : reservationList){
+            paymentRepository.deleteByReservation(reservation);
+            reservationRepository.delete(reservation);
+        }
+        gradeRepository.deleteByStylist(portfolio);
+        reviewRepository.deleteAllByPortfolio(portfolio);
+        followRepository.deleteAllByStylist(portfolio);
+        portfolioRepository.delete(portfolio);
+        return "delete success";
     }
 
     public List<Portfolio> findAllPortfoliosOrderByDesc(Integer pageNum) {

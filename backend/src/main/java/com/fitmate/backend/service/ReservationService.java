@@ -8,6 +8,7 @@ import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Portfolio;
 import com.fitmate.backend.entity.Reservation;
 import com.fitmate.backend.entity.State;
+import com.fitmate.backend.repository.PaymentRepository;
 import com.fitmate.backend.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MemberService memberService;
     private final PortfolioService portfolioService;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public Reservation makeReservation(String nickname, ReservationDto reservationDto) {
@@ -69,10 +71,11 @@ public class ReservationService {
     }
 
     @Transactional
-    public Long deleteReservation(Long id) {
-        Long reservationId = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new).getId();
+    public String deleteReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(NotFoundReservationException::new);
+        paymentRepository.deleteByReservation(reservation);
         reservationRepository.deleteById(id);
-        return reservationId;
+        return "delete success";
     }
 
     @Transactional
