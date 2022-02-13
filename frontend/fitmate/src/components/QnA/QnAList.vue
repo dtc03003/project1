@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import axios from "@/module/axios.js";
 import Pagination from './include/Pagination.vue';
 
 export default {
@@ -22,19 +21,14 @@ export default {
         Pagination
     },
 
-    data () {
-        return {
-            pageArray: []
+    computed: { 
+        pageArray() {
+            return this.$store.state.qnaStore.qnalist
         }
     },
 
     created () {
-        axios.get('/api/v1/qnaList')
-        .then(({ data }) => {
-            console.log(data);
-            this.pageArray = data;
-        })
+        this.$store.dispatch("getQnAList")
     }
-    
 }
 </script>

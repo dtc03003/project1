@@ -84,6 +84,7 @@ export default {
 
             axios.post("/api/v1/notice", noticeInfo)
             .then(() => {
+                this.$store.dispatch("getNoticeList")
                 alert("등록완료!");
                 this.moveList();
             })
@@ -96,7 +97,6 @@ export default {
     
         // List 페이지로 이동
         moveList() {
-            console.log("리스트로 이동");
             this.$router.push({ name: "NoticeList" }).catch(()=>{});
         },
     },

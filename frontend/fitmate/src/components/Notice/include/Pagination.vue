@@ -68,7 +68,7 @@ export default {
     methods: {
          //  게시물 등록페이지로 이동
         moveCreate() {
-            console.log("등록페이지 이동")
+            // console.log("등록페이지 이동")
             this.$router.push({ name: "NoticeCreate"});
         },  
 

@@ -64,9 +64,6 @@ export default {
     methods: {
         // 제목 내용 작성에 이상없는지 확인
         checkValue() {
-            // 체크 할 부분
-
-
             // 데이터 전송
             this.registQnA();
 
@@ -86,6 +83,7 @@ export default {
 
             axios.post("/api/v1/qna", qnaInfo)
             .then(() => {
+                this.$store.dispatch("getQnAList")
                 alert("등록완료!");
                 this.moveList();
             })
@@ -98,7 +96,6 @@ export default {
     
         // List 페이지로 이동
         moveList() {
-            console.log("리스트로 이동");
             this.$router.push({ name: "QnAList" }).catch(()=>{});
         },
     },

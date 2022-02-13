@@ -22,10 +22,8 @@ const noticeStore = {
     actions: {
         // 리스트 받아오기
         getNoticeList(context) {
-            console.log("noticeStore - getNoticeList 호출함");
-            return axios.get("/api/v1/noticeListPage?page=0")
+            return axios.get("/api/v1/noticeList")
                 .then(({ data }) => {
-                    console.log(data);
                     context.commit("setNoticeList", {noticelist : data})
                 })
         },

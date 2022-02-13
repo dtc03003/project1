@@ -59,6 +59,8 @@
         </div>
 
         <p class="mt-3" > {{ profileData.bio }} </p>
+        <p class="mt-3" > 팔로우 여부 : {{ isFollow }} </p>
+        <p class="mt-3" > 로그인 여부 : {{ checkisSignin }} </p>
         <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
 
         <div class="mt-5" v-if="checkisSignin">
@@ -107,14 +109,22 @@ export default {
         // console.log(this.checkauthority)
 
         axios.get(`/api/v1/portfolio/${this.nickname}`)
-        .then(({ data }) => {
-            this.profileData = data;
-            this.profile = data.member.profile
-        }),
-
-        this.$store.dispatch("getIsFollow", { nickname: this.nickname }),
+            .then(({ data }) => {
+                this.profileData = data;
+                this.profile = data.member.profile
+            })
+        
+        // 내가 이 사람을 팔로우 했는지 요청하는 부분, 토큰전송해야함
+        if(this.checkisSignin){
+            this.$store.dispatch("getIsFollow", { nickname: this.nickname })
+        .catch(() => {})
+        }
+        
 
         this.$store.dispatch("getCountFollow", { nickname: this.nickname })
+
+        console.log(this.checkisSignin)
+
     },
 
     methods: {
@@ -163,8 +173,10 @@ export default {
             this.token();
             axios.post(`/api/v1/follow/${this.nickname}`)
             .then(() => {
+                this.$store.dispatch("getIsFollow", { nickname: this.nickname })
+                this.$store.dispatch("getCountFollow", { nickname: this.nickname })
                 alert(`${this.nickname}님 팔로우 완료!`)
-                window.location.reload()
+                // window.location.reload()
             })
         },
 
@@ -173,11 +185,13 @@ export default {
             this.token();
             axios.delete(`/api/v1/cancelFollow/${this.nickname}`)
             .then(() => {
+                this.$store.dispatch("getIsFollow", { nickname: this.nickname })
+                this.$store.dispatch("getCountFollow", { nickname: this.nickname })
                 alert(`${this.nickname}님 언팔로우 완료!`)
-                window.location.reload()
+                // window.location.reload()
             })
-        }
-    }
+        },
+    },
 }
 </script>
 

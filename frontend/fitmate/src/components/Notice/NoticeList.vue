@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from "@/module/axios.js";
 import Pagination from './include/Pagination.vue';
 
 export default {
@@ -23,18 +22,20 @@ export default {
         Pagination
     },
 
-    data () {
-        return {
-            pageArray: []
+    computed: { 
+        pageArray() {
+            return this.$store.state.noticeStore.noticelist
         }
     },
 
     created () {
-        axios.get('/api/v1/noticeList')
-        .then(({ data }) => {
-            console.log(data);
-            this.pageArray = data;
-        })
+        this.$store.dispatch("getNoticeList")
     },
+
+    watch:{
+        pageArray(){
+            return this.$store.state.noticeStore.noticelist
+        }
+    }
 };
 </script>

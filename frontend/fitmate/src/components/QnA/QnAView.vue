@@ -46,7 +46,7 @@
                 <b-button 
                     variant="primary"
                     class="btn m-1 float-right"
-                    @click="checkValue"
+                    @click="registComment"
                     v-bind:disabled="comment == ''"
                 >등록</b-button>
 
@@ -111,11 +111,6 @@ export default {
     },
 
     methods: {
-        checkValue() {
-
-            this.registComment();
-        },
-
         registComment() {
             const commentInfo = {
                 "id": 0,
@@ -126,9 +121,10 @@ export default {
             };
 
             axios.post("/api/v1/comment", commentInfo)
-            alert("댓글 등록 완료");
 
-            window.location.reload();
+            this.$store.dispatch("getComments", { id: this.id })
+            alert("댓글 등록 완료");
+            window.location.reload()
         },
     }
 }
