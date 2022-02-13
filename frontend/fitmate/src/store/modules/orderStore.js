@@ -67,7 +67,7 @@ const orderStore = {
             () => { commit("SET_RESERVE_STATUS", false);});
         },
         async deleteOrder({commit}, info) { //예약 취소
-            await deleteReservation(info.nickname, info.id, (response) => {
+            await deleteReservation(info.id, (response) => {
                 if(response.status == 200) {
                     console.log("예약 기록 삭제");
                     commit("SET_ORDER_DATA", []);

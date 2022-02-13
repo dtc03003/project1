@@ -93,7 +93,7 @@ export default {
         this.importReviews();
   },
   computed: {
-      ...mapGetters(reviewStore, ["getReviewsByUser", "getImagesrc"]),
+      ...mapGetters(reviewStore, ["getReviewsByUser", "getImagesrc", "getRating", "getReviews"]),
       ...mapGetters(memberStore, ["checkMemberInfo"]),
       ...mapGetters(reserveStore, ["getMyPayments"]),
       rows() {
@@ -101,7 +101,7 @@ export default {
       },
   },
   methods: {
-    ...mapActions(reviewStore, ["uploadRVImage", "writeNewReview", "findAllReviews"]),
+    ...mapActions(reviewStore, ["uploadRVImage", "writeNewReview", "findAllReviews", "findCount", "updateRating"]),
     ...mapActions(reserveStore, ["importMyPayment"]),
     async importReviews() {
       //자신의 전체 리뷰 가져오기
@@ -184,10 +184,31 @@ export default {
         //작성한 리뷰 관련 내용 삭제
         let temp = this.consultinfo;
         this.consultinfo = temp.filter((element) => JSON.stringify(element) != JSON.stringify({'nickname' : this.selectedname, 'date' : this.selectedDate}));
-        this.importReviews();
+        await this.importReviews(); //리뷰 갱신
+        await this.findNum(this.selectedname); //평점 갱신
         alert("리뷰가 등록되었습니다😄");
         this.$refs['modal-1'].hide();
       }
+    },
+    async findNum(nickname) { //팔로워 수 및 평점 찾기
+      await this.findCount(nickname); //팔로워 수
+      await this.importAllReviews(nickname); //리뷰전체
+      this.updateNewRating(nickname);
+    },
+    async updateNewRating(nickname) {
+      let totalrv = this.getReviews; //해당 스타일리스트 관련 전체 리뷰
+      let sum = 0;
+      for(let temp of totalrv) {
+        sum += temp.rating;
+      }
+
+      let grade = sum / totalrv.length;
+      const info = {
+        "stylistNickName": nickname,
+        "followCount": this.getRating,
+        "grade": Math.round(grade),
+      }
+      await this.updateRating(info);
     },
     showStar(event) {
       this.post.rating = event.target.value;
