@@ -1,31 +1,32 @@
 <template>
   <div>
-    styleId:{{stylistId}}
+    <!-- styleId:{{stylistId}} -->
     <br>
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
-    <div class="container d-block" style="hight:7rem">
-      <div>
-        <div id="profilebox" class="" style="width:7rem;">
+    <div id="singleline" class="container-fluid">
+      <div class="row d-inline">
+        <div id="profilebox" class="d-block-flex justify-content-center" style="width:9rem;">
           <!-- 프로필 사진 -->
           <div>
             <!-- 나중에 프로필사진 클릭하면 포트폴리오로 넘어갈 수 있도록 -->
-            <b-avatar @click.native="goToPortfolio" :src="profile" size="5rem">
+            <b-avatar id="avatar" @click.native="goToPortfolio" :src="profile" size="5rem">
             </b-avatar>
           </div>
-          <h5>{{ nickname }}</h5>
+          <h6>{{ nickname }}</h6>
           
           <!-- 팔로워 수 -->
           <!-- 좋아요 수 100개 이상 -->
-          <div v-if="likes >= 2 ">
+          <div v-if="likes >= 100 ">
             <h5>💖{{likes}}</h5>
           </div>
           <!-- 좋아요 수 100개 미만 -->
           <div v-else>
             <h5>❤{{likes}}</h5>
           </div>          
+          <!-- 평점 -->
 
-          <!-- 평점, DB 필요 -->
-          <div class="star-ratings">
+
+          <div class="d-inline-flex star-ratings">
             <div 
               class="star-ratings-fill space-x-2 text-lg"
               :style="{ width: ratingToPercent + '%' }"
@@ -34,23 +35,27 @@
             </div>
             <div class="star-ratings-base space-x-2 text-lg">
               <span>■</span><span>■</span><span>■</span><span>■</span><span>■</span>
-            </div>            
+            </div>
           </div>
-        </div>
-        <div id="images" class="d-inline-block" style="height:160px;">
+          <div id="score" class="d-inline-flex ps-1"><h6>{{averageScore}}점</h6></div>
           
-          <!-- 실제로는 아래처럼 가져와야 함 -->
-          <the-image-modal
-          v-for="image in stylistImages"
-          :key="image.id"
-          v-bind:thumbnail="image.thumbnail"
-          v-bind:id="image.id"
-          v-bind:content="image.content"
-          v-bind:profile="image.portfolio.member.profile"
-          v-bind:nickname="image.portfolio.member.nickname"
-          >
-          </the-image-modal>
         </div>
+      </div>
+
+
+      <div id="images">
+        
+        <!-- 실제로는 아래처럼 가져와야 함 -->
+        <the-image-modal
+        v-for="image in stylistImages"
+        :key="image.id"
+        v-bind:thumbnail="image.thumbnail"
+        v-bind:id="image.id"
+        v-bind:content="image.content"
+        v-bind:profile="image.portfolio.member.profile"
+        v-bind:nickname="image.portfolio.member.nickname"
+        >
+        </the-image-modal>
       </div>
     </div>
   </div>
@@ -67,10 +72,7 @@ export default {
   name: 'TheStylistListItem',
   data: function() {
     return {
-      stylist:{
-        name: 'jiwon',
-        averageScore:5
-      },
+      averageScore:0,
       memberStore,
       stylistImages:[], 
       checkauthority:'',
@@ -100,15 +102,24 @@ export default {
         this.likes = data;
       })
     },
-  getImages:function(){
-    // 이미지 가져오는 axios
-    axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
-    .then(({ data })=> {
-      this.stylistImages = data;
-      })
+    getImages:function(){
+      // 이미지 가져오는 axios
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/latestStylesOfStylist/${this.nickname}`)
+      .then(({ data })=> {
+        this.stylistImages = data;
+        })
       this.checkauthority = this.checkMemberInfo.authority
-      }
     },
+    getRates:function() {
+      // 평점 평균 가져오는 axios
+      axios.get(`${FITMATE_BASE_URL}/api/v1/rate/${this.nickname}`)
+      .then(({ data })=> {
+        this.averageScore = data;
+        })
+      this.checkauthority = this.checkMemberInfo.authority
+    }
+  },   
+  
   computed: {
     ...mapState(
       'styleStore',['styles']
@@ -119,13 +130,14 @@ export default {
     // width 속성은 computed로 api로 넘어온 평균 평점 값을 계산하여 percentage로 변환하여 스타일 바인딩을 이용
     // return값에 1.5를 더하여 주는 이유는 half star일 시 미세하게 절반이 안되어보여서 보여지는 값을 조정하기 위해 추가한 offset 값
     ratingToPercent() {
-      const score = +this.stylist.averageScore * 10;
+      const score = +this.averageScore * 20;
       return score;
     },
   },
   created () {
     this.getImages()
     this.getLikes()
+    this.getRates()
   },
   watch:{
     nickname: function(){
@@ -142,19 +154,23 @@ export default {
   display: inline-block;
   text-align: center;
   justify-content: center;
-  /* align-items: center; */
 }
 
 #images {
-  /* overflow: auto; */
-  overflow: hidden;
-  display: inline-block;
+  display: inline;
+}
+
+#singleline{
+  overflow: auto;
+  display: inline;
+  white-space: nowrap;
 }
 
 .star-ratings {
   color: #aaa9a9; 
   position: relative;
   unicode-bidi: bidi-override;
+  /* width: fit-content; */
   width: max-content;
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1.3px;
@@ -185,4 +201,10 @@ export default {
   z-index: 0;
   padding: 0;
 }
+
+#score{
+  font-style: italic;
+  font-weight: lighter;
+}
+
 </style>

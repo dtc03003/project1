@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid col-8 offset-2">
-    <div class="row">
-      <div id="mainbar" class="col-2 d-flex align-items-center">
+    <div class="row d-flex">
+      <div id="mainbar" class="d-flex align-items-center justify-content-start">
         <h1>Stylist</h1>
       </div>
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
-      <div class="col-3 d-flex align-items-center">
+      <div class="col col-md-2 d-inline align-items-center">
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
@@ -16,10 +16,20 @@
       </div>
 
       <!-- 스타일리스트 검색창 -->
-      <div>
-        <b-form-input v-model="text" placeholder="찾고 싶은 스타일리스트를 검색하세요."></b-form-input>
-        <div class="mt-2">Value: {{ text }}</div>
+      <div class="d-inline col col-md-5 offset-md-5">
+        <v-text-field
+          v-model="text"
+          dense
+          solo
+          clearable
+          label="찾고 싶은 스타일리스트를 검색하세요."
+          @keyup.enter="searchStylist"
+          append-icon="mdi-account-search"
+          @click:append="searchStylist"
+        ></v-text-field>
       </div>
+
+      <div class="mt-2">Value: {{ text }}</div>
 
       <!-- 스타일리스트 목록 컴포넌트 -->
       <the-stylist-list 
@@ -93,6 +103,16 @@ export default {
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)
     },
+    searchStylist: function() {
+      // 검색어에 해당되는 것만 가져오기
+      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
+      .then(({ data })=> {
+          console.log(data)
+          this.stylistArray = data;
+      })
+      this.checkauthority = this.checkMemberInfo.authority
+      console.log(this.checkauthority)
+    }
   },
   watch:{
     selected: function(){
@@ -104,17 +124,6 @@ export default {
         this.sortedLikes()
       }      
     },
-    text: function() {
-      // 검색어에 해당되는 것만 가져오기
-      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
-      .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
-      })
-      this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
-    }
-
   },
   computed: {
     ...mapGetters( memberStore, ["checkMemberInfo"],
@@ -125,7 +134,6 @@ export default {
 </script>
 
 <style>
-
 #tags {
   color: rgb(37, 34, 34);
   background-color: rgb(127, 197, 255);

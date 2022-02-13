@@ -1,7 +1,7 @@
 <template>
   <v-chip draggable
     class="m-1"
-    style="background-color:blue; color:white;"
+    id="tag"
   >{{ tag }}
   </v-chip>
 </template>
@@ -16,5 +16,10 @@ export default {
 </script>
 
 <style>
+#tag{
+  backface-visibility: visible;
+  background-color: rgb(158, 185, 226);
+  color: black;
+}
 
 </style>
