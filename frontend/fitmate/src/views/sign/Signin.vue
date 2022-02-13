@@ -148,18 +148,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-    font-family: 'Cafe24Ohsquare';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'GangwonEdu_OTFBoldA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 #app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position:relative}
 #signinTitle { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 #goSignup { color: black; font-weight: bold;}

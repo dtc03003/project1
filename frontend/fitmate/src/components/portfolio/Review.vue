@@ -1,11 +1,15 @@
 <template>
     <div>
-        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
+        <div v-show="!status" align="center">
+            <p id="noreview">아직 리뷰가 없습니다😢</p>
+        </div>
+        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review" v-show="status"/>
         <b-pagination align="center" class="mt-2"
             v-model="page"
             :total-rows="rows"
             :per-page="perPage"
             @change="changePage"
+            v-show="status"
         ></b-pagination>
     </div>
 </template>
@@ -24,6 +28,7 @@ export default {
             page: 1,
             perPage: 5,
             nickname: '',
+            status: false,
         }
     },
     components: { ReviewDetail },
@@ -52,6 +57,7 @@ export default {
                 this.allReviews = this.getReviews;
                 this.SET_REVEIW_LIST(this.allReviews);
                 this.someReviews = this.getSomeReviews; //페이지별 가져오기
+                if(this.allReviews.length > 0) this.status = true;
             }
         },
         async changePage(page) {
@@ -69,4 +75,5 @@ export default {
 </script>
 
 <style scoped>
+p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
 </style>
