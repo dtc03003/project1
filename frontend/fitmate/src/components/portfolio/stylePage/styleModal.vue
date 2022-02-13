@@ -2,7 +2,7 @@
     <div class="row">
         <div class="temcontainer">
             <li style="list-style: none"  v-for="(style, id) in paginatedData" :key="id" >
-                <img :src="style.thumbnail" class="item" @click="openModal(style)">
+                <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()">
             </li>
         </div>
 
@@ -16,17 +16,46 @@
             <div class="row">
                 <div class="col-6">
                     <img :src="this.styleData.thumbnail" class="item">
-                    
+                    <the-image-tag
+                    v-for="tag in tags"
+                    v-bind:key="tag.id"
+                    v-bind:tag="tag"
+                    >{{tag}}</the-image-tag>
                 </div>
                 <div class="col-6">
-                    <p>{{this.styleData.content}}</p>                  
-                    <the-modal-comment/>
+                    <p>{{this.styleData.content}}</p>  
+                    <p class="mt-3" > 좋아요 상태 : {{ isLike }} </p>
+                    <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+                    <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
+                    <v-form>
+                        <v-container class="p-0">
+                        <v-row>
+                            <v-col cols="12">
+                            <v-text-field
+                                v-model="message"
+                                @keyup.enter="saveComment"
+                                dense
+                                clear-icon="mdi-close-circle"
+                                append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
+                                clearable
+                                label="댓글 달아주세요!!"
+                                type="text"
+                                @click:clear="clearMessage"
+                                @click:append-outer="saveComment"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        </v-container>
+                    </v-form>
+                    <the-modal-comment-list
+                    v-for="singlecomment in comments"
+                    v-bind:key="singlecomment.id"
+                    v-bind:content="singlecomment.comment"
+                    v-bind:writer="singlecomment.member.nickname"
+                    >{{singlecomment}}</the-modal-comment-list>
                 </div>
             </div>
         </b-modal>
-        
-        <!-- <img src= "">{{ this.listArray[0].thumbnail }} -->
-        <!-- <h1>{{paginatedData}}</h1> -->
         <div class="btn-cover">
             <b-button :disabled="pageNum === 0" @click="prevPage" class="page-btn btn-secondary">이전</b-button>
             <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
@@ -36,11 +65,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import TheModalComment from "@/components/Stylist/TheModalComment"
-// import { FITMATE_BASE_URL } from "@/config";
-import { mapState, mapGetters } from 'vuex';
-const memberStore = "memberStore";
+import axios from '@/module/axios.js'
+import { FITMATE_BASE_URL } from '@/config'
+import memberStore from '@/store/modules/memberStore'
+import TheModalCommentList from '@/components/Stylist/TheModalCommentList'
+import TheImageTag from '@/components/Stylist/TheImageTag'
+import { mapGetters } from 'vuex';
+
 export default {
     name: 'style-modal',
     data() {
@@ -48,11 +79,20 @@ export default {
             pageNum: 0,
             styleData: {
                 content: '',
-                createdAt: '',
                 id: '',
                 portfolio: Object,
                 thumbnail: '',
+                nickname: '',
+                profile: '',
             },
+            memberStore,
+            comments:[],    
+            password: 'Password',
+            show: false,
+            message: null,
+            marker: true,
+            iconIndex: 0,
+            tags:[],
         }
     },
     props: {
@@ -67,12 +107,25 @@ export default {
         }
     },
     components: {
-        TheModalComment,
+        TheModalCommentList,
+        TheImageTag,
     },
     methods: {
         openModal(data) {
             this.styleData = data
             this.$refs['style-modal'].show()
+            // 댓글 불러오는 axios
+            axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.styleData.id}/comments/all`)
+            .then(({ data })=> {    
+                console.log(data)
+                this.comments = data;
+            })
+            // 태그 불러오는 axios
+            axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.styleData.id}`)
+            .then(({ data })=> {    
+                console.log(data)
+                this.tags = data;
+            })
             console.log(this.styleData)
         },
         nextPage () {
@@ -81,10 +134,89 @@ export default {
         prevPage () {
             this.pageNum -= 1;
         },
+        toggleMarker () {
+            this.marker = !this.marker
+        },
+        sendMessage () {
+            this.resetIcon()
+            this.clearMessage()
+        },
+        clearMessage () {
+            this.message = ''
+            },
+        resetIcon () {
+            this.iconIndex = 0
+        },
+        changeIcon () {
+            this.iconIndex === this.icons.length - 1
+                ? this.iconIndex = 0
+                : this.iconIndex++
+        },
+        // 댓글 저장하는 axios
+        saveComment() {
+            if (this.message){
+                const messageInfo = {
+                    "comment":this.message, 
+                    "createdAt":"",
+                };
+                this.token();
+                axios({
+                    url: `${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.styleData.id}/comment`,
+                    method: 'post', // 통신할 방식
+                    data: messageInfo, //전송할 데이터
+                })
+                .then((res) => {
+                    if (res.data.comment){
+                        console.log('success')
+                        console.log(res.data)
+                        this.$store.dispatch('reloadComments', res.data)
+                        this.comments.push(this.message)
+                    }else{
+                        alert('댓글을 입력하세요!')
+                    }
+                })
+                .catch(err =>{
+                    console.log(err)
+                });
+                this.resetIcon()
+                this.clearMessage()
+            }else{
+                alert('댓글을 입력하세요!')
+            }
+        },
+
+        // 팔로우
+        follow() {
+            this.token();
+            axios.post(`/api/v1/like/${this.styleData.id}`)
+            .then(() => {
+                alert(`좋아요 완료!`)
+                window.location.reload()
+            })
+        },
+
+        // 언팔로우
+        unfollow() {
+            this.token();
+            axios.delete(`/api/v1/like/${this.styleData.id}`)
+            .then(() => {
+                alert(`좋아요 취소!`)
+                window.location.reload()
+            })
+        },
+
+        token() {
+            const accessToken = localStorage.getItem("accessToken");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+        },
+
+        // 좋아요 상태 받아오기
+        rulike() {
+            this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
+        }
     },
     computed: {
-        ...mapState(memberStore, ["isSignin"]),
-        ...mapGetters(memberStore, ["checkisSignin"]),
+        ...mapGetters(memberStore, ["checkMemberInfo"]),
         
         pageCount () {
             let listLeng = this.listArray.length,
@@ -98,7 +230,20 @@ export default {
             const start = this.pageNum * this.pageSize,
                 end = start + this.pageSize;
             return this.listArray.slice(start, end);
+        },
+
+        icon () {
+            return this.icons[this.iconIndex]
+        },
+
+        //게시물 좋아요 여부
+        isLike() {
+            return this.$store.state.followStore.isLike;
         }
+    },
+
+    created () {
+        
     },
     
 }

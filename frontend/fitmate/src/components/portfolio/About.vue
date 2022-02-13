@@ -23,7 +23,7 @@
             </b-row>
         </b-modal>
         <div class="row">
-            <b-card class="col-12" border-variant="white">
+            <b-card class="col-12 border-color" >
                 <span style="white-space: pre-line">
                     {{profileData.about}}
                 </span>
@@ -36,6 +36,7 @@
 import axios from "@/module/axios.js";
 import {mapState, mapGetters, mapActions} from 'vuex'
 import { FITMATE_BASE_URL } from "@/config";
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -76,10 +77,17 @@ export default {
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             axios.put(`${ FITMATE_BASE_URL }/api/v1/portfolio/about`, bioinfo)
             .then(() => {
-                alert('소개글 수정 완료!')
-                let accessToken = localStorage.getItem("accessToken");
-                this.signInMemberInfo(accessToken);
-                window.location.reload()
+                Swal.fire({
+                    title: '소개글이 저장되었습니다!',
+                    confirmButtonText: '확인',
+                    icon: 'success'
+                }).then((res) => {
+                    if(res.isConfirmed) {
+                        let accessToken = localStorage.getItem("accessToken");
+                        this.signInMemberInfo(accessToken);
+                        window.location.reload()
+                    }
+                })
             })
         }
     },
@@ -87,4 +95,8 @@ export default {
 </script>
 <style scoped>
 .submitBtn { background-color: #7e7fb9 !important; width: 70%;}
+.border-color {
+    height: 22rem;
+    border-block-color: #7e7fb9 !important;
+}
 </style>
