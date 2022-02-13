@@ -27,8 +27,8 @@ async function enrollReservation(nickname, info, success, fail) {
 }
 
 //예약 취소하기
-async function deleteReservation(nickname, id, success, fail) {
-    await api.delete(`/api/v1/portfolio/${nickname}/reservation/${id}`).then(success).catch(fail);
+async function deleteReservation(id, success, fail) {
+    await api.delete(`/api/v1/reservation/${id}`).then(success).catch(fail);
 }
 
 async function putComplete(id, success, fail) {
