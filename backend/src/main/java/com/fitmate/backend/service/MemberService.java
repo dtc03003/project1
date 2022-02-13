@@ -26,7 +26,8 @@ public class MemberService {
     private final CommentRepository commentRepository;
     private final ReviewRepository reviewRepository;
     private final FollowRepository followRepository;
-    private final ReservationService reservationService;
+    private final ReservationRepository reservationRepository;
+    private final PaymentRepository paymentRepository;
     private final LikeRepository likeRepository;
     private final StyleCommentRepository styleCommentRepository;
 
@@ -41,18 +42,19 @@ public class MemberService {
     @Transactional
     public Long deleteMember(){
         Member member = getMemberByToken();
-        List<Qna> qnaList = qnaRepository.findAllByWriter(member);
+        List<Qna> qnaList = qnaRepository.findAllByMember(member);
         for(Qna qna : qnaList){
             qnaService.deleteQnaById(qna.getId());
         }
-        commentRepository.deleteAllByWriter(member);
-        reviewRepository.deleteAllByWriter(member);
-        followRepository.deleteAllByFollower(member);
+        commentRepository.deleteAllByMember(member);
+        reviewRepository.deleteAllByMember(member);
+        followRepository.deleteAllByMember(member);
         styleCommentRepository.deleteAllByMember(member);
         likeRepository.deleteAllByMember(member);
-        List<Reservation> reservationList = reservationService.findAllReservationsByNickname(member.getNickname());
+        List<Reservation> reservationList = reservationRepository.findAllByPortfolioId(member.getId());
         for(Reservation reservation : reservationList){
-            reservationService.deleteReservation(reservation.getId());
+            paymentRepository.deleteByReservation(reservation);
+            reservationRepository.delete(reservation);
         }
         memberRepository.deleteById(member.getId());
         return member.getId();

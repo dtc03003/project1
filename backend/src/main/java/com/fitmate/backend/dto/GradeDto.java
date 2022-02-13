@@ -24,7 +24,6 @@ public class GradeDto {
     public static GradeDto of(Grade grade){
         return GradeDto.builder()
                 .stylistNickName(grade.getStylist().getMember().getNickname())
-                .followCount(grade.getFollowCount())
                 .grade(grade.getGrade())
                 .build();
     }

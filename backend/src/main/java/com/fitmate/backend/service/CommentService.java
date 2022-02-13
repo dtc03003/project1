@@ -33,7 +33,7 @@ public class CommentService {
 
     public List<CommentDto> findComment(Long qnaId){
         Qna qna = qnaRepository.findById(qnaId).orElseThrow();
-        List<Comment> lists = commentRepository.findAllByQna(qna).orElseThrow();
+        List<Comment> lists = commentRepository.findAllByQna(qna);
         List<CommentDto> result = new ArrayList<CommentDto>();
         for(int i=0; i<lists.size(); i++){
             result.add(CommentDto.of(lists.get(i)));
