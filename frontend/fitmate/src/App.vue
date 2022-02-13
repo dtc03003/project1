@@ -6,7 +6,7 @@
         <div class="row" style="width:100%;">
           <!-- 로고 중앙 정렬, 누르면 홈 페이지로 가도록 -->
           <div id="mainbar" class="col-12 justify-content-center">
-            <div id="logo">
+            <div id="logo" @click="checkToken">
               <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
@@ -74,7 +74,7 @@
 
 <script>
 import axios from 'axios';
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 import memberStore from '@/store/modules/memberStore'
 import { FITMATE_BASE_URL } from "@/config";
 export default {
@@ -85,10 +85,14 @@ export default {
       portfolioconfirm: '',
     }
   },
+  created() {
+    this.checkToken();
+  },
   mounted() {
     this.portfoliobeing()
   },
   methods:{
+    ...mapActions("memberStore", ["reissueToken"]),
     signout: function() {
       this.isSignin = false
       localStorage.clear()
@@ -109,6 +113,33 @@ export default {
         .catch(()=> {console.log('포트폴리오 없음')})
       } else {
         return
+      }
+    },
+    checkToken() {
+      const refreshDate = localStorage.getItem("refreshDate") ? new Date(localStorage.getItem("refreshDate")) : null;
+      const lastDate = localStorage.getItem("lastDate") ? new Date(localStorage.getItem("lastDate")) : null;
+      const now = new Date(Date.now());
+      if(refreshDate && refreshDate <= now) { //현재 접속이 refreshToken 만료일/시간과 같거나 더 지난 경우
+        console.log("초기화!");
+        localStorage.clear();
+      }
+      else {
+        ///마지막 접속일로부터 23시간 이상일시 -> clear
+        //그렇지 않다면 accesstoken토큰 재발급 및 lastDate 갱신
+        console.log("아직 로그인X 거나 refresh토큰 만료X")
+        console.log("현재: " + now);
+        if(lastDate) {
+          console.log(lastDate);
+          lastDate.setHours(lastDate.getHours()+23); //23시간 후(토큰 유효기간 24시간)
+          console.log(lastDate);
+          if(lastDate <= now) {
+            console.log("접속일 차이가 23시간 이상!")
+            localStorage.clear();
+            window.location.reload()
+          }else {
+            this.reissueToken();
+          }
+        }
       }
     }
   },

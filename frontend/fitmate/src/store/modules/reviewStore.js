@@ -1,4 +1,5 @@
-import { findPortfolio, reviewAll, reviewByPage, uploadImage, writeReview, findReviewsById } from '@/api/review.js'
+import { findPortfolio, reviewAll, reviewByPage, uploadImage, writeReview, findReviewsById,
+        findCountOfFollower, updateRatingOfFollwer} from '@/api/review.js'
 
 /* 리뷰 관련 상태 관리(vuex) */
 const reviewStore = {
@@ -13,6 +14,8 @@ const reviewStore = {
         reviewsByUser: [],
         imagesrc: '',
         rvupload: false,
+        rating: 0,
+        waste: '',
     },
     getters: {
         getReviewStatus: (state) => state.reviewStatus,
@@ -24,6 +27,7 @@ const reviewStore = {
         getReviewsByUser: (state) => state.reviewsByUser,
         getImagesrc: (state) => state.imagesrc,
         getRvupload: (state) => state.rvupload,
+        getRating: (state) => state.rating,
     },
     mutations: {
         SET_REVIEW_STATUS: (state, status) => state.reviewStatus = status,
@@ -37,6 +41,9 @@ const reviewStore = {
 
         SET_IMAGE_SRC: (state, image) => state.imagesrc = image,
         SET_REVIEW_UPLOAD: (state, rvupload) => state.rvupload = rvupload,
+        SET_RATING: (state, rating) => state.rating = rating,
+
+        SET_WASTE: (state, waste) => state.waste = waste,
     },
     actions: {
         async importAllReviews({commit}, nickname) { //해당 스타일리스트의 모든 리뷰 가져오기
@@ -92,9 +99,25 @@ const reviewStore = {
                 rating: info.rating,
                 thumbnail: info.thumbnail,
             }
-            await writeReview(info.nickname, reviewinfo, (reponse) => {
-                if(reponse.status == 200) {
+            await writeReview(info.nickname, reviewinfo, (response) => {
+                if(response.status == 200) {
                     commit("SET_REVIEW_UPLOAD", true);
+                }
+            },() => {});
+        },
+        async findCount({commit}, nickname) { //팔로워 수 찾기
+            await findCountOfFollower(nickname, (response) => {
+                if(response.status == 200) {
+                    console.log(response);
+                    commit("SET_RATING", response.data);
+                }
+            },() => {});
+        },
+        async updateRating({commit}, info) { //평점 갱신
+            await updateRatingOfFollwer(info, (response) => {
+                if(response.status == 200) {
+                    console.log(response);
+                    commit("SET_WASTE", '');
                 }
             },() => {});
         }
