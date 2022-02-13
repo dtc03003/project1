@@ -37,6 +37,7 @@ public class FollowService {
             Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
             Follow follow = FollowDto.toEntity(follower, following);
             Grade grade = gradeRepository.findByStylist(following).orElseThrow();
+            grade.increaseFollower();
             gradeRepository.save(grade);
             followRepository.save(follow);
             return "follow success";
@@ -49,6 +50,7 @@ public class FollowService {
         Portfolio following = portfolioRepository.findByMember_Nickname(stylistNickname).orElseThrow(NotFoundPortfolioException::new);
         Follow follow = followRepository.findByMemberAndStylist(follower, following).orElseThrow();
         Grade grade = gradeRepository.findByStylist(following).orElseThrow();
+        grade.decreaseFollower();
         gradeRepository.save(grade);
         followRepository.delete(follow);
         return following.getMember().getNickname();
