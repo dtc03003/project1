@@ -1,18 +1,18 @@
 <template>
     <div id="app">
-        <b-container class="bv-example-row mt-3">
+        <!-- <b-container class="mt-3" id="container" align="left">
             <b-row>
                 <b-col></b-col>
-                <b-col class="col-6">
-                    <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
-                        <h1 id="signinTitle">Fitmate</h1>
-                        <b-form class="text-center">
+                <b-col class="col-6"> -->
+                    <b-card class="text-center mt-2" id="card">
+                        <h1 id="signinTitle">로그인</h1>
+                        <b-form class="text-center form">
 
                             <b-form-group>
 
                                 <!-- 이메일 입력 -->
                                 <b-input-group class="mt-3 input">
-                                    <b-form-input type="email" id="email" ref="email" v-model="email" required placeholder="이메일" @keyup.enter="checkForm()">
+                                    <b-form-input type="email" id="email" ref="email" v-model="email" required placeholder="이메일" @keyup.enter="checkForm()" @keypress="isAlert = false">
                                     </b-form-input>
                                     <b-input-group-append v-if="email">
                                         <b-button variant="white" @click="remove(0)">
@@ -23,7 +23,7 @@
 
                                 <!-- 비밀번호 입력 -->
                                 <b-input-group class="mt-3">
-                                    <b-form-input type="password" id="password" ref="password" v-model="password" required placeholder="비밀번호" @keyup.enter="checkForm()">
+                                    <b-form-input type="password" id="password" ref="password" v-model="password" required placeholder="비밀번호" @keyup.enter="checkForm()" @keypress="isAlert = false">
                                     </b-form-input>
                                     <b-input-group-append v-if="password">
                                         <b-button variant="white" @click="remove(1)">
@@ -34,7 +34,7 @@
 
                             </b-form-group>
 
-                            <div class="mt-4" id="warning" role="alert" align="left" v-if="isAlert">
+                            <div class="mt-4" id="warning" role="alert" align="left" v-show="isAlert">
                                 이메일과 비밀번호를 확인해주세요.
                             </div>
 
@@ -51,17 +51,17 @@
                         <kakao-login />
                         <!--간편 로그인 끝-->
 
-                        <div class="signup">
+                        <div class="signup mt-2">
                             처음이신가요?
-                            <b-button type="button" variant="link" class="text-decoration-none signup" id="goSignup" @click="moveSignup">
+                            <p type="button" variant="link" class="text-decoration-none signup" id="goSignup" @click="moveSignup">
                                 회원가입
-                            </b-button>
+                            </p>
                         </div>
                     </b-card>
-                </b-col>
+                <!-- </b-col>
                 <b-col></b-col>
             </b-row>
-        </b-container>
+        </b-container> -->
     </div>
 </template>
 <script>
@@ -109,7 +109,6 @@ export default {
             let accessToken = localStorage.getItem("accessToken");
             if(this.isSignin) {
                 await this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
-                console.log(this.memberInfo);
                 this.$router.push({name: "Home"}); //로그인 성공시 메인 페이지로 이동
             }else {
                 this.isAlert = true;
@@ -152,17 +151,24 @@ export default {
 @font-face {
     font-family: 'Cafe24Ohsquare';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
-#app { text-align: center; padding: 5%; }
-#signinTitle { font-family: "Cafe24Ohsquare", fantasy; }
+#app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position:relative}
+#signinTitle { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 #goSignup { color: black; font-weight: bold;}
+#card {width: 100%; padding: 5%; position:relative}
 .xcircle { color: gray; }
-#submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.form {width: 100%;}
+#submitBtn { background: linear-gradient(to right, #8d8eeb, #8763FB); width: 100%; border-color: #8763FB;}
 #warning { color: red; font-size: 10pt; }
-.signup { font-size: 14px; }
+.signup { font-family: "GangwonEdu_OTFBoldA", fantasy; font-size: 15px; }
 p { display: inline; }
 .hr-sect {
 	display: flex;
@@ -182,4 +188,6 @@ p { display: inline; }
 	line-height: 0px;
 	margin: 0px 16px;
 }
+p#goSignup:hover {color: #8763FB;}
+
 </style>
