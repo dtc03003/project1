@@ -11,6 +11,7 @@ import createPersistedState from "vuex-persistedstate";
 import styleStore from "@/store/modules/styleStore";
 import followStore from "@/store/modules/followStore";
 import carouselStore from "@/store/modules/carouselStore";
+import commentStore from "@/store/modules/commentStore";
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
     reserveStore,
     followStore,
     carouselStore,
+    commentStore,
   },
   state: {
     comments: [],

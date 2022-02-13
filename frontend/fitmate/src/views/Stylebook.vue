@@ -6,42 +6,38 @@
       </div>
 
       <!-- 검색창 -->
-      <!-- 근데 우리 무슨 검색이었더라? 태그? 스타일리스트? -->
-      <div class="col-12">
-        <div>
-          <b-form-tags v-model="value" no-outer-focus class="mb-1">
-            <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
-              <b-input-group class="mb-2">
-                <!-- input -->
-                <b-form-input
-                  v-bind="inputAttrs"
-                  v-on="inputHandlers"
-                  placeholder="태그 검색"
-                  class="form-control"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-button @click="addTag()" variant="dark">Add</b-button>
-                </b-input-group-append>
-              </b-input-group>
-              <!-- 밑에 태그 띄우는 건가봄? -->
-              <div class="d-inline-block" style="font-size: 1.5rem;">
-                <b-form-tag
-                  v-for="tag in tags"
-                  @remove="removeTag(tag)"
-                  :key="tag"
-                  :title="tag"
-                  :variant="tagVariant"
-                  class="mr-1"
-                  id="tags"
-                  size="sm"
-                ></b-form-tag>
-              </div>
-            </template>
-          </b-form-tags>
-          <span>value : </span>{{value}}
-        </div>
-      </div>
-      <!-- 칩 -->
+      <!-- 바꿔 갈아끼우는 중 -->
+      <!-- 지우지 말아주세요 -->
+      <!-- <v-text-field
+      v-model="singletag"
+      clearable
+      multiple
+      @keyup.enter="saveValue"
+      append-icon="mdi-tag-search"
+      @click:append="saveValue"
+      solo>
+      </v-text-field> -->
+      <v-combobox
+      v-model="value"
+      clearable
+      multiple
+      append-icon="mdi-tag-search"
+      solo>
+      </v-combobox>
+      <b-form-tag
+        v-for="tag in value"
+        @remove="removeTag(tag)"
+        :key="tag"
+        :title="tag"
+        :variant="tagVariant"
+        class="mr-1"
+        style="background:teal; width:fit-content;"
+      >{{ tag }}</b-form-tag>
+
+      
+      <!-- <div v-if="!stylebooks">
+        <h5>검색결과가 없습니다.</h5>
+      </div> -->
 
       <!-- 이미지 및 모달 부분 -->
       <div class="d-flex-wrap">
@@ -55,10 +51,7 @@
         v-bind:nickname="image.portfolio.member.nickname"     
         >{{image}}</the-image-modal>
       </div>
-
     </div>
-
-
   </div>
 </template>
 
@@ -80,8 +73,14 @@ export default {
     checkauthority:'',
     // 여기서부터는 검색창을 위한 data
     value: [],
+    singletag:'',
   }),
   methods:{
+    saveValue:function() {
+      console.log(this.singletag)
+      this.value.push(this.singletag)
+      this.singletag = ''
+    },
     searchImages:function() {
       ///styleBook/search/{tagList}
       axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search/${this.value}`)
@@ -109,7 +108,7 @@ export default {
   watch: {
     value:function(){
       this.searchImages()
-    }
+    },
   }
 }
 </script>
