@@ -48,6 +48,10 @@ public class MemberService {
         return memberRepository.findById(id)
                 .orElseThrow(NotFoundUserInformation::new);
     }
+    public Member findMemberByNickname(String nickname){
+        return memberRepository.findByNickname(nickname)
+                .orElseThrow(NotFoundUserInformation::new);
+    }
     public Member updatePassword(MemberPasswordDto memberPasswordDto) {
         Member member = getMyInfo();
         System.out.println(memberPasswordDto.getPassword());

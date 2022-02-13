@@ -1,7 +1,6 @@
 import { apiInstance } from "./index.js";
 
 const api = apiInstance();
-
 //예약 내역 가져오기(날짜, 시간)
 async function reservationList(nickname, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;

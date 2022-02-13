@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/v1/account/**" ).hasAnyRole("STYLIST")
 //                .antMatchers("/api/v1/accountList" ).hasAnyRole("STYLIST")
                 .antMatchers("/auth/**" ).permitAll()
+                .antMatchers("/ws/**" ).permitAll()
                 .anyRequest().authenticated()
 
                 .and()

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
-public class ChattingDto {
+public class ChattingDto{
     private String message;
     private Timestamp sendAt;
     private Boolean isRequest;

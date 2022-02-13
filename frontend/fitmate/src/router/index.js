@@ -135,10 +135,20 @@ const routes = [
     ]
   },
   {
-    path: "chatting",
-    name: 'Chatting',
-    component: () => import("@/views/ChattingView.vue"),
+    path: "/chatting",
+    name: "Chatting",
+    component : () => import("@/views/Chatting.vue"),
   },
+  {
+    path: "/room",
+    name: "Room",
+    component : () => import("@/views/Room.vue"),
+  },
+  {
+    path: "/rooms",
+    name: "Roomlist",
+    component :  () => import("@/views/RoomList.vue"),
+  }
 ]
 
 const router = new VueRouter({
