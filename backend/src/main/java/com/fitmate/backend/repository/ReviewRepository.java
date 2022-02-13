@@ -14,5 +14,5 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findAllByPortfolioId(Long id);
     List<Review> findAllByMemberId(Long id);
     void deleteAllByPortfolio(Portfolio portfolio);
-    void deleteAllByWriter(Member member);
+    void deleteAllByMember(Member member);
 }

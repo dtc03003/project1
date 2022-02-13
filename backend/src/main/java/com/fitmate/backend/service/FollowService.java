@@ -66,7 +66,7 @@ public class FollowService {
 
     public List<MemberDto> getMyFollowing(){
         Member member = memberService.getMyInfo();
-        List<Follow> followingList = followRepository.findAllByMember(member).orElseThrow();
+        List<Follow> followingList = followRepository.findAllByMember(member);
         List<MemberDto> resultList = new ArrayList<MemberDto>();
         for(int i=followingList.size()-1; i>=0; i--){
             resultList.add(MemberDto.of(followingList.get(i).getStylist().getMember()));
@@ -77,7 +77,7 @@ public class FollowService {
     public List<MemberDto> getMyFollower(){
         Member stylistMember = memberService.getMyInfo();
         Portfolio stylist = portfolioRepository.findByMember_Nickname(stylistMember.getNickname()).orElseThrow(NotFoundPortfolioException::new);
-        List<Follow> followerList = followRepository.findAllByStylist(stylist).orElseThrow();
+        List<Follow> followerList = followRepository.findAllByStylist(stylist);
         List<MemberDto> resultList = new ArrayList<MemberDto>();
         for(int i=0; i<followerList.size(); i++){
             resultList.add(MemberDto.of(followerList.get(i).getMember()));

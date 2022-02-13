@@ -5,10 +5,7 @@ import com.fitmate.backend.advice.exception.NotFoundUserInformation;
 import com.fitmate.backend.dto.GradeDto;
 import com.fitmate.backend.dto.PortfolioDto;
 import com.fitmate.backend.entity.*;
-import com.fitmate.backend.repository.FollowRepository;
-import com.fitmate.backend.repository.GradeRepository;
-import com.fitmate.backend.repository.PortfolioRepository;
-import com.fitmate.backend.repository.ReviewRepository;
+import com.fitmate.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,10 +22,14 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final GradeRepository gradeRepository;
     private final MemberService memberService;
-    private final StyleService styleService;
-    private final ReservationService reservationService;
+    private final StyleRepository styleRepository;
+    private final ReservationRepository reservationRepository;
+    private final PaymentRepository paymentRepository;
     private final ReviewRepository reviewRepository;
     private final FollowRepository followRepository;
+    private final TagRepository tagRepository;
+    private final LikeRepository likeRepository;
+    private final StyleCommentRepository styleCommentRepository;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
@@ -60,17 +61,21 @@ public class PortfolioService {
     @Transactional
     public String deleteMyPortfolio() {
         Portfolio portfolio = getMyPortfolio();
-        List<Style> styleList = styleService.findAllStylesByNickname(portfolio.getNickname());
+        List<Style> styleList = styleRepository.findAllByPortfolioIdOrderByIdDesc(portfolio.getId());
         for(Style style : styleList){
-            styleService.deleteStyle(style.getId());
+            tagRepository.deleteAllByStyle(style);
+            likeRepository.deleteAllByStyle(style);
+            styleCommentRepository.deleteAllByStyle(style);
+            styleRepository.delete(style);
         }
-        List<Reservation> reservationList = reservationService.findAllReservationsByNickname(portfolio.getNickname());
+        List<Reservation> reservationList = reservationRepository.findAllByPortfolioId(portfolio.getId());;
         for(Reservation reservation : reservationList){
-            reservationService.deleteReservation(reservation.getId());
+            paymentRepository.deleteByReservation(reservation);
+            reservationRepository.delete(reservation);
         }
         gradeRepository.deleteByStylist(portfolio);
         reviewRepository.deleteAllByPortfolio(portfolio);
-        followRepository.deleteAllByFollowing(portfolio);
+        followRepository.deleteAllByStylist(portfolio);
         portfolioRepository.delete(portfolio);
         return "delete success";
     }

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface QnaRepository extends JpaRepository<Qna, Long> {
-    void deleteAllByWriter(Member writer);
-    List<Qna> findAllByWriter(Member writer);
+    void deleteAllByMember(Member writer);
+    List<Qna> findAllByMember(Member writer);
 }

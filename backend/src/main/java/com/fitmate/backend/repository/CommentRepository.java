@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findByQna(Qna qna);
-    Optional<List<Comment>> findAllByQna(Qna qna);
+    List<Comment> findAllByQna(Qna qna);
     void deleteAllByQna(Qna qna);
-    void deleteAllByWriter(Member writer);
+    void deleteAllByMember(Member writer);
 }
