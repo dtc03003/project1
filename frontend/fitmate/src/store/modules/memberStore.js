@@ -61,6 +61,12 @@ const memberStore = {
             localStorage.setItem("accessToken", response.data["accessToken"]); //로컬 스토리지에 accessToken 저장
             localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
             localStorage.setItem("refreshToken", response.data["refreshToken"]); //로컬 스토리지에 refreshToken 저장
+
+            const now = new Date(Date.now());
+            localStorage.setItem("lastDate", now); //마지막 접속일(로그인 시 재기록)
+            localStorage.setItem("now", now); //최근 접속일
+            localStorage.setItem("refreshDate", new Date(now.setDate(now.getDate()+7))); //refresh만료일
+            
           } else { //로그인 실패일 경우
             commit("SIGNIN", false);
             console.log("로그인 실패");
@@ -75,8 +81,6 @@ const memberStore = {
           if(response.status == 200) {
             console.log("로그인한 사용자 정보 받기 성공");
             commit("SET_MEMBER_INFO", response.data);
-          }else {
-            this.reissueToken(); //토큰 유효기간 지났을 경우 재발급 필요
           }
         },
         (error) => {
@@ -98,6 +102,11 @@ const memberStore = {
             localStorage.setItem("accessToken", response.data["accessToken"]);
             localStorage.setItem("accessTokenExpiresIn", response.data["accessTokenExpiresIn"]);
             localStorage.setItem("refreshToken", response.data["refreshToken"]);
+
+            const now = new Date(Date.now());
+            localStorage.setItem("lastDate", now); //마지막 접속일(로그인 시 재기록)
+            localStorage.setItem("now", now); //최근 접속일
+            localStorage.setItem("refreshDate", new Date(now.setDate(now.getDate()+7)));
           }
         },
         () => {

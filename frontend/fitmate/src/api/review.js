@@ -28,9 +28,9 @@ async function reviewAll(nickname, success, fail) {
 }
 
 //해당 스타일리스트의 리뷰 하나씩 불러오기
-async function reviewOne(nickname, id, success, fail) {
+async function reviewOne(id, success, fail) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('accessToken')}`;
-    await api.get(`/api/v1/portfolio/${nickname}/review/${id}`).then(success).catch(fail);
+    await api.get(`/api/v1/review/${id}`).then(success).catch(fail);
 }
 
 //이미지 업로드
@@ -43,4 +43,15 @@ async function findReviewsById(id, success, fail) {
     await api.get(`/api/v1/members/${id}/reviews`).then(success).catch(fail);
 }
 
-export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage, findReviewsById };
+//해당 스타일리스트 팔로워수 구하기(review 등록 시 갱신 필요해서)
+async function findCountOfFollower(nickname, success, fail) {
+    await api.get(`/api/v1/countOfFollwer/${nickname}`).then(success).catch(fail);
+}
+
+//해당 스타일리스트 평점 갱신
+async function updateRatingOfFollwer(info, success, fail) {
+    await api.put(`/api/v1/rate/update`, JSON.stringify(info)).then(success).catch(fail);
+}
+
+export { writeReview, reviewByPage, reviewAll, reviewOne, findPortfolio, uploadImage, findReviewsById,
+    findCountOfFollower, updateRatingOfFollwer};
