@@ -67,7 +67,7 @@
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
 
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
-            <b-icon icon="share-fill" font-scale="4"></b-icon>
+            <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon>
         </div>            
     </div>
 </template>
@@ -156,6 +156,17 @@ export default {
                 this.signInMemberInfo(accessToken);
                 window.location.reload()
             })
+        },
+
+        copyLink() {
+            let currentUrl = window.document.location.href;
+            let t = document.createElement("textarea");
+            document.body.appendChild(t);
+            t.value = currentUrl;
+            t.select();
+            document.execCommand('copy');
+            document.body.removeChild(t);
+            alert('복사가 완료되었습니다');
         },
 
         // 팔로우
