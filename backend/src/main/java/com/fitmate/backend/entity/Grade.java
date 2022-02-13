@@ -24,6 +24,19 @@ public class Grade {
     @Column(name = "grade", nullable = false)
     @ColumnDefault("0")
     private float grade;
+    @Column(name = "countOfFollower", nullable = false)
+    @ColumnDefault("0")
+    private int countOfFollower;
+
+    public Grade increaseFollower(){
+        this.countOfFollower++;
+        return this;
+    }
+
+    public Grade decreaseFollower(){
+        this.countOfFollower--;
+        return this;
+    }
 
     public Grade updateGrade(float grade){
         if(this.grade==0){
