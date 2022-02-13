@@ -172,7 +172,7 @@ export default {
     },
     async Posting() { //게시하기
       if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname || !this.selectedDate) {
-        alert("작성할 기록 선택 후 평점, 내용, 사진 모두 작성해주세요!");
+        alert("작성할 기록 선택 후 평점, 내용, 사진 모두 작성해주세요!😮");
       }else {
         const postInfo = {
             content: this.post.content,
@@ -184,6 +184,8 @@ export default {
         //작성한 리뷰 관련 내용 삭제
         let temp = this.consultinfo;
         this.consultinfo = temp.filter((element) => JSON.stringify(element) != JSON.stringify({'nickname' : this.selectedname, 'date' : this.selectedDate}));
+        this.importReviews();
+        alert("리뷰가 등록되었습니다😄");
         this.$refs['modal-1'].hide();
       }
     },

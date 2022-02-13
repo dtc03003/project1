@@ -95,6 +95,7 @@ const orderStore = {
                 if(response.status == 200) {
                     commit("SET_PAY_STATUS", false); //결제 끝났으니 끝!
                     commit("SET_RESERVE_STATUS", false); //예약 상태도 끝!
+                    commit("SET_ORDER_DATA", []);
                     console.log("결제 승인 완료");
                 }
             },
