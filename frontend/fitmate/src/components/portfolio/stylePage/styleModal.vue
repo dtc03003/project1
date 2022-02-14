@@ -237,7 +237,7 @@ export default {
                 confirmButtonColor: '#7e7fb9',
                 confirmButtonText: "로그인",
                 showCancelButton: true,
-                cancelButtonText: "취소"
+                cancelButtonText: "취소",
                 }).then ((res) => {
                     if (res.isConfirmed){
                         this.$router.push({name:'Signin'})
@@ -261,7 +261,8 @@ export default {
                 Toast.fire({
                     icon: 'success',
                     title: '좋아요 완료!'
-                }).then(()=>window.location.reload())
+                })
+                this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
 
@@ -284,7 +285,8 @@ export default {
                 Toast.fire({
                     icon: 'error',
                     title: '좋아요 취소!'
-                }).then(()=>window.location.reload())
+                })
+                this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
 

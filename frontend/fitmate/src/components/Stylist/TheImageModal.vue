@@ -139,6 +139,7 @@ export default {
       this.tags = data;
     })
   },
+
   methods: {
     toggleMarker () {
       this.marker = !this.marker
@@ -252,7 +253,8 @@ export default {
         Toast.fire({
             icon: 'success',
             title: '좋아요 완료!'
-        }).then(()=>window.location.reload())
+        })
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
@@ -275,7 +277,8 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '좋아요 취소!'
-        }).then(()=>window.location.reload())
+        })
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
@@ -289,11 +292,6 @@ export default {
       this.$store.dispatch("getIsLike", { styleId: this.id })
     }
   },
-  // updated() {
-  //   this.$nextTick(function () {
-  //     this.getComment() 
-  //   })
-  // }
 }
 </script>
 
