@@ -138,6 +138,7 @@ export default {
       this.tags = data;
     })
   },
+
   methods: {
     toggleMarker () {
       this.marker = !this.marker
@@ -211,8 +212,9 @@ export default {
       this.token();
       axios.post(`/api/v1/like/${this.id}`)
       .then(() => {
-        alert(`좋아요 완료!`)
+        // alert(`좋아요 완료!`)
         // window.location.reload()
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
@@ -221,8 +223,9 @@ export default {
       this.token();
       axios.delete(`/api/v1/like/${this.id}`)
       .then(() => {
-        alert(`좋아요 취소!`)
-        window.location.reload()
+        // alert(`좋아요 취소!`)
+        // window.location.reload()
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
