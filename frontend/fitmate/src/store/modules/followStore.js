@@ -6,7 +6,8 @@ const followStore = {
         isLike: "",
         likeList: "",
         liker: "",
-        countFollow: ""
+        countFollow: "",
+        followerList: ""
     },
 
     mutations: {
@@ -24,6 +25,9 @@ const followStore = {
         },
         setCountFollow(state, payload) {
             state.countFollow = payload.countFollow;
+        },
+        setFollowerList(state, payload) {
+            state.followerList = payload.followerList;
         }
     },
 
@@ -67,6 +71,13 @@ const followStore = {
             let { data } = await axios.get(`/api/v1/countOfFollower/${payload.nickname}`)
             commit("setCountFollow", { countFollow: data })
         },
+
+        async getFollowerList({ commit }) {
+            const accessToken = localStorage.getItem("accessToken");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+            let { data } = await axios.get(`/api/v1/getFollowerList`)
+            commit("setFollowerList", { followerList: data })
+        }
     }
 };
 

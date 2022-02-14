@@ -62,11 +62,16 @@
         <p class="mt-3" > 팔로우 여부 : {{ isFollow }} </p>
         <p class="mt-3" > 로그인 여부 : {{ checkisSignin }} </p>
         <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
+        
+        <p class="mt-3" > 팔로우 정보 : {{ this.follower }} </p>
 
         <div class="mt-5" v-if="checkisSignin">
-            <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" style="margin-right:60px;"></b-icon>
+            <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" style="margin-right:60px;"></b-icon>
+            
             <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
+            
+            <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip>
 
             <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
             <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon>
@@ -87,6 +92,8 @@ export default {
             checkauthority: '',
             biotext: '',
             profile: '',
+            dumi: [],
+            follower: ""
         }
     },
 
@@ -94,13 +101,17 @@ export default {
         ...mapState(memberStore, ["memberInfo"]),
         ...mapGetters(memberStore, ["checkMemberInfo"]),
         ...mapGetters(memberStore, ["checkisSignin"]),
-        
+
         isFollow() {
             return this.$store.state.followStore.isFollow;
         },
 
         CountFollow() {
             return this.$store.state.followStore.countFollow
+        },
+
+        FollowerList() {
+            return this.$store.state.followStore.followerList
         }
     },
 
@@ -120,11 +131,17 @@ export default {
         .catch(() => {})
         }
         
+        if(this.nickname == this.checkMemberInfo.nickname){
+            this.$store.dispatch("getFollowerList")
+        }
 
         this.$store.dispatch("getCountFollow", { nickname: this.nickname })
 
-        console.log(this.checkisSignin)
+        for(let temp of this.FollowerList){
+            this.dumi.push(temp.nickname)
+        }
 
+        this.follower = this.dumi.join(',');
     },
 
     methods: {
