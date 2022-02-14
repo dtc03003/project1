@@ -141,7 +141,9 @@ export default {
 
         this.$store.dispatch("getCountFollow", { nickname: this.nickname })
 
-        this.$store.dispatch("getFollowerList")
+        if(this.nickname == this.checkMemberInfo.nickname){
+            this.$store.dispatch("getFollowerList")
+        }
 
         for(let temp of this.FollowerList){
             this.dumi.push(temp.nickname)
