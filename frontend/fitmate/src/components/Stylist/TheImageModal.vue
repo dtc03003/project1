@@ -7,31 +7,38 @@
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
     <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
       <template #modal-title>
-        <b-avatar :src="profile" size="4rem" class="me-2">
+        <b-avatar :src="profile" size="3rem" class="me-2">
         </b-avatar>
-        <h3 class="d-inline">{{ nickname }}</h3>
+        <h4 class="d-inline align-item-center">{{ nickname }}</h4>
         <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
         <div class="col">
 
           <!-- 상세 이미지 -->
-          <img :src="thumbnail" alt="" width="500rem" class="mr-2">
+          <img :src="thumbnail" alt="" id="imageDetail" class="mr-2">
+
           <!-- 태그 -->
-          <the-image-tag
-          v-for="tag in tags"
-          v-bind:key="tag.id"
-          v-bind:tag="tag"
-          >{{tag}}</the-image-tag>
+          <div class="my-2">
+            <the-image-tag
+            v-for="tag in tags"
+            v-bind:key="tag.id"
+            v-bind:tag="tag"
+            >{{tag}}</the-image-tag>
+          </div>
         </div>
+
+
+        <!-- 별도의 col 지정, 반응형 가능 -->
         <div class="col">
-          <!-- 게시글(?) 내용 -->
+          <!-- 게시글 내용 -->
           <pre>{{ content }}</pre>
           <p class="mt-3" > 좋아요 상태 : {{ isLike }} </p>
           <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
           <!-- 아래는 댓글 입력 폼 -->
-          <v-form>
+          <!-- 로그인한 사용자만 댓글 입력 가능 -->
+          <v-form v-if="checkauthority">
             <v-container class="p-0">
               <v-row>
                 <v-col cols="12">
@@ -51,9 +58,19 @@
               </v-row>
             </v-container>
           </v-form>
+          <v-form v-else>
+            <a href="" style="text-decoration:none;color:teal;" @click="goToSignin">
+              <h5>댓글을 입력하시려면 로그인해주세요!</h5>
+            </a>
+          </v-form>
 
           <!-- 댓글을 매끄럽게 보여주기 위한 최후의 수단.... 진짜 최후의 수단...인데... -->
-          <h6 v-if="instant">{{checkMemberInfo.nickname}} 💌 {{instant}}</h6>
+          <div v-if="instant">
+          <b-avatar :src="profile" size="2rem" class="me-2 my-1 d-inline-flex">
+          </b-avatar>
+          <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
+          <p class="content d-inline">{{instant}}</p>
+          </div>
 
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
@@ -61,6 +78,7 @@
           v-bind:key="index"
           v-bind:content="singlecomment.comment"
           v-bind:commentId="singlecomment.id"
+          v-bind:profile="singlecomment.member.profile"
           >{{singlecomment}}</the-modal-comment-list>
 
         </div>
@@ -141,6 +159,9 @@ export default {
   },
 
   methods: {
+    goToSignin() {
+      this.$router.push({name:'Signin'})
+    },
     toggleMarker () {
       this.marker = !this.marker
     },
@@ -173,6 +194,7 @@ export default {
     saveComment() {
       if (this.message){
         this.instant = this.message
+
         const messageInfo = {
           "comment":this.message, 
           "createdAt":"",
@@ -320,4 +342,12 @@ export default {
   transform: scale(1.15, 1.15);
   opacity: 1;  
   }
+
+#imageDetail{
+  width:100%;
+}
+
+.content{
+  font-size: 0.9rem;
+}
 </style>

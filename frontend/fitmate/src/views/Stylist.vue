@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid col-8 offset-2">
+  <div class="container-fluid col-10 offset-1">
     <div class="row d-flex">
       <div id="mainbar" class="d-flex align-items-center justify-content-start">
-        <h1>Stylist</h1>
+        <h1>Stylist 스타일리스트</h1>
       </div>
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
@@ -29,7 +29,7 @@
         ></v-text-field>
       </div>
 
-      <div class="mt-2">Value: {{ text }}</div>
+      <!-- <div class="mt-2">Value: {{ text }}</div> -->
 
       <!-- 스타일리스트 목록 컴포넌트 -->
       <the-stylist-list 
@@ -134,10 +134,5 @@ export default {
 </script>
 
 <style>
-#tags {
-  color: rgb(37, 34, 34);
-  background-color: rgb(127, 197, 255);
-  size: 3rem;
-}
 
 </style>

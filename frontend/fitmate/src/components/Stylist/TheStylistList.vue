@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <!-- styleId:{{stylistId}} -->
-    <br>
+  <div id="oneline">
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div id="singleline" class="container-fluid">
       <div class="row d-inline">
-        <div id="profilebox" class="d-block-flex justify-content-center" style="width:9rem;">
+        <div id="profilebox" class="d-block-flex justify-content-center" style="width:12rem; padding:2px;">
           <!-- 프로필 사진 -->
           <div>
             <!-- 나중에 프로필사진 클릭하면 포트폴리오로 넘어갈 수 있도록 -->
