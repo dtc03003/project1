@@ -1,8 +1,11 @@
 <template>
   <div>
+    <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
     <div align="right">
-      <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
-      <b-button v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</b-button>
+    <!-- <b-button v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</b-button> -->
+      <a class="gradient-btn" v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</a>
+      <!--test를 위한 버튼-->
+      <a class="gradient-btn" v-b-modal.modal-1>리뷰작성</a>
     </div>
     <div v-if="!status" align="center">
       <p id="nomyreview">아직 리뷰가 없습니다! 저희 서비스를 이용해주시고 리뷰를 작성해주세요😍</p>
@@ -21,7 +24,7 @@
     <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
       <b-row>
         <b-col>
-          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2"> <!--🧐-->
+          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2">
             <b-dropdown-item v-for="data in consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data}`}}</b-dropdown-item>
           </b-dropdown>
           <p v-show="this.selectedname">{{`스타일리스트명: ${this.selectedname}`}}</p>
@@ -30,7 +33,7 @@
           <div class="rating-container">
             <div class="rating-wrap">
               <div class="center">
-                <h4>🌟평점🌟</h4>
+                <h5>평점을 입력해주세요(5점만점)</h5>
                 <fieldset class="rating">
                   <input type="radio" id="star5" name="rating" value="5" @change="showStar($event)"/><label for="star5" class="full"></label>
                   <input type="radio" id="star4" name="rating" value="4" @change="showStar($event)"/><label for="star4" class="full"></label>
@@ -54,7 +57,7 @@
         </b-col>
 
         <b-col class="col-12">
-            <b-button id="submitBtn" @click="Posting">게시하기</b-button>
+            <a class="btn" @click="Posting">게시하기</a>
         </b-col>
       </b-row>
     </b-modal>
@@ -239,9 +242,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 p#nomyreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
-h4 {font-family: 'Cafe24Ssurround', serif;}
+h5, h4 {font-family: 'Cafe24Ssurround', serif;}
 
 /* 별점 관련 */
 .rating {
@@ -270,13 +273,62 @@ h4 {font-family: 'Cafe24Ssurround', serif;}
 .rating > input:checked ~ label,
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label {
-  color: #3fdce7;
+  color: #6ba3ff;
 }
 
 .rating > input:checked + label:hover,
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label,
 .rating > input:checked ~ label:hover ~ label {
-  color: rgb(78, 182, 201);
+  color: #a1c4fd;
+}
+
+/*모달 게시 버튼 */
+.btn {
+  flex: 1 1 auto;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  width: 100%;
+  font-family: "SDSamliphopangche_Basic", "ImcreSoojin", fantasy;
+  background-image: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
+}
+.btn:hover { background-position: right center;}
+</style>
+
+<style lang="scss" scoped>
+$ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
+@mixin transition() {
+    transition: 700ms $ease_out;
+    &:hover{
+      transition: 400ms $ease_out;
+    }
+}
+.gradient-btn{
+  display: inline-block;
+  padding: 1em 2em;
+  border-radius: 0.5rem;
+  color: #8763FB;
+  margin-top:2rem;
+  font-weight: bold;
+  font-size: 0.678rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: linear-gradient(to right, rgba(#8763FB, 0) 25%, rgba(#8763FB, .8) 75%);
+  background-position: 1% 50%;
+  background-size: 400% 300%;
+  border: 1px solid #8763FB;
+  @include transition;
+  
+  &:hover{
+    color: white;
+    color: #fff;
+    background-position: 99% 50%;
+  }
 }
 </style>
