@@ -77,6 +77,7 @@ import TheImageTag from '@/components/Stylist/TheImageTag'
 import axios from '@/module/axios.js'
 import { FITMATE_BASE_URL } from '@/config'
 import { mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'TheImageModal',
@@ -138,6 +139,7 @@ export default {
       this.tags = data;
     })
   },
+
   methods: {
     toggleMarker () {
       this.marker = !this.marker
@@ -189,7 +191,13 @@ export default {
             // this.comments.push(this.message)
               this.$store.dispatch("updateComment", {id:this.id})
           }else{
-            alert('댓글을 입력하세요!')
+            Swal.fire({
+              icon: 'error',
+              title: '댓글을 입력하세요!',
+              text: 'Enter the comments!',
+              confirmButtonColor: '#7e7fb9',
+              confirmButtonText: "확인",
+            })
           }
         })
         .then(
@@ -203,16 +211,50 @@ export default {
         this.getComment()
         // location.reload()
       }else{
-        alert('댓글을 입력하세요!')
+        Swal.fire({
+          icon: 'error',
+          title: '댓글을 입력하세요!',
+          text: 'Enter the comments!',
+          confirmButtonColor: '#7e7fb9',
+          confirmButtonText: "확인",
+        })
       }
     },
     // 팔로우
     follow() {
+      if (!this.checkMemberInfo.authority) {
+        Swal.fire({
+          icon: 'error',
+          title: '먼저 로그인을 해주세요!',
+          confirmButtonColor: '#7e7fb9',
+          confirmButtonText: "로그인",
+          showCancelButton: true,
+          cancelButtonText: "취소"
+        }).then ((res) => {
+          if (res.isConfirmed){
+            this.$router.push({name:'Signin'})
+          }
+        })
+      }
       this.token();
       axios.post(`/api/v1/like/${this.id}`)
       .then(() => {
-        alert(`좋아요 완료!`)
-        // window.location.reload()
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+            icon: 'success',
+            title: '좋아요 완료!'
+        })
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
@@ -221,8 +263,22 @@ export default {
       this.token();
       axios.delete(`/api/v1/like/${this.id}`)
       .then(() => {
-        alert(`좋아요 취소!`)
-        window.location.reload()
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'error',
+          title: '좋아요 취소!'
+        })
+        this.$store.dispatch("getIsLike", { styleId: this.id })
       })
     },
 
@@ -236,11 +292,6 @@ export default {
       this.$store.dispatch("getIsLike", { styleId: this.id })
     }
   },
-  // updated() {
-  //   this.$nextTick(function () {
-  //     this.getComment() 
-  //   })
-  // }
 }
 </script>
 

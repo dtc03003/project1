@@ -73,6 +73,14 @@ export default {
                 price : this.profileData.price,
                 bio : this.profileData.bio,
             }
+            if (bioinfo.about == '') {
+                Swal.fire({
+                    title: '소개글을 입력해주세요!',
+                    confirmButtonText: '확인',
+                    icon: 'error'
+                })
+                return
+            }
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             axios.put(`${ FITMATE_BASE_URL }/api/v1/portfolio/about`, bioinfo)

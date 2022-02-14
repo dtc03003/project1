@@ -64,6 +64,7 @@
 <script>
 import dayjs from "dayjs";
 import { mapGetters, mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 const orderStore = "orderStore";
 const memberStore = "memberStore";
 
@@ -104,7 +105,12 @@ export default {
             this.member = this.checkMemberInfo;
         },
         backSchedule() { //날짜/시간 초기화 시 이전 페이지로 이동
-            alert("날짜/시간이 초기화된 관계로 다시 선택해주시길 바랍니다.");
+            Swal.fire({
+                icon: 'error',
+                title: '날짜/시간이 초기화된 관계로 \n다시 선택해주시길 바랍니다.',
+                confirmButtonColor: '#7e7fb9',
+                confirmButtonText: "확인",
+            })
             this.goBack();
         },
         async goBack() { //취소 시 이전 페이지로 이동

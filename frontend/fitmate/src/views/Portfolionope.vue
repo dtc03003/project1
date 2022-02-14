@@ -44,6 +44,7 @@
 import axios from 'axios';
 import { mapGetters, mapState, mapActions } from 'vuex';
 import { FITMATE_BASE_URL } from "@/config";
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -75,32 +76,61 @@ export default {
     methods: {
         ...mapActions(memberStore, ["reissueToken", "signInMemberInfo"]),
         async createportfolio() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             const portinfo = {
                 about : this.portfoliocreate.about,
                 price : this.portfoliocreate.price,
                 bio : this.portfoliocreate.bio,
             }
             if (portinfo.about == '' || portinfo.price == '' || portinfo.bio == ''){
-                alert('내용이 비었습니다!')
+                Swal.fire({
+                    icon: 'error',
+                    title: '내용이 비었습니다!',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
                 return
             }
-            if (/^[0-9]{8}$/.test(portinfo.price)) {
-                alert('가격에는 숫자만 입력해주세요!')
+            if (!/^[0-9]{4,8}$/.test(portinfo.price)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '적정가격과 숫자만 입력해주세요!',
+                    text : '적정가격은 만원이상 천만원이하입니다!',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
                 return
             }
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio`, portinfo)
             .then(() => {
-                alert('포트폴리오 생성완료')
-                let accessToken = localStorage.getItem("accessToken");
-                this.signInMemberInfo(accessToken);
-                this.$router.push({name:'Portfolio'})
-                window.location.reload()
+                Toast.fire({
+                    icon: 'success',
+                    title: '포트폴리오 생성완료!'
+                }).then(()=>{
+                    let accessToken = localStorage.getItem("accessToken");
+                    this.signInMemberInfo(accessToken);
+                    this.$router.push({name:'Portfolio'})
+                    window.location.reload()
+                })
             }) 
-            .catch((err) => {
-                alert('포트폴리오 생성실패')  
-                console.log(err)
+            .catch(() => {
+                Toast.fire({
+                    icon: 'success',
+                    title: '포트폴리오 생성실패!',
+                    text: '이미 포트폴리오가 생성되있습니다!\n새로고침 해주세요!'
+                })
             })
         }
     }

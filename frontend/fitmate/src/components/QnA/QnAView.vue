@@ -80,6 +80,7 @@
 <script>
 import axios from "@/module/axios.js";
 import { mapState } from 'vuex';
+import Swal from 'sweetalert2'
 
 const memberStore = "memberStore";
 
@@ -123,8 +124,22 @@ export default {
             axios.post("/api/v1/comment", commentInfo)
 
             this.$store.dispatch("getComments", { id: this.id })
-            alert("댓글 등록 완료");
-            window.location.reload()
+            
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: '댓글 등록 완료!'
+            }) .then(() => window.location.reload())
         },
     }
 }

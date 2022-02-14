@@ -1,17 +1,13 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <styleModal :list-array="styleArray"></styleModal>
-            <!-- <the-image-modal
-            v-for="image in styleArray"
-            :key="image.id"  
-            v-bind:thumbnail="image.thumbnail"
-            v-bind:id="image.id"
-            v-bind:content="image.content"
-            v-bind:profile="image.portfolio.member.profile"
-            v-bind:nickname="image.portfolio.member.nickname"          
-            >
-            </the-image-modal> -->
+            <div v-show="styleArray[0]" >
+                <styleModal :list-array="styleArray"></styleModal>
+            </div>
+            
+            <div v-show="!styleArray[0]" align="center">
+                <p id="noreview">아직 등록한 게시물이 없습니다😢</p>
+            </div>
         </div>
         <hr class="mt-3">
         <div class="col-12 text-end" >
@@ -44,7 +40,7 @@
                     </v-container>
                     <!-- </b-col> -->
                     <b-col class="col-12">
-                        <UploadImages ref="image" @changed="handleImages"/>
+                        <UploadImages :max="1" ref="image" @changed="handleImages"/>
                     </b-col>
                     <b-col class="col-12">
                         <b-button id="submitBtn" @click="Posting">게시하기</b-button>
@@ -57,7 +53,7 @@
 
 <script>
 import axios from 'axios'
-// import TheImageModal from '@/components/Stylist/TheImageModal'
+import Swal from 'sweetalert2'
 import UploadImages from "vue-upload-drop-images"
 import styleModal from "./stylePage/styleModal.vue"
 import { FITMATE_BASE_URL } from "@/config";
@@ -83,7 +79,6 @@ export default {
     components: {
         UploadImages,
         styleModal,
-        // TheImageModal,
     },
     computed: {
         ...mapGetters(memberStore, ["checkMemberInfo"]),
@@ -98,16 +93,12 @@ export default {
         .then(({ data })=> {
             this.styleArray = data;
         })
+
         this.checkauthority = this.checkMemberInfo.authority
-        console.log(this.checkauthority)
         
     },
     methods:{
             handleImages(files){
-                if (files.length >= 2) {
-                    alert('사진은 한 장만 첨부 가능합니다. \nclear All을 누르고 다시 진행해주세요!')
-                    return
-                }
                 const formData = new FormData();
                 const image = this.$refs['image'].files[0]
                 
@@ -128,7 +119,12 @@ export default {
                         console.log(res.data.src)
                     })
                 } else {
-                    alert('파일 형식에 맞지 않거나 사진 크기가 너무 큽니다! \nclear All을 누르고 다시 진행해주세요!')
+                    Swal.fire({
+                        icon: 'error',
+                        title: '파일 형식에 맞지 않거나 \n사진 크기가 너무 큽니다! \nclear All 후 다시 진행해주세요!',
+                        confirmButtonColor: '#7e7fb9',
+                        confirmButtonText: "확인",
+                    })
                     this.image == ''
                     return
                 }
@@ -141,7 +137,12 @@ export default {
                 }
                 
                 if (postInfo.content == '' || postInfo.thumbnail == '') {
-                    alert('빈 내용이 있습니다!!')
+                    Swal.fire({
+                        icon: 'error',
+                        title: '빈 내용이 있습니다!',
+                        confirmButtonColor: '#7e7fb9',
+                        confirmButtonText: "확인",
+                    })
                     return
                 } else {
                     console.log(postInfo)
@@ -156,15 +157,22 @@ export default {
                         axios.post(`${FITMATE_BASE_URL}/api/v1/tag/tagging`, tagging)
                         .then((res)=>console.log(res))
 
-                        alert('게시 완료')
-                        console.log('정상적으로 게시되었습니다.')
-
-                        window.location.reload();
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        Toast.fire({
+                            icon: 'success',
+                            title: '게시 완료!'
+                        }).then(()=>window.location.reload())
                     }) 
-                    .catch((err) => {
-                        alert('게시 실패')
-                        console.log(err)
-                    })
                 }
             }
         }
@@ -190,4 +198,5 @@ font-size: 0px;
 line-height: 0px;
 margin: 0px 16px;
 }
+p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
 </style>

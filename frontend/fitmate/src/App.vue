@@ -25,10 +25,10 @@
               <!-- </li> -->
               <!-- 스타일리스트? -->
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && !portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio없</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
               </li>
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio있</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio</router-link></a>
               </li>
             </ul>
           </div>

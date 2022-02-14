@@ -56,6 +56,7 @@ import Review from '../components/Mypage/Review.vue'
 import axios from 'axios'
 import { FITMATE_BASE_URL } from "@/config";
 import { mapGetters } from 'vuex';
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -82,7 +83,13 @@ export default {
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             await axios.delete(`${ FITMATE_BASE_URL }/api/v1/member/me`)
             .then(() =>{
-                alert('계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.')
+                Swal.fire({
+                    icon: 'success',
+                    title: '계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.',
+                    text: 'account has been withdrawn',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
                 this.signout()
             })
         },
