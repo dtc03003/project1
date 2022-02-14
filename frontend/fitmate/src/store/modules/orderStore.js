@@ -55,7 +55,6 @@ const orderStore = {
             }
             await enrollReservation(info.nickname, reserveInfo, (response) => {
                 if(response.status == 200) {
-                    console.log("예약 기록 성공");
                     commit("SET_ORDER_DATA", response.data);
                     commit("SET_RESERVE_STATUS", true);
                     commit("SET_ID", response.data.id);
@@ -69,7 +68,6 @@ const orderStore = {
         async deleteOrder({commit}, info) { //예약 취소
             await deleteReservation(info.id, (response) => {
                 if(response.status == 200) {
-                    console.log("예약 기록 삭제");
                     commit("SET_ORDER_DATA", []);
                     commit("SET_RESERVE_STATUS", false);
                     commit("SET_ID", "");
@@ -80,7 +78,6 @@ const orderStore = {
         async requestKakaoPay({commit}, payinfo) { //카카오 결제 요청
             await readypay(payinfo, (response) => {
                 if(response.status == 200) {
-                    console.log("카카오 결제 요청 성공");
                     commit("SET_PC_URL", response.data.next_redirect_pc_url);
                     commit("SET_MOBILE_URL", response.data.next_redirect_mobile_url);
                     commit("SET_APP_URL", response.data.next_redirect_app_url);
@@ -96,7 +93,6 @@ const orderStore = {
                     commit("SET_PAY_STATUS", false); //결제 끝났으니 끝!
                     commit("SET_RESERVE_STATUS", false); //예약 상태도 끝!
                     commit("SET_ORDER_DATA", []);
-                    console.log("결제 승인 완료");
                 }
             },
             () => {});

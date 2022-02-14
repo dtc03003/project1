@@ -109,7 +109,7 @@
                     <b-button v-b-modal.modal-1 class="smallBtn mt-3 mb-1">사이즈 표</b-button>
                     <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only ok-title="닫기" ok-variant="secondary">
                         <center>
-                            <img src="@/assets/size.png" align="center" width="100%" height="100%"> <!--width="900" height="450"-->
+                            <img src="@/assets/size.png" align="center" width="90%" height="50%">
                         </center>
                     </b-modal>
                     <b-input-group class="input">
@@ -186,7 +186,6 @@ export default {
                 shoeSize: this.signup.usershoes,
                 authority: "ROLE_MEMBER"
             }
-            console.log(memberInfo); 
             this.$router.push({name: "Signin"}); 
             axios.post(`${ FITMATE_BASE_URL }/auth/signup`, memberInfo);
         },

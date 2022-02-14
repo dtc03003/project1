@@ -1,148 +1,139 @@
 <template>
     <div id="app">
-        <!-- <input type="text" v-model="signup.usertop" minlength="80" maxlength="120"> -->
-        <b-container class="bv-example-row">
-            <b-row>
-                <b-col></b-col>
-                <b-col class="col-6">
-                    <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
-                        <h1 id="signinTitle">회원정보 수정</h1>
-                        <b-form class="text-center">                                  
-                            <b-form-group>
-                                <h3  id="signinTitle" align="left" class="mt-3">&#x1F464; 계정 정보 </h3>
-                                <div>
-                                  <h5 id="signinTitle" align="left" class="mt-3">프로필사진</h5>
-                                    <div class="profile-img">
-                                        <img class="profile-user-img" :src="userinfo.profile">
-                                    </div>
-                                   <input ref="image" id="input"
-                                      type="file" name="image" accept="image/*" multiple="multiple"
-                                      class="hidden"
-                                      @change="uploadImage()">
-                                </div>
-                                <h5 id="signinTitle" align="left" class="mt-3">이메일(ID)</h5>
-                                <b-input-group class="input">
-                                    <b-form-input type="email" v-model="userinfo.email" disabled>
-                                    </b-form-input>
-                                </b-input-group>
+        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
+            <h1 class="modifyTitle">회원정보 수정</h1>
+            <b-form class="text-center">                                  
+                <b-form-group>
+                    <h3 align="left" class="mt-3 modifyTitle">&#x1F464; 계정 정보 </h3>
+                    <div>
+                        <h5 align="left" class="mt-3 modifyTitle">프로필사진</h5>
+                        <div class="profile-img">
+                            <img class="profile-user-img" :src="userinfo.profile">
+                        </div>
+                        <input ref="image" id="input"
+                            type="file" name="image" accept="image/*" multiple="multiple"
+                            class="hidden"
+                            @change="uploadImage()">
+                    </div>
+                    <h5 align="left" class="mt-3 modifyTitle">이메일(ID)</h5>
+                    <b-input-group class="input">
+                        <b-form-input type="email" v-model="userinfo.email" disabled>
+                        </b-form-input>
+                    </b-input-group>
 
-                                <h5 id="signinTitle" align="left" class="mt-3">이름</h5>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" v-model="userinfo.name" disabled>
-                                    </b-form-input>
-                                </b-input-group>
+                    <h5 align="left" class="mt-3 modifyTitle">이름</h5>
+                    <b-input-group class="input">
+                        <b-form-input type="text" v-model="userinfo.name" disabled>
+                        </b-form-input>
+                    </b-input-group>
 
-                                <h5 id="signinTitle" align="left" class="mt-3">닉네임</h5>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" id="nickname" v-model="userinfo.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" :disabled="nickduplication == true">
-                                    </b-form-input>
-                                    <b-button class="smallBtn" v-show="!nickduplication" @click="checkNick">중복체크</b-button>
-                                    <b-button class="smallBtn" v-show="nickduplication" @click="nickduplication = !nickduplication">수정</b-button>
-                                </b-input-group>
+                    <h5 align="left" class="mt-3 modifyTitle">닉네임</h5>
+                    <b-input-group class="input">
+                        <b-form-input type="text" id="nickname" v-model="userinfo.nickname" required placeholder="사용하고자 하는 닉네임 입력" maxlength="10" :disabled="nickduplication == true">
+                        </b-form-input>
+                        <b-button class="smallBtn" v-show="!nickduplication" @click="checkNick">중복체크</b-button>
+                        <b-button class="smallBtn" v-show="nickduplication" @click="nickduplication = !nickduplication">수정</b-button>
+                    </b-input-group>
 
-                                <b-button block class="submitBtn mt-3 mb-3" @click="checkProfile()">
-                                    계정정보 변경
-                                </b-button>
+                    <b-button block class="submitBtn mt-3 mb-3" @click="checkProfile()">
+                        계정정보 변경
+                    </b-button>
 
-                                <hr>
+                    <hr>
 
-                                <h3 id="signinTitle" align="left" class="mt-3">&#x1F512; 계정 보안</h3>
-                                <h5 id="signinTitle" align="left" class="mt-3">변경할 비밀번호</h5>
-                                <b-input-group >
-                                    <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
-                                    </b-form-input>
-                                </b-input-group>
-                                <div v-if="!signup.password">
-                                    대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요.
-                                </div>
-                                <div v-if="!passwordValidFlag">
-                                    유효하지 않은 비밀번호 입니다.
-                                </div>
+                    <h3 align="left" class="mt-3 modifyTitle">&#x1F512; 계정 보안</h3>
+                    <h5 align="left" class="mt-3 modifyTitle">변경할 비밀번호</h5>
+                    <b-input-group >
+                        <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
+                        </b-form-input>
+                    </b-input-group>
+                    <div v-if="!signup.password" class="info">
+                        대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요.
+                    </div>
+                    <div v-if="!passwordValidFlag" class="info warningpwd">
+                        유효하지 않은 비밀번호 입니다.
+                    </div>
+                    
+                    <h5 align="left" class="mt-3 modifyTitle">비밀번호 확인</h5>
+                    <b-input-group >
+                        <b-form-input type="password" id="pwdcheck" v-model="pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
+                        </b-form-input>
+                    </b-input-group>
+                    <div v-if="!pwdcheckFlag" class="info warningpwd">
+                        비밀번호가 동일하지 않습니다.
+                    </div>
+
+                    <b-button block class="submitBtn mt-3 mb-3" @click="checkPassword()">
+                        비밀번호 변경
+                    </b-button>
+
+                    <hr>
+
+                    <h3 align="left" class="mt-3 modifyTitle">&#x2705; 부가정보 입력</h3>
+                    <h5 class="mt-3 modifyTitle" style="display:inline; float:left">휴대전화</h5>
+                    <h6 align="left" class="mt-4 info" style="display:inline; float:right">-를 제외하고 입력해주세요</h6>
+                    <b-input-group class="input">
+                        <b-form-input type="text" v-model="userinfo.phone" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
+                        </b-form-input>
+                    </b-input-group>
+                    <div v-if="!phonecheckFlag" class="info">
+                        휴대폰 번호를 올바르게 입력해주세요.
+                    </div>
+
+                    <div class="col-6" style="float:left">
+                    <h5 align="left" class="mt-3 modifyTitle">키</h5>
+                    <b-input-group class="input">
+                        <b-form-input type="text" v-model="userinfo.height" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 키 입력">
+                        </b-form-input>
+                    </b-input-group>
                                 
-                                <h5 id="signinTitle" align="left" class="mt-3">비밀번호 확인</h5>
-                                <b-input-group >
-                                    <b-form-input type="password" id="pwdcheck" v-model="pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
-                                    </b-form-input>
-                                </b-input-group>
-                                <div v-if="!pwdcheckFlag">
-                                    비밀번호가 동일하지 않습니다.
-                                </div>
+                    </div>
+                    <div class="col-6" style="float:right">
+                    <h5 align="left" class="mt-3 modifyTitle">몸무게</h5>
+                        <b-input-group class="input">
+                            <b-form-input type="text" v-model="userinfo.weight" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 몸무게 입력">
+                            </b-form-input>
+                        </b-input-group>
+                    </div>
 
-                                <b-button block class="submitBtn mt-3 mb-3" @click="checkPassword()">
-                                    비밀번호 변경
-                                </b-button>
+                    <div class="col-6" style="float:left">
+                        <h5 align="left" class="mt-3 modifyTitle">상의 사이즈</h5>
+                        <b-input-group class="input">
+                            <b-form-input type="text" v-model="userinfo.top" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 상의 사이즈를 입력">
+                            </b-form-input>
+                        </b-input-group>
+                    </div>
 
-                                <hr>
+                    <div class="col-6" style="float:right">
+                        <h5 align="left" class="mt-3 modifyTitle">하의 사이즈</h5>
+                        <b-input-group class="input">
+                            <b-form-input type="text" v-model="userinfo.bottom" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 하의 사이즈를 입력">
+                            </b-form-input>
+                        </b-input-group>
+                    </div>
 
-                                <h3 id="signinTitle" align="left" class="mt-3">&#x2705; 부가정보 입력</h3>
-                                <h5 id="signinTitle" class="mt-3" style="display:inline; float:left">휴대전화</h5>
-                                <h6 align="left" class="mt-4" style="display:inline; float:right">-를 제외하고 입력해주세요</h6>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" v-model="userinfo.phone" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="휴대폰 번호 입력" maxlength="11" @blur="phoneValid">
-                                    </b-form-input>
-                                </b-input-group>
-                                <div v-if="!phonecheckFlag">
-                                    휴대폰 번호를 올바르게 입력해주세요.
-                                </div>
+                    <div class="col-12" style="float:left">
+                    <h5 style="display:inline; float:left" class="mt-3 modifyTitle">신발 사이즈</h5>
+                    <b-button v-b-modal.modal-1 class="smallBtn mt-3 mb-1">사이즈 표</b-button>
+                    <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only ok-title="닫기" ok-variant="secondary">
+                        <center>
+                            <img src="@/assets/size.png" align="center" width="90%" height="50%">
+                        </center>
+                    </b-modal>
+                    <b-input-group class="input">
+                        <b-form-input type="text" v-model="userinfo.shoeSize" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 신는 신발 사이즈를 입력">
+                        </b-form-input>
+                    </b-input-group>
+                    </div>
 
-                                <div class="col-6" style="float:left">
-                                <h5 id="signinTitle" align="left" class="mt-3">키</h5>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" v-model="userinfo.height" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 키 입력">
-                                    </b-form-input>
-                                </b-input-group>
-                                
-                                </div>
-                                <div class="col-6" style="float:right">
-                                <h5 id="signinTitle" align="left" class="mt-3">몸무게</h5>
-                                    <b-input-group class="input">
-                                        <b-form-input type="text" v-model="userinfo.weight" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="본인의 몸무게 입력">
-                                        </b-form-input>
-                                    </b-input-group>
-                                </div>
+                </b-form-group>
 
-                                <div class="col-6" style="float:left">
-                                    <h5 id="signinTitle" align="left" class="mt-3">상의 사이즈</h5>
-                                    <b-input-group class="input">
-                                        <b-form-input type="text" v-model="userinfo.top" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 상의 사이즈를 입력">
-                                        </b-form-input>
-                                    </b-input-group>
-                                </div>
+                <b-button block class="submitBtn mt-3 mb-3" @click="Modify()">
+                    부가정보 저장
+                </b-button>
 
-                                <div class="col-6" style="float:right">
-                                    <h5 id="signinTitle" align="left" class="mt-3">하의 사이즈</h5>
-                                    <b-input-group class="input">
-                                        <b-form-input type="text" v-model="userinfo.bottom" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 입는 옷의 하의 사이즈를 입력">
-                                        </b-form-input>
-                                    </b-input-group>
-                                </div>
-
-                                <div class="col-12" style="float:left">
-                                <h5 id="signinTitle" style="display:inline; float:left" class="mt-3">신발 사이즈</h5>
-                                <b-button v-b-modal.modal-1 class="smallBtn mt-3 mb-1">사이즈 표</b-button>
-                                <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only>
-                                    <center>
-                                        <img src="@/assets/size.png" align="center" width="900" height="450">
-                                    </center>
-                                </b-modal>
-                                <b-input-group class="input">
-                                    <b-form-input type="text" v-model="userinfo.shoeSize" maxlength="3" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" required placeholder="자주 신는 신발 사이즈를 입력">
-                                    </b-form-input>
-                                </b-input-group>
-                                </div>
-
-                            </b-form-group>
-
-                            <b-button block class="submitBtn mt-3 mb-3" @click="Modify()">
-                                부가정보 저장
-                            </b-button>
-
-                        </b-form>
-                    </b-card>
-                </b-col>
-                <b-col></b-col>
-            </b-row>
-        </b-container>
+            </b-form>
+        </b-card>
     </div>
 </template>
 
@@ -419,14 +410,14 @@ export default {
 }
 
 #app { text-align: center; padding: 5%; }
-#signinTitle { font-family: "Cafe24Ohsquare", fantasy; }
+.modifyTitle { font-family: "SDSamliphopangche_Basic", "Cafe24Ohsquare", fantasy; }
 #goJoin { color: black; }
 .xcircle { color: gray; }
-.submitBtn { background-color: #7e7fb9; border-color: gray; width: 100%;} /* 올해의 색상코드: #6667AB */
+.submitBtn { background: linear-gradient(to right, #8d8eeb, #8763FB); border-color: #8763FB; width: 100%;} /* 올해의 색상코드: #6667AB */
 .smallBtn { 
     display:inline; float:right;
     color: #fff !important;
-    background-color: #7e7fb9 !important;
+    background: linear-gradient(to right, #8d8eeb, #8763FB) !important;
     border-color: #7e7fb9 !important;
 }
 .hr-sect {
@@ -458,4 +449,6 @@ margin: 0px 16px;
     width: 100%; height: 100%;
     object-fit: cover;
 }
+#input, .info, .radio, .smallBtn, .submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
+.warningpwd { color: red; }
 </style>

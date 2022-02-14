@@ -51,6 +51,6 @@ p.cardTitle { font-family: "GangwonEdu_OTFBoldA", fantasy; font-size: 1.5rem; te
 img.signupimg:hover {opacity: 0.5;}
 img.signupimg:hover + .signuptext {visibility: visible;}
 .cardouter {position: relative;}
-.signuptext {text-align: center; color: black; font-size: 4rem; position:absolute; font-family: "GangwonEdu_OTFBoldA", fantasy;
+.signuptext {text-align: center; color: black; font-size: 2rem; position:absolute; font-family: "GangwonEdu_OTFBoldA", fantasy;
             top: 50%; left: 50%; transform: translate(-50%, -50%); visibility: hidden; color: rgb(84, 86, 182);}
 </style>

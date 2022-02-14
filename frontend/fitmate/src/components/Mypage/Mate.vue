@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid col-8 offset-2">
     <div class="d-flex-wrap">
-      <div id="mainbar" class="col-2 d-flex align-items-center">
+      <!-- <div id="mainbar" class="col-2 d-flex align-items-center">
         <h1>Mate</h1>
-      </div>
+      </div> -->
 
       <the-stylist-list 
         v-for="(stylist, index) in stylistArray"
