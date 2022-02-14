@@ -62,22 +62,26 @@
         <p class="mt-3" > 팔로우 여부 : {{ isFollow }} </p>
         <p class="mt-3" > 로그인 여부 : {{ checkisSignin }} </p>
         <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
-        <p class="mt-3" v-if="this.nickname == this.checkMemberInfo.nickname"> 팔로우 정보 : {{ this.follower }} </p>
 
         <div class="row mt-3" v-if="checkisSignin">
             <div class="col-4 gotocenter">
-                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon>
+                <!-- <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon> -->
+                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" v-b-modal.follow></b-icon>
                 <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
                 <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
-                <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip>   
+                <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
             </div>
             <div class="col-4">
-                <b-button size="lg" variant="link" no-caret>&#128172;</b-button>
+                <b-button size="lg" @click="joinroom()" variant="link" no-caret>&#128172;</b-button>
             </div>
             <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
             <div class="col-4">
-                <b-button size="lg" @click="copyLink()"  variant="link" no-caret>🔗</b-button>
+                <b-button size="lg" @click="copyLink()" variant="link" no-caret>🔗</b-button>
             </div>
+
+            <b-modal id="follow" title="팔로우 리스트">
+                <p class="my-4">{{this.follower}}</p>
+            </b-modal>
         </div>            
     </div>
 </template>
@@ -97,7 +101,7 @@ export default {
             biotext: '',
             profile: '',
             dumi: [],
-            follower: ""
+            follower: "",
         }
     },
 
@@ -134,12 +138,10 @@ export default {
             this.$store.dispatch("getIsFollow", { nickname: this.nickname })
         .catch(() => {})
         }
-        
-        if(this.nickname == this.checkMemberInfo.nickname){
-            this.$store.dispatch("getFollowerList")
-        }
 
         this.$store.dispatch("getCountFollow", { nickname: this.nickname })
+
+        this.$store.dispatch("getFollowerList")
 
         for(let temp of this.FollowerList){
             this.dumi.push(temp.nickname)
@@ -283,6 +285,10 @@ export default {
                     title: `${this.nickname}님 언팔로우 완료!`
                 })
             })
+        },
+
+        joinroom(){
+            this.$router.push(`/room/${this.nickname}`)
         },
     },
 }

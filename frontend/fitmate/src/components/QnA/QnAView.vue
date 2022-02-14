@@ -61,8 +61,8 @@
                         </b-tr>
                     </b-thead>
 
-                    <b-tbody>
-                        <b-tr v-for="(comments, id) in commentInfo" :key="id">
+                    <b-tbody id="comment">
+                        <b-tr :v-for="(comments, id) in commentInfo" :key="id">
                             <b-td>{{comments.writer}} </b-td>
                             <b-td width="700" style="word-break:break-all">{{comments.comment}}</b-td>
                             <b-td>{{comments.createdAt}}</b-td>
@@ -139,7 +139,9 @@ export default {
             Toast.fire({
                 icon: 'success',
                 title: '댓글 등록 완료!'
-            }) .then(() => window.location.reload())
+            // }) .then(() => window.location.reload())
+            // }) .then(() => console.log(commentInfo))
+            })
         },
     }
 }
