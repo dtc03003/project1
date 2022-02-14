@@ -21,5 +21,4 @@ function apiImgInstance() {
     });
     return instance;
 }
-
 export { apiInstance, apiImgInstance };
