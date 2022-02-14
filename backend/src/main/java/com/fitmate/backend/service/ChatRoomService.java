@@ -30,6 +30,7 @@ public class ChatRoomService {
     public ChatRoom enterRoom(String nickname, String accessCode){
         if(!memberService.getMyInfo().getNickname().equals(nickname)){
             Member host = memberService.findMemberByNickname(nickname);
+            System.out.println(accessCode);
             return chatRoomRepository.findByHostEqualsAndAccessCode(host, accessCode).orElseThrow(RuntimeException::new);
         }
         return findByHostNickname(nickname);
