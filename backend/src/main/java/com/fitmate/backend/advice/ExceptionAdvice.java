@@ -147,4 +147,14 @@ public class ExceptionAdvice {
                         .message("error: This payment is not found!!")
                         .build());
     }
+    @ExceptionHandler({NotFoundChatRoom.class})
+    protected ResponseEntity<ApiError> cannotReadChattingRoom(){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .code("H001")
+                        .message("error: This chat room is not found!!")
+                        .build());
+    }
 }

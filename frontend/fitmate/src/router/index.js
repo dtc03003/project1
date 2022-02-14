@@ -134,6 +134,11 @@ const routes = [
       },
     ]
   },
+  {
+    path: "/room/:hostname",
+    name: "Room",
+    component : () => import("@/views/Room.vue"),
+  },
 ]
 
 const router = new VueRouter({

@@ -40,6 +40,7 @@
 <script>
 import dayjs from "dayjs";
 import { mapActions, mapGetters, mapMutations } from 'vuex';
+import Swal from 'sweetalert2'
 const orderStore = "orderStore";
 const reserveStore = "reserveStore";
 const reviewStore = "reviewStore";
@@ -125,14 +126,26 @@ export default {
                         if(this.reservedTime.indexOf(this.calcTimes[t]) != -1) ok = false;
                     }
                     if(end <= start || !ok) {
-                        alert("종료시간을 다시 선택해주세요.")
+                        Swal.fire({
+                            icon: 'error',
+                            title: '종료시간을 다시 선택해주세요!',
+                            text: 'Please choose the ending time again!',
+                            confirmButtonColor: '#7e7fb9',
+                            confirmButtonText: "확인",
+                        })
                     }else {
                         this.selectedFinTime = value;
                         this.moveOrder();
                     }
                 }
             }else {
-                alert("날짜를 먼저 선택해주세요.");
+                Swal.fire({
+                    icon: 'error',
+                    title: '날짜를 먼저 선택해주세요!',
+                    text: 'Please choose the date first!',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
             }
         },
         async moveOrder() {

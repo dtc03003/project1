@@ -150,7 +150,7 @@
 import axios from 'axios'
 import { FITMATE_BASE_URL } from "@/config";
 import { mapState, mapActions } from "vuex";
-// import mapActions from "vuex";
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -194,12 +194,25 @@ export default {
             } 
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me/password`, pwdInfo)
             .then(() => {
-                alert('비밀번호가 변경되었습니다.')
-                let accessToken = localStorage.getItem("accessToken");
-                this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
-                // window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '비밀번호가 변경되었습니다!'
+                }).then(()=>{
+                    let accessToken = localStorage.getItem("accessToken");
+                    this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                })
             })
-            .catch((err)=>console.log(err))
         },
         Modify() { 
             const memberInfo = { 
@@ -217,58 +230,125 @@ export default {
             }
             axios.put(`${FITMATE_BASE_URL}/api/v1/member/me`, memberInfo)
             .then(() => {
-                alert('회원정보가 수정되었습니다.')
-                let accessToken = localStorage.getItem("accessToken");
-                this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
-                // window.location.reload()
-            })
-            .catch((err) => {
-                console.log(err)
-                alert(err)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '회원정보가 수정되었습니다!'
+                }).then(()=>{
+                    let accessToken = localStorage.getItem("accessToken");
+                    this.signInMemberInfo(accessToken); //발급받은 accessToken으로 사용자 정보 받기
+                })
             })
         },
         checkProfile() { 
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             if (this.userinfo.nickname == ''){
-                alert('필수 항목을 입력해주세요.')
+                Toast.fire({
+                    icon: 'error',
+                    title: '필수 항목을 입력해주세요!'
+                })
                 return
             }
             if (this.nickduplication == ''){
-                alert('중복체크를 해주세요!')
+                Toast.fire({
+                    icon: 'error',
+                    title: '중복체크를 해주세요!'
+                })
                 return
             }
             this.Modify();
         },
         checkPassword() { 
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             if (this.signup.password == '' ||
                 this.pwdcheck == ''){
-                alert('필수 항목을 입력해주세요.')
+                Toast.fire({
+                    icon: 'error',
+                    title: '필수 항목을 입력해주세요!'
+                })
                 return
             }
             if (!this.passwordValidFlag ||
                 !this.pwdcheckFlag) {
-                alert('유효성 검사가 필요합니다. \n대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요.')
+                Toast.fire({
+                    icon: 'error',
+                    title: '유효성 검사가 필요합니다!',
+                    text: '대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요!'
+                })
                 return
             }
             this.PwdModify();
         },
 
         checkNick() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             if (this.currentnickname == this.userinfo.nickname){
                 this.nickduplication = true
-                alert('닉네임이 동일합니다!')
+                Toast.fire({
+                    icon: 'question',
+                    title: '닉네임이 동일합니다!',
+                })
                 return
             }
             axios.get(`${FITMATE_BASE_URL}/auth/signup/nickname/${this.userinfo.nickname}`)
             .then(() => {
                 this.nickduplication = true
-                alert('사용가능한 닉네임입니다.')
+                Toast.fire({
+                    icon: 'success',
+                    title: '사용가능한 닉네임입니다!',
+                })
             })
             .catch(() => {
                 if (this.userinfo.nickname == ''){
-                    alert('닉네임을 입력해주세요.')
-                }
-                else {
-                    alert('중복된 닉네임입니다.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '닉네임을 입력해주세요!',
+                    })
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '중복된 닉네임입니다!',
+                    })
                 }
             })
         },
@@ -294,18 +374,30 @@ export default {
             }
         },
         uploadImage: function() {
-          let form = new FormData()
-          let image = this.$refs['image'].files[0]
-          
-          form.append('images', image)
-    
-          axios.post(`${FITMATE_BASE_URL}/api/v1/images`, form, {
-              header: { 'Content-Type': 'multipart/form-data' }
-          }).then( ({data}) => {
-            console.log(data.src)
-            this.userinfo.profile = data.src
-          })
-          .catch( err => console.log(err))
+            let form = new FormData()
+            let image = this.$refs['image'].files[0]
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+            form.append('images', image)
+            
+            axios.post(`${FITMATE_BASE_URL}/api/v1/images`, form, {
+                header: { 'Content-Type': 'multipart/form-data' }
+            }).then( ({data}) => {
+                this.userinfo.profile = data.src
+                Toast.fire({
+                    icon: 'success',
+                    title: '이미지 변경!',
+                })
+            })
         },    
         signout() {
             this.isSignin = false

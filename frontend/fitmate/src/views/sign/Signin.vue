@@ -1,67 +1,57 @@
 <template>
     <div id="app">
-        <!-- <b-container class="mt-3" id="container" align="left">
-            <b-row>
-                <b-col></b-col>
-                <b-col class="col-6"> -->
-                    <b-card class="text-center mt-2" id="card">
-                        <h1 id="signinTitle">로그인</h1>
-                        <b-form class="text-center form">
+        <b-card class="text-center mt-2" id="card">
+            <h1 id="signinTitle">로그인</h1>
+            <b-form class="text-center form">
 
-                            <b-form-group>
+            <b-form-group>
+                <!-- 이메일 입력 -->
+                <b-input-group class="mt-3 input">
+                    <b-form-input type="email" id="email" ref="email" v-model="email" required placeholder="이메일" @keyup.enter="checkForm()" @keypress="isAlert = false">
+                    </b-form-input>
+                    <b-input-group-append v-if="email">
+                        <b-button variant="white" @click="remove(0)">
+                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
 
-                                <!-- 이메일 입력 -->
-                                <b-input-group class="mt-3 input">
-                                    <b-form-input type="email" id="email" ref="email" v-model="email" required placeholder="이메일" @keyup.enter="checkForm()" @keypress="isAlert = false">
-                                    </b-form-input>
-                                    <b-input-group-append v-if="email">
-                                        <b-button variant="white" @click="remove(0)">
-                                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
-                                        </b-button>
-                                    </b-input-group-append>
-                                </b-input-group>
+                <!-- 비밀번호 입력 -->
+                <b-input-group class="mt-3">
+                    <b-form-input type="password" id="password" ref="password" v-model="password" required placeholder="비밀번호" @keyup.enter="checkForm()" @keypress="isAlert = false">
+                    </b-form-input>
+                    <b-input-group-append v-if="password">
+                        <b-button variant="white" @click="remove(1)">
+                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
 
-                                <!-- 비밀번호 입력 -->
-                                <b-input-group class="mt-3">
-                                    <b-form-input type="password" id="password" ref="password" v-model="password" required placeholder="비밀번호" @keyup.enter="checkForm()" @keypress="isAlert = false">
-                                    </b-form-input>
-                                    <b-input-group-append v-if="password">
-                                        <b-button variant="white" @click="remove(1)">
-                                            <b-icon icon="x-circle-fill" class="xcircle"></b-icon>
-                                        </b-button>
-                                    </b-input-group-append>
-                                </b-input-group>
+                </b-form-group>
 
-                            </b-form-group>
+                <div class="mt-4" id="warning" role="alert" align="left" v-show="isAlert">
+                    이메일과 비밀번호를 확인해주세요.
+                </div>
 
-                            <div class="mt-4" id="warning" role="alert" align="left" v-show="isAlert">
-                                이메일과 비밀번호를 확인해주세요.
-                            </div>
+                <!-- 로그인 버튼 -->
+                <b-button id="submitBtn" block class="mt-2 mb-3" @click="checkForm()">
+                    로그인
+                </b-button>
+            </b-form>
 
-                            <!-- 로그인 버튼 -->
-                            <b-button id="submitBtn" block class="mt-3 mb-3" @click="checkForm()">
-                                로그인
-                            </b-button>
-
-                        </b-form>
-
-                        <div class="hr-sect">또는</div>
+            <div class="hr-sect">또는</div>
                         
-                        <!--간편 로그인 시작-->
-                        <kakao-login />
-                        <!--간편 로그인 끝-->
+            <!--간편 로그인 시작-->
+            <kakao-login />
+            <!--간편 로그인 끝-->
 
-                        <div class="signup mt-2">
-                            처음이신가요?
-                            <p type="button" variant="link" class="text-decoration-none signup" id="goSignup" @click="moveSignup">
-                                회원가입
-                            </p>
-                        </div>
-                    </b-card>
-                <!-- </b-col>
-                <b-col></b-col>
-            </b-row>
-        </b-container> -->
+            <div class="signup mt-2">
+                처음이신가요?
+                <p type="button" variant="link" class="text-decoration-none signup" id="goSignup" @click="moveSignup">
+                    회원가입
+                </p>
+            </div>
+        </b-card>
     </div>
 </template>
 <script>
@@ -148,15 +138,15 @@ export default {
 </script>
 
 <style scoped>
-#app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position:relative}
-#signinTitle { font-family: "GangwonEdu_OTFBoldA", fantasy; }
+#app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
+#signinTitle, #warning, .signup, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 #goSignup { color: black; font-weight: bold;}
-#card {width: 100%; padding: 5%; position:relative}
+#card {width: 100%; padding: 5%; position: relative; }
 .xcircle { color: gray; }
 .form {width: 100%;}
-#submitBtn { background: linear-gradient(to right, #8d8eeb, #8763FB); width: 100%; border-color: #8763FB;}
-#warning { color: red; font-size: 10pt; }
-.signup { font-family: "GangwonEdu_OTFBoldA", fantasy; font-size: 15px; }
+#submitBtn { background: linear-gradient(to right, #8d8eeb, #8763FB); width: 100%; border-color: #8763FB; vertical-align: middle; font-size: 1.2rem;}
+#warning { color: red; font-size: 1rem; }
+.signup { font-size: 1rem; }
 p { display: inline; }
 .hr-sect {
 	display: flex;
