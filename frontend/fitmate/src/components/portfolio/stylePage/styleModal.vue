@@ -191,7 +191,8 @@ export default {
             axios.post(`/api/v1/like/${this.styleData.id}`)
             .then(() => {
                 alert(`좋아요 완료!`)
-                window.location.reload()
+                // window.location.reload()
+                this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
 
@@ -201,7 +202,8 @@ export default {
             axios.delete(`/api/v1/like/${this.styleData.id}`)
             .then(() => {
                 alert(`좋아요 취소!`)
-                window.location.reload()
+                // window.location.reload()
+                this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
 
