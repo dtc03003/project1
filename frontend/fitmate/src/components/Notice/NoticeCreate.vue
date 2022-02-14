@@ -42,7 +42,7 @@
 <script>
 import axios from "@/module/axios.js";
 import { mapState } from 'vuex';
-
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -85,11 +85,41 @@ export default {
             axios.post("/api/v1/notice", noticeInfo)
             .then(() => {
                 this.$store.dispatch("getNoticeList")
-                alert("등록완료!");
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '공지사항 등록 완료!'
+                })
+
                 this.moveList();
             })
             .catch((err) => {
-                alert("등록실패!");
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: '등록되지 않았습니다!'
+                })
+
                 console.log(err)
             })
 

@@ -88,6 +88,8 @@
 <script>
 import axios from 'axios';
 import { FITMATE_BASE_URL } from "@/config";
+import Swal from 'sweetalert2'
+
 export default {
     name: "Stylist",
     data() {
@@ -139,59 +141,122 @@ export default {
         },
 
         checkEmail() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             axios.get(`${FITMATE_BASE_URL}/auth/signup/email/${this.signup.email}`)
             .then(() => {
                 if (this.emailValidFlag == true) {
                     this.emailduplication = true
-                    alert('사용가능한 이메일입니다.')
+                    Toast.fire({
+                        icon: 'success',
+                        title: '사용가능한 이메일입니다!'
+                    })
                 } else {
-                    alert('이메일 형식에 맞게 입력해주세요.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '이메일 형식에 맞게 입력해주세요!'
+                    })
                 }   
             })
             .catch(() => {
                 if (this.signup.email == ''){
-                    alert('이메일을 입력해주세요.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '이메일을 입력해주세요!'
+                    })
                 } else {
-                    alert('중복된 이메일입니다.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '중복된 이메일입니다!'
+                    })
                 }
             })
         },
 
         checkNick() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             axios.get(`${FITMATE_BASE_URL}/auth/signup/nickname/${this.signup.nickname}`)
             .then(() => {
                 this.nickduplication = true
-                alert('사용가능한 닉네임입니다.')
+                Toast.fire({
+                    icon: 'success',
+                    title: '사용가능한 닉네임입니다!'
+                })
             })
             .catch(() => {
                 if (this.signup.nickname == ''){
-                    alert('닉네임을 입력해주세요.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '닉네임을 입력해주세요!'
+                    })
                 } else {
-                    alert('중복된 닉네임입니다.')
+                    Toast.fire({
+                        icon: 'error',
+                        title: '중복된 닉네임입니다!'
+                    })
                 }
             })
         },
         
         checkForm() { 
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             if (this.signup.email == '' ||
                 this.signup.password == '' ||
                 this.pwdcheck == '' ||
                 this.signup.nickname == '' ||
                 this.signup.phoneNum == '' ||
                 this.signup.gender == null) {
-                alert('필수 항목을 입력해주세요.')
+                Toast.fire({
+                    icon: 'error',
+                    title: '필수 항목을 입력해주세요!'
+                })
                 return
             }
             if (!this.passwordValidFlag ||
                 !this.pwdcheckFlag ||
                 !this.emailValidFlag ||
                 !this.phonecheckFlag) {
-                alert('유효성 검사가 필요합니다.')
+                Toast.fire({
+                    icon: 'error',
+                    title: '유효성 검사가 필요합니다!'
+                })
                 return
             }
             if (this.emailduplication == '' ||
                 this.nickduplication == ''){
-                alert('중복체크를 해주세요!')
+                Toast.fire({
+                    icon: 'error',
+                    title: '중복체크를 해주세요!'
+                })
                 return
             }
             this.Signup()
