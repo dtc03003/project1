@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid col-8 offset-2">
+  <div class="container-fluid col-10 offset-1">
     <div class="row">
-      <div id="mainbar" class="col-12 align-items-center">
+      <div id="subbar" class="col-12 align-items-center">
         <h1>Stylebook</h1>
       </div>
 
@@ -21,9 +21,11 @@
       v-model="value"
       clearable
       multiple
+      label="당신의 스타일 태그를 입력하세요!"
       append-icon="mdi-tag-search"
       solo>
       </v-combobox>
+
       <b-form-tag
         v-for="tag in value"
         @remove="removeTag(tag)"
@@ -32,7 +34,7 @@
         :variant="tagVariant"
         class="mr-1"
         style="background:teal; width:fit-content;"
-      >{{ tag }}</b-form-tag>
+      >{{tag}}</b-form-tag>
 
       
       <!-- <div v-if="!stylebooks">
@@ -90,6 +92,10 @@ export default {
       })
       this.checkauthority = this.checkMemberInfo.authority
       console.log(this.checkauthority)     
+    },
+    removeTag(tag){
+      this.value  = this.value.filter((element) => element !== tag);
+      this.searchImages()
     }
   },
   created () {

@@ -153,7 +153,10 @@ export default {
 </script>
 
 <style lang="scss">
-#main { min-width: 320px; }
+#main {
+  min-width: 320px;
+
+}
 #nav {
   padding: 30px;
   background-color: rgb(102,103, 171);
@@ -162,15 +165,26 @@ export default {
     color: #d7dee6;
     text-decoration: none;
   }
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
+// 네브바 하단
 #mainbar {
   display: inline-flex;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
+// 페이지 제목
 #subbar {
   display: inline-flex;
-  // justify-content: center;
+  padding-top: 3rem;
+  font-family: 'LeferiPoint-BlackObliqueA';
+}
+
+// input, dropdown 등에 적용
+#inputtext{
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  font-weight: bold;
 }
 
 li:hover{
@@ -228,6 +242,13 @@ li:hover{
 @font-face {
     font-family: 'SDSamliphopangche_Basic';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Basic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LeferiPoint-BlackObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackObliqueA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
