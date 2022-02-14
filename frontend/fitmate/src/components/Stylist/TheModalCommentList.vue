@@ -1,10 +1,7 @@
 <template>
   <div>
     <!-- 아래는 댓글 -->
-    <!-- {{member}} -->
-    {{commentId}}
     <h6>{{comment.member.nickname}} 💌 {{content}}</h6>
-    <!-- http://localhost:9000/api/v1/portfolio/style/comment/1 -->
   </div>
 </template>
 
@@ -30,6 +27,9 @@ export default {
       checkauthority:'',
     }
   },
+  methods:{
+    
+  },
   created () {
     // 단일 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${this.commentId}`)
@@ -43,6 +43,16 @@ export default {
   computed:{
     ...mapGetters('memberStore', ['checkMemberInfo'])
   },
+  // updated(){
+  //   // 단일 댓글 불러오는 axios
+  //   axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${this.commentId}`)
+  //   .then(({ data })=> {    
+  //     console.log(data)
+  //     this.comment = data;
+  //   })
+  //   this.checkauthority = this.checkMemberInfo.authority
+  //   console.log(this.checkauthority) 
+  // }
 }
 </script>
 

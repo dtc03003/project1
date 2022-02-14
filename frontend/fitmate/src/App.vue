@@ -2,19 +2,20 @@
   <div>
     <!-- navbar 전체 padding값 기본은 30px, 조절하기 나름 -->
     <nav id="nav" class="navbar navbar-expand-md" style="padding:25px;">
-      <div class="container-fluid p-0 justify-content-center" style="height:6em">
+      <div class="container-fluid p-0 justify-content-center" style="height:7em">
         <div class="row" style="width:100%;">
           <!-- 로고 중앙 정렬, 누르면 홈 페이지로 가도록 -->
-          <div id="mainbar" class="col-12 justify-content-center">
+          <div id="mainbar" class="justify-content-center">
             <div id="logo" @click="checkToken">
-              <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
+              <router-link to="/"><img src="@/assets/Fitmate.png" style="width:9rem;" alt=""></router-link>
+              <!-- <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a> -->
             </div>
           </div>
           <!-- 우측 사이드 정렬 -->
           <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
           <div v-if="checkisSignin">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-end">
+            <ul class="navbar-nav me-auto mb-md-0 justify-content-end">
               <li class="nav-item">
                 <a class="nav-link"><router-link to="#" @click.native="signout">Sign out</router-link></a>
               </li>
@@ -24,10 +25,10 @@
               <!-- </li> -->
               <!-- 스타일리스트? -->
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && !portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio없을때</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolionope/${checkMemberInfo.nickname}`">Portfolio없</router-link></a>
               </li>
               <li v-if="checkMemberInfo.authority=='ROLE_STYLIST' && portfolioconfirm" class="nav-item">
-                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio있을때</router-link></a>
+                <a class="nav-link"><router-link :to="`/portfolio/${checkMemberInfo.nickname}`">Portfolio있</router-link></a>
               </li>
             </ul>
           </div>
@@ -171,22 +172,16 @@ export default {
   display: inline-flex;
 }
 
-// #logo {
-//   height: 0;
-// }
-
 #subbar {
   display: inline-flex;
   // justify-content: center;
 }
-
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'GmarketSansMedium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -197,5 +192,19 @@ export default {
 @font-face {
     font-family: 'ChosunGu';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+}
+
+
+li:hover{
+  backface-visibility: hidden;
+  transform: scale(1.08, 1.08);
+  opacity: 1;  
+}
+
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 </style>

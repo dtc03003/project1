@@ -1,40 +1,40 @@
 <template>
-    <div>
+    <div id="app">
         <!--날짜 선택 -> 시간 선택 -> alert창을 통해 한번 더 확인 -> ok일 경우 주문창으로 이동 -->
         <!-- 사용자 화면 -->
-        <b-container class="container">
-            <b-row>
-                <b-col>
-                    <h4>📅날짜선택</h4>
-                    <v-app>
-                        <v-row justify="center">
+        <v-app>
+            <b-container class="container">
+                <b-row>
+                    <b-col class="col">
+                        <h4>📅날짜선택</h4>
+                        <v-row justify="center" align="center">
                             <v-date-picker v-model="picker" ref="picker" color="indigo lighten-3" :allowed-dates="allowedDates"
                             id="dataPicker"></v-date-picker>
                         </v-row>
-                    </v-app>
-                </b-col>
-                <b-col cols="1"></b-col>
-                <b-col>
-                    <h4>⏰시간선택</h4>
-                    <h6 v-show="!this.selectedTime">시작 시간을 선택해주세요&#128522;</h6>
-                    <h6 v-show="this.selectedTime">종료 시간을 선택해주세요&#128522;</h6>
-                    <h6>시작시간: <span v-show="this.selectedTime">{{selectedTime}}</span></h6>
-                    <v-item-group class="mt-3">
-                        <v-row>
-                            <table>
-                                <tr v-for="(time, idx) in times" :key="time[idx]">
-                                    <td v-for="(t) in time" :key="t">
-                                        <div @click="selectTime(t)"
-                                        :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2'"
-                                        >{{ t }}</div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </v-row>
-                    </v-item-group>
-                </b-col>
-            </b-row>
-        </b-container>
+                    </b-col>
+                    <b-col cols="1" class="col"></b-col>
+                    <b-col class="col">
+                        <h4>⏰시간선택</h4>
+                        <h6 v-show="!this.selectedTime">시작 시간을 선택해주세요&#128522;</h6>
+                        <h6 v-show="this.selectedTime">종료 시간을 선택해주세요&#128522;</h6>
+                        <h6>시작시간: <span v-show="this.selectedTime">{{selectedTime}}</span></h6>
+                        <v-item-group class="mt-3">
+                            <v-row>
+                                <table>
+                                    <tr v-for="(time, idx) in times" :key="time[idx]">
+                                        <td v-for="(t) in time" :key="t" align="center">
+                                            <div @click="selectTime(t)"
+                                            :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2 select'"
+                                            >{{ t }}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </v-row>
+                        </v-item-group>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </v-app>
     </div>
 </template>
 <script>
@@ -216,7 +216,10 @@ export default {
 <style scoped>
 h4 {font-family: 'Cafe24Ssurround', serif;}
 h6 {font-family: 'GmarketSansMedium', serif;}
+#dataPicker {margin: 0 auto; min-width: 320px;}
 .container {margin: 0 auto;}
-.btn {background-color: #d8d7ec; width: 80%; font-size:80%; border-radius: 0; text-align: center;} /*#E0FFFF #F0F8FF*/
+.btn {background-color: #d8d7ec; width: 80%; font-size:80%; border-radius: 0; text-align: center; vertical-align: middle;} /*#E0FFFF #F0F8FF*/
 .disabled { background: rgb(184, 181, 181); }
+.col {height:100%;}
+div.select:hover {background-color: #9a7bff; color:white}
 </style>

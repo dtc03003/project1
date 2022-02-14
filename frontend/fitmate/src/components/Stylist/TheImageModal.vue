@@ -1,6 +1,9 @@
 <template>
 	<span>
-    <img :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" height="150px" class="m-1">
+    <div class="thumb">
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-1">   
+    </div>
+
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
     <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
       <template #modal-title>
@@ -48,6 +51,9 @@
               </v-row>
             </v-container>
           </v-form>
+
+          <!-- 댓글을 매끄럽게 보여주기 위한 최후의 수단.... 진짜 최후의 수단...인데... -->
+          <h6 v-if="instant">{{checkMemberInfo.nickname}} 💌 {{instant}}</h6>
 
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
@@ -98,6 +104,7 @@ export default {
       marker: true,
       iconIndex: 0,
       tags:[],
+      instant:''
     }
   },
 
@@ -131,7 +138,6 @@ export default {
       this.tags = data;
     })
   },
-
   methods: {
     toggleMarker () {
       this.marker = !this.marker
@@ -164,6 +170,7 @@ export default {
     // 댓글 저장하는 axios
     saveComment() {
       if (this.message){
+        this.instant = this.message
         const messageInfo = {
           "comment":this.message, 
           "createdAt":"",
@@ -179,17 +186,22 @@ export default {
           if (res.data.comment){
             console.log('success')
             console.log(res.data)
-            this.comments.push(this.message)
+            // this.comments.push(this.message)
+              this.$store.dispatch("updateComment", {id:this.id})
           }else{
             alert('댓글을 입력하세요!')
           }
         })
+        .then(
+          this.getComment()
+        )
         .catch(err =>{
           console.log(err)
         });
         this.resetIcon()
         this.clearMessage()
         this.getComment()
+        // location.reload()
       }else{
         alert('댓글을 입력하세요!')
       }
@@ -200,7 +212,7 @@ export default {
       axios.post(`/api/v1/like/${this.id}`)
       .then(() => {
         alert(`좋아요 완료!`)
-        window.location.reload()
+        // window.location.reload()
       })
     },
 
@@ -224,11 +236,37 @@ export default {
       this.$store.dispatch("getIsLike", { styleId: this.id })
     }
   },
-
+  // updated() {
+  //   this.$nextTick(function () {
+  //     this.getComment() 
+  //   })
+  // }
 }
 </script>
 
 
 <style>
+.thumb {
+ display: inline-block;
+ overflow: hidden;
+ height: 170px;
+ width: 170px;
+ }
+.thumb img { 
+  display: block; 
+  /* Otherwise it keeps some space around baseline */ 
+  min-height: 100%; 
+  /* Scale up to fill container height */ 
+  min-width: 100%; 
+  /* Scale up to fill container width */ 
+  -ms-interpolation-mode: bicubic; 
+  /* Scaled images look a bit better in IE now */
+  padding: 2px;
+  }
 
+#beforeimg:hover{
+  backface-visibility: hidden;
+  transform: scale(1.15, 1.15);
+  opacity: 1;  
+  }
 </style>

@@ -1,59 +1,64 @@
 <template>
   <div>
-    <div align="right">
-      <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
-      <b-button v-b-modal.modal-1 v-show="this.reviews.length < this.payments.length">리뷰작성</b-button>
+    <div v-if="!status" align="center">
+      <p id="nomyreview">아직 리뷰가 없습니다! 저희 서비스를 이용해주시고 리뷰를 작성해주세요😍</p>
     </div>
-
-    <MyPageReviews id="my-page-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
-    
-    <b-pagination align="center" class="mt-2"
-        v-model="page"
-        :total-rows="rows"
-        :per-page="perPage"
-        @change="changePage"
-    ></b-pagination>
-    
-    <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
-      <b-row>
-        <b-col>
-          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2"> <!--🧐-->
-            <b-dropdown-item v-for="data of consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data.nickname}, 상담날짜: ${data.date}`}}</b-dropdown-item>
-          </b-dropdown>
-          <p v-show="this.selectedname && this.selectedDate">{{`스타일리스트명: ${this.selectedname}, 상담날짜: ${this.selectedDate}`}}</p>
-        </b-col>
-        <b-col class="col-12">
-          <div class="rating-container">
-            <div class="rating-wrap">
-              <div class="center">
-                <h4>🌟평점🌟</h4>
-                <fieldset class="rating">
-                  <input type="radio" id="star5" name="rating" value="5" @change="showStar($event)"/><label for="star5" class="full"></label>
-                  <input type="radio" id="star4" name="rating" value="4" @change="showStar($event)"/><label for="star4" class="full"></label>
-                  <input type="radio" id="star3" name="rating" value="3" @change="showStar($event)"/><label for="star3" class="full"></label>
-                  <input type="radio" id="star2" name="rating" value="2" @change="showStar($event)"/><label for="star2" class="full"></label>
-                  <input type="radio" id="star1" name="rating" value="1" @change="showStar($event)"/><label for="star1" class="full"></label>
-                </fieldset>
+    <div v-else>
+      <div align="right">
+        <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
+        <b-button v-b-modal.modal-1 v-show="this.reviews.length < this.payments.length">리뷰작성</b-button>
+      </div>
+  
+      <MyPageReviews id="my-page-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
+      
+      <b-pagination align="center" class="mt-2"
+          v-model="page"
+          :total-rows="rows"
+          :per-page="perPage"
+          @change="changePage"
+      ></b-pagination>
+      
+      <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
+        <b-row>
+          <b-col>
+            <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2"> <!--🧐-->
+              <b-dropdown-item v-for="data of consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data.nickname}, 상담날짜: ${data.date}`}}</b-dropdown-item>
+            </b-dropdown>
+            <p v-show="this.selectedname && this.selectedDate">{{`스타일리스트명: ${this.selectedname}, 상담날짜: ${this.selectedDate}`}}</p>
+          </b-col>
+          <b-col class="col-12">
+            <div class="rating-container">
+              <div class="rating-wrap">
+                <div class="center">
+                  <h4>🌟평점🌟</h4>
+                  <fieldset class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" @change="showStar($event)"/><label for="star5" class="full"></label>
+                    <input type="radio" id="star4" name="rating" value="4" @change="showStar($event)"/><label for="star4" class="full"></label>
+                    <input type="radio" id="star3" name="rating" value="3" @change="showStar($event)"/><label for="star3" class="full"></label>
+                    <input type="radio" id="star2" name="rating" value="2" @change="showStar($event)"/><label for="star2" class="full"></label>
+                    <input type="radio" id="star1" name="rating" value="1" @change="showStar($event)"/><label for="star1" class="full"></label>
+                  </fieldset>
+                </div>
               </div>
             </div>
-          </div>
-        </b-col>
-        <b-col class="col-12">
-            <h4>리뷰내용✏️</h4>
-            <b-form-textarea id="textarea" v-model="post.content" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
-            </b-form-textarea>
-        </b-col>
-
-        <h4>이미지🖼️</h4>
-        <b-col class="col-12">
-            <UploadImages ref="image" @changed="handleImages"/>
-        </b-col>
-
-        <b-col class="col-12">
-            <b-button id="submitBtn" @click="Posting">게시하기</b-button>
-        </b-col>
-      </b-row>
-    </b-modal>
+          </b-col>
+          <b-col class="col-12">
+              <h4>리뷰내용✏️</h4>
+              <b-form-textarea id="textarea" v-model="post.content" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
+              </b-form-textarea>
+          </b-col>
+  
+          <h4>이미지🖼️</h4>
+          <b-col class="col-12">
+              <UploadImages ref="image" @changed="handleImages"/>
+          </b-col>
+  
+          <b-col class="col-12">
+              <b-button id="submitBtn" @click="Posting">게시하기</b-button>
+          </b-col>
+        </b-row>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -83,6 +88,7 @@ export default {
       consultinfo: [],
       selectedname: '',
       selectedDate: '',
+      status: false,
     }
   },
   components: {
@@ -101,13 +107,14 @@ export default {
       },
   },
   methods: {
-    ...mapActions(reviewStore, ["uploadRVImage", "writeNewReview", "findAllReviews", "findCount", "updateRating"]),
+    ...mapActions(reviewStore, ["uploadRVImage", "writeNewReview", "findAllReviews", "findCount", "updateRating", "importAllReviews"]),
     ...mapActions(reserveStore, ["importMyPayment"]),
     async importReviews() {
       //자신의 전체 리뷰 가져오기
       await this.findAllReviews(this.checkMemberInfo.id);
       this.reviews = this.getReviewsByUser;
       this.someReviews = this.reviews.slice(0, 5);
+      if(this.reviews.length > 0) this.status = true;
 
       //자신의 전체 결제 내역(결제 성공한 내역만)
       await this.importMyPayment();
@@ -117,8 +124,9 @@ export default {
       let now = new Date(Date.now());
       this.payments = result.filter((element) => new Date(element.reservation.endTime) < now);
 
-      let size = this.payments.length - this.reviews.length;
-      if(size > 0 && this.consultinfo.length != size) this.findCount();
+      // let size = this.payments.length - this.reviews.length;
+      // if(size > 0 && this.consultinfo.length != size) this.findCount();
+      this.findCount();
     },
     findCount() {
       //결제 내역과 리뷰 내역 개수 비교 후 작성해야 할 리뷰 파악
@@ -148,6 +156,7 @@ export default {
 
       let size = this.payments.length - this.reviews.length; //리뷰-결제 건수 차이
       let temp = 0;
+      this.consultinfo = [];
       for(let i = payStylelists.length-1; i >= 0; i--) {
         if(!revStylelists.includes[payStylelists[i]]) {
           this.consultinfo.push(payStylelists[i])
@@ -161,14 +170,23 @@ export default {
     async changePage(page) { //페이지 바꾸기
       this.someReviews = this.reviews.slice(5*(page-1), 5*page);
     },
-    async handleImages(){ //이미지 업로드
-      const formData = new FormData();
-      const image = this.$refs['image'].files[0]
+    async handleImages(files){ //이미지 업로드
+      if (files.length >= 2) {
+        alert('사진은 한 장만 첨부 가능합니다. \nclear All을 누르고 다시 진행해주세요!')
+      }else {
+        const formData = new FormData();
+        const image = this.$refs['image'].files[0];
 
-      formData.append('images', image);
-
-      await this.uploadRVImage(formData);
-      this.post.thumbnail = this.getImagesrc;
+        let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
+        if(["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
+          formData.append('images', image);
+          
+          await this.uploadRVImage(formData);
+          this.post.thumbnail = this.getImagesrc;
+        }else {
+          alert('파일 형식에 맞지 않거나 사진 크기가 너무 큽니다! \nclear All을 누르고 다시 진행해주세요!')
+        }
+      }
     },
     async Posting() { //게시하기
       if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname || !this.selectedDate) {
@@ -182,8 +200,11 @@ export default {
         }
         await this.writeNewReview(postInfo);
         //작성한 리뷰 관련 내용 삭제
-        let temp = this.consultinfo;
-        this.consultinfo = temp.filter((element) => JSON.stringify(element) != JSON.stringify({'nickname' : this.selectedname, 'date' : this.selectedDate}));
+        // let temp = this.consultinfo;
+        // for(let i = 0; i < this.consultinfo.length; i++) {
+        //   if(JSON.stringify(this.consultinfo[i]) == JSON.stringify({'nickname' : this.selectedname, 'date' : this.selectedDate})) this.consultinfo.splice(i, 1);
+        //   }
+        // console.log(this.consultinfo);
         await this.importReviews(); //리뷰 갱신
         await this.findNum(this.selectedname); //평점 갱신
         alert("리뷰가 등록되었습니다😄");
@@ -222,7 +243,9 @@ export default {
 </script>
 
 <style scoped>
+p#nomyreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
 h4 {font-family: 'Cafe24Ssurround', serif;}
+
 /* 별점 관련 */
 .rating {
   border: none;

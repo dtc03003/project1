@@ -1,5 +1,5 @@
 <template>
-    <div class="about">
+    <div>
         <img src="@/assets/kakao_login_btn.png" alt="카카오 로그인 버튼" @click="kakaoLogin()" />
     </div>
 </template>
@@ -69,5 +69,6 @@ export default {
 </script>
 
 <style scoped>
-img {width: 80%;};
+div {max-width: 70%; margin: 0 auto;}
+img {width: 100%;}
 </style>
