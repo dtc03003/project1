@@ -24,7 +24,7 @@
                                     <tr v-for="(time, idx) in times" :key="time[idx]">
                                         <td v-for="(t) in time" :key="t" align="center">
                                             <div @click="selectTime(t)"
-                                            :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2'"
+                                            :class="reservedTime.includes(t) ? 'align-center btn mb-2 disabled' : 'align-center btn mb-2 select'"
                                             >{{ t }}</div>
                                         </td>
                                     </tr>
@@ -221,4 +221,5 @@ h6 {font-family: 'GmarketSansMedium', serif;}
 .btn {background-color: #d8d7ec; width: 80%; font-size:80%; border-radius: 0; text-align: center; vertical-align: middle;} /*#E0FFFF #F0F8FF*/
 .disabled { background: rgb(184, 181, 181); }
 .col {height:100%;}
+div.select:hover {background-color: #9a7bff; color:white}
 </style>

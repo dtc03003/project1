@@ -170,14 +170,23 @@ export default {
     async changePage(page) { //페이지 바꾸기
       this.someReviews = this.reviews.slice(5*(page-1), 5*page);
     },
-    async handleImages(){ //이미지 업로드
-      const formData = new FormData();
-      const image = this.$refs['image'].files[0]
+    async handleImages(files){ //이미지 업로드
+      if (files.length >= 2) {
+        alert('사진은 한 장만 첨부 가능합니다. \nclear All을 누르고 다시 진행해주세요!')
+      }else {
+        const formData = new FormData();
+        const image = this.$refs['image'].files[0];
 
-      formData.append('images', image);
-
-      await this.uploadRVImage(formData);
-      this.post.thumbnail = this.getImagesrc;
+        let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
+        if(["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
+          formData.append('images', image);
+          
+          await this.uploadRVImage(formData);
+          this.post.thumbnail = this.getImagesrc;
+        }else {
+          alert('파일 형식에 맞지 않거나 사진 크기가 너무 큽니다! \nclear All을 누르고 다시 진행해주세요!')
+        }
+      }
     },
     async Posting() { //게시하기
       if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname || !this.selectedDate) {
