@@ -176,6 +176,13 @@ export default {
   display: inline-flex;
   // justify-content: center;
 }
+
+li:hover{
+  backface-visibility: hidden;
+  transform: scale(1.08, 1.08);
+  opacity: 1;  
+}
+
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
@@ -193,14 +200,12 @@ export default {
     font-family: 'ChosunGu';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
 }
-
-
-li:hover{
-  backface-visibility: hidden;
-  transform: scale(1.08, 1.08);
-  opacity: 1;  
+@font-face {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
-
 @font-face {
     font-family: 'GangwonEdu_OTFBoldA';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
