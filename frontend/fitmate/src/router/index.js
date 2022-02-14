@@ -135,12 +135,7 @@ const routes = [
     ]
   },
   {
-    path: "/chatting",
-    name: "Chatting",
-    component : () => import("@/views/Chatting.vue"),
-  },
-  {
-    path: "/room",
+    path: "/room/:hostname",
     name: "Room",
     component : () => import("@/views/Room.vue"),
   },

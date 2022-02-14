@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -19,10 +20,15 @@ public class ChatRoom {
     @Column(name = "id")
     private Long id;
     private String title;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "host_no")
     private Member host;
-    @ManyToOne
-    @JoinColumn(name = "customer_no")
-    private Member customer;
+    private String accessCode;
+    @PrePersist
+    public void accessCode(){
+        this.accessCode = host.getNickname()+UUID.randomUUID();
+    }
+    public void updateAccessCode(){
+        this.accessCode = host.getNickname()+UUID.randomUUID();
+    }
 }

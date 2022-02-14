@@ -6,6 +6,7 @@ import com.fitmate.backend.entity.Member;
 import com.fitmate.backend.entity.Message;
 import com.fitmate.backend.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.auth.AuthenticationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,8 @@ public class MessageService {
     }
     public List<Message> findAllByChatRoomId(Long id, Pageable pageable){
         return messageRepository.findAllByChatRoomId(id, pageable);
+    }
+    public void deleteMessagesInRoom(ChatRoom chatRoom){
+        messageRepository.deleteAllByChatRoom(chatRoom);
     }
 }

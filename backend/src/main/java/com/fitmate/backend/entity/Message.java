@@ -9,7 +9,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString
 @Table(name = "message")
 public class Message {
     @Id
@@ -18,7 +17,7 @@ public class Message {
     private Long id;
     private String content;
     @ManyToOne
-    @JoinColumn(name = "chat_room_no")
+    @JoinColumn(name = "chat_room_no",nullable = false)
     private ChatRoom chatRoom;
     @ManyToOne
     @JoinColumn(name = "sender_no")

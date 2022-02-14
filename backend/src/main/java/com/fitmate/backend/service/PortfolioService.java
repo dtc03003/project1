@@ -26,6 +26,7 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final GradeRepository gradeRepository;
     private final MemberService memberService;
+    private final ChatRoomService chatRoomService;
     private static final Integer POST_PER_PAGE = 10;
 
     @Transactional
@@ -36,6 +37,7 @@ public class PortfolioService {
         Portfolio getPortfolio = portfolioRepository.findPortfolioByMemberId(member.getId()).orElseThrow(NotFoundUserInformation::new);
         Grade grade = GradeDto.toEntity(getPortfolio);
         gradeRepository.save(grade);
+        chatRoomService.createChatRoom();
         return portfolio;
     }
 
