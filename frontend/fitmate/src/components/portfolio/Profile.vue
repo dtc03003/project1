@@ -64,15 +64,20 @@
         <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
         <p class="mt-3" v-if="this.nickname == this.checkMemberInfo.nickname"> 팔로우 정보 : {{ this.follower }} </p>
 
-        <div class="mt-5" v-if="checkisSignin">
-            <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" style="margin-right:60px;"></b-icon>
-            
-            <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
-            <b-icon icon="chat-dots" font-scale="4" class="mr-2" style="margin-right:60px;"></b-icon>
-            <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon>
-
-            <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip>
+        <div class="row mt-3" v-if="checkisSignin">
+            <div class="col-4 gotocenter">
+                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon>
+                <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
+                <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
+                <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip>   
+            </div>
+            <div class="col-4">
+                <b-button size="lg" variant="link" no-caret>&#128172;</b-button>
+            </div>
+            <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
+            <div class="col-4">
+                <b-button size="lg" @click="copyLink()"  variant="link" no-caret>🔗</b-button>
+            </div>
         </div>            
     </div>
 </template>
@@ -80,6 +85,7 @@
 <script>
 import axios from "@/module/axios.js";
 import {mapState, mapGetters, mapActions} from 'vuex'
+import Swal from 'sweetalert2'
 const memberStore = "memberStore";
 
 export default {
@@ -154,8 +160,13 @@ export default {
             this.token();
             await axios.delete(`/api/v1/member/me`)
             .then(() =>{
-                alert('계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.')
-                this.signout()
+                Swal.fire({
+                    icon: 'success',
+                    title: '계정탈퇴 되었습니다. \n저희 서비스와 함께해주셔서 감사합니다.',
+                    text: 'account has been withdrawn',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                }).then(()=>this.signout())
             })
         },
 
@@ -176,10 +187,26 @@ export default {
             this.token();
             axios.put(`/api/v1/portfolio/about`, bioinfo)
             .then(() => {
-                alert('한 줄 소개글 수정 완료!')
-                let accessToken = localStorage.getItem("accessToken");
-                this.signInMemberInfo(accessToken);
-                window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '한 줄 소개글 수정 완료!'
+                }).then(()=>{
+                    let accessToken = localStorage.getItem("accessToken");
+                    this.signInMemberInfo(accessToken);
+                    window.location.reload()
+                    }
+                )
             })
         },
 
@@ -191,7 +218,21 @@ export default {
             t.select();
             document.execCommand('copy');
             document.body.removeChild(t);
-            alert('복사가 완료되었습니다');
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'URL 복사 완료!'
+            })
         },
 
         // 팔로우
@@ -201,8 +242,21 @@ export default {
             .then(() => {
                 this.$store.dispatch("getIsFollow", { nickname: this.nickname })
                 this.$store.dispatch("getCountFollow", { nickname: this.nickname })
-                alert(`${this.nickname}님 팔로우 완료!`)
-                // window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: `${this.nickname}님 팔로우 완료!`
+                })
             })
         },
 
@@ -213,8 +267,21 @@ export default {
             .then(() => {
                 this.$store.dispatch("getIsFollow", { nickname: this.nickname })
                 this.$store.dispatch("getCountFollow", { nickname: this.nickname })
-                alert(`${this.nickname}님 언팔로우 완료!`)
-                // window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: `${this.nickname}님 언팔로우 완료!`
+                })
             })
         },
     },
@@ -244,5 +311,13 @@ b-icon {
 }
 .exitbtn { 
     background-color: #7e7fb9 !important; 
+}
+.btn-link {
+    text-decoration : none!important;;
+}
+.gotocenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

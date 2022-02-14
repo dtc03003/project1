@@ -5,7 +5,7 @@
                 <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()">
             </li>
         </div>
-
+        
         <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" hide-footer>
             <template #modal-title>
                 <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2">
@@ -71,6 +71,7 @@ import memberStore from '@/store/modules/memberStore'
 import TheModalCommentList from '@/components/Stylist/TheModalCommentList'
 import TheImageTag from '@/components/Stylist/TheImageTag'
 import { mapGetters } from 'vuex';
+import Swal from 'sweetalert2'
 
 export default {
     name: 'style-modal',
@@ -109,6 +110,36 @@ export default {
     components: {
         TheModalCommentList,
         TheImageTag,
+    },
+    computed: {
+        ...mapGetters('memberStore', ["checkMemberInfo"]),
+        
+        pageCount () {
+            let listLeng = this.listArray.length,
+                listSize = this.pageSize,
+                page = Math.floor(listLeng / listSize);
+            if (listLeng % listSize > 0) page += 1;
+            return page;
+        },
+
+        paginatedData () {
+            const start = this.pageNum * this.pageSize,
+                end = start + this.pageSize;
+            return this.listArray.slice(start, end);
+        },
+
+        icon () {
+            return this.icons[this.iconIndex]
+        },
+
+        //게시물 좋아요 여부
+        isLike() {
+            return this.$store.state.followStore.isLike;
+        }
+    },
+
+    created () {
+        
     },
     methods: {
         openModal(data) {
@@ -172,7 +203,13 @@ export default {
                         this.$store.dispatch('reloadComments', res.data)
                         this.comments.push(this.message)
                     }else{
-                        alert('댓글을 입력하세요!')
+                        Swal.fire({
+                            icon: 'error',
+                            title: '댓글을 입력하세요!',
+                            text: 'Enter the comments!',
+                            confirmButtonColor: '#7e7fb9',
+                            confirmButtonText: "확인",
+                        })
                     }
                 })
                 .catch(err =>{
@@ -181,17 +218,50 @@ export default {
                 this.resetIcon()
                 this.clearMessage()
             }else{
-                alert('댓글을 입력하세요!')
+                Swal.fire({
+                    icon: 'error',
+                    title: '댓글을 입력하세요!',
+                    text: 'Enter the comments!',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
             }
         },
 
         // 팔로우
         follow() {
+            if (!this.checkMemberInfo.authority) {
+                Swal.fire({
+                icon: 'error',
+                title: '먼저 로그인을 해주세요!',
+                confirmButtonColor: '#7e7fb9',
+                confirmButtonText: "로그인",
+                showCancelButton: true,
+                cancelButtonText: "취소",
+                }).then ((res) => {
+                    if (res.isConfirmed){
+                        this.$router.push({name:'Signin'})
+                    }
+                })
+            }
             this.token();
             axios.post(`/api/v1/like/${this.styleData.id}`)
             .then(() => {
-                alert(`좋아요 완료!`)
-                // window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '좋아요 완료!'
+                })
                 this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
@@ -201,8 +271,21 @@ export default {
             this.token();
             axios.delete(`/api/v1/like/${this.styleData.id}`)
             .then(() => {
-                alert(`좋아요 취소!`)
-                // window.location.reload()
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: '좋아요 취소!'
+                })
                 this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
             })
         },
@@ -217,36 +300,7 @@ export default {
             this.$store.dispatch("getIsLike", { styleId: this.styleData.id })
         }
     },
-    computed: {
-        ...mapGetters(memberStore, ["checkMemberInfo"]),
-        
-        pageCount () {
-            let listLeng = this.listArray.length,
-                listSize = this.pageSize,
-                page = Math.floor(listLeng / listSize);
-            if (listLeng % listSize > 0) page += 1;
-            return page;
-        },
-
-        paginatedData () {
-            const start = this.pageNum * this.pageSize,
-                end = start + this.pageSize;
-            return this.listArray.slice(start, end);
-        },
-
-        icon () {
-            return this.icons[this.iconIndex]
-        },
-
-        //게시물 좋아요 여부
-        isLike() {
-            return this.$store.state.followStore.isLike;
-        }
-    },
-
-    created () {
-        
-    },
+    
     
 }
 </script>
