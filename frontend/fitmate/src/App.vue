@@ -179,7 +179,10 @@ li:hover{
   opacity: 1;  
 }
 
+<<<<<<< HEAD
+=======
 /* 폰트 영역(나중에 따로 분리) */
+>>>>>>> de2181e26155b9c6dbf5c18a4fdea213914e7a1d
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
@@ -196,6 +199,12 @@ li:hover{
 @font-face {
     font-family: 'ChosunGu';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+}
+@font-face {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
