@@ -66,7 +66,7 @@
         <div class="row mt-3" v-if="checkisSignin">
             <div class="col-4 gotocenter">
                 <!-- <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon> -->
-                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" v-b-modal.follow></b-icon>
+                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()"  v-b-modal.follow></b-icon>
                 <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
                 <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
                 <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
@@ -289,6 +289,15 @@ export default {
             })
         },
 
+        followlist() {
+            Swal.fire({
+                title: '팔로우 리스트',
+                text: `${this.follower}`,
+                confirmButtonColor: '#7e7fb9',
+                confirmButtonText: "확인",
+            })
+        },
+
         joinroom(){
             this.$router.push(`/room/${this.nickname}`)
         },
@@ -327,5 +336,8 @@ b-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.trytocenter {
+    text-align: center;
 }
 </style>
