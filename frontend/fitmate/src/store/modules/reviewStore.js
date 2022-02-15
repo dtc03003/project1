@@ -62,7 +62,6 @@ const reviewStore = {
                 if(response.status == 200) {
                     commit("SET_PORTFOLIO_STATUS", true);
                     commit("SET_PORTFOLIO_DATA", response.data);
-                    console.log("포토폴리오 존재!")
                 }
             },
             () => {});
@@ -108,7 +107,6 @@ const reviewStore = {
         async findCount({commit}, nickname) { //팔로워 수 찾기
             await findCountOfFollower(nickname, (response) => {
                 if(response.status == 200) {
-                    console.log(response);
                     commit("SET_RATING", response.data);
                 }
             },() => {});
@@ -116,7 +114,6 @@ const reviewStore = {
         async updateRating({commit}, info) { //평점 갱신
             await updateRatingOfFollwer(info, (response) => {
                 if(response.status == 200) {
-                    console.log(response);
                     commit("SET_WASTE", '');
                 }
             },() => {});

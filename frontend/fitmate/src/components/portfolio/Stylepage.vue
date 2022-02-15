@@ -43,7 +43,7 @@
                         <UploadImages :max="1" ref="image" @changed="handleImages"/>
                     </b-col>
                     <b-col class="col-12">
-                        <b-button id="submitBtn" @click="Posting">게시하기</b-button>
+                        <b-button id="submitBtn" @click="Posting" :disabled="!this.postconfirm">게시하기</b-button>
                     </b-col>
                 </b-row>
             </b-modal>
@@ -74,6 +74,7 @@ export default {
             styleArray: [],
             checkauthority: '',
             profileData : [],
+            postconfirm: true,
         }
     },
     components: {
@@ -156,6 +157,8 @@ export default {
                         }
                         axios.post(`${FITMATE_BASE_URL}/api/v1/tag/tagging`, tagging)
                         .then((res)=>console.log(res))
+                        
+                        this.postconfirm = false
 
                         const Toast = Swal.mixin({
                             toast: true,
@@ -172,6 +175,7 @@ export default {
                             icon: 'success',
                             title: '게시 완료!'
                         }).then(()=>window.location.reload())
+
                     }) 
                 }
             }

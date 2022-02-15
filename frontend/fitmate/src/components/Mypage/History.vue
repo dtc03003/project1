@@ -1,21 +1,24 @@
 <template>
-  <div >
-    <MyPageHistory id ="my-page-history" v-for="(reservation, idx) in mypayments" :key="reservation.id" :idx="idx" :reservation="reservation"/>
-    {{this.mypayments[4]}}
+  <div>
+    <div v-if="!status" align="center">
+      <p id="nomyreview">아직 결제내역이 없습니다! 저희 서비스를 이용해주세요😍</p>
+    </div>
+    <div v-if="status">
+      <MyPageHistory id ="my-page-history" v-for="(reservation, idx) in mypayments" :key="reservation.id" :idx="idx" :reservation="reservation"/>
+    </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
 import { mapGetters, mapState, mapActions } from 'vuex';
 import MyPageHistory from "./history/MyPageHistory.vue"
-// import { FITMATE_BASE_URL } from "@/config";
 const memberStore = "memberStore";
 const reserveStore = "reserveStore";
 
 export default {
   data() {
     return {
+      status: false,
     }
   },
   components: {
@@ -23,6 +26,9 @@ export default {
   },
   created() {
     this.getHistory();
+    if (this.mypayments.length > 0) {
+      this.status = true
+    }
   },
   computed: {
     ...mapGetters(memberStore, ["checkMemberInfo"]),
@@ -40,5 +46,5 @@ export default {
 </script>
 
 <style>
-
+p#nomyreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
 </style>

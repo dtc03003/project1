@@ -1,15 +1,12 @@
 <template>
-    <div>
+    <div id="mypage">
         <div id="my_container">
             <div class="profile-img">
                 <img class="profile-user-img" :src="this.checkMemberInfo.profile">
             </div>
             <div class="trytocenter">
-                <h1 class="dropdown" >{{ this.checkMemberInfo.nickname }}</h1>
-                <b-dropdown class="dropdown" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-                    <template #button-content>
-                        &#128274;
-                    </template>
+                <p class="dropdown nickname">{{ this.checkMemberInfo.nickname }}</p>
+                <b-dropdown class="dropdown" text="🔒" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                     <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
                         <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_MEMBER'">회원정보 수정</b-dropdown-item-button>
                     </router-link>
@@ -39,12 +36,14 @@
                 </b-row>
             </b-modal>
         </div>
-        <b-tabs content-class="mt-3" fill pills card>
-            <b-tab class="mx-1" title="My Pick"><MyPick/></b-tab>
+        <div>
+            <b-tabs content-class="mt-3" justified pills card id="tabs" align="center">
+            <b-tab title="My Pick"><MyPick/></b-tab>
             <b-tab title="Mate"><Mate/></b-tab>
             <b-tab title="History"><History/></b-tab>
             <b-tab title="Review"><Review/></b-tab>
         </b-tabs>
+        </div>
     </div>
 </template>
 
@@ -104,14 +103,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #my_container {
-    margin-top: 5rem;
+    margin-top: 1rem;
 }
 .profile-img {
     display: block;
     margin: 0 auto;
-    width: 250px; height: 250px;
+    width: 10rem; height: 10rem;
     border-radius: 70%;
     overflow: hidden;
 }
@@ -132,4 +131,8 @@ export default {
     justify-content: center;
 }
 #exitbtn { background-color: #7e7fb9; }
+
+#mypage { padding: 5%; max-width: 100%; min-width: 320px; margin: 0 auto; justify-content: center; }
+#tabs { margin: 0 auto; font-size: 1rem; text-align: center; }
+.nickname {font-size: 2rem; font-family: 'Pretendard-SemiBold', fantasy;}
 </style>

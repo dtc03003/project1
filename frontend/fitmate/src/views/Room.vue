@@ -1,19 +1,33 @@
 <template>
     <div class="room">
-        <h1>{{title}}</h1>
-        <hr/>
-        <div v-for="(m, idx) in msg" :key="idx">
-            <div v-bind:class="m.style">
-                <h5 style="margin:3px">
-                    {{m.senderNickname}}
-                </h5>
-                {{m.content}}
+        <p id="fontid">{{title}}</p>
+        <div class="row">
+            <div class="col-9">
+                <!-- 여기 WebRTC들어가는 부분 -->
             </div>
+            <div id="app_chat_list" class="col-3 msgbox">
+                <p id="firsttalk">-첫 대화시작-</p>
+                <button class="downbtn" @click="gotoDown()">⏬</button>
+                <div v-for="(m, idx) in msg" :key="idx">
+                    <div v-bind:class="m.style">
+                        <h5 class="mt-3 mb-0" style="color:black; font-size:1.7rem">
+                            {{m.senderNickname}}
+                        </h5>
+                        <div class="msgwidth">
+                            {{m.content}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row sendform" >
+                    <div class="col-9">
+                        <b-form-input id="fontform" style="border: 0px;" type="text" v-model="content" @keyup.enter="sendMessage()" placeholder="메세지 입력"></b-form-input>
+                    </div>
+                    <div class="col-3">
+                        <b-button id="fontform" class="sendbtn" @click="sendMessage()">SEND</b-button>
+                    </div>
+                </div>
+            </div>  
         </div>
-        <hr/>
-        <input type="text" v-model="content" placeholder="보낼 메세지" size="100"/>
-        <button @click="sendMessage()">
-            SEND</button>
     </div>
 </template>
 
@@ -23,7 +37,9 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
+    // import Swal from 'sweetalert2'
     const memberStore = "memberStore";
+    var bottom_flag = true;
     export default {
         name: "Room",
         data: () => {
@@ -39,7 +55,8 @@
                 host: {},
                 me: {},
                 room: {},
-                accessCode: ""
+                accessCode: "",
+                sendat: "",
             }
         },
 
@@ -159,19 +176,106 @@
                     this
                         .stompClient
                         .send("/pub/message", JSON.stringify(chatMessage), {})
-
                     this.content = ''
                 }
+            },
+            gotoDown() {
+                var objDiv = document.getElementById("app_chat_list");
+                if(bottom_flag){
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }
             }
-        }
+        },
+        updated: function() {
+            var objDiv = document.getElementById("app_chat_list");
+            if(this.msg.slice(-1)[0].style == 'myMsg'){
+                if(bottom_flag){
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }
+            }
+            // } else if (this.msg.slice(-1)[0].style == 'otherMsg'){
+            //     const Toast = Swal.mixin({
+            //         toast: true,
+            //         position: 'top-end',
+            //         showConfirmButton: false,
+            //         timer: 1000,
+            //         timerProgressBar: true,
+            //         didOpen: (toast) => {
+            //             toast.addEventListener('mouseenter', Swal.stopTimer)
+            //             toast.addEventListener('mouseleave', Swal.resumeTimer)
+            //         }
+            //     })
+            //     Toast.fire({
+            //         icon: 'success',
+            //         title: '메시지가 도착했습니다!'
+            //     })
+            // }
+        },
     };
 </script>
 <style scoped="scoped">
-    .myMsg {
-        text-align: right;
-        color: gray;
-    }
-    .otherMsg {
-        text-align: left;
-    }
+.myMsg {
+    text-align: -webkit-right !important;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+.otherMsg {
+    text-align: -webkit-left !important;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+.room {
+    margin: 2rem;
+}
+.msgbox {
+    position: relative;
+    border-radius: 10px;
+    background: #f8f8ff;
+    height: 950px; 
+    overflow-y: scroll; 
+}
+.msgbox::-webkit-scrollbar {
+    width: 10px;
+}
+.msgbox::-webkit-scrollbar-thumb {
+    background-color: #7e7fb9;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+.msgbox::-webkit-scrollbar-track {
+    background-color: white;
+}
+.msgwidth {
+    max-width: 70%; 
+    width: fit-content;
+    text-align: left;
+    padding: 7px;
+    white-space:pre-line;
+    word-break:break-all;
+    background-color: #7e7fb9;
+    border-radius: 9px;
+}
+.sendbtn {
+    background-color: #7e7fb9;
+}
+.sendform {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: white;
+    text-align: center;
+}
+.downbtn{
+    position: absolute;
+    font-size: 20pt;
+    top: 8px;
+    right: 15px;
+}
+#fontform {font-size:1.2rem; font-family: 'GangwonEdu_OTFBoldA';}
+p#fontid {font-size: 40pt; font-family: 'GangwonEdu_OTFBoldA';}
+p#firsttalk {font-size: 20pt; text-align: center; font-family: 'GangwonEdu_OTFBoldA';}
 </style>
