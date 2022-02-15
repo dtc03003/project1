@@ -7,8 +7,8 @@
           <!-- 로고 중앙 정렬, 누르면 홈 페이지로 가도록 -->
           <div id="mainbar" class="justify-content-center">
             <div id="logo" @click="checkToken">
-              <router-link to="/"><img src="@/assets/Fitmate.png" style="width:9rem;" alt=""></router-link>
-              <!-- <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a> -->
+              <!-- <router-link to="/"><img src="@/assets/Fitmate.png" style="width:9rem;" alt=""></router-link> -->
+              <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
           <!-- 우측 사이드 정렬 -->
@@ -165,13 +165,15 @@ export default {
     color: #d7dee6;
     text-decoration: none;
   }
-  font-family: 'GangwonEdu_OTFBoldA';
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  font-weight: bold;
 }
 
-// 네브바 하단
+// 네브바 내부 하단 정렬된 글꼴
 #mainbar {
   display: inline-flex;
-  font-family: 'GangwonEdu_OTFBoldA';
+  // font-family: 'GangwonEdu_OTFBoldA';
+  font-family: 'LeferiPoint-BlackObliqueA'; 
 }
 
 // 페이지 제목
@@ -187,6 +189,18 @@ export default {
   font-weight: bold;
 }
 
+// 아바타 하단 이름 등에 적용
+#name{
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  font-weight: bold;
+}
+
+// 로그인 해주세요 등등 알람 문구
+#loginplz{
+  font-family: 'GangwonEdu_OTFBoldA';
+}
+
+// 후버 효과니까 지우면 안돼요
 li:hover{
   backface-visibility: hidden;
   transform: scale(1.08, 1.08);
