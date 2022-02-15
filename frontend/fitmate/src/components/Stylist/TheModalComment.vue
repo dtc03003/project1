@@ -48,16 +48,13 @@ export default {
     // 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
     .then(({ data })=> {    
-      console.log(data)
       this.comments = data;
     })
     this.checkauthority = this.checkMemberInfo.authority
-    console.log(this.checkauthority)
 
     // 태그 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
     .then(({ data })=> {    
-      console.log(data)
       this.tags = data;
     })
   },

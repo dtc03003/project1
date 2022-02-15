@@ -3,7 +3,7 @@
     <!-- 아래는 댓글 -->
     <b-avatar :src="profile" size="2rem" class="me-2 my-1 d-inline-flex">
     </b-avatar>
-    <h6 class="d-inline me-2" style="font-weight:bold;">{{comment.member.nickname}}</h6><p class="content d-inline">{{content}}</p>
+    <h6 class="d-inline me-2" style="font-weight:bold;">{{writer}}</h6><p class="content d-inline">{{content}}</p>
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
   props:{
     content:String,
     commentId:Number,
-    profile:String
+    profile:String,
+    writer:String
   },
   data:function(){
     return {
@@ -37,25 +38,13 @@ export default {
     // 단일 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${this.commentId}`)
     .then(({ data })=> {    
-      console.log(data)
       this.comment = data;
     })
     this.checkauthority = this.checkMemberInfo.authority
-    console.log(this.checkauthority)   
   },
   computed:{
     ...mapGetters('memberStore', ['checkMemberInfo'])
   },
-  // updated(){
-  //   // 단일 댓글 불러오는 axios
-  //   axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/comment/${this.commentId}`)
-  //   .then(({ data })=> {    
-  //     console.log(data)
-  //     this.comment = data;
-  //   })
-  //   this.checkauthority = this.checkMemberInfo.authority
-  //   console.log(this.checkauthority) 
-  // }
 }
 </script>
 

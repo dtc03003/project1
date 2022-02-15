@@ -1,12 +1,12 @@
 <template>
 	<span>
     <div class="thumb">
-      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-1">   
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2">   
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
     <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
-      <template #modal-title>
+      <template #modal-title id="modaltop">
         <b-avatar :src="profile" size="3rem" class="me-2">
         </b-avatar>
         <h4 class="d-inline align-item-center">{{ nickname }}</h4>
@@ -58,18 +58,20 @@
               </v-row>
             </v-container>
           </v-form>
+
+          <!-- 만약 로그인을 안 했으면 검색창 대신 아래의 문구가 뜸 -->
           <v-form v-else>
-            <a href="" style="text-decoration:none;color:teal;" @click="goToSignin">
+            <a href="" id="loginplz" style="text-decoration:none;color:teal;" @click="goToSignin">
               <h5>댓글을 입력하시려면 로그인해주세요!</h5>
             </a>
           </v-form>
 
-          <!-- 댓글을 매끄럽게 보여주기 위한 최후의 수단.... 진짜 최후의 수단...인데... -->
+          <!-- 여기는 차마 불러오지 못한 댓글 미리 보여주는 느낌 -->
           <div v-if="instant">
-          <b-avatar :src="profile" size="2rem" class="me-2 my-1 d-inline-flex">
-          </b-avatar>
-          <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
-          <p class="content d-inline">{{instant}}</p>
+            <b-avatar :src="checkMemberInfo.profile" size="2rem" class="me-2 my-1 d-inline-flex">
+            </b-avatar>
+            <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
+            <p class="content d-inline">{{instant}}</p>
           </div>
 
           <!-- 댓글 리스트 받아오는 부분 -->
@@ -79,6 +81,7 @@
           v-bind:content="singlecomment.comment"
           v-bind:commentId="singlecomment.id"
           v-bind:profile="singlecomment.member.profile"
+          v-bind:writer="singlecomment.member.nickname"
           >{{singlecomment}}</the-modal-comment-list>
 
         </div>
@@ -144,16 +147,13 @@ export default {
     // 댓글 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
     .then(({ data })=> {    
-      console.log(data)
       this.comments = data;
     })
     this.checkauthority = this.checkMemberInfo.authority
-    console.log(this.checkauthority)
 
     // 태그 불러오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.id}`)
     .then(({ data })=> {    
-      console.log(data)
       this.tags = data;
     })
   },
@@ -184,11 +184,9 @@ export default {
     getComment() {
       axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.id}/comments/all`)
       .then(({ data })=> {    
-        console.log(data)
         this.comments = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
     },
     // 댓글 저장하는 axios
     saveComment() {
@@ -208,10 +206,8 @@ export default {
         })
         .then((res) => {
           if (res.data.comment){
-            console.log('success')
-            console.log(res.data)
-            // this.comments.push(this.message)
-              this.$store.dispatch("updateComment", {id:this.id})
+            // pass같은 개념
+            // this.$store.dispatch("updateComment", {id:this.id})
           }else{
             Swal.fire({
               icon: 'error',
@@ -230,8 +226,6 @@ export default {
         });
         this.resetIcon()
         this.clearMessage()
-        this.getComment()
-        // location.reload()
       }else{
         Swal.fire({
           icon: 'error',
@@ -342,6 +336,10 @@ export default {
   transform: scale(1.15, 1.15);
   opacity: 1;  
   }
+
+#modaltop{
+  background-color: rgb(102,103, 171);
+}
 
 #imageDetail{
   width:100%;
