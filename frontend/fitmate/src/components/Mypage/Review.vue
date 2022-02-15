@@ -1,14 +1,13 @@
 <template>
   <div>
+    <div align="right">
+      <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
+      <b-button v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</b-button>
+    </div>
     <div v-if="!status" align="center">
       <p id="nomyreview">아직 리뷰가 없습니다! 저희 서비스를 이용해주시고 리뷰를 작성해주세요😍</p>
     </div>
     <div v-else>
-      <div align="right">
-        <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
-        <b-button v-b-modal.modal-1 v-show="this.reviews.length < this.payments.length">리뷰작성</b-button>
-      </div>
-  
       <MyPageReviews id="my-page-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
       
       <b-pagination align="center" class="mt-2"
@@ -17,48 +16,48 @@
           :per-page="perPage"
           @change="changePage"
       ></b-pagination>
-      
-      <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
-        <b-row>
-          <b-col>
-            <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2"> <!--🧐-->
-              <b-dropdown-item v-for="data of consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data.nickname}, 상담날짜: ${data.date}`}}</b-dropdown-item>
-            </b-dropdown>
-            <p v-show="this.selectedname && this.selectedDate">{{`스타일리스트명: ${this.selectedname}, 상담날짜: ${this.selectedDate}`}}</p>
-          </b-col>
-          <b-col class="col-12">
-            <div class="rating-container">
-              <div class="rating-wrap">
-                <div class="center">
-                  <h4>🌟평점🌟</h4>
-                  <fieldset class="rating">
-                    <input type="radio" id="star5" name="rating" value="5" @change="showStar($event)"/><label for="star5" class="full"></label>
-                    <input type="radio" id="star4" name="rating" value="4" @change="showStar($event)"/><label for="star4" class="full"></label>
-                    <input type="radio" id="star3" name="rating" value="3" @change="showStar($event)"/><label for="star3" class="full"></label>
-                    <input type="radio" id="star2" name="rating" value="2" @change="showStar($event)"/><label for="star2" class="full"></label>
-                    <input type="radio" id="star1" name="rating" value="1" @change="showStar($event)"/><label for="star1" class="full"></label>
-                  </fieldset>
-                </div>
+    </div>
+
+    <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
+      <b-row>
+        <b-col>
+          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2"> <!--🧐-->
+            <b-dropdown-item v-for="data in consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data}`}}</b-dropdown-item>
+          </b-dropdown>
+          <p v-show="this.selectedname">{{`스타일리스트명: ${this.selectedname}`}}</p>
+        </b-col>
+        <b-col class="col-12">
+          <div class="rating-container">
+            <div class="rating-wrap">
+              <div class="center">
+                <h4>🌟평점🌟</h4>
+                <fieldset class="rating">
+                  <input type="radio" id="star5" name="rating" value="5" @change="showStar($event)"/><label for="star5" class="full"></label>
+                  <input type="radio" id="star4" name="rating" value="4" @change="showStar($event)"/><label for="star4" class="full"></label>
+                  <input type="radio" id="star3" name="rating" value="3" @change="showStar($event)"/><label for="star3" class="full"></label>
+                  <input type="radio" id="star2" name="rating" value="2" @change="showStar($event)"/><label for="star2" class="full"></label>
+                  <input type="radio" id="star1" name="rating" value="1" @change="showStar($event)"/><label for="star1" class="full"></label>
+                </fieldset>
               </div>
             </div>
-          </b-col>
-          <b-col class="col-12">
-              <h4>리뷰내용✏️</h4>
-              <b-form-textarea id="textarea" v-model="post.content" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
-              </b-form-textarea>
-          </b-col>
-  
-          <h4>이미지🖼️</h4>
-          <b-col class="col-12">
-              <UploadImages ref="image" @changed="handleImages"/>
-          </b-col>
-  
-          <b-col class="col-12">
-              <b-button id="submitBtn" @click="Posting">게시하기</b-button>
-          </b-col>
-        </b-row>
-      </b-modal>
-    </div>
+          </div>
+        </b-col>
+        <b-col class="col-12">
+            <h4>리뷰내용✏️</h4>
+            <b-form-textarea id="textarea" v-model="post.content" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
+            </b-form-textarea>
+        </b-col>
+
+        <h4>이미지🖼️</h4>
+        <b-col class="col-12">
+            <UploadImages ref="image" @changed="handleImages"/>
+        </b-col>
+
+        <b-col class="col-12">
+            <b-button id="submitBtn" @click="Posting">게시하기</b-button>
+        </b-col>
+      </b-row>
+    </b-modal>
   </div>
 </template>
 
@@ -66,7 +65,7 @@
 import UploadImages from "vue-upload-drop-images"
 import MyPageReviews from './review/MyPageReviews.vue';
 import { mapGetters, mapActions } from 'vuex';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 const reviewStore = "reviewStore";
 const memberStore = "memberStore";
 const reserveStore = "reserveStore";
@@ -87,7 +86,6 @@ export default {
       payments: [],
       consultinfo: [],
       selectedname: '',
-      selectedDate: '',
       status: false,
     }
   },
@@ -123,7 +121,7 @@ export default {
       //결제 내역 중 의뢰 날짜/시간 끝난 것만 뽑기
       let now = new Date(Date.now());
       this.payments = result.filter((element) => new Date(element.reservation.endTime) < now);
-
+      this.consultinfo = [];
       // let size = this.payments.length - this.reviews.length;
       // if(size > 0 && this.consultinfo.length != size) this.findCount();
       this.findCount();
@@ -136,10 +134,7 @@ export default {
       let revarr = this.reviews;
       let revStylelists = [];
       for(let i=0; i < this.reviews.length; i++) {
-        let rev = {
-          'nickname' : revarr[i].portfolio.member.nickname,
-          'date' : dayjs(revarr[i].portfolio.endTime).format("YYYY-MM-DD HH:00"),
-        }
+        let rev = revarr[i].portfolio.member.nickname;
         revStylelists.push(rev);
       }
 
@@ -147,22 +142,25 @@ export default {
       let payStylelists = [];
       let arr = this.payments;
       for(let i=0; i < this.payments.length; i++) {
-        let consult = {
-          'nickname' : arr[i].reservation.portfolio.member.nickname,
-          'date' : dayjs(arr[i].reservation.endTime).format("YYYY-MM-DD HH:00"),
-        }
+        let consult = arr[i].reservation.portfolio.member.nickname
+        // {
+          // 'nickname' : arr[i].reservation.portfolio.member.nickname,
+          // 'date' : dayjs(arr[i].reservation.endTime).format("YYYY-MM-DD HH:00"),
+        // }
         payStylelists.push(consult);
       }
 
-      let size = this.payments.length - this.reviews.length; //리뷰-결제 건수 차이
-      let temp = 0;
-      this.consultinfo = [];
+      // let size = this.payments.length - this.reviews.length; //리뷰-결제 건수 차이
+      // let temp = 0;
       for(let i = payStylelists.length-1; i >= 0; i--) {
-        if(!revStylelists.includes[payStylelists[i]]) {
+        if(!revStylelists.includes(payStylelists[i])) {
           this.consultinfo.push(payStylelists[i])
-          temp++;
+          // temp++;
+        }else {
+          let idx = revStylelists.indexOf(payStylelists[i]);
+          revStylelists.splice(idx, 1);
         }
-        if(size == temp) break;
+        // if(size == temp) break;
       }
       // console.log(this.consultinfo) //리뷰 작성해야 할 스타일리스트-날짜 정보들
     },
@@ -189,7 +187,7 @@ export default {
       }
     },
     async Posting() { //게시하기
-      if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname || !this.selectedDate) {
+      if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname) {
         alert("작성할 기록 선택 후 평점, 내용, 사진 모두 작성해주세요!😮");
       }else {
         const postInfo = {
@@ -235,8 +233,7 @@ export default {
       this.post.rating = event.target.value;
     },
     selectinfo(data) {
-      this.selectedname = data.nickname;
-      this.selectedDate = data.date;
+      this.selectedname = data;
     }
   }
 }

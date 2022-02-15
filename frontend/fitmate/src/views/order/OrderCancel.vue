@@ -2,7 +2,7 @@
     <div>
         <v-app>
             <v-container class="mt-5">
-                <h4 align="center">결제가 취소되었습니다. 10초 후 스타일리스트 목록으로 이동합니다.</h4>
+                <h4 align="center">결제가 취소되었습니다. 5초 후 스타일리스트 목록으로 이동합니다.</h4>
                 <v-progress-linear
                 color="white accent-4"
                 indeterminate
@@ -41,7 +41,7 @@ export default {
                 id: this.getID,
             }
             await this.deleteOrder(info); //예약 취소(결제 오류로 예약 내역도 취소)
-            setTimeout(this.moveMain, 10000);
+            setTimeout(this.moveMain, 5000);
         },
         moveMain() {
             if(!this.getReserveStatus) this.$router.push({name: "Stylist"});
