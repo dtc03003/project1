@@ -6,12 +6,11 @@
             </li>
         </div>
         
-        <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" hide-footer>
+        <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" header-class="modalHeader" hide-footer>
             <template #modal-title>
                 <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2">
                 </b-avatar>
-                <h3 class="d-inline">{{ styleData.portfolio.nickname }}</h3>
-                <!-- <h5>{{id}}</h5> -->
+                <h3 class="d-inline portnickname">{{ styleData.portfolio.nickname }}</h3>
             </template>
             <div class="row">
                 <div class="col-6">
@@ -336,9 +335,13 @@ export default {
 }
 .btn {
     background-color: #7e7fb9;
-    
 }
 .modal-body {
   padding: 2rem !important;
+}
+.modalHeader {
+    background-color: #7e7fb9;
+    text-align: center;
+    font-weight: 600;
 }
 </style>
