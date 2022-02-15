@@ -1,7 +1,6 @@
 <template>
 	<div id="main-container" class="container">
 		<div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
 			<div id="join-dialog" class="jumbotron vertical-center">
 				<h1>Join a video session</h1>
 				<div class="form-group">
@@ -11,7 +10,7 @@
 					</p>
 					<p>
 						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
+						<input v-model="mySessionId" class="form-control" type="text" required disabled="true">
 					</p>
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
@@ -22,13 +21,13 @@
 
 		<div id="session" v-if="session">
 			<div id="session-header">
-				<h1 id="session-title">{{ mySessionId }}</h1>
+				<!-- <h1 id="session-title">{{ mySessionId }}</h1> -->
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 			</div>
-			<div id="main-video" class="col-md-6">
+			<!-- <div id="main-video" class="col-md-6">
 				<user-video :stream-manager="mainStreamManager"/>
-			</div>
-			<div id="video-container" class="col-md-6">
+			</div> -->
+			<div id="video-container" class="col-md-3" style="display: flex; margin:5%">
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
 				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
 			</div>
@@ -64,6 +63,9 @@ export default {
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
 		}
+	},
+	created(){
+		// this.mySessionId =  this.$route.params.hostname;
 	},
 
 	methods: {
@@ -110,10 +112,11 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							// resolution: '640x480',  // The resolution of your video
+							resolution: '320x240',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
+							mirror: true       	// Whether to mirror your local video or not
 						});
 
 						this.mainStreamManager = publisher;

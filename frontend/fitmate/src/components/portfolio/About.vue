@@ -107,4 +107,7 @@ export default {
     height: 22rem;
     border-block-color: #7e7fb9 !important;
 }
+.trytocenter {
+    text-align: center;
+}
 </style>

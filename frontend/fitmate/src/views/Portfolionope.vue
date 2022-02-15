@@ -23,9 +23,9 @@
             </div>
             <div class="row my-3">
                 <div class="col-3"></div>
-                    <a class="col-2 makebtn" @click="createportfolio">생성</a>
-                <div class="col-2"></div>
                     <a class="col-2 cancelbtn">취소</a>
+                <div class="col-2"></div>
+                    <a class="col-2 makebtn" @click="createportfolio">생성</a>
                 <div class="col-3"></div>
             </div>
         </b-card>

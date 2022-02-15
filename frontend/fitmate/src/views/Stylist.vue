@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid col-10 offset-1">
     <div class="row d-flex">
-      <div id="mainbar" class="d-flex align-items-center justify-content-start">
-        <h1>Stylist 스타일리스트</h1>
+      <div id="subbar" class="d-flex align-items-center justify-content-start">
+        <h1>Stylist</h1>
       </div>
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
-      <div class="col col-md-2 d-inline align-items-center">
+      <div id="inputtext" class="col col-md-2 d-inline align-items-center">
         <select class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
@@ -16,7 +16,7 @@
       </div>
 
       <!-- 스타일리스트 검색창 -->
-      <div class="d-inline col col-md-5 offset-md-5">
+      <div id="inputtext" class="d-inline col col-md-5 offset-md-5">
         <v-text-field
           v-model="text"
           dense
@@ -67,54 +67,49 @@ export default {
     } 
   },
   created () {
-      axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
-      .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
-      })
-      this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
+    // 디폴트값은 최신순 정렬
+    axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
+    .then(({ data })=> {
+      this.stylistArray = data;
+    })
+    this.checkauthority = this.checkMemberInfo.authority
   },
   methods: {
+    // 최신순 정렬
     sortedLatest:function(){
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByLatest`)
       .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
+        this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
     },
+    // 평점에 따른 정렬
     sortedGrade:function(){
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByGrade`)
       .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
+        this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
     },
+    //팔로워에 따른 정렬
     sortedLikes:function(){
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/sortByFollower`)
       .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
+        this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
     },
     searchStylist: function() {
       // 검색어에 해당되는 것만 가져오기
       axios.get(`${FITMATE_BASE_URL}/api/v1/stylists/search/${this.text}`)
       .then(({ data })=> {
-          console.log(data)
-          this.stylistArray = data;
+        this.stylistArray = data;
       })
       this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)
     }
   },
   watch:{
+    // 드롭다운 변경시 일어나는 변화
     selected: function(){
       if (this.selected==1){
         this.sortedLatest()
@@ -127,7 +122,6 @@ export default {
   },
   computed: {
     ...mapGetters( memberStore, ["checkMemberInfo"],
-    // ['stylistArray']
     ),
   },
 }

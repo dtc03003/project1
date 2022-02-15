@@ -1,12 +1,11 @@
 <template>
-  <div class="container-fluid col-8 offset-2">
+  <div class="container-fluid col-10 offset-1">
     <div class="row">
-      <div id="mainbar" class="col-12 align-items-center">
+      <div id="subbar" class="col-12 align-items-center">
         <h1>Stylebook</h1>
       </div>
 
       <!-- 검색창 -->
-      <!-- 바꿔 갈아끼우는 중 -->
       <!-- 지우지 말아주세요 -->
       <!-- <v-text-field
       v-model="singletag"
@@ -17,22 +16,26 @@
       @click:append="saveValue"
       solo>
       </v-text-field> -->
-      <v-combobox
-      v-model="value"
-      clearable
-      multiple
-      append-icon="mdi-tag-search"
-      solo>
-      </v-combobox>
+      <div id="inputtext">
+        <v-combobox
+        v-model="value"
+        clearable
+        multiple
+        label="당신의 스타일 태그를 입력하세요!"
+        append-icon="mdi-tag-search"
+        solo
+        >
+        </v-combobox>
+      </div>
+
+
       <b-form-tag
         v-for="tag in value"
         @remove="removeTag(tag)"
         :key="tag"
-        :title="tag"
-        :variant="tagVariant"
         class="mr-1"
-        style="background:teal; width:fit-content;"
-      >{{ tag }}</b-form-tag>
+        id="searchtag"
+      >{{tag}}</b-form-tag>
 
       
       <!-- <div v-if="!stylebooks">
@@ -74,10 +77,10 @@ export default {
     // 여기서부터는 검색창을 위한 data
     value: [],
     singletag:'',
+    color:'',
   }),
   methods:{
     saveValue:function() {
-      console.log(this.singletag)
       this.value.push(this.singletag)
       this.singletag = ''
     },
@@ -85,22 +88,23 @@ export default {
       ///styleBook/search/{tagList}
       axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search/${this.value}`)
       .then(({ data })=> {
-          console.log(data)
-          this.stylebooks = data;
+        this.stylebooks = data;
       })
-      this.checkauthority = this.checkMemberInfo.authority
-      console.log(this.checkauthority)     
+      this.checkauthority = this.checkMemberInfo.authority    
+    },
+    // 태그 삭제 함수
+    removeTag(data){
+      let newValue  = this.value.filter((element) => element !== data);
+      this.value = newValue
     }
   },
   created () {
     // 있는 사진 전부 불러오는 거
     axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)
     .then(({ data })=> {
-        console.log(data)
-        this.stylebooks = data;
+      this.stylebooks = data;
     })
     this.checkauthority = this.checkMemberInfo.authority
-    console.log(this.checkauthority)
   },
   computed: {
       ...mapGetters( 'memberStore', ["checkMemberInfo"]),
@@ -113,6 +117,16 @@ export default {
 }
 </script>
 
-<style>
+<style scopeed>
+
+#searchtag{
+  /*style="background:teal; width:fit-content; height:2rem"*/
+  background-color: rgb(102,103, 171);
+  width: fit-content;
+  height: 2rem;
+  font-size: 0.9rem;
+  text-align: center;
+  align-self: center;
+}
 
 </style>
