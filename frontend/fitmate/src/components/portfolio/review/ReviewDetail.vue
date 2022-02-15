@@ -19,7 +19,7 @@
                     </b-row>
                     <b-row>
                         <b-col>
-                            {{ content }}<br>
+                            <p id="content">{{ content }}</p><br>
                             <div align="center">
                                 <v-btn fab text small color="grey darken-2" @click="showContent" v-show="content.length >= 50 && showOrHide">
                                     <v-icon> mdi-chevron-down </v-icon>
@@ -90,7 +90,8 @@ export default {
 <style scoped>
 .detail { width: 80%; }
 .r { border: 1px solid black; }
-#nick {font-weight: bold;}
+#nick {font-weight: bold; }
 img {max-width: 100%;}
 .star-ratings-fill { color: rgb(105, 221, 206); } /*-webkit-text-fill-color */
+p#content {font-family: 'LeferiPoint-BlackObliqueA', fantasy;}
 </style>

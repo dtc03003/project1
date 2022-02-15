@@ -6,7 +6,7 @@
             </div>
             <div class="trytocenter">
                 <p class="dropdown nickname">{{ this.checkMemberInfo.nickname }}</p>
-                <b-dropdown class="dropdown" text="🔒" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+                <b-dropdown class="dropdown dropdownitem" text="🔒" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                     <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
                         <b-dropdown-item-button v-if="this.checkMemberInfo.authority == 'ROLE_MEMBER'">회원정보 수정</b-dropdown-item-button>
                     </router-link>
@@ -135,4 +135,5 @@ export default {
 #mypage { padding: 5%; max-width: 100%; min-width: 320px; margin: 0 auto; justify-content: center; }
 #tabs { margin: 0 auto; font-size: 1rem; text-align: center; }
 .nickname {font-size: 2rem; font-family: 'Pretendard-SemiBold', fantasy;}
+.dropdownitem { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>
