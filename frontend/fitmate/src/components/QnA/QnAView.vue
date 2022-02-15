@@ -121,9 +121,15 @@ export default {
                 "qnaId": parseInt(this.id)
             };
 
+            // *async, await 을 쓰는 이유
+            // 1.  새로운 댓글을 보내는 코드
             await axios.post("/api/v1/comment", commentInfo)
 
+            // 2.  db에 들어간 데이터를 다시 불러 오는 코드
             this.$store.dispatch("getComments", { id: this.id })
+
+            // async, await를 사용하지 않으니 1번이 실행되어서 db에 데이터가 저장되기 전에 
+            // 2번이 실행되어 새로운 댓글을 들고오지 못하는 상황이었음
             
             const Toast = Swal.mixin({
                 toast: true,

@@ -76,6 +76,7 @@ const followStore = {
             const accessToken = localStorage.getItem("accessToken");
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             let { data } = await axios.get(`/api/v1/getFollowerList`)
+            console.log(data)
             commit("setFollowerList", { followerList: data })
         }
     }
