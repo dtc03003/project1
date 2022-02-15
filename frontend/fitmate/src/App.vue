@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <!-- navbar 전체 padding값 기본은 30px, 조절하기 나름 -->
     <nav id="nav" class="navbar navbar-expand-md" style="padding:25px;">
       <div class="container-fluid p-0 justify-content-center" style="height:7em">
@@ -121,20 +121,15 @@ export default {
       const lastDate = localStorage.getItem("lastDate") ? new Date(localStorage.getItem("lastDate")) : null;
       const now = new Date(Date.now());
       if(refreshDate && refreshDate <= now) { //현재 접속이 refreshToken 만료일/시간과 같거나 더 지난 경우
-        console.log("초기화!");
         localStorage.clear();
+        window.location.reload();
       }
       else {
         ///마지막 접속일로부터 23시간 이상일시 -> clear
         //그렇지 않다면 accesstoken토큰 재발급 및 lastDate 갱신
-        console.log("아직 로그인X 거나 refresh토큰 만료X")
-        console.log("현재: " + now);
         if(lastDate) {
-          console.log(lastDate);
           lastDate.setHours(lastDate.getHours()+23); //23시간 후(토큰 유효기간 24시간)
-          console.log(lastDate);
           if(lastDate <= now) {
-            console.log("접속일 차이가 23시간 이상!")
             localStorage.clear();
             window.location.reload()
           }else {
@@ -158,6 +153,7 @@ export default {
 </script>
 
 <style lang="scss">
+#main { min-width: 320px; }
 #nav {
   padding: 30px;
   background-color: rgb(102,103, 171);
@@ -176,6 +172,14 @@ export default {
   display: inline-flex;
   // justify-content: center;
 }
+
+li:hover{
+  backface-visibility: hidden;
+  transform: scale(1.08, 1.08);
+  opacity: 1;  
+}
+
+/* 폰트 영역(나중에 따로 분리) */
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
@@ -194,16 +198,30 @@ export default {
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
 }
 
-
-li:hover{
-  backface-visibility: hidden;
-  transform: scale(1.08, 1.08);
-  opacity: 1;  
-}
-
 @font-face {
     font-family: 'GangwonEdu_OTFBoldA';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cafe24Ohsquare';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ImcreSoojin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SDSamliphopangche_Basic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Basic.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
