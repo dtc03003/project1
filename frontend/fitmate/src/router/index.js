@@ -139,11 +139,11 @@ const routes = [
     name: "Room",
     component : () => import("@/views/Room.vue"),
   },
-  {
-    path: "/conference",
-    name: "Conference",
-    component : () => import("@/views/Conference.vue"),
-  },
+  // {
+  //   path: "/conference",
+  //   name: "Conference",
+  //   component : () => import("@/views/Conference.vue"),
+  // },
 ]
 
 const router = new VueRouter({
