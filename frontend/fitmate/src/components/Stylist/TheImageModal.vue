@@ -352,6 +352,9 @@ export default {
 
 .mheader{
   background-color: rgb(102,103, 171);
+  text-align: center;
+  font-weight: 600;
+  color: white;
 }
 
 #imageDetail{
@@ -367,7 +370,9 @@ export default {
 .content{
   font-size: 0.9rem;
 }
-
+#guidetags {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
 #avatar{
   box-shadow: 3px 2px 2px rgb(105, 105, 105);
 }
