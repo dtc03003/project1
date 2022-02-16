@@ -14,10 +14,10 @@
                     </b-thead>
 
                     <b-tbody class="list">
-                        <b-tr v-for="(qna, id) in paginatedData" :key="id">
+                        <b-tr v-for="(qna, id) in paginatedData" :key="id" @click="goDetailQnA(qna.id)">
                             <b-td>{{qna.id}}</b-td>
                             <b-td>{{qna.writer}}</b-td>
-                            <b-th><router-link :to="`/qna/view/${qna.id}`">{{qna.title}}</router-link></b-th>
+                            <b-th>{{qna.title}}</b-th>
                             <b-td>{{qna.createdAt}}</b-td>
                         </b-tr>
                     </b-tbody>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="btn">
-                    <b-button v-if="checkisSignin" variant="outline-primary" @click="moveCreate">등록</b-button>
+                    <b-button v-if="checkisSignin" variant="outline-primary" @click="moveCreate" id="gradient-btn">등록</b-button>
                 </div>
 
             </b-col>
@@ -79,6 +79,9 @@ export default {
         prevPage () {
             this.pageNum -= 1;
         },
+        goDetailQnA(id) {
+            this.$router.push(`/qna/view/${id}`);
+        }
 
     },
 
@@ -120,5 +123,38 @@ export default {
 .btn {
     float: right;
 }
+</style>
 
+<style lang="scss" scoped>
+$ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
+$btn-color: #8763FB;
+@mixin transition() {
+    transition: 700ms $ease_out;
+    &:hover{
+        transition: 400ms $ease_out;
+    }
+}
+.gradient-btn{
+    display: inline-block;
+    padding: 0.75em 1.25em;
+    border-radius: 0.5rem;
+    color: $btn-color;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: linear-gradient(to right, rgba($btn-color, 0) 25%, rgba($btn-color, .8) 75%);
+    background-position: 1% 50%;
+    background-size: 400% 300%;
+    border: 1px solid #8763FB;
+    @include transition;
+    
+    &:hover{
+        color: white;
+        color: #fff;
+        background-position: 99% 50%;
+    }
+}
 </style>
