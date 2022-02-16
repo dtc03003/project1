@@ -1,13 +1,13 @@
 <template>
 	<span>
     <div class="thumb">
-      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2 ">   
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2 "> 
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
-    <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
+    <b-modal size="xl" :id="'bv-modal-'+id" header-class="mheader" scrollable hide-footer>
       <template #modal-title id="modaltop">
-        <b-avatar :src="profile" size="3rem" class="me-2">
+        <b-avatar :src="profile" id="avatar" size="3rem" class="me-2">
         </b-avatar>
         <h4 id="name" class="d-inline align-item-center">{{ nickname }}</h4>
         <!-- <h5>{{id}}</h5> -->
@@ -47,7 +47,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="message"
-                    @keyup.enter="saveComment"
+                    v-on:keydown.enter.prevent="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
                     append-outer-icon="mdi-send"
@@ -330,19 +330,21 @@ export default {
   /* Scale up to fill container height */ 
   min-width: 100%; 
   /* Scale up to fill container width */ 
-  -ms-interpolation-mode: bicubic; 
+  /* -ms-interpolation-mode: bicubic;  */
+  -ms-interpolation-mode: inherit;
   /* Scaled images look a bit better in IE now */
   padding: 2px;
   object-fit: cover;
   }
 
 #beforeimg:hover{
-  backface-visibility: visible;
+  backface-visibility: hidden;
   transform: scale(1.15, 1.15);
-  opacity: 1;  
+  opacity: 1;
   }
 
-#modaltop{
+
+.mheader{
   background-color: rgb(102,103, 171);
 }
 
@@ -352,5 +354,9 @@ export default {
 
 .content{
   font-size: 0.9rem;
+}
+
+#avatar{
+  box-shadow: 3px 2px 2px rgb(105, 105, 105);
 }
 </style>

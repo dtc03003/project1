@@ -7,7 +7,7 @@
 
       <!-- 검색창 -->
       <!-- 지우지 말아주세요 -->
-      <div id="inputtext">
+      <div id="inputtext" class="mb-2">
         <v-combobox
         v-model="value"
         clearable
@@ -19,7 +19,7 @@
         </v-combobox>
       </div>
 
-      <div class="d-flex align-content-center">
+      <div class="d-flex align-content-center mb-5">
         <b-form-tag
           v-for="tag in value"
           @remove="removeTag(tag)"
@@ -66,7 +66,7 @@ export default {
   name:'Stylebook',
   components:{
     // TheStylebookImage,
-    TheImageModal
+    TheImageModal,
   },
   data: () => ({
     stylebooks:[],
@@ -75,6 +75,7 @@ export default {
     value: [],
     singletag:'',
     color:'',
+    stylebook:''
   }),
   methods:{
     saveValue:function() {

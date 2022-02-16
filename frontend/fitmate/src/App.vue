@@ -76,12 +76,28 @@
 
         <!-- 푸터 footer -->
         <footer id="footer" class="footer">
+          <!-- 세 섹션으로 나누자 -->
           <div class="row">
-            <p id="footertext">(주)Fitmate</p>
+            <div class="col col-md-3" >
+              <div class="d-flex justify-content-center">
+                <img id="footerimg" src="@/assets/hanger.png">
+              </div>
+            </div>
+            <div id="footerfont" class="col col-md-7 mt-4">
+              <div><h4 class="d-inline">ⓒFitmate </h4><h6 class="d-inline"> We're Fitmate!!!</h6></div>
+              <div><span>Fitmate's mates : Backend-서지원, 이홍준 | Frontend-김동현, 박현진, 서지원, 정종혁</span></div>
+              <div><p>본 사이트의 아이디어, 디자인을 포함한 콘텐츠는 저작권법의 보호를 받는지는 잘 모르겠습니다.</p></div>
+              <div><p>아무튼 퍼가지 마세요..</p></div>
+            </div>
+            <div class="col col-md-2 d-flex justify-content-center">
+              <v-icon class="me-2">mdi-instagram</v-icon>
+              <v-icon class="me-2">mdi-youtube</v-icon>
+              <v-icon class="me-2">mdi-twitter</v-icon>
+              <v-icon class="me-2">mdi-facebook</v-icon>
+            </div>
           </div>
         </footer>
       </div>
-
     </body>
     
   </div>
@@ -261,6 +277,28 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #6d6d6d;
+}
+
+#footerfont{
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  h4 {
+    font-family: 'LeferiPoint-BlackObliqueA';
+  }
+  span {
+    font-size: 1rem;
+  }
+  p {
+    font-size: 0.8rem;
+  }
+}
+
+#footerimg {
+  display: flex;
+  // text-align: center;
+  padding-top: 0.3rem;
+  justify-content: center;
+  align-content: center;
+  width:9rem;
 }
 
 //버튼 색 입히기(애니메이션)
