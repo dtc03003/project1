@@ -5,7 +5,7 @@
         </div>
 
         <div class="row">
-            <h1 class="mt-2 col-8 nickname" >{{ profileData.nickname }}</h1>
+            <h1 class="mt-2 col-8 nickname" id="profileinfo" >{{ profileData.nickname }}</h1>
 
             <!-- 유정 수정  버튼 -->
             <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
@@ -17,10 +17,10 @@
                 <b-dropdown-item-button @click="$bvModal.show('biomodify')">한 줄 소개글 수정</b-dropdown-item-button>
                 <b-modal id="biomodify" size="md" centered ref="style-modal" hide-footer>
                     <template #modal-title>
-                        &#x26d4; 한 줄 소개글 수정
+                        ✅ 한 줄 소개글 수정
                     </template>
                     <b-row>
-                        <b-form-textarea id="textarea"  v-model="biotext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="3" max-rows="6"
+                        <b-form-textarea id="textarea"  v-model="biotext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="6" max-rows="6"
                         ></b-form-textarea>
                         <b-col class="col-2"></b-col>
                         <b-col class="col-4 trytocenter" >
@@ -58,32 +58,20 @@
             <!-- 유정 수정  버튼 끝 -->
         </div>
 
-        <p class="mt-3" > {{ profileData.bio }} </p>
-        <p class="mt-3" > 팔로우 여부 : {{ isFollow }} </p>
-        <p class="mt-3" > 로그인 여부 : {{ checkisSignin }} </p>
-        <p class="mt-3" > 팔로우 수 : {{ CountFollow }} </p>
+        <p class="mt-3" id="profileinfo" > {{ profileData.bio }} </p>
+        
 
-        <div class="row mt-3" v-if="checkisSignin">
+        <div class="row mt-3 " v-if="checkisSignin">
             <div class="col-4 gotocenter">
-                <!-- <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon> -->
-                <div v-if="this.nickname == this.checkMemberInfo.nickname"><b-icon icon="suit-heart-fill" font-scale="3" variant="success" v-b-modal.follow></b-icon></div>
-                <div v-else-if="isFollow == false" class="box">
-                    <div style="position: relative;">
-                        <b-icon icon="suit-heart-fill" font-scale="3" @click="follow()" ></b-icon>
-                        <!-- 겹치기 부분 -->
-                        <div style="position: absolute; top:0px "></div>
-                    </div>
-                </div>
-                <div v-else>
-                    <b-icon icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
-                </div>
-                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()"  v-b-modal.follow></b-icon>
+                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()" ></b-icon>
                 <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
                 <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
                 <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
             </div>
             <div class="col-4">
-                <b-button size="lg" @click="joinroom()" variant="link" no-caret>&#128172;</b-button>
+                <b-button size="lg" @click="joinroom()" variant="link" no-caret>
+                    <img src="@/assets/consulting.png" alt="">
+                </b-button>
             </div>
             <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
             <div class="col-4">
@@ -296,7 +284,8 @@ export default {
 
         followlist() {
             Swal.fire({
-                title: '팔로우 리스트',
+                icon: 'info',
+                title: `팔로우 수 : ${this.CountFollow}`,
                 text: `${this.follower}`,
                 confirmButtonColor: '#7e7fb9',
                 confirmButtonText: "확인",
@@ -313,8 +302,8 @@ export default {
             for(let temp of this.FollowerList){
                 this.dumi.push(temp.nickname)
             }
-
-            this.follower = this.dumi.join(',');
+            
+            this.follower = this.dumi.join('\n');
         }
     },
 }
@@ -355,4 +344,14 @@ b-icon {
 .trytocenter {
     text-align: center;
 }
+#profileinfo, #biomodify{
+  font-family: 'GangwonEdu_OTFBoldA';
+}
+p#profileinfo{
+    font-size: 1.5rem;
+}
+#biomodify___BV_modal_title_ {
+    font-size: 1.5rem !important;
+}
+
 </style>

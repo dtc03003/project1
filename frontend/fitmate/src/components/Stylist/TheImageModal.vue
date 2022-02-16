@@ -1,7 +1,7 @@
 <template>
 	<span>
     <div class="thumb">
-      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2">   
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2 ">   
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
@@ -331,7 +331,10 @@ export default {
   -ms-interpolation-mode: bicubic; 
   /* Scaled images look a bit better in IE now */
   padding: 2px;
+  object-fit: cover;
+  align-self: center;
   }
+
 
 #beforeimg:hover{
   backface-visibility: hidden;
@@ -350,6 +353,4 @@ export default {
 .content{
   font-size: 0.9rem;
 }
-
-
 </style>
