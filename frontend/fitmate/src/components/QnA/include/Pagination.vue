@@ -7,7 +7,7 @@
                     <b-thead head-variant="dark">
                         <b-tr>
                             <b-th>번호</b-th>
-                            <b-th>ID</b-th>
+                            <b-th>작성자</b-th>
                             <b-th width="700" style="word-break:break-all">제목</b-th>
                             <b-th>작성일</b-th>
                         </b-tr>
@@ -18,7 +18,7 @@
                             <b-td>{{qna.id}}</b-td>
                             <b-td>{{qna.writer}}</b-td>
                             <b-th>{{qna.title}}</b-th>
-                            <b-td>{{qna.createdAt}}</b-td>
+                            <b-td>{{changeDate(qna.createdAt)}}</b-td>
                         </b-tr>
                     </b-tbody>
 
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapState, mapGetters } from 'vuex';
 
 const memberStore = "memberStore";
@@ -49,7 +50,7 @@ export default {
 
     data() {
         return {
-            pageNum: 0
+            pageNum: 0,
         }
     },
 
@@ -81,6 +82,9 @@ export default {
         },
         goDetailQnA(id) {
             this.$router.push(`/qna/view/${id}`);
+        },
+        changeDate(date) {
+            return dayjs(date).format("YYYY-MM-DD HH:MM");
         }
 
     },

@@ -7,7 +7,7 @@
                     <b-thead head-variant="dark">
                         <b-tr>
                             <b-th>번호</b-th>
-                            <b-th>ID</b-th>
+                            <b-th>작성자</b-th>
                             <b-th width="700" style="word-break:break-all">제목</b-th>
                             <b-th>작성일</b-th>
                         </b-tr>
@@ -18,7 +18,7 @@
                             <b-td> {{notice.id}} </b-td>
                             <b-td> {{notice.writer}} </b-td>
                             <b-th>{{notice.title}}</b-th>
-                            <b-td>{{notice.createdAt}}</b-td>
+                            <b-td>{{changeDate(notice.createdAt)}}</b-td>
                         </b-tr>
                     </b-tbody>
 
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapState, mapGetters } from 'vuex';
 
 const memberStore = "memberStore";
@@ -79,6 +80,9 @@ export default {
         },
         goDetailNotice(id) {
             this.$router.push(`/notice/view/${id}`);
+        },
+        changeDate(date) {
+            return dayjs(date).format("YYYY-MM-DD HH:MM");
         }
     },
 
