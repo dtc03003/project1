@@ -13,9 +13,8 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/UserVideo';
-import {mapGetters, mapActions} from 'vuex'
+// import {mapGetters, mapActions} from 'vuex'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const memberStore = "memberStore";
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
@@ -25,7 +24,9 @@ export default {
 	components: {
 		UserVideo,
 	},
-
+	props:{
+		me: Object,
+	},
 	data () {
 		return {
 			OV: undefined,
@@ -33,45 +34,55 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			host: {},
-			me:{},
-			mySessionId: 'SessionA',
 			myUserName: '',
+			mySessionId: "qwe",
+			room : {},
+			host: {},
+			roomid: '',
+			hostname: this.$route.params.hostname,
 		}
 	},
 	created(){
-		this.getInfo();
+		this.getRoomInfo();
 		this.myUserName = this.me.nickname;
-		// this.mySessionId =  this.$route.params.hostname;
 	},
 	computed:{
-		...mapGetters(memberStore, ["checkMemberInfo"])
 	},
 	mounted(){
-		console.log(this.me);
-		this.joinSession();
 	},
 	destroyed(){
 		this.leaveSession();
 	},
 	methods: {
-		...mapActions(memberStore, ["signInMemberInfo"]),
-		getInfo() { //사용자 정보 가져오기
-			if (this.checkMemberInfo) 
-				this.me = this.checkMemberInfo;
-			else 
-				this.importInfo(localStorage.getItem("accessToken"));
-			}
-		,
-		async importInfo(accessToken) { //토큰 이용
-			await this.signInMemberInfo(accessToken);
-			this.me = this.checkMemberInfo;
+		getRoomInfo() {
+			axios({
+				method: 'get',
+				url: `/api/v1/chat/room/${this.hostname}?accessCode=${this.accessCode}`,
+				baseURL: 'https://localhost:8443/',
+				headers: {
+					"Content-type": "application/json; charset=UTF-8",
+					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			}).then(res => {
+				this.room = res.data
+				this.host = this.room.host;
+				this.roomid = this.room.id;
+				this.mySessionId = "Session"+this.roomid;
+				this.joinSession();
+			}, err => {
+				console.log(err)
+				this
+					.$router
+					.push({name: "Home"});
+			});
 		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
 			// --- Init a session ---
+			console.log("aaaaaaaaaaaaaaa");
+			console.log(this.mySessionId);
 			this.session = this.OV.initSession();
 
 			// --- Specify the actions when events take place in the session ---

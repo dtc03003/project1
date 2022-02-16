@@ -3,7 +3,9 @@
         <p id="fontid">{{title}}</p>
         <div class="row">
             <div class="col-9">
-                <conference/>
+                <conference
+                :me="me"
+                />
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
             <div id="app_chat_list" class="col-3 msgbox">
@@ -74,8 +76,11 @@ import Conference from '../components/Room/Conference.vue'
             this.nickname = this.me.nickname;
             this.hostname = this.$route.params.hostname;
             if(this.me.nickname!=this.hostname) this.accessCode = prompt('인증키를 입력하세요', '인증키 입력');
-            this.getRoomInfo();
+            // this.getRoomInfo();
 
+        },
+        mounted(){
+            this.getRoomInfo();
         },
         computed: {
             ...mapGetters(memberStore, ["checkMemberInfo"])
