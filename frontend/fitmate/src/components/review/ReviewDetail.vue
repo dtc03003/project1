@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-.detail { width: 90%; font-family: 'Pretendard-SemiBold', serif; text-align: initial; font-size: 1rem; }
+.detail { width: 80%; font-family: 'Pretendard-SemiBold', serif; text-align: initial; font-size: 1rem; }
 .r { border-radius: 1rem; box-shadow: 3px 2px 2px rgb(160, 160, 160); }
 #nick {font-weight: bold; }
 img#thumbnail {width: 100%; height: 100%; object-fit: contain;}

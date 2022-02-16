@@ -243,5 +243,5 @@ p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
     text-align: center;
     font-weight: 600;
 }
-
+::placeholder, #submitBtn { font-family: "Pretendard-SemiBold", fantasy; }
 </style>

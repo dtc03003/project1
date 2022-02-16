@@ -168,6 +168,5 @@ p { display: inline; }
 	margin: 0px 16px;
 }
 p#goSignup:hover {color: $main-color;}
-::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
-
+#email, #password, ::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>
