@@ -2,16 +2,13 @@
   <div>
     <!--작성해야 할 리뷰가 있을 경우만 버튼 보임-->
     <div align="right">
-    <!-- <b-button v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</b-button> -->
       <a class="gradient-btn" v-b-modal.modal-1 v-show="reviews.length < payments.length">리뷰작성</a>
-      <!--test를 위한 버튼-->
-      <a class="gradient-btn" v-b-modal.modal-1>리뷰작성</a>
     </div>
     <div v-if="!status" align="center">
       <p id="nomyreview">아직 리뷰가 없습니다! 저희 서비스를 이용해주시고 리뷰를 작성해주세요😍</p>
     </div>
     <div v-else>
-      <MyPageReviews id="my-page-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review"/>
+      <ReviewDetail id="my-page-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review" :name="'MyPage'"/>
       
       <b-pagination align="center" class="mt-2"
           v-model="page"
@@ -66,7 +63,7 @@
 
 <script>
 import UploadImages from "vue-upload-drop-images"
-import MyPageReviews from './review/MyPageReviews.vue';
+import ReviewDetail from '@/components/review/ReviewDetail.vue';
 import { mapGetters, mapActions } from 'vuex';
 // import dayjs from 'dayjs';
 const reviewStore = "reviewStore";
@@ -93,7 +90,7 @@ export default {
     }
   },
   components: {
-    MyPageReviews,
+    ReviewDetail,
     UploadImages
   },
   created() {

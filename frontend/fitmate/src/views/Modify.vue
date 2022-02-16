@@ -47,7 +47,7 @@
                         <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
                         </b-form-input>
                     </b-input-group>
-                    <div v-if="!signup.password" class="info">
+                    <div v-if="!signup.password" class="mt-1 info">
                         대문자, 소문자, 숫자를 포함한 8~16자리를 입력하세요.
                     </div>
                     <div v-if="!passwordValidFlag" class="info warningpwd">
@@ -115,7 +115,7 @@
                     <div class="col-12" style="float:left">
                     <h5 style="display:inline; float:left" class="mt-3 modifyTitle">신발 사이즈</h5>
                     <b-button v-b-modal.modal-1 class="smallBtn mt-3 mb-1">사이즈 표</b-button>
-                    <b-modal id="modal-1" size="xl" title="사이즈 표" ok-only ok-title="닫기" ok-variant="secondary">
+                    <b-modal id="modal-1" size="xl" ok-only ok-title="닫기" ok-variant="secondary">
                         <center>
                             <img src="@/assets/size.png" align="center" width="90%" height="50%">
                         </center>
@@ -451,4 +451,5 @@ margin: 0px 16px;
 }
 #input, .info, .radio, .smallBtn, .submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 .warningpwd { color: red; }
+::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>

@@ -80,7 +80,7 @@
                             type: 월/주/일,
                             @click:more="viewDay" @click:date="viewDay"
                         -->
-                        <v-calendar ref="calendar" v-model="focus" color="#bbbbe0"
+                        <v-calendar ref="calendar" v-model="focus" color="#bbbbe0" id="calendar"
                         :events="events" :event-color="getEventColor"
                         :type="type" @click:date="viewDay" @click:event="showEvent" @change="updateRange">
                         </v-calendar>
@@ -93,10 +93,7 @@
                         <!--상세보기 창(dialog) - db 연동 후 데이터 받아올 것-->
                         <v-dialog v-model="selectedOpen" persistent max-width="600px" flat
                         :close-on-content-click="false" :activator="selectedElement" offset-x>
-                        <v-card min-width="350px" flat>
-                            <v-card-title>
-                                <span class="text-h5">일정</span>
-                            </v-card-title>
+                        <v-card min-width="350px" flat id="card">
                             <v-card-text>
                                 <v-container>
                                     <v-row>
@@ -264,4 +261,5 @@ export default {
 #enrollSchedule {background-color: #6495ED; margin-right: 1%;}
 #enrollIcon {color: white;}
 .date {display: inline-block; padding-right: 2%;}
+#calendar, #card { font-family: 'Pretendard-SemiBold', fantasy;}
 </style>

@@ -1,14 +1,14 @@
 <template>
     <div>
         <b-container class="detail">
-            <b-row>
-                <b-col cols="3" class="r">
-                    <img :src="thumbnail" />
+            <b-row class="r">
+                <b-col cols="3" class="c">
+                    <img id ="thumbnail" :src="thumbnail" />
                 </b-col>
-                <b-col cols="9" class="r">
+                <b-col cols="9" class="c">
                     <b-row>
                         <b-col cols="6" align="left">
-                            <span id="nick">{{ this.nickname }}</span>님
+                            <span id="nick">{{ nickname }}</span>님
                         </b-col>
                         <b-col cols="6" align="right">
                             평점
@@ -19,12 +19,12 @@
                     </b-row>
                     <b-row>
                         <b-col>
-                            {{ content }}<br>
+                            <p id="rvcontent">{{ content }}</p><br>
                             <div align="center">
-                                <v-btn fab text small color="grey darken-2" @click="showContent" v-show="content.length >= 50 && showOrHide">
+                                <v-btn fab text small color="grey darken-2" @click="showContent" v-show="content.length >= 200 && showOrHide">
                                     <v-icon> mdi-chevron-down </v-icon>
                                 </v-btn>
-                                <v-btn fab text small color="grey darken-2" @click="hideContent" v-show="content.length >= 50 && !showOrHide">
+                                <v-btn fab text small color="grey darken-2" @click="hideContent" v-show="content.length >= 200 && !showOrHide">
                                     <v-icon> mdi-chevron-up </v-icon>
                                 </v-btn>
                             </div>
@@ -32,7 +32,12 @@
                     </b-row>
                     <b-row>
                         <b-col align="right">
-                            {{ createdAt }}
+                            작성일: {{ createdAt }}
+                        </b-col>
+                    </b-row>
+                    <b-row v-if="name == 'MyPage'">
+                        <b-col align="right">
+                            스타일리스트: {{ stylist }}
                         </b-col>
                     </b-row>
                 </b-col>
@@ -44,7 +49,7 @@
 <script>
 import dayjs from "dayjs";
 export default {
-    name: "MyPageReviews",
+    name: "ReviewDetail",
     data() {
         return {
             thumbnail: '',
@@ -53,7 +58,13 @@ export default {
             createdAt: '',
             showOrHide: true,
             nickname: '',
+            stylist: '',
         }
+    },
+    props: {
+        idx: Number,
+        review: Object,
+        name: String,
     },
     created() {
         this.thumbnail = this.review.thumbnail;
@@ -61,13 +72,8 @@ export default {
         this.rating = this.review.rating;
         this.createdAt = dayjs(this.review.createdAt).format("YYYY-MM-DD HH:mm");
         this.content = this.review.content;
-        if(this.content.length > 50) this.content = this.content.substring(0, 50);
-    },
-    props: {
-        idx: Number,
-        review: Object,
-    },
-    computed: {
+        if(this.content.length > 200) this.content = this.content.substring(0, 200);
+        this.stylist = this.review.portfolio.member.nickname;
     },
     methods: {
         showContent() {
@@ -75,7 +81,7 @@ export default {
             this.showOrHide = false;
         },
         hideContent() {
-            this.content = this.content.substring(0, 50);
+            this.content = this.content.substring(0, 200);
             this.showOrHide = true;
         }
     }
@@ -83,9 +89,11 @@ export default {
 </script>
 
 <style scoped>
-.detail { width: 80%; }
-.r { border: 1px solid black; }
-#nick {font-weight: bold;}
-img {max-width: 100%;}
-.star-ratings-fill { color: rgb(105, 221, 206); } 
+.detail { width: 80%; font-family: 'Pretendard-SemiBold', serif; }
+.r { border-radius: 1rem; box-shadow: 0px 0px 5px 0px; }
+#nick {font-weight: bold; }
+img#thumbnail {width: 100%; height: 350px; object-fit: contain;}
+img#thumbnail:hover {transform: scale(1.15, 1.15); opacity: 1;}
+.star-ratings-fill { color: rgb(105, 221, 206);}
+p#rvcontent {text-align: initial;}
 </style>

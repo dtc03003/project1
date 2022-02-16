@@ -167,5 +167,6 @@ p { display: inline; }
 	margin: 0px 16px;
 }
 p#goSignup:hover {color: #8763FB;}
+::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 
 </style>
