@@ -8,7 +8,7 @@
         </div>
         <b-modal id="aboutmodify" size="lg" centered hide-footer>
             <template #modal-title>
-                &#x26d4; 소개글 수정
+                ✅ 소개글 수정
             </template>
             <b-row>
                 <b-form-textarea id="textarea"  v-model="abouttext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="8" size="md"
@@ -109,5 +109,9 @@ export default {
 }
 .trytocenter {
     text-align: center;
+}
+#aboutmodify___BV_modal_title_ {
+    font-family: 'GangwonEdu_OTFBoldA' ;
+    font-size: 1.5rem ;
 }
 </style>

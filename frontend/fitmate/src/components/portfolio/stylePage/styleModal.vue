@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="temcontainer">
-            <li style="list-style: none"  v-for="(style, id) in paginatedData" :key="id" >
+            <li style="list-style: none" class="shadowbox" v-for="(style, id) in paginatedData" :key="id" >
                 <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()">
             </li>
         </div>
@@ -305,6 +305,16 @@ export default {
 </script>
 
 <style>
+.shadowbox {
+  display: inline-block;
+  margin-bottom: 15px;
+  overflow: hidden;
+  height: 18rem;
+  width: 12rem;
+  box-shadow: 3px 2px 2px rgb(160, 160, 160);
+  border-radius: 5%;
+}
+
 .temcontainer {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -314,7 +324,6 @@ export default {
 .item {
   width: 100%; height: 100%;
   object-fit: cover;
-  padding: 10px;
   font-size: 30px;
   align-self: center;
 }

@@ -201,12 +201,12 @@ $ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
 #registBtn { 
     // background-color: $regist-color;
     display: inline-block;
-    padding: 1em 2em;
+    padding: 0.3em 1.1em;
     border-radius: 0.5rem;
     color: $regist-color;
-    margin-top:2rem;
+    margin-top:1rem;
     font-weight: bold;
-    font-size: 0.678rem;
+    font-size: 1.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
