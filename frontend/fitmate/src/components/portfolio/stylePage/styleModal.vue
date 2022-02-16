@@ -2,7 +2,8 @@
     <div class="row">
         <div class="temcontainer">
             <li style="list-style: none" class="shadowbox" v-for="(style, id) in paginatedData" :key="id" >
-                <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()">
+                <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()" >
+
             </li>
         </div>
         
@@ -10,23 +11,81 @@
             <template #modal-title>
                 <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2">
                 </b-avatar>
-                <h3 class="d-inline portnickname">{{ styleData.portfolio.nickname }}</h3>
+                <h3 class="d-inline" id="name">{{ styleData.portfolio.nickname }}</h3>
             </template>
             <div class="row">
-                <div class="col-6">
-                    <img :src="this.styleData.thumbnail" class="item">
-                    <the-image-tag
-                    v-for="tag in tags"
-                    v-bind:key="tag.id"
-                    v-bind:tag="tag"
-                    >{{tag}}</the-image-tag>
+                <div class="col">
+
+                    <!-- 상세 이미지 -->
+                    <img :src="this.styleData.thumbnail" alt="" id="imageDetail" class="mr-2">
+
+                    <!-- 태그 -->
+                    <div class="row">
+                        <div class="my-2 col-10">
+                            <the-image-tag
+                            v-for="tag in tags"
+                            v-bind:key="tag.id"
+                            v-bind:tag="tag"
+                            >{{tag}}</the-image-tag>
+                        </div>
+                        <div class="col-2">
+                            <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+                            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-6">
-                    <p>{{this.styleData.content}}</p>  
-                    <p class="mt-3" > 좋아요 상태 : {{ isLike }} </p>
-                    <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-                    <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
-                    <v-form>
+                    <pre>{{ this.styleData.content }}</pre>
+                    <!-- 아래는 댓글 입력 폼 -->
+                    <!-- 로그인한 사용자만 댓글 입력 가능 -->
+                    <v-form id="inputtext" v-if="checkauthority">
+                        <v-container class="p-0">
+                        <v-row>
+                            <v-col cols="12">
+                            <v-text-field
+                                v-model="message"
+                                v-on:keydown.enter.prevent="saveComment"
+                                dense
+                                clear-icon="mdi-close-circle"
+                                append-outer-icon="mdi-send"
+                                clearable
+                                label="댓글 달아주세요!!"
+                                type="text"
+                                @click:clear="clearMessage"
+                                @click:append-outer="saveComment"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        </v-container>
+                    </v-form>
+
+                    <!-- 만약 로그인을 안 했으면 검색창 대신 아래의 문구가 뜸 -->
+                    <v-form v-else>
+                        <a href="" id="loginplz" style="text-decoration:none;color:teal;" @click="goToSignin">
+                            <h5>댓글을 입력하시려면 로그인해주세요!</h5>
+                        </a>
+                    </v-form>
+
+                    <!-- 여기는 차마 불러오지 못한 댓글 미리 보여주는 느낌 -->
+                    <div id="comment" v-if="instant">
+                        <b-avatar :src="checkMemberInfo.profile" size="2rem" class="me-2 my-1 d-inline-flex">
+                        </b-avatar>
+                        <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
+                        <p class="content d-inline">{{instant}}</p>
+                    </div>
+
+                    <!-- 댓글 리스트 받아오는 부분 -->
+                    <the-modal-comment-list
+                    id="comment"
+                    v-for="(singlecomment, index) in comments"
+                    v-bind:key="index"
+                    v-bind:content="singlecomment.comment"
+                    v-bind:commentId="singlecomment.id"
+                    v-bind:profile="singlecomment.member.profile"
+                    v-bind:writer="singlecomment.member.nickname"
+                    >{{singlecomment}}</the-modal-comment-list>
+                    <!-- <v-form>
                         <v-container class="p-0">
                         <v-row>
                             <v-col cols="12">
@@ -51,7 +110,7 @@
                     v-bind:key="singlecomment.id"
                     v-bind:content="singlecomment.comment"
                     v-bind:writer="singlecomment.member.nickname"
-                    >{{singlecomment}}</the-modal-comment-list>
+                    >{{singlecomment}}</the-modal-comment-list> -->
                 </div>
             </div>
         </b-modal>
@@ -85,6 +144,7 @@ export default {
                 nickname: '',
                 profile: '',
             },
+            checkauthority: '',
             memberStore,
             comments:[],    
             password: 'Password',
@@ -92,6 +152,7 @@ export default {
             message: null,
             marker: true,
             iconIndex: 0,
+            instant: '',
             tags:[],
         }
     },
@@ -138,8 +199,15 @@ export default {
     },
 
     created () {
-        
+        // 댓글 불러오는 axios
+        // console.log(this.listArray[0])
+        // axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.}/comments/all`)
+        // .then(({ data })=> {    
+        //     this.comments = data;
+        // })
+        this.checkauthority = this.checkMemberInfo.authority
     },
+
     methods: {
         openModal(data) {
             this.styleData = data
@@ -157,6 +225,9 @@ export default {
                 this.tags = data;
             })
             console.log(this.styleData)
+        },
+        goToSignin() {
+            this.$router.push({name:'Signin'})
         },
         nextPage () {
             this.pageNum += 1;
@@ -182,8 +253,17 @@ export default {
                 ? this.iconIndex = 0
                 : this.iconIndex++
         },
+        getComment() {
+            axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.styleData.id}/comments/all`)
+            .then(({ data })=> {    
+                this.comments = data;
+            })
+            this.checkauthority = this.checkMemberInfo.authority
+        },
         // 댓글 저장하는 axios
         saveComment() {
+            this.instant = this.message
+            
             if (this.message){
                 const messageInfo = {
                     "comment":this.message, 
@@ -197,10 +277,9 @@ export default {
                 })
                 .then((res) => {
                     if (res.data.comment){
-                        console.log('success')
-                        console.log(res.data)
-                        this.$store.dispatch('reloadComments', res.data)
-                        this.comments.push(this.message)
+                        // pass같은 개념
+                        // this.$store.dispatch("updateComment", {id:this.id})
+                        
                     }else{
                         Swal.fire({
                             icon: 'error',
@@ -209,8 +288,13 @@ export default {
                             confirmButtonColor: '#7e7fb9',
                             confirmButtonText: "확인",
                         })
+                        this.getComment()
                     }
                 })
+                .then(
+                    this.getComment()
+                )
+
                 .catch(err =>{
                     console.log(err)
                 });
@@ -353,4 +437,5 @@ export default {
     text-align: center;
     font-weight: 600;
 }
+
 </style>
