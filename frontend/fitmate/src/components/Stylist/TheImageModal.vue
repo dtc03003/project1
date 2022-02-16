@@ -9,36 +9,42 @@
       <template #modal-title id="modaltop">
         <b-avatar :src="profile" id="avatar" size="3rem" class="me-2">
         </b-avatar>
-        <h4 id="name" class="d-inline align-item-center">{{ nickname }}</h4>
+        <h4 id="name" class="d-inline ms-2 align-item-center" style="color:lavender;">{{ nickname }}</h4>
         <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
 
           <!-- 상세 이미지 -->
-          <img :src="thumbnail" alt="" id="imageDetail" class="mr-2">
+          <div style="position:relative;">
+            <img :src="thumbnail" alt="" id="imageDetail" class="mr-2">
+            <!-- 하트 -->
+            <div id="heart">
+              <v-icon v-if="isLike==false" style="color:black; font-weight:bold;" large @click="follow()">mdi-heart-outline</v-icon>
+              <!-- <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="2.5" @click="follow()"></b-icon> -->
+              <v-icon v-else large style="color:red; font-weight:bold;" @click="unfollow()">mdi-heart</v-icon>
+                <!-- <b-icon v-else icon="suit-heart-fill" font-scale="2.5" variant="danger" @click="unfollow()"></b-icon>                 -->
+            </div>
+          </div>
 
-          <!-- 태그 -->
-          <div class="row">
-            <div class="my-2 col-10">
+          <div class="row" style="width:100%;">
+            <!-- 태그 -->
+            <div class="my-3 col-12 d-inline">
                 <the-image-tag
                 v-for="tag in tags"
                 v-bind:key="tag.id"
                 v-bind:tag="tag"
                 >{{tag}}</the-image-tag>
             </div>
-            <div class="col-2">
-                <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-                <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
-            </div>
           </div>
         </div>
 
 
         <!-- 별도의 col 지정, 반응형 가능 -->
-        <div class="col">
+        <div class="col-12 col-md-6">
           <!-- 게시글 내용 -->
-          <pre>{{ content }}</pre>
+          <pre id="inputtext">{{ content }}</pre>
+
           <!-- 아래는 댓글 입력 폼 -->
           <!-- 로그인한 사용자만 댓글 입력 가능 -->
           <v-form id="inputtext" v-if="checkauthority">
@@ -350,6 +356,12 @@ export default {
 
 #imageDetail{
   width:100%;
+}
+
+#heart {
+  position:absolute;
+  right: 2px;
+  /* bottom:2px; */
 }
 
 .content{

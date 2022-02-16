@@ -3,7 +3,8 @@
     <!-- <h3>여기는 스타일리스트 목록 개별</h3> -->
     <div id="singleline" class="container-fluid">
       <div class="row d-inline">
-        <div id="profilebox" class="d-block-flex justify-content-center" style="width:10rem; padding:2px;">
+        <div id="profilebox" class="d-block-wrap justify-content-center col-12 col-md-10"
+         style="width:10rem; padding:1rem;">
           <!-- 프로필 사진 -->
           <div>
             <!-- 나중에 프로필사진 클릭하면 포트폴리오로 넘어갈 수 있도록 -->
@@ -14,12 +15,21 @@
           
           <!-- 팔로워 수 -->
           <!-- 좋아요 수 100개 이상 -->
-          <div v-if="likes >= 100 ">
-            <h5>💖{{likes}}</h5>
+          <div v-if="likes >= 300 ">
+            <h5>🏆{{likes}}</h5>
+          </div>
+          <div v-else-if="likes >=200">
+            <h5>🥇{{likes}}</h5>
+          </div>
+          <div v-else-if="likes >=100">
+            <h5>🥈{{likes}}</h5>
           </div>
           <!-- 좋아요 수 100개 미만 -->
           <div v-else>
-            <h5>❤{{likes}}</h5>
+            <!-- <h5><v-icon style="color:purple;">mdi-hanger</v-icon>{{likes}}</h5> -->
+            <!-- <h5><v-icon style="color:purple;">mdi-trophy-variant</v-icon>{{likes}}</h5> -->
+            <h5>🥉{{likes}}</h5>
+            <!-- <h5>❤{{likes}}</h5> -->
           </div>          
           <!-- 평점 -->
 
