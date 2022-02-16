@@ -53,7 +53,7 @@ export default {
             method: 'get',
         })
         .then((res)=> this.portfolioconfirm = res.data.about)
-        .catch(()=>{console.log('포트폴리오를 먼저 생성해주세요!')})
+        .catch(()=>{})
     },
 }
 </script>

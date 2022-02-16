@@ -200,7 +200,6 @@ export default {
 
     created () {
         // 댓글 불러오는 axios
-        // console.log(this.listArray[0])
         // axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.}/comments/all`)
         // .then(({ data })=> {    
         //     this.comments = data;
@@ -215,16 +214,13 @@ export default {
             // 댓글 불러오는 axios
             axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.styleData.id}/comments/all`)
             .then(({ data })=> {    
-                console.log(data)
                 this.comments = data;
             })
             // 태그 불러오는 axios
             axios.get(`${FITMATE_BASE_URL}/api/v1/tag/${this.styleData.id}`)
             .then(({ data })=> {    
-                console.log(data)
                 this.tags = data;
             })
-            console.log(this.styleData)
         },
         goToSignin() {
             this.$router.push({name:'Signin'})
@@ -294,10 +290,7 @@ export default {
                 .then(
                     this.getComment()
                 )
-
-                .catch(err =>{
-                    console.log(err)
-                });
+                .catch(() => {});
                 this.resetIcon()
                 this.clearMessage()
             }else{

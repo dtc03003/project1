@@ -64,9 +64,6 @@ export default {
       // 찜 가져오는 axios
       axios.get(`${FITMATE_BASE_URL}/api/v1/countOfFollower/${this.nickname}`)
       .then(({ data })=> {
-        console.log('찜 바꾸기 성공') 
-        console.log(this.stylistId)      
-        console.log(data)
         this.likes = data;
       })
     },
@@ -91,9 +88,6 @@ export default {
     // 찜 가져오는 axios
     axios.get(`${FITMATE_BASE_URL}/api/v1/countOfFollower/${this.nickname}`)
     .then(({ data })=> {
-      console.log('찜 성공') 
-      console.log(this.stylistId)      
-      console.log(data)
       this.likes = data;
     })
   },

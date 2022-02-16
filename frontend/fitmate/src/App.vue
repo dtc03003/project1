@@ -121,11 +121,10 @@ export default {
           url: `${FITMATE_BASE_URL}/api/v1/portfolio/${this.checkMemberInfo.nickname}`,
           method: 'get',
         })
-        .then((res)=> {
+        .then(()=> {
           this.portfolioconfirm = true
-          console.log(res.data)
         })
-        .catch(()=> {console.log('포트폴리오 없음')})
+        .catch(()=> {})
       } else {
         return
       }

@@ -35,7 +35,6 @@ const qnaStore = {
 
         async getComments({ commit }, payload) {
             let { data } = await axios.get(`/api/v1/comment/${payload.id}`)
-            console.log(data);
             commit("setComments", { comments: data })
         },
 

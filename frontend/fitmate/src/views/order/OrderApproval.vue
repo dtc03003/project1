@@ -82,7 +82,7 @@ export default {
         if(tokens['pg_token']) {
             this.pg_token = tokens['pg_token'];
         }
-        console.log(this.pg_token);
+
         this.registPayment();
         this.endTime = dayjs(new Date(this.data.endTime)).format("HH:00");
     },
@@ -95,11 +95,9 @@ export default {
         ...mapActions(reserveStore, ["importMyPayment"]),
         async registPayment() {
             this.data = this.getOrderData;
-            console.log(this.data);
             let check = true;
             let size = this.getMyPayments.size;
             for(let i = 1; i < size; i++) {
-                console.log(this.getMyPayments[i]);
                 if(JSON.stringify(this.data) == JSON.stringify(this.getMyPayments[i])) {
                     check = false;
                     break;

@@ -126,10 +126,9 @@ export default {
                 gender: this.signup.gender,
                 phone: this.signup.phoneNum,
                 authority: "ROLE_STYLIST"
-           }
-           console.log(memberInfo); 
-           this.$router.push({name: "Signin"}); 
-           axios.post(`${FITMATE_BASE_URL}/auth/signup`, memberInfo);
+            }
+            this.$router.push({name: "Signin"}); 
+            axios.post(`${FITMATE_BASE_URL}/auth/signup`, memberInfo);
         },
 
         checkEmail() {

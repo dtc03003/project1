@@ -141,10 +141,8 @@ export default {
             if(this.getPayStatus) {
                 // console.log(window.navigator.userAgent); -- 사용자가 현재 pc인지 모바일인지 확인
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    console.log("모바일임!");
                     window.open(this.getMobileUrl, "_self");
                 }else {
-                    console.log("pc임!");
                     window.open(this.getPCUrl, "_self");
                 }
             }

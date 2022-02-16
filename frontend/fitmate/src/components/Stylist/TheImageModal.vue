@@ -224,9 +224,7 @@ export default {
         .then(
           this.getComment()
         )
-        .catch(err =>{
-          console.log(err)
-        })
+        .catch(() =>{})
         this.resetIcon()
         this.clearMessage()
       }else{
