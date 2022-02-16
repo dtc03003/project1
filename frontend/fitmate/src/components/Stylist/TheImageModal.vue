@@ -5,7 +5,7 @@
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
-    <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
+    <b-modal size="xl" :id="'bv-modal-'+id" scrollable header-class="modalHeader" hide-footer>
       <template #modal-title id="modaltop">
         <b-avatar :src="profile" size="3rem" class="me-2">
         </b-avatar>
@@ -21,11 +21,16 @@
           <!-- 태그 -->
           <div class="row">
             <div class="my-2 col-10">
-                <the-image-tag
-                v-for="tag in tags"
-                v-bind:key="tag.id"
-                v-bind:tag="tag"
-                >{{tag}}</the-image-tag>
+                <!-- <div v-if = !tags[0]>
+                  <h3 class="d-inline" id="guidetags">등록한 태그가 없습니다.😢</h3>
+                </div>
+                <div v-else> -->
+                  <the-image-tag
+                  v-for="tag in tags"
+                  v-bind:key="tag.id"
+                  v-bind:tag="tag"
+                  >{{tag}}</the-image-tag>
+                <!-- </div> -->
             </div>
             <div class="col-2">
                 <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
@@ -47,7 +52,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="message"
-                    @keyup.enter="saveComment"
+                    v-on:keydown.enter.prevent="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
                     append-outer-icon="mdi-send"
@@ -352,5 +357,14 @@ export default {
 
 .content{
   font-size: 0.9rem;
+}
+#guidetags {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+.modalHeader {
+    background-color: #7e7fb9;
+    text-align: center;
+    font-weight: 600;
+    color: white;
 }
 </style>
