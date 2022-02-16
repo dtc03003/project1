@@ -133,7 +133,12 @@ export default {
 #exitbtn { background-color: #7e7fb9; }
 
 #mypage { padding: 5%; max-width: 100%; min-width: 320px; margin: 0 auto; justify-content: center; }
-#tabs { margin: 0 auto; font-size: 1rem; text-align: center; }
+#tabs { 
+    margin: 0 auto;
+    font-size: 1.3rem;
+    text-align: center;
+    font-family: 'GangwonEdu_OTFBoldA';
+}
 .nickname {font-size: 2rem; font-family: 'Pretendard-SemiBold', fantasy;}
 .dropdownitem { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>
