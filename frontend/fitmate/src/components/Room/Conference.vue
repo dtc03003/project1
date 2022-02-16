@@ -3,9 +3,7 @@
 		<div id="session" v-if="session">
 			<div id="video-container" class="col-md-3" style="display: flex; margin:5%">
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<!-- <draggable v-model="array" @start="drag = true" @end="drag = false"> -->
 				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-				<!-- </draggable> -->
 			</div>
 		</div>
 	</div>
@@ -15,9 +13,9 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/UserVideo';
-// import draggable from 'vuedraggable'
+import {mapGetters, mapActions} from 'vuex'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
+const memberStore = "memberStore";
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
@@ -26,7 +24,6 @@ export default {
 
 	components: {
 		UserVideo,
-		// draggable,
 	},
 
 	data () {
@@ -36,21 +33,40 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-
+			host: {},
+			me:{},
 			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			myUserName: '',
 		}
 	},
 	created(){
+		this.getInfo();
+		this.myUserName = this.me.nickname;
 		// this.mySessionId =  this.$route.params.hostname;
 	},
+	computed:{
+		...mapGetters(memberStore, ["checkMemberInfo"])
+	},
 	mounted(){
+		console.log(this.me);
 		this.joinSession();
 	},
 	destroyed(){
 		this.leaveSession();
 	},
 	methods: {
+		...mapActions(memberStore, ["signInMemberInfo"]),
+		getInfo() { //사용자 정보 가져오기
+			if (this.checkMemberInfo) 
+				this.me = this.checkMemberInfo;
+			else 
+				this.importInfo(localStorage.getItem("accessToken"));
+			}
+		,
+		async importInfo(accessToken) { //토큰 이용
+			await this.signInMemberInfo(accessToken);
+			this.me = this.checkMemberInfo;
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -119,7 +135,6 @@ export default {
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
 			if (this.session) this.session.disconnect();
-
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.publisher = undefined;
@@ -134,17 +149,6 @@ export default {
 			this.mainStreamManager = stream;
 		},
 
-		/**
-		 * --------------------------
-		 * SERVER-SIDE RESPONSIBILITY
-		 * --------------------------
-		 * These methods retrieve the mandatory user token from OpenVidu Server.
-		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-		 *   3) The Connection.token must be consumed in Session.connect() method
-		 */
 
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
@@ -215,9 +219,7 @@ video#local-video-undefined{
 	height: 300px;
 }
 video {
-	width: 800px;
-	height: 800px;
+	width: 600px;
+	height: 600px;
 }
-
-
 </style>
