@@ -21,7 +21,7 @@ public class ChatRoomService {
         }
         return chatRoomRepository.save(ChatRoom.builder()
                 .host(host)
-                .title(host.getName()+"의 상담실")
+                .title(host.getNickname()+"의 상담실")
                 .build());
     }
     public ChatRoom findById(Long id){
