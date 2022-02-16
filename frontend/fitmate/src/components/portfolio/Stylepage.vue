@@ -13,18 +13,18 @@
         <div class="col-12 text-end" >
             
             <b-button  v-if="checkMemberInfo.nickname == this.profileData.nickname &&  this.checkauthority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
-            <b-modal size="lg" id="modal-1" title="Style 등록" hide-footer>
+            <b-modal size="lg" id="modal-1" class="font" title="Style 등록" hide-footer>
                 <b-row>
                     
                     <b-col class="col-12">
-                        <h3>게시글</h3>
+                        <h3 class="font">게시글</h3>
                         <b-form-textarea id="textarea" size="lg" v-model="post.text" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
                         </b-form-textarea>
                         <hr>
                     </b-col>
                     <v-container fluid>
                         
-                        <h3>태그 및 이미지</h3>
+                        <h3 class="font">태그 및 이미지</h3>
                         <v-combobox
                             v-model="inputtags"
                             hide-selected
@@ -233,4 +233,10 @@ line-height: 0px;
 margin: 0px 16px;
 }
 p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
+.font {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+#modal-1___BV_modal_title_ {
+    font-family: 'SDSamliphopangche_Basic' !important;
+}
 </style>
