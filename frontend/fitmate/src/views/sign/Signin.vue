@@ -137,14 +137,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+$main-color: #8763FB;
 #app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
 #signinTitle, #warning, .signup, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 #goSignup { color: black; font-weight: bold;}
 #card {width: 100%; padding: 5%; position: relative; }
 .xcircle { color: gray; }
 .form {width: 100%;}
-#submitBtn { background: linear-gradient(to right, #8d8eeb, #8763FB); width: 100%; border-color: #8763FB; vertical-align: middle; font-size: 1.2rem;}
+#submitBtn { background: linear-gradient(to right, #8d8eeb, $main-color); width: 100%; border-color: $main-color; vertical-align: middle; font-size: 1.2rem;}
 #warning { color: red; font-size: 1rem; }
 .signup { font-size: 1rem; }
 p { display: inline; }
@@ -166,7 +167,7 @@ p { display: inline; }
 	line-height: 0px;
 	margin: 0px 16px;
 }
-p#goSignup:hover {color: #8763FB;}
+p#goSignup:hover {color: $main-color;}
 ::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 
 </style>

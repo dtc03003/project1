@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped>
-#app { text-align: center; min-width: 320px; }
+#app { text-align: center; max-width: 100%; min-width: 320px; }
 #signinTitle { font-family: "SDSamliphopangche_Basic", "ImcreSoojin", fantasy; }
 #cards {
     margin: 5px;
