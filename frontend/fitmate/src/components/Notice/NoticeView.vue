@@ -2,8 +2,8 @@
     <b-container class="bv-example-row mt-3">
 
         <b-row>
-            <b-col>
-                <h3 class="underline-hotpink">게시물 상세보기</h3>
+            <b-col align="right">
+                <a id="backbtn" @click="goBack">🔙</a>
             </b-col>
         </b-row>
 
@@ -14,17 +14,16 @@
                     v-if="Object.keys(notice).length != 0"
                     :header-html="`
                     <h3>${notice.title}</h3>
-                    <!-- <h5>(${notice.id})</h5> -->
                     <h5>${notice.writer}</h5>
                     <div>
                         <h6>${notice.createdAt}</h6>
                     </div>
                 `"
-                    class="mb-2"
+                    class="mb-2 card"
                     border-variant="dark"
                     no-body
                 >
-                    <b-card-body class="text-left">
+                    <b-card-body class="text-left card">
                         <span style="white-space: pre-line">
                             {{ notice.content }}
                         </span>
@@ -57,7 +56,14 @@ export default {
     },
 
     methods: {
-        
+        goBack() {
+            this.$router.go(-1);
+        }
     },
 }
 </script>
+
+<style scoped>
+#backbtn { cursor: pointer; font-size: 1.5rem; }
+.card {font-family: 'Pretendard-SemiBold', serif;}
+</style>

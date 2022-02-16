@@ -22,7 +22,6 @@
                         </b-form-textarea>
                         <hr>
                     </b-col>
-                    <!-- <b-col class="col-12"> -->
                     <v-container fluid>
                         
                         <h3>태그 및 이미지</h3>
@@ -38,7 +37,6 @@
                         >
                         </v-combobox>
                     </v-container>
-                    <!-- </b-col> -->
                     <b-col class="col-12">
                         <UploadImages :max="1" ref="image" @changed="handleImages"/>
                     </b-col>
@@ -183,15 +181,47 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 @media (min-width: 992px) { 
    .modal .modal-lg { 
         max-width: 50% !important;
         width: 50% !important;
     }
  }
-#submitBtn { background-color: #7e7fb9; width: 100%;} /* 올해의 색상코드: #6667AB */
-#registBtn { background-color: #7e7fb9; }
+
+$regist-color: #7e7fb9;
+$ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
+@mixin transition() {
+    transition: 700ms $ease_out;
+    &:hover{
+        transition: 400ms $ease_out;
+    }
+}
+#submitBtn { background-color: $regist-color; width: 100%;} /* 올해의 색상코드: #6667AB */
+#registBtn { 
+    // background-color: $regist-color;
+    display: inline-block;
+    padding: 1em 2em;
+    border-radius: 0.5rem;
+    color: $regist-color;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.678rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: linear-gradient(to right, rgba($regist-color, 0) 25%, rgba($regist-color, .8) 75%);
+    background-position: 1% 50%;
+    background-size: 400% 300%;
+    border: 1px solid $regist-color;
+    @include transition;
+    
+    &:hover{
+        color: white;
+        color: #fff;
+        background-position: 99% 50%;
+    }
+}
 .hr-sect::before,
 .hr-sect::after {
 content: "";

@@ -3,7 +3,7 @@
 
         <b-row>
             <b-col>
-                <h3 class="underline-hotpink">Q&A 목록</h3>
+                <h3 id="subbar" class="underline-hotpink">Q&A</h3>
             </b-col>
         </b-row>
 
