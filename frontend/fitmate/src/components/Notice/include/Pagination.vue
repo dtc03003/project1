@@ -2,7 +2,7 @@
     <b-container class="bv-example-row mt-3">
         <b-row>
             <b-col>
-                <b-table-simple hover responsive>
+                <b-table-simple hover responsive id="table">
 
                     <b-thead head-variant="dark">
                         <b-tr>
@@ -14,10 +14,10 @@
                     </b-thead>
 
                     <b-tbody>
-                        <b-tr v-for="(notice, id) in paginatedData" :key="id">
+                        <b-tr v-for="(notice, id) in paginatedData" :key="id" @click="goDetailNotice(notice.id)">
                             <b-td> {{notice.id}} </b-td>
                             <b-td> {{notice.writer}} </b-td>
-                            <b-th><router-link :to="`/notice/view/${notice.id}`">{{notice.title}}</router-link></b-th>
+                            <b-th>{{notice.title}}</b-th>
                             <b-td>{{notice.createdAt}}</b-td>
                         </b-tr>
                     </b-tbody>
@@ -29,9 +29,8 @@
                     <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
                     <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn btn-secondary">다음</button>
                 </div>
-
-                <div class="btn">
-                    <b-button v-if="checkisSignin" variant="outline-primary" @click="moveCreate">등록</b-button>
+                <div class=".btn">
+                    <b-button v-if="checkisSignin" @click="moveCreate" id="gradient-btn">등록</b-button>
                 </div>
 
             </b-col>
@@ -78,6 +77,9 @@ export default {
         prevPage () {
             this.pageNum -= 1;
         },
+        goDetailNotice(id) {
+            this.$router.push(`/notice/view/${id}`);
+        }
     },
 
     computed: {
@@ -102,6 +104,7 @@ export default {
 </script>
 
 <style>
+table {font-family: 'Pretendard-SemiBold', serif;}
 .btn-cover {
     margin-top: 1.5rem;
     text-align: center;
@@ -117,4 +120,5 @@ export default {
 .btn {
     float: right;
 }
+
 </style>

@@ -263,7 +263,38 @@ html, body {
   color: #6d6d6d;
 }
 
-
+//버튼 색 입히기(애니메이션)
+$ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
+$btn-color: rgb(102,103, 171);
+@mixin transition() {
+    transition: 700ms $ease_out;
+    &:hover{
+        transition: 400ms $ease_out;
+    }
+}
+#gradient-btn{
+    display: inline-block;
+    padding: 0.75em 1.25em;
+    border-radius: 0.5rem;
+    color: $btn-color;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: linear-gradient(to right, rgba($btn-color, 0) 25%, rgba($btn-color, .8) 75%);
+    background-position: 1% 50%;
+    background-size: 400% 300%;
+    border: 1px solid #8763FB;
+    @include transition;
+    
+    &:hover{
+        color: white;
+        color: #fff;
+        background-position: 99% 50%;
+    }
+}
 
 /* 폰트 영역(나중에 따로 분리) */
 @font-face {

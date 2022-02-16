@@ -375,4 +375,5 @@ margin: 0px 16px;
 .formTitle {font-family: "SDSamliphopangche_Basic", fantasy;}
 .info, .radio, .smallBtn, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 .warningpwd { color: red; }
+::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>

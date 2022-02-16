@@ -66,7 +66,18 @@
         <div class="row mt-3" v-if="checkisSignin">
             <div class="col-4 gotocenter">
                 <!-- <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" id="myheart" icon="suit-heart-fill" font-scale="3" variant="success" ></b-icon> -->
-                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" v-b-modal.follow></b-icon>
+                <div v-if="this.nickname == this.checkMemberInfo.nickname"><b-icon icon="suit-heart-fill" font-scale="3" variant="success" v-b-modal.follow></b-icon></div>
+                <div v-else-if="isFollow == false" class="box">
+                    <div style="position: relative;">
+                        <b-icon icon="suit-heart-fill" font-scale="3" @click="follow()" ></b-icon>
+                        <!-- 겹치기 부분 -->
+                        <div style="position: absolute; top:0px "></div>
+                    </div>
+                </div>
+                <div v-else>
+                    <b-icon icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
+                </div>
+                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()"  v-b-modal.follow></b-icon>
                 <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
                 <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
                 <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
@@ -134,7 +145,7 @@ export default {
             })
         
         // 내가 이 사람을 팔로우 했는지 요청하는 부분, 토큰전송해야함
-        if(this.checkisSignin){
+        if(this.checkisSignin || this.nickname != this.checkMemberInfo.nickname){
             this.$store.dispatch("getIsFollow", { nickname: this.nickname })
         .catch(() => {})
         }
@@ -142,14 +153,8 @@ export default {
         this.$store.dispatch("getCountFollow", { nickname: this.nickname })
 
         if(this.nickname == this.checkMemberInfo.nickname){
-            this.$store.dispatch("getFollowerList")
+            this.getFollowList()
         }
-
-        for(let temp of this.FollowerList){
-            this.dumi.push(temp.nickname)
-        }
-
-        this.follower = this.dumi.join(',');
     },
 
     methods: {
@@ -289,9 +294,28 @@ export default {
             })
         },
 
+        followlist() {
+            Swal.fire({
+                title: '팔로우 리스트',
+                text: `${this.follower}`,
+                confirmButtonColor: '#7e7fb9',
+                confirmButtonText: "확인",
+            })
+        },
+
         joinroom(){
             this.$router.push(`/room/${this.nickname}`)
         },
+
+        async getFollowList(){
+            await this.$store.dispatch("getFollowerList")
+
+            for(let temp of this.FollowerList){
+                this.dumi.push(temp.nickname)
+            }
+
+            this.follower = this.dumi.join(',');
+        }
     },
 }
 </script>
@@ -327,5 +351,8 @@ b-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.trytocenter {
+    text-align: center;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <b-container class="bv-example-row mt-3">
-        <h2>공지사항 등록</h2>
+        <h2>QnA 등록</h2>
         <b-form-group
             id="title-group"
             label="제목:"
@@ -13,10 +13,11 @@
                 v-model="title"
                 type="text"
                 placeholder="제목 입력..."
+                class="mt-1"
             />
         </b-form-group>
     
-        <b-form-group id="content-group" label="내용:" label-for="content">
+        <b-form-group id="content-group" label="내용:" label-for="content" class="mt-1">
             <b-form-textarea
                 id="content"
                 ref="content"
@@ -24,15 +25,16 @@
                 placeholder="내용 입력..."
                 rows="10"
                 max-rows="15"
+                class="mt-1"
             >
             </b-form-textarea>
         </b-form-group>
     
-        <b-button 
-            variant="primary"
+        <b-button
             class="m-1 float-right"
             @click="checkValue"
             v-bind:disabled="title == '' || content == ''"
+            id="gradient-btn" align="right"
         >등록</b-button>
     
     </b-container>
@@ -127,8 +129,13 @@ export default {
     
         // List 페이지로 이동
         moveList() {
-            this.$router.push({ name: "QnAList" }).catch(()=>{});
+            this.$router.push({ name: "QnAList" });
         },
     },
 }
 </script>
+
+<style scoped>
+h2, #title-group, #content-group, ::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
+#title-group, #content-group {font-size: 1.1rem;}
+</style>

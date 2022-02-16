@@ -3,6 +3,7 @@
         <p id="fontid">{{title}}</p>
         <div class="row">
             <div class="col-9">
+                <conference/>
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
             <div id="app_chat_list" class="col-3 msgbox">
@@ -37,10 +38,12 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
+import Conference from './Conference.vue'
     // import Swal from 'sweetalert2'
     const memberStore = "memberStore";
     var bottom_flag = true;
     export default {
+  components: { Conference },
         name: "Room",
         data: () => {
             return {
@@ -262,8 +265,8 @@
     background-color: #7e7fb9;
 }
 .sendform {
-    position: absolute;
-    bottom: 0px;
+    /* position: absolute; */
+    /* bottom: 0px; */
     width: 100%;
     border-radius: 10px;
     background-color: white;

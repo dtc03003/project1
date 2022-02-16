@@ -1,15 +1,11 @@
 <template>
     <b-container class="bv-example-row mt-3">
 
-        <b-row>
-            <b-col>
-                <h3 class="underline-hotpink">게시물 상세보기</h3>
-            </b-col>
-        </b-row>
-
         <b-row class="mb-1">
             <b-col>
-
+                <!-- <div align="right">
+                    <a id="backbtn" @click="goBack">🔙</a>
+                </div> -->
                 <b-card
                     v-if="Object.keys(qna).length != 0"
                     :header-html="`
@@ -19,7 +15,7 @@
                         <h6>${qna.createdAt}</h6>
                     </div>
                 `"
-                    class="mb-2"
+                    class="mb-2 card"
                     border-variant="dark"
                     no-body
                 >
@@ -31,7 +27,7 @@
                 </b-card>
 
                 <!-- 댓글 등록 -->
-                <b-form-group id="content-group" label="댓글:" label-for="content">
+                <b-form-group id="content-group" label="댓글:" label-for="content" class="form">
                     <b-form-textarea
                         id="content"
                         ref="content"
@@ -39,13 +35,13 @@
                         placeholder="댓글 입력..."
                         rows="5"
                         max-rows="10"
+                        class="mt-1"
                     >
                     </b-form-textarea>
                 </b-form-group>
                 
                 <b-button 
-                    variant="primary"
-                    class="btn m-1 float-right"
+                    class="btn m-1 enrollBtn float-right"
                     @click="registComment"
                     v-bind:disabled="comment == ''"
                 >등록</b-button>
@@ -62,7 +58,7 @@
                     </b-thead>
 
                     <b-tbody>
-                        <b-tr v-for="(comments, id) in commentInfos" :key="id">
+                        <b-tr v-for="(comments, id) in commentInfos" :key="id" class="form">
                             <b-td>{{comments.writer}} </b-td>
                             <b-td width="700" style="word-break:break-all">{{comments.comment}}</b-td>
                             <b-td>{{comments.createdAt}}</b-td>
@@ -121,9 +117,15 @@ export default {
                 "qnaId": parseInt(this.id)
             };
 
+            // *async, await 을 쓰는 이유
+            // 1.  새로운 댓글을 보내는 코드
             await axios.post("/api/v1/comment", commentInfo)
 
+            // 2.  db에 들어간 데이터를 다시 불러 오는 코드
             this.$store.dispatch("getComments", { id: this.id })
+
+            // async, await를 사용하지 않으니 1번이 실행되어서 db에 데이터가 저장되기 전에 
+            // 2번이 실행되어 새로운 댓글을 들고오지 못하는 상황이었음
             
             const Toast = Swal.mixin({
                 toast: true,
@@ -145,8 +147,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .btn {
     float: right;
+}
+#backbtn { 
+    cursor: pointer; font-size: 1.5rem;
+}
+.card, .form {
+    font-family: 'Pretendard-SemiBold', serif;
+}
+$main-color: #8763FB;
+.enrollBtn {
+    background: linear-gradient(to right, #8d8eeb, $main-color);
+    width: 100%;
+    border-color: $main-color;
+    vertical-align: middle;
+    font-size: 1.2rem;
 }
 </style>

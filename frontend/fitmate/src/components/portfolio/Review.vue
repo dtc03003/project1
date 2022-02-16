@@ -3,7 +3,7 @@
         <div v-show="!status" align="center">
             <p id="noreview">아직 리뷰가 없습니다😢</p>
         </div>
-        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review" v-show="status"/>
+        <ReviewDetail id="my-review" v-for="(review, idx) in someReviews" :key="review.id" :idx="idx" :review="review" :name="'Portfolio'" v-show="status"/>
         <b-pagination align="center" class="mt-2"
             v-model="page"
             :total-rows="rows"
@@ -16,7 +16,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import ReviewDetail from './review/ReviewDetail.vue';
+import ReviewDetail from '@/components/review/ReviewDetail.vue';
 const reviewStore = "reviewStore";
 
 export default {
