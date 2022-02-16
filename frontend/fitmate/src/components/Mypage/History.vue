@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       status: false,
+      mypayments: [],
     }
   },
   components: {
@@ -26,20 +27,20 @@ export default {
   },
   created() {
     this.getHistory();
-    if (this.mypayments.length > 0) {
-      this.status = true
-    }
   },
   computed: {
     ...mapGetters(memberStore, ["checkMemberInfo"]),
     ...mapGetters(reserveStore, ["getMyPayments"]),
     ...mapState(memberStore, ["isSignin", "memberInfo"]),
-    ...mapState(reserveStore, ["mypayments"]),
   },
   methods: {
     ...mapActions(reserveStore, ["importMyPayment"]),
     async getHistory() {
-      this.importMyPayment(this.checkMemberInfo.nickname)
+      await this.importMyPayment(this.checkMemberInfo.nickname);
+      this.mypayments = this.getMyPayments;
+      if (this.mypayments.length > 0) {
+        this.status = true
+      }
     }
   }
 }

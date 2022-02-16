@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-container class="detail">
-      <b-row class="tmm">
-        <b-col cols="3" class="r history-img">
+      <b-row class="r">
+        <b-col cols="3" class="c history-img">
           <img class="history-user-img" :src="profile" />
         </b-col>
-        <b-col cols="9" class="r">
+        <b-col cols="9" class="c">
           <b-row>
             <b-col>
               <h3 align="left">FITMATE 주문정보</h3>
@@ -75,7 +75,7 @@ export default {
     this.between = this.reservation.reservation.between
     if (this.reservation.state == 'COMPLETE') { this.coststate = '결제완료' } 
     else { this.coststate = '결제대기' }
-    if (this.reservation.reservation.state == 'COMPLETE') { this.consultstate = '스타일링완료' } 
+    if (new Date(this.endTime) < new Date(Date.now())) { this.consultstate = '스타일링완료' } 
     else { this.consultstate = '대기중'}
     this.profile = this.reservation.reservation.portfolio.member.profile
     this.membername = this.reservation.reservation.member.nickname
@@ -92,8 +92,8 @@ export default {
 </script>
 
 <style>
-.detail { width: 80%; display: flex;}
-.r { border: 1px solid black; }
+.detail { width: 80%; display: flex; font-family: 'Pretendard-SemiBold', serif;}
+.r { border-radius: 1rem; box-shadow: 0px 0px 5px 0px; margin: 5px; }
 img {max-width: 100%;}
 .history-img {
   display: block;
@@ -104,9 +104,6 @@ img {max-width: 100%;}
 .history-user-img {
   width: 100%; height: 100%;
   object-fit: cover;
-}
-.tmm {
-  margin: 5px;
 }
 .gotobottom {
   align-items: baseline;
