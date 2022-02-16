@@ -51,7 +51,7 @@
 
         <h4>이미지🖼️</h4>
         <b-col class="col-12">
-            <UploadImages ref="image" @changed="handleImages"/>
+            <UploadImages :max="1" ref="image" @changed="handleImages"/>
         </b-col>
 
         <b-col class="col-12">
@@ -66,6 +66,7 @@
 import UploadImages from "vue-upload-drop-images"
 import ReviewDetail from '@/components/review/ReviewDetail.vue';
 import { mapGetters, mapActions } from 'vuex';
+import Swal from 'sweetalert2'
 // import dayjs from 'dayjs';
 const reviewStore = "reviewStore";
 const memberStore = "memberStore";
@@ -168,27 +169,34 @@ export default {
     async changePage(page) { //페이지 바꾸기
       this.someReviews = this.reviews.slice(5*(page-1), 5*page);
     },
-    async handleImages(files){ //이미지 업로드
-      if (files.length >= 2) {
-        alert('사진은 한 장만 첨부 가능합니다. \nclear All을 누르고 다시 진행해주세요!')
-      }else {
-        const formData = new FormData();
-        const image = this.$refs['image'].files[0];
+    async handleImages(){ //이미지 업로드
+      const formData = new FormData();
+      const image = this.$refs['image'].files[0];
 
-        let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
-        if(["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
-          formData.append('images', image);
-          
-          await this.uploadRVImage(formData);
-          this.post.thumbnail = this.getImagesrc;
-        }else {
-          alert('파일 형식에 맞지 않거나 사진 크기가 너무 큽니다! \nclear All을 누르고 다시 진행해주세요!')
-        }
+      let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
+
+      if(["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
+        formData.append('images', image);
+        
+        await this.uploadRVImage(formData);
+        this.post.thumbnail = this.getImagesrc;
+      }else {
+        Swal.fire({
+          icon: 'error',
+          title: '파일 형식에 맞지 않거나 \n사진 크기가 너무 큽니다! \nclear All 후 다시 진행해주세요!',
+          confirmButtonColor: '#7e7fb9',
+          confirmButtonText: "확인",
+        })
       }
     },
     async Posting() { //게시하기
       if(!this.post.content || this.post.rating == 0 || !this.post.thumbnail || !this.selectedname) {
-        alert("작성할 기록 선택 후 평점, 내용, 사진 모두 작성해주세요!😮");
+        Swal.fire({
+          icon: 'error',
+          title: '작성할 기록 선택 후 평점, 내용, 사진 모두 작성해주세요!😮',
+          confirmButtonColor: '#7e7fb9',
+          confirmButtonText: "확인",
+        })
       }else {
         const postInfo = {
             content: this.post.content,
@@ -204,7 +212,21 @@ export default {
         //   }
         await this.importReviews(); //리뷰 갱신
         await this.findNum(this.selectedname); //평점 갱신
-        alert("리뷰가 등록되었습니다😄");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title: '리뷰가 등록되었습니다😄'
+        })
         this.$refs['modal-1'].hide();
       }
     },

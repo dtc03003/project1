@@ -13,9 +13,12 @@
         <div class="col-12 text-end" >
             
             <b-button  v-if="checkMemberInfo.nickname == this.profileData.nickname &&  this.checkauthority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
-            <b-modal size="lg" id="modal-1" class="font" title="Style 등록" hide-footer>
+            <b-modal size="lg" id="modal-1" header-class="modalHeader" hide-footer>
+                <template #modal-title>
+                    <h3 class="d-inline" id="loginplz">Style 등록</h3>
+                </template>
+
                 <b-row>
-                    
                     <b-col class="col-12">
                         <h3 class="font">게시글</h3>
                         <b-form-textarea id="textarea" size="lg" v-model="post.text" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
@@ -234,4 +237,11 @@ p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
 #modal-1___BV_modal_title_ {
     font-family: 'SDSamliphopangche_Basic' !important;
 }
+.modalHeader {
+    color: white;
+    background-color: #7e7fb9;
+    text-align: center;
+    font-weight: 600;
+}
+
 </style>
