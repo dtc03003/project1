@@ -334,7 +334,7 @@ export default {
   }
 
 #beforeimg:hover{
-  backface-visibility: hidden;
+  backface-visibility: visible;
   transform: scale(1.15, 1.15);
   opacity: 1;  
   }
