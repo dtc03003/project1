@@ -11,8 +11,8 @@
               <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
+
           <!-- 우측 사이드 정렬 -->
-          <!-- 사이드로 밀기 위해서는 토글 버튼이.. 다 사라짐... 넘나 힘들... 토글 고민해야 함-->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
           <div v-if="checkisSignin">
             <ul class="navbar-nav me-auto mb-md-0 justify-content-end">
@@ -53,7 +53,7 @@
                 <a class="mx-4"><router-link to="/stylebook">Style book</router-link></a>
               </li>
               <li class="nav-item">
-                <a class="mx-4"><router-link to="/qna">QnA</router-link></a>
+                <a class="mx-4"><router-link to="/qna">Q&A</router-link></a>
               </li>
               <li class="nav-item">
                 <a class="mx-4"><router-link to="/notice">Notice</router-link></a>
@@ -63,12 +63,26 @@
         </div>
       </div>
     </nav>
-    <router-view></router-view>
 
-    <footer>
-      <p>아래는 시험용</p>
-      {{checkMemberInfo}}
-    </footer>
+    <body>
+      <div id="wrap" >
+        <!-- 본문 section -->
+        <section>
+          <div>
+            <router-view></router-view>
+          </div>
+        </section>
+
+
+        <!-- 푸터 footer -->
+        <footer id="footer" class="footer">
+          <div class="row">
+            <p id="footertext">(주)Fitmate</p>
+          </div>
+        </footer>
+      </div>
+
+    </body>
     
   </div>
 </template>
@@ -153,9 +167,12 @@ export default {
 </script>
 
 <style lang="scss">
+// 메인
 #main {
   min-width: 320px;
 
+
+// 네비게이션 바
 }
 #nav {
   padding: 30px;
@@ -189,6 +206,11 @@ export default {
   font-weight: bold;
 }
 
+// 댓글
+#comment{
+  font-family: 'Pretendard-Regular';
+}
+
 // 아바타 하단 이름 등에 적용
 #name{
   font-family: 'LeferiPoint-WhiteObliqueA';
@@ -206,6 +228,42 @@ li:hover{
   transform: scale(1.08, 1.08);
   opacity: 1;  
 }
+
+
+// 아래부터는 footer영역에 관해서
+#wrap{
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+footer{
+  width: 100%;
+  height: 10rem;
+  bottom: 0px;
+  position: absolute;
+  background-color: #cbc7cf;
+  align-content: center;
+}
+
+section{
+  padding-bottom: 15rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#footertext{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #6d6d6d;
+}
+
+
 
 /* 폰트 영역(나중에 따로 분리) */
 @font-face {
@@ -270,6 +328,13 @@ li:hover{
     font-family: 'Pretendard-SemiBold';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
     font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
 }
 </style>

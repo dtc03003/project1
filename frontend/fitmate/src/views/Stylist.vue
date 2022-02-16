@@ -7,7 +7,7 @@
       <!-- 드롭다운 -->
       <!-- 스타일리스트 들어오면 함수걸어 정렬예정 -->
       <div id="inputtext" class="col col-md-2 d-inline align-items-center">
-        <select class="form-select" aria-label="Default select example" v-model="selected">
+        <select id="select" class="form-select" aria-label="Default select example" v-model="selected">
           <option disabled value="">정렬</option>
           <option @click="sortedLatest" value="1">최신순</option>
           <option @click="sortedGrade" value="2">평점순</option>
@@ -32,15 +32,18 @@
       <!-- <div class="mt-2">Value: {{ text }}</div> -->
 
       <!-- 스타일리스트 목록 컴포넌트 -->
-      <the-stylist-list 
-      v-for="(stylist, index) in stylistArray"
-      :key="index"
-      v-bind:member="stylist.member"
-      v-bind:nickname="stylist.nickname"
-      v-bind:profile="stylist.member.profile"
-      v-bind:stylistId="stylist.id"
-      >
-      </the-stylist-list>
+      <div id="images">
+        <the-stylist-list 
+        v-for="(stylist, index) in stylistArray"
+        :key="index"
+        v-bind:member="stylist.member"
+        v-bind:nickname="stylist.nickname"
+        v-bind:profile="stylist.member.profile"
+        v-bind:stylistId="stylist.id"
+        >
+        </the-stylist-list>
+      </div>
+
     </div>
   </div>
 </template>
@@ -127,6 +130,10 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
+
+select{
+  box-shadow: 1px 2px 2px rgb(180, 180, 180);
+}
 
 </style>
