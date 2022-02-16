@@ -38,13 +38,13 @@
       >{{tag}}</b-form-tag>
 
       
-      <!-- <div v-if="!stylebooks">
+      <div v-if="!stylebooks">
         <h5>검색결과가 없습니다.</h5>
-      </div> -->
+      </div>
 
       <!-- 이미지 및 모달 부분 -->
-      <div class="d-flex-wrap">
-        <the-image-modal
+      <div id="images" class="d-flex-wrap">
+        <the-image-modal 
         v-for="image in stylebooks"
         v-bind:key="image.createdAt"
         v-bind:thumbnail="image.thumbnail"
@@ -127,6 +127,10 @@ export default {
   font-size: 0.9rem;
   text-align: center;
   align-self: center;
+}
+
+#images{
+  text-align: center;
 }
 
 </style>

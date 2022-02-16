@@ -9,7 +9,7 @@
       <template #modal-title id="modaltop">
         <b-avatar :src="profile" size="3rem" class="me-2">
         </b-avatar>
-        <h4 class="d-inline align-item-center">{{ nickname }}</h4>
+        <h4 id="name" class="d-inline align-item-center">{{ nickname }}</h4>
         <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
@@ -38,7 +38,7 @@
             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
           <!-- 아래는 댓글 입력 폼 -->
           <!-- 로그인한 사용자만 댓글 입력 가능 -->
-          <v-form v-if="checkauthority">
+          <v-form id="inputtext" v-if="checkauthority">
             <v-container class="p-0">
               <v-row>
                 <v-col cols="12">
@@ -67,7 +67,7 @@
           </v-form>
 
           <!-- 여기는 차마 불러오지 못한 댓글 미리 보여주는 느낌 -->
-          <div v-if="instant">
+          <div id="comment" v-if="instant">
             <b-avatar :src="checkMemberInfo.profile" size="2rem" class="me-2 my-1 d-inline-flex">
             </b-avatar>
             <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
@@ -76,6 +76,7 @@
 
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
+          id="comment"
           v-for="(singlecomment, index) in comments"
           v-bind:key="index"
           v-bind:content="singlecomment.comment"
@@ -223,7 +224,7 @@ export default {
         )
         .catch(err =>{
           console.log(err)
-        });
+        })
         this.resetIcon()
         this.clearMessage()
       }else{
@@ -314,10 +315,11 @@ export default {
 
 <style>
 .thumb {
- display: inline-block;
- overflow: hidden;
- height: 170px;
- width: 170px;
+  display: inline-block;
+  overflow: hidden;
+  height: 12rem;
+  width: 12rem;
+  box-shadow: 3px 2px 2px rgb(160, 160, 160);
  }
 .thumb img { 
   display: block; 
@@ -348,4 +350,6 @@ export default {
 .content{
   font-size: 0.9rem;
 }
+
+
 </style>
