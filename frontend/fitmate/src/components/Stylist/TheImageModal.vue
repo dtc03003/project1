@@ -1,7 +1,7 @@
 <template>
 	<span>
     <div class="thumb">
-      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2">   
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2 ">   
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
@@ -19,12 +19,18 @@
           <img :src="thumbnail" alt="" id="imageDetail" class="mr-2">
 
           <!-- 태그 -->
-          <div class="my-2">
-            <the-image-tag
-            v-for="tag in tags"
-            v-bind:key="tag.id"
-            v-bind:tag="tag"
-            >{{tag}}</the-image-tag>
+          <div class="row">
+            <div class="my-2 col-10">
+                <the-image-tag
+                v-for="tag in tags"
+                v-bind:key="tag.id"
+                v-bind:tag="tag"
+                >{{tag}}</the-image-tag>
+            </div>
+            <div class="col-2">
+                <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+                <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
+            </div>
           </div>
         </div>
 
@@ -33,9 +39,6 @@
         <div class="col">
           <!-- 게시글 내용 -->
           <pre>{{ content }}</pre>
-          <p class="mt-3" > 좋아요 상태 : {{ isLike }} </p>
-          <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
           <!-- 아래는 댓글 입력 폼 -->
           <!-- 로그인한 사용자만 댓글 입력 가능 -->
           <v-form id="inputtext" v-if="checkauthority">
@@ -84,7 +87,6 @@
           v-bind:profile="singlecomment.member.profile"
           v-bind:writer="singlecomment.member.nickname"
           >{{singlecomment}}</the-modal-comment-list>
-
         </div>
       </div>
       <!-- <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button> -->
@@ -331,6 +333,7 @@ export default {
   -ms-interpolation-mode: bicubic; 
   /* Scaled images look a bit better in IE now */
   padding: 2px;
+  object-fit: cover;
   }
 
 #beforeimg:hover{
@@ -350,6 +353,4 @@ export default {
 .content{
   font-size: 0.9rem;
 }
-
-
 </style>

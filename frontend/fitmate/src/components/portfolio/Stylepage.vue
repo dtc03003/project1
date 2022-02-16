@@ -13,18 +13,18 @@
         <div class="col-12 text-end" >
             
             <b-button  v-if="checkMemberInfo.nickname == this.profileData.nickname &&  this.checkauthority == 'ROLE_STYLIST'" v-b-modal.modal-1 id="registBtn">등록</b-button>
-            <b-modal size="lg" id="modal-1" title="Style 등록" hide-footer>
+            <b-modal size="lg" id="modal-1" class="font" title="Style 등록" hide-footer>
                 <b-row>
                     
                     <b-col class="col-12">
-                        <h3>게시글</h3>
+                        <h3 class="font">게시글</h3>
                         <b-form-textarea id="textarea" size="lg" v-model="post.text" placeholder="최대 255자 입력 가능합니다." rows="10" max-rows="10">                            
                         </b-form-textarea>
                         <hr>
                     </b-col>
                     <v-container fluid>
                         
-                        <h3>태그 및 이미지</h3>
+                        <h3 class="font">태그 및 이미지</h3>
                         <v-combobox
                             v-model="inputtags"
                             hide-selected
@@ -201,12 +201,12 @@ $ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
 #registBtn { 
     // background-color: $regist-color;
     display: inline-block;
-    padding: 1em 2em;
+    padding: 0.3em 1.1em;
     border-radius: 0.5rem;
     color: $regist-color;
-    margin-top:2rem;
+    margin-top:1rem;
     font-weight: bold;
-    font-size: 0.678rem;
+    font-size: 1.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
@@ -233,4 +233,10 @@ line-height: 0px;
 margin: 0px 16px;
 }
 p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
+.font {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+#modal-1___BV_modal_title_ {
+    font-family: 'SDSamliphopangche_Basic' !important;
+}
 </style>

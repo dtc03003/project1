@@ -6,7 +6,7 @@
                     <Profile/>
                 </b-col>
                 <b-col cols="9">
-                    <b-tabs content-class="mt-3" fill pills card>
+                    <b-tabs id="profiletab" content-class="mt-3" fill pills card>
                         <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
                         <b-tab title="Review"><Review/></b-tab>
                         <b-tab title="Schedule"><Schedule/></b-tab>
@@ -73,5 +73,9 @@ export default {
 .card-header {
     background-color: #FFFFFF !important;
     border-bottom: 1px solid rgba(0,0,0,.125);
+}
+#profiletab {
+    font-family: 'GangwonEdu_OTFBoldA';
+    font-size: 1.3rem;
 }
 </style>
