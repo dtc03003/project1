@@ -3,7 +3,8 @@
     <!-- 아래는 댓글 -->
     <b-avatar :src="profile" size="2rem" class="me-2 my-1 d-inline-flex">
     </b-avatar>
-    <h6 class="d-inline me-2" style="font-weight:bold;">{{writer}}</h6><p class="content d-inline">{{content}}</p>
+    <h6 class="d-inline me-2" style="font-weight:bold;">{{writer}}</h6>
+    <p class="content d-inline">{{content}}</p>
   </div>
 </template>
 

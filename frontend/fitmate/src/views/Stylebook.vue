@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid col-10 offset-1">
+  <div class="container-fluid col-12 col-md-10 offset-md-1">
     <div class="row">
       <div id="subbar" class="col-12 align-items-center">
         <h1>Stylebook</h1>
@@ -31,15 +31,22 @@
           <!-- <v-icon size="small" class="ms-1" style="color:lightgray;" >mdi-window-close</v-icon> -->
         </b-form-tag>
       </div>
-
-
       
-      <div v-if="stylebooks===[]" class="d-flex text-align-center">
-        <h5>검색결과가 없습니다.</h5>
+      <!-- 검색결과가 없을 때 -->
+      <div v-if="stylebooks==false" id="subbar" class="d-flex justify-content-center">
+        <h5>검색하신 태그에 모두 일치하는 결과가 없습니다.😅</h5>
+      </div>
+
+      <!-- 스피너 -->
+      <div id="spinner" v-if="status=='yet'">
+        <v-progress-circular 
+          indeterminate
+          color="purple"
+        ></v-progress-circular>
       </div>
 
       <!-- 이미지 및 모달 부분 -->
-      <div id="images" class="d-flex-wrap">
+      <div v-else id="images" class="d-flex-wrap">
         <the-image-modal 
         v-for="image in stylebooks"
         v-bind:key="image.createdAt"
@@ -75,7 +82,8 @@ export default {
     value: [],
     singletag:'',
     color:'',
-    stylebook:''
+    stylebook:'',
+    status:'',
   }),
   methods:{
     saveValue:function() {
@@ -83,10 +91,12 @@ export default {
       this.singletag = ''
     },
     searchImages:function() {
+      this.status='yet'
       ///styleBook/search/{tagList}
       axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search/${this.value}`)
       .then(({ data })=> {
         this.stylebooks = data;
+        this.status=''
       })
       this.checkauthority = this.checkMemberInfo.authority    
     },
@@ -97,10 +107,12 @@ export default {
     }
   },
   created () {
+    this.status='yet'
     // 있는 사진 전부 불러오는 거
     axios.get(`${FITMATE_BASE_URL}/api/v1/styleBook/search`)
     .then(({ data })=> {
       this.stylebooks = data;
+      this.status=''
     })
     this.checkauthority = this.checkMemberInfo.authority
   },
@@ -131,6 +143,12 @@ export default {
 
 #images{
   text-align: center;
+  /* text-align-last: auto; */
+}
+
+#spinner {
+  display: flex;
+  justify-content: center;
 }
 
 </style>

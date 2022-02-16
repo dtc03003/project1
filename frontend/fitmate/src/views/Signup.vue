@@ -6,7 +6,7 @@
                     <b-card class="text-center mt-3" style="max-width: 90rem" align="left">
                         <h1 id="signinTitle">Fitmate 회원가입</h1>
                         <b-row>
-                            <b-col cols="6">
+                            <b-col cols="md-6 12">
                                 <b-card id="cards" border-variant="light">
                                 <router-link class="navbar-brand cardouter" :to="{ name: 'SignupNormal' }">
                                     <img id="normal" class="signupimg" src="@/assets/normal.png" width="100%" height="60%">
@@ -14,7 +14,7 @@
                                 </router-link>
                             </b-card>
                             </b-col>
-                            <b-col cols="6">
+                            <b-col cols="md-6 12">
                                 <b-card id="cards" border-variant="light">
                                 <router-link class="navbar-brand" :to="{ name: 'SignupStylist' }">
                                     <img id="stylist" class="signupimg" src="@/assets/stylist.png" width="100%" height="60%">

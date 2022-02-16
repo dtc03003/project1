@@ -1,10 +1,8 @@
 <template>
-    <b-container class="bv-example-row mt-3">
+    <b-container class="bv-example-row col-12 col-md-10 offset-md-1">
 
         <b-row>
-            <b-col>
-                <h3 id="subbar" class="underline-hotpink">공지사항</h3>
-            </b-col>
+                <h1 id="subbar" class="underline-hotpink">Notice</h1>
         </b-row>
 
         <!-- 페이지네이션 -->

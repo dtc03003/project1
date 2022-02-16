@@ -1,12 +1,8 @@
 <template>
-    <b-container class="bv-example-row mt-3">
-
+    <b-container class="bv-example-row col-12 col-md-10 offset-md-1">
         <b-row>
-            <b-col>
-                <h3 id="subbar" class="underline-hotpink">Q&A</h3>
-            </b-col>
+                <h1 id="subbar" class="underline-hotpink">Q&A</h1>
         </b-row>
-
         <pagination :list-array="pageArray"></pagination>
 
     </b-container>
