@@ -1,35 +1,11 @@
 <template>
 	<div id="main-container" class="container">
-		<div id="join" v-if="!session">
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required disabled="true">
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div>
-
 		<div id="session" v-if="session">
-			<div id="session-header">
-				<!-- <h1 id="session-title">{{ mySessionId }}</h1> -->
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-			</div>
-			<!-- <div id="main-video" class="col-md-6">
-				<user-video :stream-manager="mainStreamManager"/>
-			</div> -->
 			<div id="video-container" class="col-md-3" style="display: flex; margin:5%">
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+				<!-- <draggable v-model="array" @start="drag = true" @end="drag = false"> -->
 				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+				<!-- </draggable> -->
 			</div>
 		</div>
 	</div>
@@ -39,7 +15,7 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/UserVideo';
-
+// import draggable from 'vuedraggable'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
@@ -50,6 +26,7 @@ export default {
 
 	components: {
 		UserVideo,
+		// draggable,
 	},
 
 	data () {
@@ -67,7 +44,12 @@ export default {
 	created(){
 		// this.mySessionId =  this.$route.params.hostname;
 	},
-
+	mounted(){
+		this.joinSession();
+	},
+	destroyed(){
+		this.leaveSession();
+	},
 	methods: {
 		joinSession () {
 			// --- Get an OpenVidu object ---
@@ -113,7 +95,7 @@ export default {
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
 							// resolution: '640x480',  // The resolution of your video
-							resolution: '320x240',  // The resolution of your video
+							resolution: '600x600',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: true       	// Whether to mirror your local video or not
@@ -214,3 +196,28 @@ export default {
 	}
 }
 </script>
+<style>
+#video-container video{
+	margin-right: 5%;
+	padding: 5%;
+}
+
+#video-container p{
+	display: block;
+	color: black; font-size: 1.7rem;
+	font-weight: bold;
+	text-align: center;
+	font-family: 'GangwonEdu_OTFBoldA';
+	width: 100%;
+}
+video#local-video-undefined{
+	width: 300px;
+	height: 300px;
+}
+video {
+	width: 800px;
+	height: 800px;
+}
+
+
+</style>
