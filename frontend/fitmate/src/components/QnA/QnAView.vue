@@ -3,9 +3,6 @@
 
         <b-row class="mb-1">
             <b-col>
-                <!-- <div align="right">
-                    <a id="backbtn" @click="goBack">🔙</a>
-                </div> -->
                 <b-card
                     v-if="Object.keys(qna).length != 0"
                     :header-html="`
@@ -41,7 +38,7 @@
                 </b-form-group>
                 
                 <b-button 
-                    class="btn m-1 enrollBtn float-right"
+                    class="btn m-1 float-right enrollBtn"
                     @click="registComment"
                     v-bind:disabled="comment == ''"
                 >등록</b-button>
@@ -151,18 +148,16 @@ export default {
 .btn {
     float: right;
 }
-#backbtn { 
-    cursor: pointer; font-size: 1.5rem;
-}
 .card, .form {
     font-family: 'Pretendard-SemiBold', serif;
 }
 $main-color: #8763FB;
 .enrollBtn {
-    background: linear-gradient(to right, #8d8eeb, $main-color);
-    width: 100%;
+    background: linear-gradient(to right, #a6a8f3, $main-color);
     border-color: $main-color;
     vertical-align: middle;
-    font-size: 1.2rem;
+    padding: 0.75em 1.25em;
+    font-size: 0.8rem;
+    font-family: 'Pretendard-SemiBold', serif;
 }
 </style>
