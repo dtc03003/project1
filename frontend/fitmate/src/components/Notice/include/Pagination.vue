@@ -14,7 +14,7 @@
                     </b-thead>
 
                     <b-tbody>
-                        <b-tr v-for="(notice, id) in paginatedData" :key="id" @click="goDetailNotice(notice.id)">
+                        <b-tr v-for="(notice, id) in paginatedData" :key="id" @click="goDetailNotice(notice.id)" id="pointer">
                             <b-td> {{notice.id}} </b-td>
                             <b-td> {{notice.writer}} </b-td>
                             <b-th>{{notice.title}}</b-th>
@@ -120,5 +120,7 @@ table {font-family: 'Pretendard-SemiBold', serif;}
 .btn {
     float: right;
 }
-
+#pointer {
+    cursor: pointer;
+}
 </style>

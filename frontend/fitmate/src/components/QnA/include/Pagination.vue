@@ -14,7 +14,7 @@
                     </b-thead>
 
                     <b-tbody class="list">
-                        <b-tr v-for="(qna, id) in paginatedData" :key="id" @click="goDetailQnA(qna.id)">
+                        <b-tr v-for="(qna, id) in paginatedData" :key="id" @click="goDetailQnA(qna.id)" id="pointer">
                             <b-td>{{qna.id}}</b-td>
                             <b-td>{{qna.writer}}</b-td>
                             <b-th>{{qna.title}}</b-th>
@@ -156,5 +156,8 @@ $btn-color: #8763FB;
         color: #fff;
         background-position: 99% 50%;
     }
+}
+#pointer {
+    cursor: pointer;
 }
 </style>
