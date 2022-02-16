@@ -6,19 +6,19 @@
         <div class="col-2">
             <b-button v-if="checkMemberInfo.nickname == this.profilenick && checkMemberInfo.authority == 'ROLE_STYLIST'" class="submitBtn" @click="$bvModal.show('aboutmodify')">수정</b-button>
         </div>
-        <b-modal id="aboutmodify" size="lg" centered hide-footer>
+        <b-modal id="aboutmodify" size="lg" centered header-class="modalHeader" hide-footer>
             <template #modal-title>
-                &#x26d4; 소개글 수정
+                <h3 class="d-inline" id="fontchange" style="font-size: 1.7rem">✅ 소개글 수정</h3>
             </template>
             <b-row>
                 <b-form-textarea id="textarea"  v-model="abouttext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="8" size="md"
                 ></b-form-textarea>
                 <b-col class="col-2"></b-col>
                 <b-col class="col-4 trytocenter" >
-                    <b-button class="exitbtn" @click="modifyabout()">수정</b-button>
+                    <b-button class="exitbtn" id="fontchange" @click="modifyabout()">수정</b-button>
                 </b-col>
                 <b-col class="col-4 trytocenter">
-                    <b-button class="exitbtn" @click="$bvModal.hide('aboutmodify')">취소</b-button>
+                    <b-button class="exitbtn" id="fontchange" @click="$bvModal.hide('aboutmodify')">취소</b-button>
                 </b-col>
             </b-row>
         </b-modal>
@@ -109,5 +109,15 @@ export default {
 }
 .trytocenter {
     text-align: center;
+}
+#fontchange {
+    font-family: 'GangwonEdu_OTFBoldA' ;
+    font-size: 1.2rem;
+}
+.modalHeader {
+    color: white;
+    background-color: #7e7fb9;
+    text-align: center;
+    font-weight: 600;
 }
 </style>

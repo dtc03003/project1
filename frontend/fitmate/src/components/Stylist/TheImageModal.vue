@@ -1,15 +1,15 @@
 <template>
 	<span>
     <div class="thumb">
-      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2">   
+      <img id="beforeimg" :src="thumbnail" @click="$bvModal.show(`bv-modal-${id}`)+rulike()" class="m-2 "> 
     </div>
 
     <!-- 이미지를 클릭했을 때 뜨는 모달 -->
-    <b-modal size="xl" :id="'bv-modal-'+id" scrollable hide-footer>
+    <b-modal size="xl" :id="'bv-modal-'+id" header-class="mheader" scrollable hide-footer>
       <template #modal-title id="modaltop">
-        <b-avatar :src="profile" size="3rem" class="me-2">
+        <b-avatar :src="profile" id="avatar" size="3rem" class="me-2">
         </b-avatar>
-        <h4 class="d-inline align-item-center">{{ nickname }}</h4>
+        <h4 id="name" class="d-inline align-item-center">{{ nickname }}</h4>
         <!-- <h5>{{id}}</h5> -->
       </template>
       <div class="row">
@@ -19,12 +19,23 @@
           <img :src="thumbnail" alt="" id="imageDetail" class="mr-2">
 
           <!-- 태그 -->
-          <div class="my-2">
-            <the-image-tag
-            v-for="tag in tags"
-            v-bind:key="tag.id"
-            v-bind:tag="tag"
-            >{{tag}}</the-image-tag>
+          <div class="row">
+            <div class="my-2 col-10">
+                <!-- <div v-if = !tags[0]>
+                  <h3 class="d-inline" id="guidetags">등록한 태그가 없습니다.😢</h3>
+                </div>
+                <div v-else> -->
+                  <the-image-tag
+                  v-for="tag in tags"
+                  v-bind:key="tag.id"
+                  v-bind:tag="tag"
+                  >{{tag}}</the-image-tag>
+                <!-- </div> -->
+            </div>
+            <div class="col-2">
+                <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
+                <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
+            </div>
           </div>
         </div>
 
@@ -33,18 +44,15 @@
         <div class="col">
           <!-- 게시글 내용 -->
           <pre>{{ content }}</pre>
-          <p class="mt-3" > 좋아요 상태 : {{ isLike }} </p>
-          <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>
           <!-- 아래는 댓글 입력 폼 -->
           <!-- 로그인한 사용자만 댓글 입력 가능 -->
-          <v-form v-if="checkauthority">
+          <v-form id="inputtext" v-if="checkauthority">
             <v-container class="p-0">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
                     v-model="message"
-                    @keyup.enter="saveComment"
+                    v-on:keydown.enter.prevent="saveComment"
                     dense
                     clear-icon="mdi-close-circle"
                     append-outer-icon="mdi-send"
@@ -67,7 +75,7 @@
           </v-form>
 
           <!-- 여기는 차마 불러오지 못한 댓글 미리 보여주는 느낌 -->
-          <div v-if="instant">
+          <div id="comment" v-if="instant">
             <b-avatar :src="checkMemberInfo.profile" size="2rem" class="me-2 my-1 d-inline-flex">
             </b-avatar>
             <h6 class="d-inline me-2" style="font-weight:bold;">{{checkMemberInfo.nickname}}</h6>
@@ -76,6 +84,7 @@
 
           <!-- 댓글 리스트 받아오는 부분 -->
           <the-modal-comment-list
+          id="comment"
           v-for="(singlecomment, index) in comments"
           v-bind:key="index"
           v-bind:content="singlecomment.comment"
@@ -83,7 +92,6 @@
           v-bind:profile="singlecomment.member.profile"
           v-bind:writer="singlecomment.member.nickname"
           >{{singlecomment}}</the-modal-comment-list>
-
         </div>
       </div>
       <!-- <b-button class="mt-3 d-block" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button> -->
@@ -223,7 +231,7 @@ export default {
         )
         .catch(err =>{
           console.log(err)
-        });
+        })
         this.resetIcon()
         this.clearMessage()
       }else{
@@ -314,10 +322,11 @@ export default {
 
 <style>
 .thumb {
- display: inline-block;
- overflow: hidden;
- height: 170px;
- width: 170px;
+  display: inline-block;
+  overflow: hidden;
+  height: 12rem;
+  width: 12rem;
+  box-shadow: 3px 2px 2px rgb(160, 160, 160);
  }
 .thumb img { 
   display: block; 
@@ -326,19 +335,25 @@ export default {
   /* Scale up to fill container height */ 
   min-width: 100%; 
   /* Scale up to fill container width */ 
-  -ms-interpolation-mode: bicubic; 
+  /* -ms-interpolation-mode: bicubic;  */
+  -ms-interpolation-mode: inherit;
   /* Scaled images look a bit better in IE now */
   padding: 2px;
+  object-fit: cover;
   }
 
 #beforeimg:hover{
   backface-visibility: hidden;
   transform: scale(1.15, 1.15);
-  opacity: 1;  
+  opacity: 1;
   }
 
-#modaltop{
+
+.mheader{
   background-color: rgb(102,103, 171);
+  text-align: center;
+  font-weight: 600;
+  color: white;
 }
 
 #imageDetail{
@@ -347,5 +362,11 @@ export default {
 
 .content{
   font-size: 0.9rem;
+}
+#guidetags {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+#avatar{
+  box-shadow: 3px 2px 2px rgb(105, 105, 105);
 }
 </style>

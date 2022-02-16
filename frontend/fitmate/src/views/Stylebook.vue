@@ -7,44 +7,40 @@
 
       <!-- 검색창 -->
       <!-- 지우지 말아주세요 -->
-      <!-- <v-text-field
-      v-model="singletag"
-      clearable
-      multiple
-      @keyup.enter="saveValue"
-      append-icon="mdi-tag-search"
-      @click:append="saveValue"
-      solo>
-      </v-text-field> -->
-      <div id="inputtext">
+      <div id="inputtext" class="mb-2">
         <v-combobox
         v-model="value"
         clearable
         multiple
-        label="당신의 스타일 태그를 입력하세요!"
+        label="당신의 스타일#태그를 입력하세요!"
         append-icon="mdi-tag-search"
         solo
         >
         </v-combobox>
       </div>
 
+      <div class="d-flex align-content-center mb-5">
+        <b-form-tag
+          v-for="tag in value"
+          @remove="removeTag(tag)"
+          :key="tag"
+          class="mr-1"
+          id="searchtag"
+          append-icon="mdi-tag"
+        ><v-icon size="small" class="me-1" style="color:lightgray;">mdi-pound</v-icon>{{tag}}
+          <!-- <v-icon size="small" class="ms-1" style="color:lightgray;" >mdi-window-close</v-icon> -->
+        </b-form-tag>
+      </div>
 
-      <b-form-tag
-        v-for="tag in value"
-        @remove="removeTag(tag)"
-        :key="tag"
-        class="mr-1"
-        id="searchtag"
-      >{{tag}}</b-form-tag>
 
       
-      <!-- <div v-if="!stylebooks">
+      <div v-if="stylebooks===[]" class="d-flex text-align-center">
         <h5>검색결과가 없습니다.</h5>
-      </div> -->
+      </div>
 
       <!-- 이미지 및 모달 부분 -->
-      <div class="d-flex-wrap">
-        <the-image-modal
+      <div id="images" class="d-flex-wrap">
+        <the-image-modal 
         v-for="image in stylebooks"
         v-bind:key="image.createdAt"
         v-bind:thumbnail="image.thumbnail"
@@ -52,7 +48,8 @@
         v-bind:id="image.id"
         v-bind:content="image.content"
         v-bind:nickname="image.portfolio.member.nickname"     
-        >{{image}}</the-image-modal>
+        >{{image}}
+        </the-image-modal>
       </div>
     </div>
   </div>
@@ -69,7 +66,7 @@ export default {
   name:'Stylebook',
   components:{
     // TheStylebookImage,
-    TheImageModal
+    TheImageModal,
   },
   data: () => ({
     stylebooks:[],
@@ -78,6 +75,7 @@ export default {
     value: [],
     singletag:'',
     color:'',
+    stylebook:''
   }),
   methods:{
     saveValue:function() {
@@ -120,13 +118,19 @@ export default {
 <style scopeed>
 
 #searchtag{
-  /*style="background:teal; width:fit-content; height:2rem"*/
-  background-color: rgb(102,103, 171);
+  background-color: rgb(74, 108, 146);
   width: fit-content;
-  height: 2rem;
-  font-size: 0.9rem;
+  height: fit-content;
+  font-size: 1rem;
   text-align: center;
-  align-self: center;
+  align-items: center;
+  font-family: 'LeferiPoint-WhiteObliqueA';
+  color: white;
+  margin: 2px;
+}
+
+#images{
+  text-align: center;
 }
 
 </style>

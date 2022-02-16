@@ -7,6 +7,7 @@
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
             <div id="app_chat_list" class="col-3 msgbox">
+                <div class="row"> </div>
                 <p id="firsttalk">-첫 대화시작-</p>
                 <button class="downbtn" @click="gotoDown()">⏬</button>
                 <div v-for="(m, idx) in msg" :key="idx">
@@ -19,15 +20,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="row sendform" >
-                    <div class="col-9">
+                
+            </div>  
+            <div class="row rowsendform" >
+                <div class="col-9"></div>
+                <div class="col-3 sendform" >
+                    <div class="col-8">
                         <b-form-input id="fontform" style="border: 0px;" type="text" v-model="content" @keyup.enter="sendMessage()" placeholder="메세지 입력"></b-form-input>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <b-button id="fontform" class="sendbtn" @click="sendMessage()">SEND</b-button>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 </template>
@@ -196,23 +201,6 @@ import Conference from './Conference.vue'
                     objDiv.scrollTop = objDiv.scrollHeight;
                 }
             }
-            // } else if (this.msg.slice(-1)[0].style == 'otherMsg'){
-            //     const Toast = Swal.mixin({
-            //         toast: true,
-            //         position: 'top-end',
-            //         showConfirmButton: false,
-            //         timer: 1000,
-            //         timerProgressBar: true,
-            //         didOpen: (toast) => {
-            //             toast.addEventListener('mouseenter', Swal.stopTimer)
-            //             toast.addEventListener('mouseleave', Swal.resumeTimer)
-            //         }
-            //     })
-            //     Toast.fire({
-            //         icon: 'success',
-            //         title: '메시지가 도착했습니다!'
-            //     })
-            // }
         },
     };
 </script>
@@ -231,12 +219,13 @@ import Conference from './Conference.vue'
 }
 .room {
     margin: 2rem;
+    max-height: 800px;
 }
 .msgbox {
     position: relative;
     border-radius: 10px;
     background: #f8f8ff;
-    height: 950px; 
+    height: 700px; 
     overflow-y: scroll; 
 }
 .msgbox::-webkit-scrollbar {
@@ -267,10 +256,11 @@ import Conference from './Conference.vue'
 .sendform {
     /* position: absolute; */
     /* bottom: 0px; */
-    width: 100%;
+    /* width: 100%; */
+    display: flex;
     border-radius: 10px;
     background-color: white;
-    text-align: center;
+    text-align: right;
 }
 .downbtn{
     position: absolute;
@@ -281,4 +271,12 @@ import Conference from './Conference.vue'
 #fontform {font-size:1.2rem; font-family: 'GangwonEdu_OTFBoldA';}
 p#fontid {font-size: 40pt; font-family: 'GangwonEdu_OTFBoldA';}
 p#firsttalk {font-size: 20pt; text-align: center; font-family: 'GangwonEdu_OTFBoldA';}
+.room#wrap {
+    min-height: 85vh !important;
+    position: relative;
+    width: 100%;
+}
+.rowsendform {
+    margin-left: auto;
+}
 </style>
