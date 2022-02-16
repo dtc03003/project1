@@ -3,7 +3,6 @@
         <div class="temcontainer">
             <li style="list-style: none" class="shadowbox" v-for="(style, id) in paginatedData" :key="id" >
                 <img :src="style.thumbnail" class="item" @click="openModal(style)+rulike()" >
-
             </li>
         </div>
         
@@ -22,12 +21,17 @@
                     <!-- 태그 -->
                     <div class="row">
                         <div class="my-2 col-10">
-                            <the-image-tag
-                            v-for="tag in tags"
-                            v-bind:key="tag.id"
-                            v-bind:tag="tag"
-                            >{{tag}}</the-image-tag>
-                        </div>
+                            <!-- <div v-if = !tags[0]>
+                                <h3 class="d-inline" id="guidetags">등록한 태그가 없습니다.😢</h3>
+                            </div>
+                            <div v-else> -->
+                                <the-image-tag
+                                v-for="tag in tags"
+                                v-bind:key="tag.id"
+                                v-bind:tag="tag"
+                                >{{tag}}</the-image-tag>
+                            <!-- </div> -->
+                        </div> 
                         <div class="col-2">
                             <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
                             <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
@@ -85,32 +89,6 @@
                     v-bind:profile="singlecomment.member.profile"
                     v-bind:writer="singlecomment.member.nickname"
                     >{{singlecomment}}</the-modal-comment-list>
-                    <!-- <v-form>
-                        <v-container class="p-0">
-                        <v-row>
-                            <v-col cols="12">
-                            <v-text-field
-                                v-model="message"
-                                @keyup.enter="saveComment"
-                                dense
-                                clear-icon="mdi-close-circle"
-                                append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
-                                clearable
-                                label="댓글 달아주세요!!"
-                                type="text"
-                                @click:clear="clearMessage"
-                                @click:append-outer="saveComment"
-                            ></v-text-field>
-                            </v-col>
-                        </v-row>
-                        </v-container>
-                    </v-form>
-                    <the-modal-comment-list
-                    v-for="singlecomment in comments"
-                    v-bind:key="singlecomment.id"
-                    v-bind:content="singlecomment.comment"
-                    v-bind:writer="singlecomment.member.nickname"
-                    >{{singlecomment}}</the-modal-comment-list> -->
                 </div>
             </div>
         </b-modal>
@@ -199,12 +177,6 @@ export default {
     },
 
     created () {
-        // 댓글 불러오는 axios
-        // console.log(this.listArray[0])
-        // axios.get(`${FITMATE_BASE_URL}/api/v1/portfolio/style/${this.}/comments/all`)
-        // .then(({ data })=> {    
-        //     this.comments = data;
-        // })
         this.checkauthority = this.checkMemberInfo.authority
     },
 
@@ -224,7 +196,6 @@ export default {
                 console.log(data)
                 this.tags = data;
             })
-            console.log(this.styleData)
         },
         goToSignin() {
             this.$router.push({name:'Signin'})
@@ -398,7 +369,6 @@ export default {
   box-shadow: 3px 2px 2px rgb(160, 160, 160);
   border-radius: 5%;
 }
-
 .temcontainer {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -433,9 +403,12 @@ export default {
   padding: 2rem !important;
 }
 .modalHeader {
+    color: white;
     background-color: #7e7fb9;
     text-align: center;
     font-weight: 600;
 }
-
+#guidetags {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
 </style>
