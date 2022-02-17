@@ -43,7 +43,7 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
-    import Conference from './Conference.vue'
+    import Conference from '@/components/Conference.vue'
     import Swal from 'sweetalert2'
     const memberStore = "memberStore";
     var bottom_flag = true;
