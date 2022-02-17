@@ -21,20 +21,15 @@
                     <!-- 태그 -->
                     <div class="row">
                         <div class="my-2 col-10">
-                            <!-- <div v-if = !tags[0]>
-                                <h3 class="d-inline" id="guidetags">등록한 태그가 없습니다.😢</h3>
-                            </div>
-                            <div v-else> -->
-                                <the-image-tag
-                                v-for="tag in tags"
-                                v-bind:key="tag.id"
-                                v-bind:tag="tag"
-                                >{{tag}}</the-image-tag>
-                            <!-- </div> -->
+                            <the-image-tag
+                            v-for="tag in tags"
+                            v-bind:key="tag.id"
+                            v-bind:tag="tag"
+                            >{{tag}}</the-image-tag>
                         </div> 
                         <div class="col-2">
-                            <b-icon v-if="isLike == false" icon="suit-heart-fill" font-scale="3" style="margin-right:60px;" @click="follow()"></b-icon>
-                            <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger" style="margin-right:60px;" @click="unfollow()"></b-icon>                
+                            <v-icon v-if="isLike==false" style="color:black; font-weight:bold;" large @click="follow()">mdi-heart-outline</v-icon>
+                            <v-icon v-else large style="color:red; font-weight:bold;" @click="unfollow()">mdi-heart</v-icon>
                         </div>
                     </div>
                 </div>

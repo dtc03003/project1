@@ -67,17 +67,15 @@
 
             <div class="row mt-3 " v-if="checkisSignin">
                 <div class="col-4 gotocenter">
-                    <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()" ></b-icon>
-                    <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
-                    <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
-                    <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
+                    <v-icon v-if="this.nickname == this.checkMemberInfo.nickname" size="50" style="color:black"  @click="followlist()">mdi-thumb-up</v-icon>
+                    <v-icon v-else-if="isFollow == false" size="60"  @click="follow()">mdi-thumb-up</v-icon>
+                    <v-icon v-else size="60" style="color:#7e7fb9" @click="unfollow()">mdi-thumb-up</v-icon>
                 </div>
                 <div class="col-4 gotocenter">
                     <b-button class="" size="lg" @click="joinroom()" variant="link" no-caret>
                         <img src="@/assets/consulting.png" class="gotoroom">
                     </b-button>
                 </div>
-                <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
                 <div class="col-4 gotocenter">
                     <b-button size="lg" @click="copyLink()" variant="link" no-caret>🔗</b-button>
                 </div>
