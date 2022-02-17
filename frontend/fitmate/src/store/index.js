@@ -12,6 +12,7 @@ import styleStore from "@/store/modules/styleStore";
 import followStore from "@/store/modules/followStore";
 import carouselStore from "@/store/modules/carouselStore";
 import commentStore from "@/store/modules/commentStore";
+import roomStore from "@/store/modules/roomStore";
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ const store = new Vuex.Store({
     followStore,
     carouselStore,
     commentStore,
+    roomStore,
   },
   state: {
     comments: [],
