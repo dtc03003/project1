@@ -44,8 +44,8 @@ export default {
     }
   },
 
-  created() {
-    this.$store.dispatch("getLikeList")
+  async created() {
+    await this.$store.dispatch("getLikeList")
     if(this.$store.state.followStore.likeList.length > 0) {
       this.status = true
     }
