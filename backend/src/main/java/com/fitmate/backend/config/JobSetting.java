@@ -22,7 +22,7 @@ public class JobSetting {
         JobDetail jobDetail = buildJobDetail(PostMailJob.class, new HashMap());
         try {
 //            scheduler.scheduleJob(jobDetail,buildJobTrigger("0/10 * * * * ?"));   // 10초
-            scheduler.scheduleJob(jobDetail,buildJobTrigger("* 1 * * * ?"));
+            scheduler.scheduleJob(jobDetail,buildJobTrigger("0 0 0/1 * * ?"));  //매1시간
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
