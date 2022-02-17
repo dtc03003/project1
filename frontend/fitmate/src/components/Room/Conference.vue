@@ -33,7 +33,8 @@ import UserVideo from '@/components/UserVideo';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://" + "i6d105.p.ssafy.io" + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -59,7 +60,6 @@ export default {
 		}
 	},
 	created(){
-		// this.mySessionId =  this.$route.params.hostname;
 	},
 	mounted(){
 		
@@ -74,10 +74,7 @@ export default {
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
-			console.log(123123123);
 			this.mySessionId = "Session"+this.room.id,
-			console.log(this.mySessionId);
-			console.log(this.room);
 			// --- Init a session ---
 			this.session = this.OV.initSession();
 

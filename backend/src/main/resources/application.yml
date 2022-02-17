@@ -26,7 +26,7 @@ springdoc:
 
 #    클라이언트
 url:
-  base: http://localhost:8080 
+  base: http://i6d105.p.ssafy.io
 
 spring:
   datasource:
@@ -80,7 +80,7 @@ social:
   kakao:
     client-id: 30fb9b59db516bf7c56055b26f8daf47
     admin-key: 38228a700f9de14ca3ea1932a2ff17de
-    redirect: http://localhost:8080
+    redirect: http://i6d105.p.ssafy.io
     cid: TC0ONETIME
     url:
       login: https://kauth.kakao.com/oauth/authorize

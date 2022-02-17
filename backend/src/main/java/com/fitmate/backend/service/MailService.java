@@ -35,7 +35,7 @@ public class MailService {
         message.setTo(reservation.getMember().getEmail());
         message.setSubject("화상통화 링크 및 입장코드 발송");
         StringBuilder sb = new StringBuilder();
-        sb.append("http://localhost:8080/room/"+reservation.getPortfolio().getNickname()+"\n");
+        sb.append("http://i6D105.p.ssafy.io/room/"+reservation.getPortfolio().getNickname()+"\n");
         sb.append("Access code : "+ chatRoom.getAccessCode());
         System.out.println(sb);
         message.setText(sb.toString());

@@ -131,9 +131,9 @@ export default {
                 "quantity": quantity,
                 "total_amount": this.styleList.price,
                 "tax_free_amount": 0,
-                "approval_url": "http://localhost:8080/order/approval",
-                "cancel_url": "http://localhost:8080/order/cancel",
-                "fail_url": "http://localhost:8080/order/fail"
+                "approval_url": "http://i6d105.p.ssafy.io/order/approval",
+                "cancel_url": "http://i6d105.p.ssafy.io/order/cancel",
+                "fail_url": "http://i6d105.p.ssafy.io/order/fail"
             }
             
             await this.requestKakaoPay(payinfo);
