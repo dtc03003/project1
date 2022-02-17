@@ -15,16 +15,17 @@
           :total-rows="rows"
           :per-page="perPage"
           @change="changePage"
+          id="rvpgnation"
       ></b-pagination>
     </div>
 
     <b-modal size="lg" id="modal-1" ref="modal-1" hide-footer>
       <b-row>
         <b-col>
-          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2">
+          <b-dropdown id="dropdown-1" text="기록🔍" class="m-md-2 selectStylist">
             <b-dropdown-item v-for="data in consultinfo" :key="data.id" @click="selectinfo(data)">{{`스타일리스트명: ${data}`}}</b-dropdown-item>
           </b-dropdown>
-          <p v-show="this.selectedname">{{`스타일리스트명: ${this.selectedname}`}}</p>
+          <p class="selectStylist" v-show="this.selectedname">{{`스타일리스트명: ${this.selectedname}`}}</p>
         </b-col>
         <b-col class="col-12">
           <div class="rating-container">
@@ -163,7 +164,6 @@ export default {
         }
         // if(size == temp) break;
       }
-      // console.log(this.consultinfo) //리뷰 작성해야 할 스타일리스트-날짜 정보들
     },
 
     async changePage(page) { //페이지 바꾸기
@@ -210,7 +210,6 @@ export default {
         // for(let i = 0; i < this.consultinfo.length; i++) {
         //   if(JSON.stringify(this.consultinfo[i]) == JSON.stringify({'nickname' : this.selectedname, 'date' : this.selectedDate})) this.consultinfo.splice(i, 1);
         //   }
-        // console.log(this.consultinfo);
         await this.importReviews(); //리뷰 갱신
         await this.findNum(this.selectedname); //평점 갱신
         const Toast = Swal.mixin({
@@ -317,6 +316,11 @@ h5, h4 {font-family: 'Cafe24Ssurround', serif;}
   background-image: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
 }
 .btn:hover { background-position: right center;}
+#rvpgnation {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+}
+.selectStylist, ::placeholder { font-family: "Pretendard-SemiBold", fantasy; }
 </style>
 
 <style lang="scss" scoped>
@@ -329,12 +333,12 @@ $ease_out: cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .gradient-btn{
   display: inline-block;
-  padding: 1em 2em;
+  padding: 0.5em 1em;
   border-radius: 0.5rem;
   color: #8763FB;
   margin-top:2rem;
   font-weight: bold;
-  font-size: 0.678rem;
+  font-size: 1rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   text-decoration: none;

@@ -43,8 +43,8 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
-import Conference from './Conference.vue'
-    // import Swal from 'sweetalert2'
+    import Conference from './Conference.vue'
+    import Swal from 'sweetalert2'
     const memberStore = "memberStore";
     var bottom_flag = true;
     export default {
@@ -144,7 +144,12 @@ import Conference from './Conference.vue'
                     this.connectSocket();
                 }, err => {
                     console.log(err)
-                    alert("error : 새로고침하세요")
+                    Swal.fire({
+                        icon: 'error',
+                        title: '새로고침해주세요!',
+                        confirmButtonColor: '#7e7fb9',
+                        confirmButtonText: "확인",
+                    })
                 });
             },
             connectSocket() {

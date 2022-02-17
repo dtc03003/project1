@@ -365,30 +365,56 @@ export default {
             }
         },
         uploadImage: function() {
+            if (this.$refs['image'].files.length >= 2){
+                Swal.fire({
+                    icon: 'error',
+                    title: `사진은 1장만 첨부 가능합니다!`,
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
+                return
+            }
             let form = new FormData()
             let image = this.$refs['image'].files[0]
-            const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-            form.append('images', image)
+
+            let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
+
+            if (["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
+
+                form.append('images', image)
             
-            axios.post(`${FITMATE_BASE_URL}/api/v1/images`, form, {
-                header: { 'Content-Type': 'multipart/form-data' }
-            }).then( ({data}) => {
-                this.userinfo.profile = data.src
-                Toast.fire({
-                    icon: 'success',
-                    title: '이미지 변경!',
+                axios.post(`${FITMATE_BASE_URL}/api/v1/images`, form, {
+                    header: { 'Content-Type': 'multipart/form-data' }
+                }).then( ({data}) => {
+                    this.userinfo.profile = data.src
+                    Toast.fire({
+                        icon: 'success',
+                        title: '이미지 변경!',
+                    })
                 })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '파일 형식에 맞지 않거나 \n사진 크기가 너무 큽니다!',
+                    confirmButtonColor: '#7e7fb9',
+                    confirmButtonText: "확인",
+                })
+                this.image == ''
+                return
+            }
+            
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
             })
+            
         },    
         signout() {
             this.isSignin = false

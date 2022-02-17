@@ -7,18 +7,18 @@
                     <b-thead head-variant="dark">
                         <b-tr>
                             <b-th>번호</b-th>
-                            <b-th>ID</b-th>
+                            <b-th>작성자</b-th>
                             <b-th width="700" style="word-break:break-all">제목</b-th>
                             <b-th>작성일</b-th>
                         </b-tr>
                     </b-thead>
 
                     <b-tbody>
-                        <b-tr v-for="(notice, id) in paginatedData" :key="id" @click="goDetailNotice(notice.id)">
+                        <b-tr v-for="(notice, id) in paginatedData" :key="id" @click="goDetailNotice(notice.id)" id="pointer">
                             <b-td> {{notice.id}} </b-td>
                             <b-td> {{notice.writer}} </b-td>
                             <b-th>{{notice.title}}</b-th>
-                            <b-td>{{notice.createdAt}}</b-td>
+                            <b-td>{{changeDate(notice.createdAt)}}</b-td>
                         </b-tr>
                     </b-tbody>
 
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapState, mapGetters } from 'vuex';
 
 const memberStore = "memberStore";
@@ -67,7 +68,6 @@ export default {
     methods: {
          //  게시물 등록페이지로 이동
         moveCreate() {
-            // console.log("등록페이지 이동")
             this.$router.push({ name: "NoticeCreate"});
         },  
 
@@ -79,6 +79,9 @@ export default {
         },
         goDetailNotice(id) {
             this.$router.push(`/notice/view/${id}`);
+        },
+        changeDate(date) {
+            return dayjs(date).format("YYYY-MM-DD HH:MM");
         }
     },
 
@@ -120,5 +123,7 @@ table {font-family: 'Pretendard-SemiBold', serif;}
 .btn {
     float: right;
 }
-
+#pointer {
+    cursor: pointer;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <!--날짜 선택 -> 시간 선택 -> alert창을 통해 한번 더 확인 -> ok일 경우 주문창으로 이동 -->
         <!-- 사용자 화면 -->
         <v-app>
@@ -148,7 +148,7 @@ export default {
                 })
             }
         },
-        async moveOrder() {
+        async moveOrder() {     
             if(confirm(`날짜: ${this.picker}\n시작시간: ${this.selectedTime}\n종료시간: ${this.selectedFinTime}\n예약을 진행할까요?`)) {
                 const start = new Date(this.getDate + " " +this.getTime);
                 const end = new Date(this.getDate + " " + this.selectedFinTime);
@@ -160,7 +160,22 @@ export default {
                     "endTime": dayjs(end).format('YYYY-MM-DDTHH:00:00')
                 }
                 await this.registOrder(orderinfo);
-                if(this.getReserveStatus) this.$router.push({name: "Order"});
+                if(!this.getReserveStatus) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '먼저 로그인을 해주세요!',
+                        confirmButtonColor: '#7e7fb9',
+                        confirmButtonText: "로그인",
+                        showCancelButton: true,
+                        cancelButtonText: "취소",
+                    }).then ((res) => {
+                        if (res.isConfirmed){
+                            this.$router.push({name:'Signin'})
+                        }
+                    })
+                } else {
+                    this.$router.push({name: "Order"});
+                }  
             }else {
                 this.selectedTime = '';
                 this.selectedFinTime = '';

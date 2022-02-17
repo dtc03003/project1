@@ -2,10 +2,10 @@
     <div>
         <b-container class="bv-example-row mt-3">
             <b-row>
-                <b-col col="12" sm="12" md="12" lg="12" xl="3">
+                <b-col sm="12" md="12" lg="12" xl="3">
                     <Profile/>
                 </b-col>
-                <b-col col="12" sm="12" md="12" lg="12" xl="9">
+                <b-col sm="12" md="12" lg="12" xl="9">
                     <b-tabs id="profiletab" content-class="mt-3" fill pills card>
                         <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
                         <b-tab title="Review"><Review/></b-tab>
@@ -53,7 +53,7 @@ export default {
             method: 'get',
         })
         .then((res)=> this.portfolioconfirm = res.data.about)
-        .catch(()=>{console.log('포트폴리오를 먼저 생성해주세요!')})
+        .catch(()=>{})
     },
 }
 </script>

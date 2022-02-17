@@ -92,8 +92,8 @@ export default {
 </script>
 
 <style>
-.detail { width: 80%; display: flex; font-family: 'Pretendard-SemiBold', serif;}
-.r { border-radius: 1rem; box-shadow: 0px 0px 5px 0px; margin: 5px; }
+.detail { width: 80%; display: flex; font-family: 'Pretendard-SemiBold', serif; font-size: 1rem;}
+.r { border-radius: 1rem; box-shadow: 3px 2px 2px rgb(160, 160, 160); margin: 5px; }
 img {max-width: 100%;}
 .history-img {
   display: block;

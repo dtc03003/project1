@@ -1,8 +1,6 @@
 <template>
     <div>
         <v-app>
-            <v-row class="fill-height">
-                <v-col>
                     <!--스타일리스트가 자신이 안되는 날짜 및 시간(공통) 표시(후작업)-->
                     <!-- <v-sheet height="100">
                             <b-form-group label="활동 불가 요일 선택"  v-slot="{ ariaDescribedby }">
@@ -93,7 +91,7 @@
                         <!--상세보기 창(dialog) - db 연동 후 데이터 받아올 것-->
                         <v-dialog v-model="selectedOpen" persistent max-width="600px" flat
                         :close-on-content-click="false" :activator="selectedElement" offset-x>
-                        <v-card min-width="350px" flat id="card">
+                        <v-card min-width="320px" flat id="card">
                             <v-card-text>
                                 <v-container>
                                     <v-row>
@@ -133,8 +131,6 @@
                         </v-card>
                         </v-dialog>
                     </v-sheet>
-                </v-col>
-            </v-row>
         </v-app>
     </div>
 </template>
@@ -258,8 +254,8 @@ export default {
 </script>
 
 <style scoped>
-#enrollSchedule {background-color: #6495ED; margin-right: 1%;}
-#enrollIcon {color: white;}
-.date {display: inline-block; padding-right: 2%;}
 #calendar, #card { font-family: 'Pretendard-SemiBold', fantasy;}
+/* .date {display: inline-block; padding-right: 2%;}
+#enrollSchedule {background-color: #6495ED; margin-right: 1%;}
+#enrollIcon {color: white;} */
 </style>

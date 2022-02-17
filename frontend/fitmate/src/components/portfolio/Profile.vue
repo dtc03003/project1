@@ -130,7 +130,6 @@ export default {
 
     created () {
         this.checkauthority = this.memberInfo.authority;
-        // console.log(this.checkauthority)
 
         axios.get(`/api/v1/portfolio/${this.nickname}`)
             .then(({ data }) => {
@@ -378,5 +377,8 @@ p#profileinfo{
 }
 .gotoroom {
     width: 66px;
+}
+.dropdownitem { 
+    font-family: "SDSamliphopangche_Basic", fantasy;
 }
 </style>
