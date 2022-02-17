@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <b-card class="text-center mt-2" id="card">
+        <b-card class="text-center mt-2 col-12 col-md-6" id="card">
             <h1 id="signinTitle">로그인</h1>
             <b-form class="text-center form">
 
@@ -139,7 +139,7 @@ export default {
 
 <style lang="scss" scoped>
 $main-color: #8763FB;
-#app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
+#app { text-align: center; padding: 5%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
 #signinTitle, #warning, .signup, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 #goSignup { color: black; font-weight: bold;}
 #card {width: 100%; padding: 5%; position: relative; }

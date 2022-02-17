@@ -4,6 +4,7 @@
     <nav id="nav" class="navbar navbar-expand-md" style="padding:25px;">
       <div class="container-fluid p-0 justify-content-center" style="height:7em">
         <div class="row" style="width:100%;">
+
           <!-- 로고 중앙 정렬, 누르면 홈 페이지로 가도록 -->
           <div id="mainbar" class="justify-content-center">
             <div id="logo" @click="checkToken">
@@ -11,7 +12,6 @@
               <a class="navbar-brand" style="font-size:130%;"><router-link to="/">Fitmate</router-link></a>
             </div>
           </div>
-
           <!-- 우측 사이드 정렬 -->
           <!-- 로그인 후 보여지는 것: Sign out, My page -->
           <div v-if="checkisSignin">
@@ -43,6 +43,7 @@
               </li>
             </ul>
           </div>
+
           <!-- 언더라인 정렬, 간격은 추후 논의할 것 -->
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-md-0 justify-content-center">
@@ -78,18 +79,18 @@
         <footer id="footer" class="footer">
           <!-- 세 섹션으로 나누자 -->
           <div class="row">
-            <div class="col col-md-3" >
+            <div id="instant" class="col-12 col-md-3" >
               <div class="d-flex justify-content-center">
                 <img id="footerimg" src="@/assets/hanger.png">
               </div>
             </div>
-            <div id="footerfont" class="col col-md-7 mt-4">
+            <div id="footerfont" class="col-12 col-md-7 px-4">
               <div><h4 class="d-inline">ⓒFitmate </h4><h6 class="d-inline"> We're Fitmate!!!</h6></div>
               <div><span>Fitmate's mates : Backend-서지원, 이홍준 | Frontend-김동현, 박현진, 서지원, 정종혁</span></div>
               <div><p>본 사이트의 아이디어, 디자인을 포함한 콘텐츠는 저작권법의 보호를 받는지는 잘 모르겠습니다.</p></div>
               <div><p>아무튼 퍼가지 마세요..</p></div>
             </div>
-            <div class="col col-md-2 d-flex justify-content-center">
+            <div id="footersns" class="col-12 col-md-2 d-flex justify-content-center">
               <v-icon class="me-2">mdi-instagram</v-icon>
               <v-icon class="me-2">mdi-youtube</v-icon>
               <v-icon class="me-2">mdi-twitter</v-icon>
@@ -252,7 +253,7 @@ li:hover{
   width: 100%;
 }
 
-footer{
+#footer{
   width: 100%;
   height: 10rem;
   bottom: 0px;
@@ -276,10 +277,13 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #6d6d6d;
+  background-color: #cbc7cf;
 }
 
 #footerfont{
   font-family: 'LeferiPoint-WhiteObliqueA';
+  background-color: #cbc7cf;
+  padding-top: 2rem;
   h4 {
     font-family: 'LeferiPoint-BlackObliqueA';
   }
@@ -293,11 +297,19 @@ html, body {
 
 #footerimg {
   display: flex;
-  // text-align: center;
-  padding-top: 0.3rem;
+
+  // padding-top: 0.3rem;
   justify-content: center;
   align-content: center;
   width:9rem;
+}
+
+#footersns {
+  background-color: #cbc7cf;
+}
+
+#instant {
+  background-color: #cbc7cf;
 }
 
 //버튼 색 입히기(애니메이션)
