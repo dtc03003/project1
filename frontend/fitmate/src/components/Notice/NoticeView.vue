@@ -16,7 +16,7 @@
                     <h3>${notice.title}</h3>
                     <h5>${notice.writer}</h5>
                     <div>
-                        <h6>${notice.createdAt}</h6>
+                        <h6>${changeDate(notice.createdAt)}</h6>
                     </div>
                 `"
                     class="mb-2 card"
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
     data() {
         return{
@@ -58,6 +59,10 @@ export default {
     methods: {
         goBack() {
             this.$router.go(-1);
+        },
+
+        changeDate(date) {
+            return dayjs(date).format("YYYY-MM-DD HH:MM");
         }
     },
 }
