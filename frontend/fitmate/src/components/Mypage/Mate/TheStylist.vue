@@ -1,5 +1,5 @@
 <template>
-  <div id="oneline" class="py-2">
+<span id="oneline" class="py-2">
     <div id="singleline" class="container-fluid">
       <div class="row d-inline">
         <div id="profilebox" class="d-block-wrap justify-content-center col-12 col-md-10"
@@ -49,8 +49,7 @@
         </div>
       </div>
     </div>
-  </div>
-
+</span>
 </template>
 
 <script>

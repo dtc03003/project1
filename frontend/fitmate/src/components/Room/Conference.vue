@@ -10,18 +10,12 @@
 			</div>
 		</div>
 
-		<div id="session" v-if="session">
-			<div id="session-header">
-				<!-- <h1 id="session-title">{{ mySessionId }}</h1> -->
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+		<div id="session" v-if="session">			
+			<div id="video-container" class="col-md-3" style="display: flex;">
+				<user-video class="yourvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+				<user-video class="myvideo" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
 			</div>
-			<!-- <div id="main-video" class="col-md-6">
-				<user-video :stream-manager="mainStreamManager"/>
-			</div> -->
-			<div id="video-container" class="col-md-3" style="display: flex; margin:5%">
-				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-			</div>
+			<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 		</div>
 	</div>
 </template>
@@ -33,8 +27,7 @@ import UserVideo from '@/components/UserVideo';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_URL = "https://" + "i6d105.p.ssafy.io" + ":4443";
+const OPENVIDU_SERVER_URL = "https://i6d105.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -60,6 +53,7 @@ export default {
 		}
 	},
 	created(){
+		// this.mySessionId =  this.$route.params.hostname;
 	},
 	mounted(){
 		
@@ -74,7 +68,10 @@ export default {
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
+			console.log(123123123);
 			this.mySessionId = "Session"+this.room.id,
+			console.log(this.mySessionId);
+			console.log(this.room);
 			// --- Init a session ---
 			this.session = this.OV.initSession();
 
@@ -217,9 +214,8 @@ export default {
 }
 </script>
 <style>
-#video-container video{
-	margin-right: 5%;
-	padding: 0 5% 0 5%;
+#video-container{
+	margin: 0%;
 }
 
 #video-container p{
@@ -231,12 +227,75 @@ export default {
 	width: 100%;
 	height: auto;
 }
-video#local-video-undefined{
-	width: 300px;
-	height: 300px;
+@media (min-width:1800px) {
+	video#local-video-undefined {
+		margin-left: 5%;
+		width: 500px;
+		height: 375px;
+	}
+	video {
+		width: 700px;
+		height: 525px;
+	}
 }
-video {
-	width: 600px;
-	height: 600px;
+@media (min-width:1425px) and (max-width:1799px) {
+	video#local-video-undefined {
+		margin-left: 5%;
+		width: 300px;
+		height: 227px;
+	}
+	video {
+		width: 670px;
+		height: 500px;
+	}
+}
+
+@media (min-width:1200px) and (max-width:1424px) {
+	video#local-video-undefined {
+		margin-left: 5%;
+		width: 265px;
+		height: 200px;
+	}
+	video {
+		width: 530px;
+		height: 400px;
+	}
+}
+
+@media (min-width:992px) and (max-width:1199px) {
+	#footer {
+		display: none;
+	}
+	video#local-video-undefined {
+		margin-left: 5%;
+		width: 470px;
+		height: 400px;
+	}
+	video {
+		width: 470px;
+		height: 400px;
+	}
+}
+@media (max-width:991px) {
+	#footer {
+		display: none;
+	}
+	#video-container {
+		flex-wrap: wrap;
+	}
+	video#local-video-undefined {
+		width: 470px;
+		height: 400px;
+	}
+	video {
+		width: 470px;
+		height: 400px;
+	}
+}
+.container {
+	padding:0%
+}
+#buttonLeaveSession {
+	text-align: right;
 }
 </style>

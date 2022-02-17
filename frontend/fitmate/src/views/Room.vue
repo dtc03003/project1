@@ -100,7 +100,7 @@
                 axios({
                     method: 'get',
                     url: `/api/v1/chat/room/${this.hostname}?accessCode=${this.accessCode}`,
-                    baseURL: 'https://i6d105.p.ssafy.io:8443/',
+                    baseURL: 'https://i6d105.p.ssafy.io:8443',
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                         "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
@@ -289,7 +289,7 @@
     right: 15px;
 }
 #fontform {font-size:1.2rem; font-family: 'GangwonEdu_OTFBoldA';}
-p#fontid {font-size: 40pt; font-family: 'GangwonEdu_OTFBoldA';}
+p#fontid {font-size: 40pt; margin-left:35px; font-family: 'GangwonEdu_OTFBoldA';}
 p#firsttalk {font-size: 20pt; text-align: center; font-family: 'GangwonEdu_OTFBoldA';}
 .room#wrap {
     min-height: 85vh !important;
