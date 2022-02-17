@@ -127,7 +127,8 @@ export default {
     
         // List 페이지로 이동
         moveList() {
-            this.$router.push({ name: "QnAList" });
+            this.$router.push({ name: "QnAList" })
+            .catch(()=>{});
         },
     },
 }
