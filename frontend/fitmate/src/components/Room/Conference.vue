@@ -1,7 +1,7 @@
 <template>
-	<div id="main-container" class="container">
-		<div id="join" v-if="!session">
-			<div id="join-dialog" class="jumbotron vertical-center">
+	<div id="main-container" class="container" style="height: 100%">
+		<div id="join" v-if="!session" style="height: 100%">
+			<div id="join-dialog" class="jumbotron vertical-center" style="height: 100%; display:flex ;align-items:center ;justify-content:center">
 				<div class="form-group">
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
@@ -44,6 +44,7 @@ export default {
 	},
 	props:{
 		me: Object,
+		room: Object,
 	},
 	data () {
 		return {
@@ -53,8 +54,7 @@ export default {
 			publisher: undefined,
 			subscribers: [],
 
-			mySessionId: 'SessionA',
-			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			mySessionId: "",
 			myUserName: this.me.nickname,
 		}
 	},
@@ -68,10 +68,16 @@ export default {
 		this.leaveSession();
 	},
 	methods: {
+		getRoomInfo(){
+
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
-
+			console.log(123123123);
+			this.mySessionId = "Session"+this.room.id,
+			console.log(this.mySessionId);
+			console.log(this.room);
 			// --- Init a session ---
 			this.session = this.OV.initSession();
 
@@ -216,7 +222,7 @@ export default {
 <style>
 #video-container video{
 	margin-right: 5%;
-	padding: 5%;
+	padding: 0 5% 0 5%;
 }
 
 #video-container p{
@@ -226,6 +232,7 @@ export default {
 	text-align: center;
 	font-family: 'GangwonEdu_OTFBoldA';
 	width: 100%;
+	height: auto;
 }
 video#local-video-undefined{
 	width: 300px;

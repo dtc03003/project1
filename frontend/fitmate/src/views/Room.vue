@@ -3,7 +3,10 @@
         <p id="fontid">{{title}}</p>
         <div class="row">
             <div class="col-12 col-xl-9">
-                <conference :me="me"/>
+                <conference
+                    :me="me"
+                    :room="room"
+                />
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
             <div id="app_chat_list" class="col-12 col-xl-3 msgbox">
