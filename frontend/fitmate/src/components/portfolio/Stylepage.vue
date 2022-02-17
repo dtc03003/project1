@@ -107,7 +107,6 @@ export default {
                 let fileExt = image.name.substring(image.name.lastIndexOf(".") + 1)
 
                 if (["jpeg","jpg","png","bmp"].includes(fileExt) && image.size <= 1048576) {
-                    console.log(fileExt)
 
                     formData.append('images', image);
 
@@ -116,7 +115,6 @@ export default {
                     })
                     .then((res) => {
                         this.post.image = res.data.src
-                        console.log(res.data.src)
                     })
                 } else {
                     Swal.fire({
@@ -145,7 +143,6 @@ export default {
                     })
                     return
                 } else {
-                    console.log(postInfo)
                     const accessToken = localStorage.getItem("accessToken");
                     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
                     await axios.post(`${FITMATE_BASE_URL}/api/v1/portfolio/style`, postInfo)
@@ -155,7 +152,7 @@ export default {
                             tag : this.inputtags
                         }
                         axios.post(`${FITMATE_BASE_URL}/api/v1/tag/tagging`, tagging)
-                        .then((res)=>console.log(res))
+                        .then(()=>{})
                         
                         this.postconfirm = false
 
@@ -246,5 +243,5 @@ p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
     text-align: center;
     font-weight: 600;
 }
-
+::placeholder, #submitBtn { font-family: "Pretendard-SemiBold", fantasy; }
 </style>

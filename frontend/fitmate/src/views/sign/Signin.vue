@@ -137,7 +137,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $main-color: #8763FB;
 #app { text-align: center; padding: 5%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
 #signinTitle, #warning, .signup, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
@@ -168,6 +168,5 @@ p { display: inline; }
 	margin: 0px 16px;
 }
 p#goSignup:hover {color: $main-color;}
-::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
-
+#email, #password, ::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
 </style>

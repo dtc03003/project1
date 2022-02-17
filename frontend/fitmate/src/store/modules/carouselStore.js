@@ -24,9 +24,7 @@ const carouselStore = {
         ({ data }) => {
           commit("SET_CAROUSEL_IMG", data);
         },
-        (error) => {
-          console.log(error);
-        }
+        () => {}
       );
     },
   },

@@ -32,7 +32,7 @@
                     </b-input-group>
 
                     <h4 align="left" class="mt-3 formTitle">비밀번호</h4>
-                    <b-input-group >
+                    <b-input-group>
                         <b-form-input type="password" id="password" v-model="signup.password" required placeholder="비밀번호" maxlength="100" @blur="passwordValid">
                         </b-form-input>
                     </b-input-group>
@@ -44,7 +44,7 @@
                     </div>
                                 
                     <h4 align="left" class="mt-3 formTitle">비밀번호 확인</h4>
-                    <b-input-group >
+                    <b-input-group>
                         <b-form-input type="password" id="pwdcheck" v-model="pwdcheck" required placeholder="비밀번호확인" maxlength="20" @blur="pwdcheckValid">
                         </b-form-input>
                     </b-input-group>
@@ -126,10 +126,9 @@ export default {
                 gender: this.signup.gender,
                 phone: this.signup.phoneNum,
                 authority: "ROLE_STYLIST"
-           }
-           console.log(memberInfo); 
-           this.$router.push({name: "Signin"}); 
-           axios.post(`${FITMATE_BASE_URL}/auth/signup`, memberInfo);
+            }
+            this.$router.push({name: "Signin"}); 
+            axios.post(`${FITMATE_BASE_URL}/auth/signup`, memberInfo);
         },
 
         checkEmail() {
@@ -297,8 +296,8 @@ export default {
     background: linear-gradient(to right, #8d8eeb, #8763FB) !important;
     border-color: #7e7fb9 !important;
 }
-.formTitle {font-family: "SDSamliphopangche_Basic", fantasy;}
+.formTitle, ::placeholder {font-family: "SDSamliphopangche_Basic", fantasy;}
 .info, .radio, .smallBtn, #submitBtn { font-family: "GangwonEdu_OTFBoldA", fantasy; }
 .warningpwd { color: red; }
-::placeholder { font-family: "SDSamliphopangche_Basic", fantasy; }
+.input {font-family: 'Pretendard-SemiBold', fantasy;}
 </style>

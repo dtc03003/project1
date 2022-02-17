@@ -105,7 +105,7 @@ export default {
 
                 this.moveList();
             })
-            .catch((err) => {
+            .catch(() => {
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -121,8 +121,6 @@ export default {
                     icon: 'error',
                     title: '등록되지 않았습니다!'
                 })
-
-                console.log(err)
             })
 
         },

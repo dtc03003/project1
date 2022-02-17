@@ -61,7 +61,6 @@
     },
     created() {
       this.getCarouselImgSrc();
-      console.log(this.carouselSrcList);
     },
     components: {},
   };

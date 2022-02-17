@@ -10,6 +10,7 @@
             :per-page="perPage"
             @change="changePage"
             v-show="status"
+            id="rvpgnation"
         ></b-pagination>
     </div>
 </template>
@@ -76,4 +77,8 @@ export default {
 
 <style scoped>
 p#noreview {font-size: 20pt; font-family: 'GangwonEdu_OTFBoldA';}
+#rvpgnation {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+}
 </style>

@@ -36,11 +36,8 @@ const styleStore = {
       })
         .then( res=> {
           commit('GET_PORTFOLIO_STYLES', res.data)
-          console.log('action 통과')
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch(() => {})
     }
   },
 };

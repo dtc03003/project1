@@ -9,7 +9,7 @@
 
             <!-- 유정 수정  버튼 -->
             <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
-            class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+            class="dropdown dropdownitem col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content class="dropcontent">
                     &#128274;
                 </template>
@@ -124,7 +124,6 @@ export default {
 
     created () {
         this.checkauthority = this.memberInfo.authority;
-        // console.log(this.checkauthority)
 
         axios.get(`/api/v1/portfolio/${this.nickname}`)
             .then(({ data }) => {
@@ -353,5 +352,7 @@ p#profileinfo{
 #biomodify___BV_modal_title_ {
     font-size: 1.5rem !important;
 }
-
+.dropdownitem { 
+    font-family: "SDSamliphopangche_Basic", fantasy;
+}
 </style>
