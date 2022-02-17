@@ -127,8 +127,9 @@ export default {
     
         // List 페이지로 이동
         moveList() {
-            this.$router.push({ name: "NoticeList" });
-        },
+            this.$router.push({ name: "NoticeList" })
+            .catch(() => {})
+        }
     },
 }
 </script>
