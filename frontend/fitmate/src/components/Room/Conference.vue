@@ -2,16 +2,7 @@
 	<div id="main-container" class="container">
 		<div id="join" v-if="!session">
 			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
 				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required disabled="true">
-					</p>
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
@@ -51,7 +42,9 @@ export default {
 	components: {
 		UserVideo,
 	},
-
+	props:{
+		me: Object,
+	},
 	data () {
 		return {
 			OV: undefined,
@@ -61,13 +54,19 @@ export default {
 			subscribers: [],
 
 			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			myUserName: this.me.nickname,
 		}
 	},
 	created(){
 		// this.mySessionId =  this.$route.params.hostname;
 	},
-
+	mounted(){
+		
+	},
+	destroyed(){
+		this.leaveSession();
+	},
 	methods: {
 		joinSession () {
 			// --- Get an OpenVidu object ---
@@ -214,3 +213,26 @@ export default {
 	}
 }
 </script>
+<style>
+#video-container video{
+	margin-right: 5%;
+	padding: 5%;
+}
+
+#video-container p{
+	display: block;
+	color: black; font-size: 1.7rem;
+	font-weight: bold;
+	text-align: center;
+	font-family: 'GangwonEdu_OTFBoldA';
+	width: 100%;
+}
+video#local-video-undefined{
+	width: 300px;
+	height: 300px;
+}
+video {
+	width: 600px;
+	height: 600px;
+}
+</style>

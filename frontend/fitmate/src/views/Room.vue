@@ -3,7 +3,7 @@
         <p id="fontid">{{title}}</p>
         <div class="row">
             <div class="col-12 col-xl-9">
-                <conference/>
+                <conference :me="me"/>
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
             <div id="app_chat_list" class="col-12 col-xl-3 msgbox">
@@ -43,7 +43,7 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
-    import Conference from '@/components/Conference.vue'
+    import Conference from '@/components/Room/Conference.vue'
     import Swal from 'sweetalert2'
     const memberStore = "memberStore";
     var bottom_flag = true;
