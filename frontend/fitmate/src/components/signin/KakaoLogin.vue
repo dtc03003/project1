@@ -13,7 +13,7 @@ export default {
     name: "KakaoLogin",
     data() {
         return {
-            redirect_uri:"http://localhost:8080/signin", //url은 추후 바뀔 수 있음
+            redirect_uri:"http://i6d105.p.ssafy.io/signin", //url은 추후 바뀔 수 있음
         }
     },
     created() {
