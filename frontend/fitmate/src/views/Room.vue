@@ -2,11 +2,11 @@
     <div class="room">
         <p id="fontid">{{title}}</p>
         <div class="row">
-            <div class="col-9">
+            <div class="col-12 col-xl-9">
                 <conference/>
                 <!-- 여기 WebRTC들어가는 부분 -->
             </div>
-            <div id="app_chat_list" class="col-3 msgbox">
+            <div id="app_chat_list" class="col-12 col-xl-3 msgbox">
                 <div class="row"> </div>
                 <p id="firsttalk">-첫 대화시작-</p>
                 <button class="downbtn" @click="gotoDown()">⏬</button>
@@ -23,10 +23,10 @@
                 
             </div>  
             <div class="row rowsendform" >
-                <div class="col-9"></div>
-                <div class="col-3 sendform" >
+                <div class="col-xl-9"></div>
+                <div class="col-12 col-xl-3 sendform" >
                     <div class="col-8">
-                        <b-form-input id="fontform" style="border: 0px;" type="text" v-model="content" @keyup.enter="sendMessage()" placeholder="메세지 입력"></b-form-input>
+                        <b-form-input id="fontform" style="border: 0px; width: 100%" type="text" v-model="content" @keyup.enter="sendMessage()" placeholder="메세지 입력"></b-form-input>
                     </div>
                     <div class="col-4">
                         <b-button id="fontform" class="sendbtn" @click="sendMessage()">SEND</b-button>
@@ -43,8 +43,8 @@
     import Stomp from 'webstomp-client'
     import SockJS from 'sockjs-client'
     import {mapGetters, mapActions} from 'vuex'
-import Conference from './Conference.vue'
-    // import Swal from 'sweetalert2'
+    import Conference from './Conference.vue'
+    import Swal from 'sweetalert2'
     const memberStore = "memberStore";
     var bottom_flag = true;
     export default {
@@ -144,7 +144,12 @@ import Conference from './Conference.vue'
                     this.connectSocket();
                 }, err => {
                     console.log(err)
-                    alert("error : 새로고침하세요")
+                    Swal.fire({
+                        icon: 'error',
+                        title: '새로고침해주세요!',
+                        confirmButtonColor: '#7e7fb9',
+                        confirmButtonText: "확인",
+                    })
                 });
             },
             connectSocket() {
@@ -205,6 +210,24 @@ import Conference from './Conference.vue'
     };
 </script>
 <style scoped="scoped">
+@media screen and (max-width:1200px) {
+    .msgbox {
+        position: relative;
+        border-radius: 10px;
+        background: #f8f8ff;
+        height: 500px; 
+        overflow-y: scroll; 
+    }
+}
+@media screen and (min-width:1200px) {
+    .msgbox {
+        position: relative;
+        border-radius: 10px;
+        background: #f8f8ff;
+        height: 700px; 
+        overflow-y: scroll; 
+    }
+}
 .myMsg {
     text-align: -webkit-right !important;
     color: white;
@@ -221,13 +244,7 @@ import Conference from './Conference.vue'
     margin: 2rem;
     max-height: 800px;
 }
-.msgbox {
-    position: relative;
-    border-radius: 10px;
-    background: #f8f8ff;
-    height: 700px; 
-    overflow-y: scroll; 
-}
+
 .msgbox::-webkit-scrollbar {
     width: 10px;
 }

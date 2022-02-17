@@ -8,7 +8,7 @@
         
         <b-modal v-if="this.styleData" size="xl" scrollable ref="style-modal" header-class="modalHeader" hide-footer>
             <template #modal-title>
-                <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2">
+                <b-avatar :src="styleData.portfolio.member.profile" size="4rem" class="me-2" >
                 </b-avatar>
                 <h3 class="d-inline" id="name">{{ styleData.portfolio.nickname }}</h3>
             </template>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-6">
-                    <pre>{{ this.styleData.content }}</pre>
+                    <pre id="inputtext">{{ this.styleData.content }}</pre>
                     <!-- 아래는 댓글 입력 폼 -->
                     <!-- 로그인한 사용자만 댓글 입력 가능 -->
                     <v-form id="inputtext" v-if="checkauthority">

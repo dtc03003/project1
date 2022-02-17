@@ -285,7 +285,15 @@ export default {
 </script>
 
 <style scoped>
-#app { text-align: center; padding: 5%; max-width: 50%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
+@media screen and (max-width: 768px) {
+    #app { text-align: center; padding: 5%; max-width: 90%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }    
+}
+@media screen and (min-width: 768px) and (max-width: 996px){
+    #app { text-align: center; padding: 5%; max-width: 80%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
+}
+@media screen and (min-width: 992px){
+    #app { text-align: center; padding: 5%; max-width: 60%; min-width: 320px; margin: 0 auto; display: flex; justify-content: center; position: relative; }
+}
 #signinTitle { font-family: "SDSamliphopangche_Basic", "ImcreSoojin", "Cafe24Ohsquare", fantasy; }
 #goJoin { color: black; }
 .xcircle { color: gray; }

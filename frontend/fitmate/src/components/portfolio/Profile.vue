@@ -1,87 +1,93 @@
 <template>
     <div>
-        <div class="stylist-img">
-            <img class="stylist-user-img" id="stylist" :src="profile">
-        </div>
-
         <div class="row">
-            <h1 class="mt-2 col-8 nickname" id="profileinfo" >{{ profileData.nickname }}</h1>
+            <!-- 프로필이미지 -->
+            <div class="stylist-img col-4 col-xl-12">
+                <img class="stylist-user-img" id="stylist" :src="profile">
+            </div>
+            
+            <!-- 프로필 정보 -->
+            <div class="col-8 col-xl-12">
+                <div class="row">
+                    <h1 class="mt-2 col-8 nickname" id="profileinfo" >{{ profileData.nickname }}</h1>
 
-            <!-- 유정 수정  버튼 -->
-            <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
-            class="dropdown dropdownitem col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-                <template #button-content class="dropcontent">
-                    &#128274;
-                </template>
+                    <!-- 유정 수정  버튼 -->
+                    <b-dropdown v-if="this.nickname == this.checkMemberInfo.nickname" 
+                    class="dropdown col-4" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+                        <template #button-content class="dropcontent">
+                            &#128274;
+                        </template>
 
-                <b-dropdown-item-button @click="$bvModal.show('biomodify')">한 줄 소개글 수정</b-dropdown-item-button>
-                <b-modal id="biomodify" size="md" centered ref="style-modal" hide-footer>
-                    <template #modal-title>
-                        ✅ 한 줄 소개글 수정
-                    </template>
-                    <b-row>
-                        <b-form-textarea id="textarea"  v-model="biotext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="6" max-rows="6"
-                        ></b-form-textarea>
-                        <b-col class="col-2"></b-col>
-                        <b-col class="col-4 trytocenter" >
-                            <b-button class="exitbtn" @click="modifybio()">수정</b-button>
-                        </b-col>
-                        <b-col class="col-4 trytocenter">
-                            <b-button class="exitbtn" @click="$bvModal.hide('biomodify')">취소</b-button>
-                        </b-col>
-                    </b-row>
+                        <b-dropdown-item-button @click="$bvModal.show('biomodify')">한 줄 소개글 수정</b-dropdown-item-button>
+                        <b-modal id="biomodify" size="md" centered ref="style-modal" hide-footer>
+                            <template #modal-title>
+                                ✅ 한 줄 소개글 수정
+                            </template>
+                            <b-row>
+                                <b-form-textarea id="textarea"  v-model="biotext" placeholder="자신을 나타낼 수 있는 소개글을 적어보세요!" rows="6" max-rows="6"
+                                ></b-form-textarea>
+                                <b-col class="col-2"></b-col>
+                                <b-col class="col-4 trytocenter" >
+                                    <b-button class="exitbtn" @click="modifybio()">수정</b-button>
+                                </b-col>
+                                <b-col class="col-4 trytocenter">
+                                    <b-button class="exitbtn" @click="$bvModal.hide('biomodify')">취소</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-modal>
+
+                        <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
+                            <b-dropdown-item-button v-b-modal.stylistmodify>회원정보 수정</b-dropdown-item-button>
+                        </router-link>
+
+                        <b-dropdown-item-button @click="$bvModal.show('userdelete')">회원탈퇴</b-dropdown-item-button>
+                        <b-modal id="userdelete" size="md" centered  scrollable ref="style-modal" hide-footer>
+                            <template #modal-title>
+                                &#x26d4; 정말로 탈퇴하시겠습니까?
+                            </template>
+                            <b-row>
+                                <label class="my-5">
+                                    FitMate 계정을 초기화합니다. 정보 복구는 불가능합니다.
+                                </label> 
+                                <b-col class="col-2"></b-col>
+                                <b-col class="col-4 trytocenter" >
+                                    <b-button variant="danger" @click="withDrawal()">&#x26D4;탈퇴</b-button>
+                                </b-col>
+                                <b-col class="col-4 trytocenter">
+                                    <b-button id="exitbtn" @click="$bvModal.hide('userdelete')">&#x1F49C;취소</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-modal>
+                    </b-dropdown>
+                    <!-- 유정 수정  버튼 끝 -->
+                </div>
+            
+            <p class="mt-3" id="profileinfo" > {{ profileData.bio }} </p>
+            
+
+            <div class="row mt-3 " v-if="checkisSignin">
+                <div class="col-4 gotocenter">
+                    <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()" ></b-icon>
+                    <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
+                    <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
+                    <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
+                </div>
+                <div class="col-4 gotocenter">
+                    <b-button class="" size="lg" @click="joinroom()" variant="link" no-caret>
+                        <img src="@/assets/consulting.png" class="gotoroom">
+                    </b-button>
+                </div>
+                <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
+                <div class="col-4 gotocenter">
+                    <b-button size="lg" @click="copyLink()" variant="link" no-caret>🔗</b-button>
+                </div>
+
+                <b-modal id="follow" title="팔로우 리스트">
+                    <p class="my-4">{{this.follower}}</p>
                 </b-modal>
-
-                <router-link style="text-decoration: none" :to="{ name: 'Modify' }">  
-                    <b-dropdown-item-button v-b-modal.stylistmodify>회원정보 수정</b-dropdown-item-button>
-                </router-link>
-
-                <b-dropdown-item-button @click="$bvModal.show('userdelete')">회원탈퇴</b-dropdown-item-button>
-                <b-modal id="userdelete" size="md" centered  scrollable ref="style-modal" hide-footer>
-                    <template #modal-title>
-                        &#x26d4; 정말로 탈퇴하시겠습니까?
-                    </template>
-                    <b-row>
-                        <label class="my-5">
-                            FitMate 계정을 초기화합니다. 정보 복구는 불가능합니다.
-                        </label> 
-                        <b-col class="col-2"></b-col>
-                        <b-col class="col-4 trytocenter" >
-                            <b-button variant="danger" @click="withDrawal()">&#x26D4;탈퇴</b-button>
-                        </b-col>
-                        <b-col class="col-4 trytocenter">
-                            <b-button id="exitbtn" @click="$bvModal.hide('userdelete')">&#x1F49C;취소</b-button>
-                        </b-col>
-                    </b-row>
-                </b-modal>
-            </b-dropdown>
-            <!-- 유정 수정  버튼 끝 -->
-        </div>
-
-        <p class="mt-3" id="profileinfo" > {{ profileData.bio }} </p>
-        
-
-        <div class="row mt-3 " v-if="checkisSignin">
-            <div class="col-4 gotocenter">
-                <b-icon v-if="this.nickname == this.checkMemberInfo.nickname" icon="suit-heart-fill" font-scale="3" variant="success" @click="followlist()" ></b-icon>
-                <b-icon v-else-if="isFollow == false" icon="suit-heart-fill" font-scale="3"  @click="follow()"></b-icon>
-                <b-icon v-else icon="suit-heart-fill" font-scale="3" variant="danger"  @click="unfollow()"></b-icon>
-                <!-- <b-tooltip v-if="this.nickname == this.checkMemberInfo.nickname" target="myheart" :title="this.follower"></b-tooltip> -->
             </div>
-            <div class="col-4">
-                <b-button size="lg" @click="joinroom()" variant="link" no-caret>
-                    <img src="@/assets/consulting.png" alt="">
-                </b-button>
-            </div>
-            <!-- <b-icon icon="share-fill" font-scale="4" @click="copyLink()"></b-icon> -->
-            <div class="col-4">
-                <b-button size="lg" @click="copyLink()" variant="link" no-caret>🔗</b-button>
-            </div>
-
-            <b-modal id="follow" title="팔로우 리스트">
-                <p class="my-4">{{this.follower}}</p>
-            </b-modal>
-        </div>            
+            </div>  
+        </div>          
     </div>
 </template>
 
@@ -312,6 +318,32 @@ export default {
 b-icon {
     margin-right:10px;
 }
+@media screen and (max-width: 768px) {
+    .stylist-user-img {
+        width: 100%; height: 100%;
+        border-radius: 5%;
+        object-fit: cover;
+    }
+    .stylist-img {
+        display: block;
+        margin: 0 auto;
+        width: 265px; height: 300px;
+        overflow: hidden;
+    }
+}
+@media screen and (min-width: 768px) {
+    .stylist-img {
+        display: block;
+        margin: 0 auto;
+        width: 265px; height: 400px;
+        overflow: hidden;
+    }
+    .stylist-user-img {
+        width: 100%; height: 100%;
+        border-radius: 5%;
+        object-fit: cover;
+    }
+}
 .btn-group-lg>.btn, .btn-lg {
     font-size: 2rem !important;
 }
@@ -319,16 +351,7 @@ b-icon {
     display: flex;
     align-content: center;
 }
-.stylist-img {
-    display: block;
-    margin: 0 auto;
-    width: 300px; height: 400px;
-    overflow: hidden;
-}
-.stylist-user-img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-}
+
 .exitbtn { 
     background-color: #7e7fb9 !important; 
 }
@@ -351,6 +374,9 @@ p#profileinfo{
 }
 #biomodify___BV_modal_title_ {
     font-size: 1.5rem !important;
+}
+.gotoroom {
+    width: 66px;
 }
 .dropdownitem { 
     font-family: "SDSamliphopangche_Basic", fantasy;

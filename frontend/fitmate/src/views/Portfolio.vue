@@ -2,10 +2,10 @@
     <div>
         <b-container class="bv-example-row mt-3">
             <b-row>
-                <b-col>
+                <b-col sm="12" md="12" lg="12" xl="3">
                     <Profile/>
                 </b-col>
-                <b-col cols="9">
+                <b-col sm="12" md="12" lg="12" xl="9">
                     <b-tabs id="profiletab" content-class="mt-3" fill pills card>
                         <b-tab class="mx-1" title="Style"><StylePage/></b-tab>
                         <b-tab title="Review"><Review/></b-tab>
