@@ -4,15 +4,13 @@ server:
   http:
     port: 9000
   ssl:
-    enabled: true
     key-store-type: PKCS12
-    key-store: classpath:keystore/keystore.p12
+    key-store: classpath:keystore/ssafy.p12
     key-store-password: ssafy6
-    key-alias: ssafy
     key-password: ssafy6
 
 trust:
-  store: classpath:keystore/keystore.p12
+  store: classpath:keystore/ssafy.p12
   store.password: ssafy6
 
 
