@@ -58,41 +58,41 @@
 
 ### 🖥️ Front-end
 
-[https://img.shields.io/badge/-Vue-%234FC08D?style=flat&logo=vue.js&logoColor=black](https://img.shields.io/badge/-Vue-%234FC08D?style=flat&logo=vue.js&logoColor=black)
+![https://img.shields.io/badge/-Vue-%234FC08D?style=flat&logo=vue.js&logoColor=black](https://img.shields.io/badge/-Vue-%234FC08D?style=flat&logo=vue.js&logoColor=black)
 
-[https://img.shields.io/badge/-JavaScript-%23F7DF1E?style=flat&logo=JavaScript&logoColor=black](https://img.shields.io/badge/-JavaScript-%23F7DF1E?style=flat&logo=JavaScript&logoColor=black)
+![https://img.shields.io/badge/-JavaScript-%23F7DF1E?style=flat&logo=JavaScript&logoColor=black](https://img.shields.io/badge/-JavaScript-%23F7DF1E?style=flat&logo=JavaScript&logoColor=black)
 
-[https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=black](https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=black)
+![https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=black](https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=black)
 
-[https://img.shields.io/badge/-Bootstrap-%237952B3?style=flat&logo=Bootstrap&logoColor=white](https://img.shields.io/badge/-Bootstrap-%237952B3?style=flat&logo=Bootstrap&logoColor=white)
+![https://img.shields.io/badge/-Bootstrap-%237952B3?style=flat&logo=Bootstrap&logoColor=white](https://img.shields.io/badge/-Bootstrap-%237952B3?style=flat&logo=Bootstrap&logoColor=white)
 
-[https://img.shields.io/badge/-Sass-%23CC6699?style=flat&logo=Sass&logoColor=black](https://img.shields.io/badge/-Sass-%23CC6699?style=flat&logo=Sass&logoColor=black)
+![https://img.shields.io/badge/-Sass-%23CC6699?style=flat&logo=Sass&logoColor=black](https://img.shields.io/badge/-Sass-%23CC6699?style=flat&logo=Sass&logoColor=black)
 
 ### 🛢️ Back-end
 
-[https://img.shields.io/badge/-Java-%23007396?style=flat&logo=java&logoColor=white](https://img.shields.io/badge/-Java-%23007396?style=flat&logo=java&logoColor=white)
+![https://img.shields.io/badge/-Java-%23007396?style=flat&logo=java&logoColor=white](https://img.shields.io/badge/-Java-%23007396?style=flat&logo=java&logoColor=white)
 
-[https://img.shields.io/badge/-SpringBoot-%236DB33F?style=flat&logo=springboot&logoColor=white](https://img.shields.io/badge/-SpringBoot-%236DB33F?style=flat&logo=springboot&logoColor=white)
+![https://img.shields.io/badge/-SpringBoot-%236DB33F?style=flat&logo=springboot&logoColor=white](https://img.shields.io/badge/-SpringBoot-%236DB33F?style=flat&logo=springboot&logoColor=white)
 
 [https://img.shields.io/badge/-Swagger%203.0-%2385EA2D?style=flat&logo=swagger&logoColor=black](https://img.shields.io/badge/-Swagger%203.0-%2385EA2D?style=flat&logo=swagger&logoColor=black)
 
-[https://img.shields.io/badge/-Hibernate-hibernate?style=flat&logo=hibernate&logoColor=black](https://img.shields.io/badge/-Hibernate-hibernate?style=flat&logo=hibernate&logoColor=black)
+![https://img.shields.io/badge/-Hibernate-hibernate?style=flat&logo=hibernate&logoColor=black](https://img.shields.io/badge/-Hibernate-hibernate?style=flat&logo=hibernate&logoColor=black)
 
 ### 🛠️ Tools
 
-[https://img.shields.io/badge/-Jira-0052CC?style=flat&logo=Jira&logoColor=white](https://img.shields.io/badge/-Jira-0052CC?style=flat&logo=Jira&logoColor=white)
+![https://img.shields.io/badge/-Jira-0052CC?style=flat&logo=Jira&logoColor=white](https://img.shields.io/badge/-Jira-0052CC?style=flat&logo=Jira&logoColor=white)
 
-[https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)
+![https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)
 
-[https://img.shields.io/badge/-Amazon%20AWS-%23232F3E?style=flat&logo=Amazon%20aws&logoColor=white](https://img.shields.io/badge/-Amazon%20AWS-%23232F3E?style=flat&logo=Amazon%20aws&logoColor=white)
+![https://img.shields.io/badge/-Amazon%20AWS-%23232F3E?style=flat&logo=Amazon%20aws&logoColor=white](https://img.shields.io/badge/-Amazon%20AWS-%23232F3E?style=flat&logo=Amazon%20aws&logoColor=white)
 
-[https://img.shields.io/badge/-AmazonS3-V9A31?style=flat&logo=amazons3&logoColor=white](https://img.shields.io/badge/-AmazonS3-V9A31?style=flat&logo=amazons3&logoColor=white)
+![https://img.shields.io/badge/-AmazonS3-V9A31?style=flat&logo=amazons3&logoColor=white](https://img.shields.io/badge/-AmazonS3-V9A31?style=flat&logo=amazons3&logoColor=white)
 
-[https://img.shields.io/badge/-Jenkins-%23D24939?style=flat&logo=jenkins&logoColor=white](https://img.shields.io/badge/-Jenkins-%23D24939?style=flat&logo=jenkins&logoColor=white)
+![https://img.shields.io/badge/-Jenkins-%23D24939?style=flat&logo=jenkins&logoColor=white](https://img.shields.io/badge/-Jenkins-%23D24939?style=flat&logo=jenkins&logoColor=white)
 
-[https://img.shields.io/badge/-MySQL-%234479A1?style=flat&logo=mysql&logoColor=white](https://img.shields.io/badge/-MySQL-%234479A1?style=flat&logo=mysql&logoColor=white)
+![https://img.shields.io/badge/-MySQL-%234479A1?style=flat&logo=mysql&logoColor=white](https://img.shields.io/badge/-MySQL-%234479A1?style=flat&logo=mysql&logoColor=white)
 
-[https://img.shields.io/badge/-NGINX-%23009639?style=flat&logo=NGINX&logoColor=white](https://img.shields.io/badge/-NGINX-%23009639?style=flat&logo=NGINX&logoColor=white)
+![https://img.shields.io/badge/-NGINX-%23009639?style=flat&logo=NGINX&logoColor=white](https://img.shields.io/badge/-NGINX-%23009639?style=flat&logo=NGINX&logoColor=white)
 
 ## 🏗️ 아키텍처
 
