@@ -100,7 +100,7 @@
                 axios({
                     method: 'get',
                     url: `/api/v1/chat/room/${this.hostname}?accessCode=${this.accessCode}`,
-                    baseURL: 'https://i6d105.p.ssafy.io:8443',
+                    baseURL: 'https://192.168.0.5:8443',
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                         "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
@@ -121,7 +121,7 @@
             getMessages() {
                 // 채팅방 내용 불러오기
                 axios(
-                    {method: 'get', url: `/api/v1/chat/room/${this.roomid}/messages/?page="${this.idx}`, baseURL: 'https://i6d105.p.ssafy.io:8443/'}
+                    {method: 'get', url: `/api/v1/chat/room/${this.roomid}/messages/?page="${this.idx}`, baseURL: 'https://192.168.0.5:8443/'}
                 ).then(res => {
                     this.msg = []
                     for (let i = res.data.length - 1; i > -1; i--) {
@@ -157,7 +157,7 @@
             },
             connectSocket() {
                 // socket 연결
-                let socket = new SockJS('https://i6d105.p.ssafy.io:8443/ws')
+                let socket = new SockJS('https://localhost:8443/ws')
                 this.stompClient = Stomp.over(socket)
                 this
                     .stompClient

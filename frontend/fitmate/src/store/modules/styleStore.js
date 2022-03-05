@@ -1,8 +1,8 @@
 import axios from "@/module/axios.js"
 import memberStore from "./memberStore";
 
-const BACK_URL = 'http://i6d105.p.ssafy.io'
-// const BACK_URL = 'http://localhost:8080/'
+// const BACK_URL = 'http://i6d105.p.ssafy.io'
+const BACK_URL = 'http://localhost:8080/'
 const styleStore = {
   state: {
     styles: []

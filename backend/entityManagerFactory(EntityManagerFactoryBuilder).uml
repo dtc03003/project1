@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/35e8c9d9/entityManagerFactory/backend.main/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="385.0" y="1018.0">Carousel#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Carousel.java</node>
+    <node x="0.0" y="895.0">LikeEntity#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/LikeEntity.java</node>
+    <node x="1435.3984375" y="707.5">Follow#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Follow.java</node>
+    <node x="662.3984375" y="650.0">Reservation#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Reservation.java</node>
+    <node x="1104.8984375" y="883.5">Tag#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Tag.java</node>
+    <node x="0.0" y="1123.0">AbstractAuditable#jar://C:/Users/Hongjun/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.5.8/251abd1570b5ccbf2320819b8020d7d893e981d9/spring-data-jpa-2.5.8.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="1062.3984375" y="673.0">Style#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Style.java</node>
+    <node x="539.5" y="0.0">Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java</node>
+    <node x="260.5" y="452.0">ChatRoom#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/ChatRoom.java</node>
+    <node x="1079.546875" y="429.0">Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java</node>
+    <node x="422.5" y="440.5">Qna#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Qna.java</node>
+    <node x="213.0" y="1018.0">RefreshToken#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/RefreshToken.java</node>
+    <node x="1438.8984375" y="872.0">StyleComment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/StyleComment.java</node>
+    <node x="60.5" y="440.5">Notice#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Notice.java</node>
+    <node x="310.8984375" y="696.0">Message#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Message.java</node>
+    <node x="862.3984375" y="661.5">Review#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Review.java</node>
+    <node x="1262.3984375" y="684.5">Grade#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Grade.java</node>
+    <node x="462.3984375" y="684.5">Comment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Comment.java</node>
+    <node x="3.0" y="1018.0">AbstractPersistable#jar://C:/Users/Hongjun/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.5.8/251abd1570b5ccbf2320819b8020d7d893e981d9/spring-data-jpa-2.5.8.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="702.3984375" y="883.5">Payment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Payment.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Payment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Payment.java" target="Reservation#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Reservation.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="85.0" />
+    </edge>
+    <edge source="StyleComment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/StyleComment.java" target="Style#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Style.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="1528.8984375" y="841.0" />
+      <point x="1152.3984375" y="841.0" />
+      <point x="0.0" y="62.0" />
+    </edge>
+    <edge source="Review#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Review.java" target="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" relationship="RELATION">
+      <point x="0.0" y="-73.5" />
+      <point x="952.3984375" y="618.0" />
+      <point x="1171.546875" y="618.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar://C:/Users/Hongjun/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.5.8/251abd1570b5ccbf2320819b8020d7d893e981d9/spring-data-jpa-2.5.8.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar://C:/Users/Hongjun/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.5.8/251abd1570b5ccbf2320819b8020d7d893e981d9/spring-data-jpa-2.5.8.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="Reservation#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Reservation.java" target="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" relationship="RELATION">
+      <point x="0.0" y="-85.0" />
+      <point x="752.3984375" y="608.0" />
+      <point x="1171.546875" y="608.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="Follow#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Follow.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-27.5" />
+      <point x="1476.8984375" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-73.5" />
+      <point x="1171.546875" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Qna#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Qna.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-62.0" />
+      <point x="512.5" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Style#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Style.java" target="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" relationship="RELATION">
+      <point x="0.0" y="-62.0" />
+      <point x="1152.3984375" y="628.0" />
+      <point x="1171.546875" y="628.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="ChatRoom#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/ChatRoom.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="331.0" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Tag#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Tag.java" target="Style#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Style.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="62.0" />
+    </edge>
+    <edge source="Grade#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Grade.java" target="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="1338.8984375" y="628.0" />
+      <point x="1171.546875" y="628.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="Comment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Comment.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="552.3984375" y="628.0" />
+      <point x="613.0" y="628.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="LikeEntity#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/LikeEntity.java" target="Style#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Style.java" relationship="RELATION">
+      <point x="0.0" y="-27.5" />
+      <point x="50.0" y="851.0" />
+      <point x="1152.3984375" y="851.0" />
+      <point x="0.0" y="62.0" />
+    </edge>
+    <edge source="Comment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Comment.java" target="Qna#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Qna.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="552.3984375" y="628.0" />
+      <point x="512.5" y="628.0" />
+      <point x="0.0" y="62.0" />
+    </edge>
+    <edge source="Follow#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Follow.java" target="Portfolio#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Portfolio.java" relationship="RELATION">
+      <point x="0.0" y="-27.5" />
+      <point x="1476.8984375" y="598.0" />
+      <point x="1171.546875" y="598.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="Message#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Message.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="370.8984375" y="628.0" />
+      <point x="412.0" y="628.0" />
+      <point x="412.0" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="LikeEntity#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/LikeEntity.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-27.5" />
+      <point x="50.0" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="StyleComment#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/StyleComment.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-50.5" />
+      <point x="1528.8984375" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Message#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Message.java" target="ChatRoom#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/ChatRoom.java" relationship="RELATION">
+      <point x="0.0" y="-39.0" />
+      <point x="370.8984375" y="628.0" />
+      <point x="331.0" y="628.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="Notice#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Notice.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-62.0" />
+      <point x="150.5" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Reservation#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Reservation.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-85.0" />
+      <point x="752.3984375" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+    <edge source="Review#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Review.java" target="Member#file://C:/Users/Hongjun/Documents/GitHub/S06P12D105/backend/src/main/java/com/fitmate/backend/entity/Member.java" relationship="RELATION">
+      <point x="0.0" y="-73.5" />
+      <point x="952.3984375" y="403.0" />
+      <point x="613.0" y="403.0" />
+      <point x="0.0" y="188.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="809.5" y="600.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+

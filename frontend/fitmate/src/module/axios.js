@@ -2,5 +2,5 @@ import axios from "axios";
 
 export default axios.create({
   // baseURL: "https://localhost:8443",
-  baseURL: "https://i6d105.p.ssafy.io:8443",
+  baseURL: "https://192.168.0.5:8443",
 });
