@@ -1,37 +1,30 @@
 server:
-  port: 8443
-#    port: 9000
-  http:
-    port: 9000
+  port: [포트번호]
   ssl:
     key-store-type: PKCS12
-    key-store: classpath:keystore/ssafy.p12
-    key-store-password: ssafy6
-    key-password: ssafy6
+    key-store: classpath:[인증서 주소]
+    key-store-password: [인증서 store 비밀번호]
+    key-password: [인증서 비밀번호]
 
 trust:
-  store: classpath:keystore/ssafy.p12
-  store.password: ssafy6
+  store: classpath:[인증서 주소]
+  store.password: [인증서 비밀번호]
 
 
 springdoc:
   api-docs:
     path: /api-docs
 
-# http://localhost:9000/swagger-ui.html
+# http://서버주소/swagger-ui.html
   swagger-ui:
     path: /swagger-ui.html
-
-#    클라이언트
-url:
-  base: http://i6d105.p.ssafy.io
 
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i6d105.p.ssafy.io:3306/fitmate?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: fitmate
-    password: fitmate
+    url: jdbc:mysql://[DB주소]:[DB포트]/fitmate?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: [사용자명]
+    password: [비밀번호]
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
@@ -45,22 +38,14 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: fitmate2022@gmail.com
-    password: Fitmate2022@@
+    username: [이메일]
+    password: [비밀번호]
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-#  quartz:
-#    job-store-type: jdbc
-#    properties.org.quartz.threadPool.threadCount: 5
-
-#    hibernate:
-#      naming:
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 logging:
   level:
     org:
@@ -70,15 +55,13 @@ logging:
 
 jwt:
   header: Authorization
-  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-#  token-validity-in-seconds: 86400          # 1일
-#  token-refresh-in-seconds: 1000*60*60*24*7 # 1주일
+  secret: [비밀키]
 
 social:
   kakao:
-    client-id: 30fb9b59db516bf7c56055b26f8daf47
-    admin-key: 38228a700f9de14ca3ea1932a2ff17de
-    redirect: http://i6d105.p.ssafy.io
+    client-id: [클라이언트 키]
+    admin-key: [관리자 키]
+    redirect: [주소]
     cid: TC0ONETIME
     url:
       login: https://kauth.kakao.com/oauth/authorize
@@ -87,16 +70,15 @@ social:
       unlink: https://kapi.kakao.com/v1/user/unlink
       payment:
         ready: https://kapi.kakao.com/v1/payment/ready
-  password: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-
+  password: [비밀키]
 cloud:
   aws:
     credentials:
-      accessKey: AKIAWVRECJEE5G74RTEV
-      secretKey: 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
+      accessKey: [접근키]
+      secretKey: [비밀키]
     s3:
-      bucket: hongjunland
+      bucket: [버킷이름]
     region:
-      static: ap-northeast-2
+      static: [버킷지역]
     stack:
       auto: false
