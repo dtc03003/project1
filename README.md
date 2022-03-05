@@ -16,35 +16,35 @@
 
 ## 💡 자, 이제 사이트를 한 번 둘러보죠!
 
-![메인 페이지 (Main page)](Fitmate%20e8ba9/Untitled.png)
+![메인 페이지 (Main page)](assets/Untitled.png)
 
 메인 페이지 (Main page)
 
-![포트폴리오 (Portfolio, View of Stylist)](Fitmate%20e8ba9/Untitled%201.png)
+![포트폴리오 (Portfolio, View of Stylist)](assets/Untitled%201.png)
 
 포트폴리오 (Portfolio, View of Stylist)
 
-![스타일리스트의 예약 정보 확인 (Schedule in Portfolio, View of Stylist)](Fitmate%20e8ba9/Untitled%202.png)
+![스타일리스트의 예약 정보 확인 (Schedule in Portfolio, View of Stylist)](assets/Untitled%202.png)
 
 스타일리스트의 예약 정보 확인 (Schedule in Portfolio, View of Stylist)
 
-![포트폴리오_스케줄 (Schedule in Portfolio, View of User)](Fitmate%20e8ba9/Untitled%203.png)
+![포트폴리오_스케줄 (Schedule in Portfolio, View of User)](assets/Untitled%203.png)
 
 포트폴리오_스케줄 (Schedule in Portfolio, View of User)
 
-![스타일리스트 페이지 (Stylist page)](Fitmate%20e8ba9/Untitled%204.png)
+![스타일리스트 페이지 (Stylist page)](assets/Untitled%204.png)
 
 스타일리스트 페이지 (Stylist page)
 
-![스타일리스트 게시물 (Stylist Article)](Fitmate%20e8ba9/Untitled%205.png)
+![스타일리스트 게시물 (Stylist Article)](assets/Untitled%205.png)
 
 스타일리스트 게시물 (Stylist Article)
 
-![예약 확정 후 결제 기록 확인 (History in MyPage, View of User)](Fitmate%20e8ba9/Untitled%206.png)
+![예약 확정 후 결제 기록 확인 (History in MyPage, View of User)](assets/Untitled%206.png)
 
 예약 확정 후 결제 기록 확인 (History in MyPage, View of User)
 
-![상담실 (Meeting-room)](Fitmate%20e8ba9/Untitled%207.png)
+![상담실 (Meeting-room)](assets/Untitled%207.png)
 
 상담실 (Meeting-room)
 
@@ -96,11 +96,11 @@
 
 ## 🏗️ 아키텍처
 
-![Untitled](Fitmate%20e8ba9/Untitled%208.png)
+![Untitled](assets/Untitled%208.png)
 
 ## 🧾Entity Relationship Diagram
 
-![ERD.jpg](Fitmate%20e8ba9/ERD.jpg)
+![ERD.jpg](assets/ERD.jpg)
 
 ## 👉 실행방법
 
